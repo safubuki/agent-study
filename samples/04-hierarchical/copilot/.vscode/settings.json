@@ -1,0 +1,5 @@
+{
+  // VS Code（Local ハーネス）では、サブエージェントがさらにサブエージェントを呼ぶ（入れ子）のが既定で無効。
+  // このパターンでは unit-lead が part-modeler を呼ぶため、有効にする。
+  "chat.subagents.allowInvocationsFromSubagents": true
+}

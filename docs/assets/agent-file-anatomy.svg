@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 580" font-family="Meiryo, 'Yu Gothic UI', 'Noto Sans JP', sans-serif">
+  <rect x="0.5" y="0.5" width="899" height="579" rx="14" fill="#ffffff" stroke="#e5e7eb"/>
+  <text x="30" y="42" font-size="20" font-weight="700" fill="#111827">エージェント定義ファイルの解剖図</text>
+  <text x="30" y="64" font-size="13" fill="#6b7280">1つの .md ファイルの「どこが」「何に使われるか」</text>
+
+  <!-- editor panel -->
+  <rect x="30" y="82" width="420" height="380" rx="10" fill="#1e293b"/>
+  <rect x="30" y="82" width="420" height="30" rx="10" fill="#334155"/>
+  <rect x="30" y="100" width="420" height="12" fill="#334155"/>
+  <circle cx="48" cy="97" r="5" fill="#f87171"/><circle cx="64" cy="97" r="5" fill="#fbbf24"/><circle cx="80" cy="97" r="5" fill="#34d399"/>
+  <text x="96" y="102" font-size="12.5" fill="#cbd5e1" font-family="Consolas, 'Courier New', monospace">.claude/agents/style-builder.md</text>
+
+  <!-- frontmatter band -->
+  <rect x="42" y="122" width="396" height="178" rx="6" fill="#3b82f6" fill-opacity="0.16"/>
+  <!-- body band -->
+  <rect x="42" y="312" width="396" height="138" rx="6" fill="#10b981" fill-opacity="0.16"/>
+
+  <g font-family="Consolas, 'Courier New', monospace" font-size="14" fill="#e2e8f0">
+    <text x="56" y="146" fill="#94a3b8">---</text>
+    <text x="56" y="176"><tspan fill="#93c5fd">name</tspan>: style-builder</text>
+    <text x="56" y="206"><tspan fill="#93c5fd">description</tspan>: CSS担当の職人…</text>
+    <text x="56" y="236"><tspan fill="#93c5fd">tools</tspan>: Read, Write, Edit</text>
+    <text x="56" y="266"><tspan fill="#93c5fd">model</tspan>: sonnet</text>
+    <text x="56" y="292" fill="#94a3b8">---</text>
+    <text x="56" y="340" fill="#a7f3d0">あなたは CSS 担当の職人です。</text>
+    <text x="56" y="370" fill="#a7f3d0">1. 最初に work/spec.md を読む</text>
+    <text x="56" y="400" fill="#a7f3d0">2. style.css だけを作る</text>
+    <text x="56" y="430" fill="#a7f3d0">3. 終わったら短く報告する</text>
+  </g>
+  <text x="430" y="138" font-size="11" fill="#93c5fd" text-anchor="end">設定（frontmatter）</text>
+  <text x="430" y="328" font-size="11" fill="#6ee7b7" text-anchor="end">本文</text>
+
+  <!-- connectors -->
+  <g stroke="#9ca3af" stroke-width="1.5" fill="none">
+    <path d="M 330 171 L 520 147"/>
+    <path d="M 330 201 L 520 205"/>
+    <path d="M 330 231 L 520 263"/>
+    <path d="M 330 261 L 520 321"/>
+    <path d="M 438 381 L 520 395"/>
+  </g>
+  <g fill="#9ca3af"><circle cx="520" cy="147" r="3"/><circle cx="520" cy="205" r="3"/><circle cx="520" cy="263" r="3"/><circle cx="520" cy="321" r="3"/><circle cx="520" cy="395" r="3"/></g>
+
+  <!-- cards -->
+  <g>
+    <rect x="524" y="122" width="346" height="50" rx="8" fill="#eff6ff" stroke="#bfdbfe"/>
+    <text x="538" y="143" font-size="15" font-weight="700" fill="#1e3a8a">name ─ 呼び出すときの名前</text>
+    <text x="538" y="162" font-size="12.5" fill="#374151">親はこの名前を指定して子を呼ぶ</text>
+
+    <rect x="524" y="180" width="346" height="50" rx="8" fill="#eff6ff" stroke="#bfdbfe"/>
+    <text x="538" y="201" font-size="15" font-weight="700" fill="#1e3a8a">description ─ 親の判断材料</text>
+    <text x="538" y="220" font-size="12.5" fill="#374151">「この仕事は誰に頼むか」を決めるのに使われる</text>
+
+    <rect x="524" y="238" width="346" height="50" rx="8" fill="#eff6ff" stroke="#bfdbfe"/>
+    <text x="538" y="259" font-size="15" font-weight="700" fill="#1e3a8a">tools ─ 使える道具（強制）</text>
+    <text x="538" y="278" font-size="12.5" fill="#374151">ここに書いていない道具は物理的に使えない</text>
+
+    <rect x="524" y="296" width="346" height="50" rx="8" fill="#eff6ff" stroke="#bfdbfe"/>
+    <text x="538" y="317" font-size="15" font-weight="700" fill="#1e3a8a">model ─ 頭脳になる AI モデル</text>
+    <text x="538" y="336" font-size="12.5" fill="#374151">opus / sonnet / haiku / fable / inherit など</text>
+
+    <rect x="524" y="362" width="346" height="66" rx="8" fill="#ecfdf5" stroke="#a7f3d0"/>
+    <text x="538" y="384" font-size="15" font-weight="700" fill="#065f46">本文 ─ システムプロンプト</text>
+    <text x="538" y="403" font-size="12.5" fill="#374151">呼ばれるたびに必ず守る役割・手順・禁止事項</text>
+    <text x="538" y="420" font-size="12.5" fill="#374151">（毎回同じ内容が子に渡される）</text>
+  </g>
+
+  <!-- runtime band -->
+  <text x="30" y="494" font-size="13" font-weight="700" fill="#6b7280">ファイルには書かないが、呼び出しのたびにやり取りされるもの</text>
+  <rect x="30" y="506" width="412" height="56" rx="8" fill="#fff7ed" stroke="#fed7aa"/>
+  <text x="44" y="528" font-size="14" font-weight="700" fill="#9a3412">親 → 子：依頼文（prompt）</text>
+  <text x="44" y="548" font-size="12.5" fill="#374151">子にとっての最初のメッセージ。呼ぶたびに変わる</text>
+  <rect x="458" y="506" width="412" height="56" rx="8" fill="#fff7ed" stroke="#fed7aa"/>
+  <text x="472" y="528" font-size="14" font-weight="700" fill="#9a3412">子 → 親：最後の返答（報告）</text>
+  <text x="472" y="548" font-size="12.5" fill="#374151">途中の作業は親に見えず、これだけが返る</text>
+</svg>

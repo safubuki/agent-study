@@ -1,0 +1,117 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 570" font-family="Meiryo, 'Yu Gothic UI', 'Noto Sans JP', sans-serif">
+  <defs>
+    <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#6b7280"/>
+    </marker>
+    <marker id="ahO" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#b45309"/>
+    </marker>
+  </defs>
+  <rect x="0.5" y="0.5" width="899" height="569" rx="14" fill="#ffffff" stroke="#e5e7eb"/>
+  <text x="30" y="42" font-size="20" font-weight="700" fill="#111827">C：分担＋統合スクリプト（B の発展形）</text>
+  <text x="30" y="64" font-size="13" fill="#6b7280">B との違いは ④ 統合だけ。親が書き写す代わりに、事前に1回作ったスクリプトを実行する</text>
+
+  <!-- ===== 準備 panel ===== -->
+  <rect x="30" y="86" width="270" height="440" rx="12" fill="#fffbeb" stroke="#fcd34d"/>
+  <text x="165" y="116" font-size="15" font-weight="700" fill="#92400e" text-anchor="middle">準備：最初に1回だけ</text>
+  <text x="165" y="136" font-size="12" fill="#92400e" text-anchor="middle">統合スクリプトを AI に作らせる</text>
+
+  <rect x="60" y="152" width="210" height="44" rx="6" fill="#ffffff" stroke="#9ca3af"/>
+  <text x="165" y="170" font-size="11.5" fill="#374151" text-anchor="middle">お題（仕様書）</text>
+  <text x="165" y="187" font-size="10.5" fill="#111827" text-anchor="middle" font-family="Consolas, 'Courier New', monospace">prompts/tools/make-merge-script.md</text>
+
+  <line x1="165" y1="196" x2="165" y2="228" stroke="#6b7280" stroke-width="1.6" marker-end="url(#ah)"/>
+  <rect x="70" y="230" width="190" height="56" rx="10" fill="#3b82f6" fill-opacity="0.12" stroke="#3b82f6"/>
+  <text x="165" y="254" font-size="14" font-weight="700" fill="#1d4ed8" text-anchor="middle">Claude（opus）1人</text>
+  <text x="165" y="274" font-size="11" fill="#1e3a8a" text-anchor="middle">書く → 自分で動かして確認</text>
+
+  <line x1="165" y1="286" x2="165" y2="318" stroke="#6b7280" stroke-width="1.6" marker-end="url(#ah)"/>
+  <rect x="80" y="320" width="170" height="40" rx="6" fill="#fef3c7" stroke="#f59e0b"/>
+  <text x="165" y="345" font-size="12.5" fill="#111827" text-anchor="middle" font-family="Consolas, 'Courier New', monospace">merge-parts.js</text>
+
+  <g font-size="12" fill="#92400e" text-anchor="middle">
+    <text x="150" y="394" font-weight="700">作成コスト（実測）</text>
+    <text x="150" y="416">1分39秒</text>
+    <text x="150" y="436">出力 9,084 トークン</text>
+    <text x="150" y="456">API 換算 0.43 USD</text>
+    <text x="150" y="482" font-size="11" fill="#6b7280">人の手直しなし（158行）</text>
+  </g>
+
+  <!-- uses -->
+  <path d="M 250 340 L 284 340 L 284 492 L 493 492" fill="none" stroke="#b45309" stroke-width="1.5" stroke-dasharray="5 3" marker-end="url(#ahO)"/>
+  <text x="392" y="485" font-size="11" fill="#b45309" text-anchor="middle">毎回これを使う</text>
+
+  <!-- ===== C panel ===== -->
+  <rect x="320" y="86" width="550" height="440" rx="12" fill="#f9fafb" stroke="#e5e7eb"/>
+  <text x="595" y="116" font-size="15" font-weight="700" fill="#111827" text-anchor="middle">毎回の実行：--agent page-director-merge</text>
+
+  <rect x="520" y="132" width="150" height="36" rx="8" fill="#ffffff" stroke="#9ca3af"/>
+  <text x="595" y="155" font-size="12.5" fill="#111827" text-anchor="middle">ユーザー（スクリプト）</text>
+  <line x1="595" y1="168" x2="595" y2="194" stroke="#6b7280" stroke-width="1.6" marker-end="url(#ah)"/>
+
+  <rect x="465" y="196" width="260" height="54" rx="10" fill="#8b5cf6" fill-opacity="0.13" stroke="#8b5cf6"/>
+  <text x="595" y="219" font-size="14" font-weight="700" fill="#6d28d9" text-anchor="middle">page-director-merge（opus）</text>
+  <text x="595" y="239" font-size="11" fill="#4c1d95" text-anchor="middle">設計・発注・検品（統合は書かない）</text>
+
+  <line x1="725" y1="223" x2="748" y2="223" stroke="#6b7280" stroke-width="1.6" marker-end="url(#ah)"/>
+  <rect x="750" y="202" width="100" height="42" rx="6" fill="#f3f4f6" stroke="#9ca3af"/>
+  <text x="800" y="219" font-size="11" fill="#374151" text-anchor="middle">① 設計書</text>
+  <text x="800" y="236" font-size="11.5" fill="#111827" text-anchor="middle" font-family="Consolas, 'Courier New', monospace">spec.md</text>
+
+  <g stroke="#6b7280" stroke-width="1.6" fill="none">
+    <path d="M 595 250 L 432 318" marker-end="url(#ah)"/>
+    <path d="M 595 250 L 595 318" marker-end="url(#ah)"/>
+    <path d="M 595 250 L 758 318" marker-end="url(#ah)"/>
+  </g>
+  <rect x="533" y="270" width="124" height="22" rx="11" fill="#ffffff" stroke="#d1d5db"/>
+  <text x="595" y="285" font-size="11.5" fill="#374151" text-anchor="middle">② 3体に並列で発注</text>
+
+  <g>
+    <rect x="357" y="320" width="150" height="48" rx="10" fill="#10b981" fill-opacity="0.13" stroke="#10b981"/>
+    <text x="432" y="340" font-size="12.5" font-weight="700" fill="#047857" text-anchor="middle">markup-builder</text>
+    <text x="432" y="358" font-size="11" fill="#065f46" text-anchor="middle">HTML（sonnet）</text>
+    <rect x="520" y="320" width="150" height="48" rx="10" fill="#10b981" fill-opacity="0.13" stroke="#10b981"/>
+    <text x="595" y="340" font-size="12.5" font-weight="700" fill="#047857" text-anchor="middle">style-builder</text>
+    <text x="595" y="358" font-size="11" fill="#065f46" text-anchor="middle">CSS（sonnet）</text>
+    <rect x="683" y="320" width="150" height="48" rx="10" fill="#10b981" fill-opacity="0.13" stroke="#10b981"/>
+    <text x="758" y="340" font-size="12.5" font-weight="700" fill="#047857" text-anchor="middle">script-builder</text>
+    <text x="758" y="358" font-size="11" fill="#065f46" text-anchor="middle">JS（haiku）</text>
+  </g>
+  <g stroke="#6b7280" stroke-width="1.6">
+    <line x1="432" y1="368" x2="432" y2="390" marker-end="url(#ah)"/>
+    <line x1="595" y1="368" x2="595" y2="390" marker-end="url(#ah)"/>
+    <line x1="758" y1="368" x2="758" y2="390" marker-end="url(#ah)"/>
+  </g>
+  <g font-family="Consolas, 'Courier New', monospace" font-size="11.5" fill="#111827" text-anchor="middle">
+    <rect x="377" y="392" width="110" height="28" rx="6" fill="#f3f4f6" stroke="#9ca3af"/>
+    <text x="432" y="411">body.html</text>
+    <rect x="540" y="392" width="110" height="28" rx="6" fill="#f3f4f6" stroke="#9ca3af"/>
+    <text x="595" y="411">style.css</text>
+    <rect x="703" y="392" width="110" height="28" rx="6" fill="#f3f4f6" stroke="#9ca3af"/>
+    <text x="758" y="411">script.js</text>
+  </g>
+  <g stroke="#6b7280" stroke-width="1.6" fill="none">
+    <path d="M 432 420 L 560 470" marker-end="url(#ah)"/>
+    <path d="M 595 420 L 595 470" marker-end="url(#ah)"/>
+    <path d="M 758 420 L 630 470" marker-end="url(#ah)"/>
+  </g>
+  <rect x="524" y="432" width="142" height="20" rx="10" fill="#ffffff" stroke="#d1d5db"/>
+  <text x="595" y="446" font-size="11" fill="#374151" text-anchor="middle">③ 親が検品（読むだけ）</text>
+
+  <rect x="495" y="472" width="200" height="40" rx="8" fill="#fef3c7" stroke="#f59e0b"/>
+  <text x="595" y="490" font-size="11" fill="#92400e" text-anchor="middle">④ 親が1行のコマンドを実行</text>
+  <text x="595" y="505" font-size="11" fill="#111827" text-anchor="middle" font-family="Consolas, 'Courier New', monospace">node scripts/merge-parts.js</text>
+
+  <line x1="695" y1="492" x2="728" y2="492" stroke="#6b7280" stroke-width="1.6" marker-end="url(#ah)"/>
+  <rect x="730" y="472" width="120" height="40" rx="6" fill="#f3f4f6" stroke="#9ca3af"/>
+  <text x="790" y="497" font-size="12.5" fill="#111827" text-anchor="middle" font-family="Consolas, 'Courier New', monospace">index.html</text>
+
+  <g font-size="11" fill="#374151">
+    <rect x="30" y="540" width="12" height="12" rx="2" fill="#fef3c7" stroke="#f59e0b"/>
+    <text x="48" y="551">スクリプト（AI ではなく node が実行）</text>
+    <rect x="290" y="540" width="12" height="12" rx="2" fill="#8b5cf6" fill-opacity="0.25" stroke="#8b5cf6"/>
+    <text x="308" y="551">親（opus）</text>
+    <rect x="400" y="540" width="12" height="12" rx="2" fill="#10b981" fill-opacity="0.25" stroke="#10b981"/>
+    <text x="418" y="551">職人（sonnet / haiku）</text>
+  </g>
+</svg>

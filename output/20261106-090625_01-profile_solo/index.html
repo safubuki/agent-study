@@ -1,0 +1,1560 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>山田 太郎 | 週末フォトグラファー／社内エンジニア</title>
+<meta name="description" content="山田 太郎（やまだ たろう）の自己紹介ページ。週末フォトグラファー／社内エンジニア。登山と写真が趣味です。">
+<meta name="theme-color" content="#f4efe3">
+<script>
+  // 表示のちらつきを防ぐため、描画前にテーマを決定する
+  (function () {
+    var root = document.documentElement;
+    var theme = null;
+    try { theme = localStorage.getItem('profile-theme'); } catch (e) {}
+    if (theme !== 'light' && theme !== 'dark') {
+      theme = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
+    root.setAttribute('data-theme', theme);
+    root.classList.add('js');
+  })();
+</script>
+<style>
+  /* =========================================================
+     テーマ変数
+     ========================================================= */
+  :root {
+    --font-sans: "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic UI", "Yu Gothic", "Meiryo", system-ui, sans-serif;
+    --font-serif: "Hiragino Mincho ProN", "Yu Mincho", "YuMincho", "Noto Serif JP", "BIZ UDPMincho", serif;
+    --header-h: 64px;
+    --radius: 16px;
+    --ease-out: cubic-bezier(.22, .8, .25, 1);
+
+    --bg: #f4efe3;
+    --bg-alt: #ece5d4;
+    --surface: #fbf8f1;
+    --text: #22302a;
+    --muted: #5d6a62;
+    --accent: #2f5d46;
+    --accent-strong: #1e3d2e;
+    --accent-soft: rgba(47, 93, 70, .1);
+    --gold: #a9834c;
+    --line: rgba(34, 48, 42, .14);
+    --header-bg: rgba(244, 239, 227, .82);
+    --shadow: 0 1px 2px rgba(30, 50, 40, .06), 0 12px 32px -12px rgba(30, 50, 40, .18);
+    --ridge-far: #dcd4c0;
+    --ridge-near: #cfd8c9;
+    --scene-filter: none;
+  }
+
+  [data-theme="dark"] {
+    --bg: #111a16;
+    --bg-alt: #16221d;
+    --surface: #1b2923;
+    --text: #e9e3d3;
+    --muted: #a2ada5;
+    --accent: #8fc0a1;
+    --accent-strong: #b9dcc5;
+    --accent-soft: rgba(143, 192, 161, .12);
+    --gold: #d4b27c;
+    --line: rgba(233, 227, 211, .12);
+    --header-bg: rgba(17, 26, 22, .8);
+    --shadow: 0 1px 2px rgba(0, 0, 0, .3), 0 16px 36px -14px rgba(0, 0, 0, .6);
+    --ridge-far: #1a2822;
+    --ridge-near: #1f3329;
+    --scene-filter: brightness(.9) saturate(.95);
+  }
+
+  /* =========================================================
+     ベース
+     ========================================================= */
+  *, *::before, *::after { box-sizing: border-box; }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    margin: 0;
+    font-family: var(--font-sans);
+    font-size: 16px;
+    line-height: 1.9;
+    letter-spacing: .03em;
+    color: var(--text);
+    background: var(--bg);
+    transition: background-color .5s ease, color .5s ease;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  img, svg { display: block; }
+  a { color: inherit; }
+  button { font: inherit; color: inherit; }
+
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+
+  .skip-link {
+    position: fixed;
+    top: 8px;
+    left: 8px;
+    z-index: 200;
+    padding: 8px 16px;
+    background: var(--accent);
+    color: var(--bg);
+    border-radius: 999px;
+    text-decoration: none;
+    transform: translateY(-160%);
+    transition: transform .2s;
+  }
+  .skip-link:focus { transform: none; }
+
+  .container {
+    width: min(1080px, 100% - 48px);
+    margin-inline: auto;
+  }
+
+  .section {
+    padding: clamp(88px, 12vw, 148px) 0;
+    scroll-margin-top: var(--header-h);
+  }
+  .section--alt { background: var(--bg-alt); transition: background-color .5s ease; }
+
+  .section-head { margin-bottom: clamp(40px, 6vw, 64px); }
+
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    margin: 0 0 10px;
+    font-size: .75rem;
+    font-weight: 600;
+    letter-spacing: .32em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+  .eyebrow::before {
+    content: "";
+    width: 28px;
+    height: 1px;
+    background: currentColor;
+  }
+
+  .section-title {
+    margin: 0;
+    font-family: var(--font-serif);
+    font-weight: 600;
+    font-size: clamp(1.7rem, 4vw, 2.4rem);
+    letter-spacing: .1em;
+    line-height: 1.5;
+  }
+
+  /* スクロールでふわっと表示 */
+  .js .reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 1s var(--ease-out), transform 1s var(--ease-out);
+    transition-delay: calc(var(--d, 0) * 120ms);
+  }
+  .js .reveal.is-visible {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* =========================================================
+     ヘッダー / ナビ
+     ========================================================= */
+  .site-header {
+    position: fixed;
+    inset: 0 0 auto 0;
+    z-index: 100;
+    height: var(--header-h);
+    background: var(--header-bg);
+    -webkit-backdrop-filter: blur(14px) saturate(1.2);
+    backdrop-filter: blur(14px) saturate(1.2);
+    border-bottom: 1px solid transparent;
+    transition: border-color .3s, box-shadow .3s, background-color .5s;
+  }
+  .site-header.is-scrolled {
+    border-bottom-color: var(--line);
+    box-shadow: 0 6px 24px -18px rgba(0, 0, 0, .4);
+  }
+
+  .header-inner {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    font-family: var(--font-serif);
+    font-weight: 600;
+    letter-spacing: .12em;
+    font-size: 1.05rem;
+  }
+  .brand-mark {
+    width: 30px;
+    height: 30px;
+    color: var(--accent);
+  }
+
+  .nav-list {
+    display: flex;
+    gap: 4px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .nav-link {
+    position: relative;
+    display: block;
+    padding: 8px 14px;
+    font-size: .88rem;
+    text-decoration: none;
+    color: var(--muted);
+    border-radius: 999px;
+    transition: color .25s, background-color .25s;
+  }
+  .nav-link::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: 3px;
+    width: 18px;
+    height: 2px;
+    border-radius: 2px;
+    background: var(--accent);
+    transform: translateX(-50%) scaleX(0);
+    transition: transform .35s var(--ease-out);
+  }
+  .nav-link:hover { color: var(--text); }
+  .nav-link.is-active {
+    color: var(--accent-strong);
+    font-weight: 600;
+    background: var(--accent-soft);
+  }
+  .nav-link.is-active::after { transform: translateX(-50%) scaleX(1); }
+
+  .header-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .icon-btn {
+    display: inline-grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    border: 1px solid var(--line);
+    border-radius: 50%;
+    background: var(--surface);
+    cursor: pointer;
+    transition: background-color .3s, border-color .3s, transform .2s;
+  }
+  .icon-btn:hover { border-color: var(--accent); }
+  .icon-btn:active { transform: scale(.94); }
+  .icon-btn svg { width: 18px; height: 18px; }
+
+  .theme-toggle .icon-moon { display: none; }
+  [data-theme="dark"] .theme-toggle .icon-sun { display: none; }
+  [data-theme="dark"] .theme-toggle .icon-moon { display: block; }
+  .theme-toggle svg { animation: spin-in .5s var(--ease-out); }
+  @keyframes spin-in { from { transform: rotate(-90deg) scale(.6); opacity: 0; } }
+
+  .menu-toggle { display: none; }
+  .menu-toggle .bar {
+    display: block;
+    width: 16px;
+    height: 1.5px;
+    background: currentColor;
+    border-radius: 2px;
+    transition: transform .3s var(--ease-out), opacity .2s;
+  }
+  .menu-toggle .bars { display: grid; gap: 4px; }
+  .menu-toggle[aria-expanded="true"] .bar:nth-child(1) { transform: translateY(5.5px) rotate(45deg); }
+  .menu-toggle[aria-expanded="true"] .bar:nth-child(2) { opacity: 0; }
+  .menu-toggle[aria-expanded="true"] .bar:nth-child(3) { transform: translateY(-5.5px) rotate(-45deg); }
+
+  /* =========================================================
+     ヒーロー
+     ========================================================= */
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    min-height: 100svh;
+    display: grid;
+    place-items: center;
+    padding: calc(var(--header-h) + 40px) 0 120px;
+    overflow: hidden;
+    text-align: center;
+    scroll-margin-top: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 50% 0%, var(--accent-soft), transparent 70%),
+      var(--bg);
+    transition: background-color .5s;
+  }
+
+  .hero-scene {
+    position: absolute;
+    inset: auto 0 0 0;
+    height: 46%;
+    pointer-events: none;
+  }
+  .hero-scene .ridge { position: absolute; left: 0; right: 0; bottom: 0; transition: background-color .5s; }
+  .hero-scene .ridge--far {
+    height: 100%;
+    background: var(--ridge-far);
+    clip-path: polygon(0 100%, 0 58%, 8% 50%, 16% 56%, 26% 34%, 34% 44%, 44% 22%, 52% 36%, 62% 28%, 72% 46%, 82% 32%, 92% 44%, 100% 38%, 100% 100%);
+    opacity: .75;
+  }
+  .hero-scene .ridge--near {
+    height: 62%;
+    background: var(--ridge-near);
+    clip-path: polygon(0 100%, 0 52%, 12% 40%, 24% 58%, 38% 30%, 50% 46%, 64% 24%, 76% 42%, 88% 34%, 100% 50%, 100% 100%);
+  }
+
+  .hero-inner {
+    position: relative;
+    z-index: 1;
+  }
+
+  .hero-reading {
+    margin: 0 0 18px;
+    font-size: .78rem;
+    letter-spacing: .4em;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+
+  .hero-name {
+    margin: 0;
+    font-family: var(--font-serif);
+    font-weight: 600;
+    font-size: clamp(2.8rem, 10vw, 5.6rem);
+    line-height: 1.25;
+    letter-spacing: .16em;
+    padding-left: .16em; /* letter-spacing の右余白を相殺して中央に */
+  }
+
+  .hero-role {
+    display: inline-flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 6px 14px;
+    margin: 22px 0 0;
+    font-size: clamp(.95rem, 2.4vw, 1.1rem);
+    letter-spacing: .14em;
+    color: var(--accent);
+  }
+  .hero-role .sep {
+    width: 1px;
+    height: 1em;
+    background: var(--gold);
+    transform: rotate(20deg);
+  }
+
+  .hero-quote {
+    min-height: 2em;
+    margin: 44px auto 0;
+    max-width: 32em;
+    font-family: var(--font-serif);
+    font-size: clamp(1rem, 2.6vw, 1.2rem);
+    letter-spacing: .1em;
+    color: var(--text);
+  }
+  .hero-quote .q { color: var(--gold); }
+  .caret {
+    display: inline-block;
+    width: 2px;
+    height: 1.15em;
+    margin-left: 3px;
+    vertical-align: -.2em;
+    background: var(--accent);
+    animation: blink 1s steps(1) infinite;
+  }
+  @keyframes blink { 50% { opacity: 0; } }
+
+  .js .hero-anim {
+    opacity: 0;
+    transform: translateY(16px);
+    animation: hero-in 1.1s var(--ease-out) forwards;
+    animation-delay: calc(var(--d, 0) * 160ms + 100ms);
+  }
+  @keyframes hero-in { to { opacity: 1; transform: none; } }
+
+  .scroll-cue {
+    position: absolute;
+    left: 50%;
+    bottom: 28px;
+    z-index: 1;
+    transform: translateX(-50%);
+    display: grid;
+    justify-items: center;
+    gap: 8px;
+    font-size: .68rem;
+    letter-spacing: .3em;
+    color: var(--muted);
+    text-decoration: none;
+    text-transform: uppercase;
+  }
+  .scroll-cue .line {
+    position: relative;
+    width: 1px;
+    height: 44px;
+    overflow: hidden;
+    background: var(--line);
+  }
+  .scroll-cue .line::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: var(--accent);
+    animation: drip 2.2s var(--ease-out) infinite;
+  }
+  @keyframes drip {
+    0% { transform: translateY(-100%); }
+    60%, 100% { transform: translateY(100%); }
+  }
+
+  /* =========================================================
+     プロフィール
+     ========================================================= */
+  .profile-grid {
+    display: grid;
+    grid-template-columns: 1.35fr 1fr;
+    gap: clamp(32px, 6vw, 72px);
+    align-items: center;
+  }
+
+  .profile-text p { margin: 0 0 1.2em; }
+  .profile-text .lead {
+    font-family: var(--font-serif);
+    font-size: clamp(1.15rem, 2.6vw, 1.35rem);
+    line-height: 1.8;
+    letter-spacing: .08em;
+  }
+
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 28px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+  .tags li {
+    padding: 4px 14px;
+    font-size: .82rem;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    color: var(--muted);
+    background: var(--surface);
+    transition: background-color .5s;
+  }
+
+  .stat-card {
+    position: relative;
+    padding: clamp(32px, 5vw, 48px) clamp(24px, 4vw, 40px);
+    text-align: center;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    transition: background-color .5s;
+  }
+  .stat-card::before {
+    content: "";
+    position: absolute;
+    inset: auto 0 0 0;
+    height: 40%;
+    background: var(--accent-soft);
+    clip-path: polygon(0 100%, 0 60%, 18% 40%, 32% 56%, 50% 10%, 66% 48%, 80% 34%, 100% 56%, 100% 100%);
+  }
+  .stat-label {
+    position: relative;
+    margin: 0;
+    font-size: .85rem;
+    letter-spacing: .2em;
+    color: var(--muted);
+  }
+  .stat-value {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: baseline;
+    gap: 8px;
+    margin: 4px 0 6px;
+    font-family: var(--font-serif);
+    color: var(--accent);
+  }
+  .stat-number {
+    font-size: clamp(4.2rem, 13vw, 6.4rem);
+    font-weight: 600;
+    line-height: 1.1;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0;
+  }
+  .stat-unit { font-size: 1.4rem; letter-spacing: .1em; }
+  .stat-note {
+    position: relative;
+    margin: 0;
+    font-size: .85rem;
+    color: var(--muted);
+  }
+  .stat-note strong { color: var(--gold); font-weight: 600; }
+
+  /* =========================================================
+     スキル
+     ========================================================= */
+  .skills {
+    display: grid;
+    gap: 36px;
+    max-width: 820px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .skill-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 16px;
+    margin-bottom: 10px;
+  }
+  .skill-name {
+    margin: 0;
+    font-family: var(--font-serif);
+    font-size: 1.15rem;
+    font-weight: 600;
+    letter-spacing: .08em;
+  }
+  .skill-level {
+    font-size: .9rem;
+    color: var(--accent);
+    font-variant-numeric: tabular-nums;
+    font-weight: 600;
+  }
+  .skill-track {
+    position: relative;
+    height: 10px;
+    border-radius: 999px;
+    background: var(--line);
+    overflow: hidden;
+  }
+  .skill-fill {
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: var(--level);
+    border-radius: inherit;
+    background: linear-gradient(90deg, var(--accent), var(--gold));
+    background: linear-gradient(90deg, var(--accent), color-mix(in srgb, var(--accent) 55%, var(--gold)));
+    transform-origin: left center;
+    transform: scaleX(0);
+    transition: transform 1.6s var(--ease-out);
+    transition-delay: calc(var(--i, 0) * 180ms + 200ms);
+  }
+  .skill-fill::after {
+    content: "";
+    position: absolute;
+    right: 0;
+    top: 50%;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--gold);
+    transform: translate(0, -50%);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--gold) 25%, transparent);
+  }
+  .skills.is-visible .skill-fill { transform: scaleX(1); }
+  html:not(.js) .skill-fill { transform: none; }
+  .skill-desc {
+    margin: 10px 0 0;
+    font-size: .88rem;
+    color: var(--muted);
+  }
+
+  /* =========================================================
+     ギャラリー
+     ========================================================= */
+  .gallery {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: clamp(16px, 2.4vw, 28px);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .card {
+    display: block;
+    width: 100%;
+    padding: 0;
+    text-align: left;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    overflow: hidden;
+    cursor: zoom-in;
+    box-shadow: var(--shadow);
+    transition: transform .5s var(--ease-out), box-shadow .5s var(--ease-out), background-color .5s;
+  }
+  .card:hover { transform: translateY(-6px); }
+  .card:hover .scene { transform: scale(1.04); }
+  .card .scene-wrap { position: relative; overflow: hidden; }
+  .card .scene { transition: transform 1.2s var(--ease-out); }
+  .card .zoom-hint {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    display: grid;
+    place-items: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, .78);
+    color: #22302a;
+    opacity: 0;
+    transform: scale(.8);
+    transition: opacity .3s, transform .3s var(--ease-out);
+  }
+  .card .zoom-hint svg { width: 16px; height: 16px; }
+  .card:hover .zoom-hint, .card:focus-visible .zoom-hint { opacity: 1; transform: none; }
+
+  .card-body { padding: 16px 20px 20px; }
+  .card-name {
+    margin: 0;
+    font-family: var(--font-serif);
+    font-size: 1.1rem;
+    font-weight: 600;
+    letter-spacing: .08em;
+  }
+  .card-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 12px;
+    margin: 2px 0 0;
+    font-size: .8rem;
+    color: var(--muted);
+  }
+  .card-meta .elev { color: var(--accent); font-variant-numeric: tabular-nums; }
+
+  /* ---- CSS だけで描く山の風景 ---- */
+  .scene {
+    position: relative;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    isolation: isolate;
+    background: var(--sky);
+    filter: var(--scene-filter);
+  }
+  .scene .sun {
+    position: absolute;
+    left: var(--sun-x, 70%);
+    top: var(--sun-y, 18%);
+    width: var(--sun-size, 14%);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: var(--sun-color, #fff6dc);
+    box-shadow: 0 0 40px 10px var(--sun-glow, rgba(255, 240, 200, .55));
+  }
+  .scene .ridge {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+  .scene .ridge--far {
+    height: var(--far-h, 66%);
+    background: var(--far);
+    clip-path: var(--far-shape, polygon(0 100%, 0 42%, 10% 30%, 22% 38%, 34% 18%, 46% 32%, 58% 14%, 70% 30%, 82% 22%, 92% 34%, 100% 26%, 100% 100%));
+  }
+  .scene .ridge--near {
+    height: var(--near-h, 50%);
+    background: linear-gradient(180deg, var(--snow, var(--near)) 0 var(--snow-line, 0%), var(--near) calc(var(--snow-line, 0%) + 12%));
+    clip-path: var(--near-shape);
+  }
+  .scene .mist {
+    position: absolute;
+    left: -15%;
+    right: -15%;
+    bottom: var(--mist-bottom, 0%);
+    height: var(--mist-h, 34%);
+    background: var(--mist, linear-gradient(0deg, rgba(255, 255, 255, .22), transparent));
+    filter: blur(6px);
+    animation: drift 14s ease-in-out infinite alternate;
+  }
+  @keyframes drift {
+    from { transform: translateX(-4%); }
+    to { transform: translateX(4%); }
+  }
+
+  /* 1. 槍ヶ岳 — 朝焼け */
+  .scene--yari {
+    --sky: linear-gradient(180deg, #2c3a66 0%, #8a5a7c 38%, #d9806c 66%, #f5c287 100%);
+    --sun-x: 16%; --sun-y: 52%; --sun-size: 12%;
+    --sun-color: #ffe3b0; --sun-glow: rgba(255, 196, 140, .7);
+    --far: #7a5268;
+    --near: #2a2235;
+    --near-h: 62%;
+    --near-shape: polygon(0 100%, 0 62%, 14% 50%, 28% 58%, 40% 36%, 47% 22%, 50% 2%, 53% 22%, 60% 34%, 72% 44%, 86% 38%, 100% 52%, 100% 100%);
+    --mist: linear-gradient(0deg, rgba(255, 200, 170, .3), transparent);
+  }
+  /* 2. 北岳 — 夏の青空 */
+  .scene--kita {
+    --sky: linear-gradient(180deg, #4f8db8 0%, #8fc0da 55%, #e2f0f2 100%);
+    --sun-x: 74%; --sun-y: 10%; --sun-size: 11%;
+    --sun-color: #fffdf3; --sun-glow: rgba(255, 255, 240, .8);
+    --far: #8aa5b0;
+    --near: #3d6250;
+    --near-h: 58%;
+    --near-shape: polygon(0 100%, 0 70%, 18% 52%, 32% 40%, 44% 20%, 52% 10%, 62% 26%, 76% 44%, 90% 52%, 100% 60%, 100% 100%);
+    --mist: linear-gradient(0deg, rgba(255, 255, 255, .3), transparent);
+  }
+  /* 3. 奥穂高岳 — 雲海 */
+  .scene--hotaka {
+    --sky: linear-gradient(180deg, #a9bfd6 0%, #f0d7ad 62%, #f8ecd6 100%);
+    --sun-x: 60%; --sun-y: 40%; --sun-size: 13%;
+    --sun-color: #fff1cf; --sun-glow: rgba(255, 226, 170, .75);
+    --far: #8c90a6;
+    --far-h: 58%;
+    --near: #474b60;
+    --near-h: 44%;
+    --near-shape: polygon(0 100%, 0 55%, 8% 40%, 14% 48%, 22% 24%, 28% 34%, 36% 10%, 42% 22%, 50% 16%, 58% 36%, 68% 30%, 78% 50%, 90% 46%, 100% 58%, 100% 100%);
+    --mist: linear-gradient(0deg, rgba(255, 255, 255, .95) 30%, rgba(255, 250, 240, .75) 65%, transparent);
+    --mist-h: 30%;
+    --mist-bottom: 16%;
+  }
+  /* 4. 富士山 — 夕暮れ */
+  .scene--fuji {
+    --sky: linear-gradient(180deg, #3b2a5a 0%, #8c4a72 40%, #e57f5e 75%, #f6b77c 100%);
+    --sun-x: 78%; --sun-y: 56%; --sun-size: 12%;
+    --sun-color: #ffd29a; --sun-glow: rgba(255, 170, 110, .7);
+    --far: #6a4566;
+    --far-h: 34%;
+    --far-shape: polygon(0 100%, 0 50%, 20% 36%, 40% 54%, 64% 30%, 84% 48%, 100% 36%, 100% 100%);
+    --near: #33263f;
+    --snow: #f2ebe6;
+    --snow-line: 14%;
+    --near-h: 72%;
+    --near-shape: polygon(0 100%, 0 88%, 14% 78%, 30% 50%, 42% 10%, 46% 6%, 50% 8%, 54% 6%, 58% 10%, 70% 50%, 86% 78%, 100% 88%, 100% 100%);
+    --mist: linear-gradient(0deg, rgba(255, 180, 150, .28), transparent);
+  }
+  /* 5. 木曽駒ヶ岳 — 星空 */
+  .scene--koma {
+    --sky:
+      radial-gradient(1.4px 1.4px at 8% 14%, #fff 60%, transparent 62%),
+      radial-gradient(1px 1px at 18% 34%, #fff 60%, transparent 62%),
+      radial-gradient(1.6px 1.6px at 27% 10%, #fff 60%, transparent 62%),
+      radial-gradient(1px 1px at 36% 26%, #dfe8ff 60%, transparent 62%),
+      radial-gradient(1.2px 1.2px at 46% 8%, #fff 60%, transparent 62%),
+      radial-gradient(1px 1px at 55% 30%, #fff 60%, transparent 62%),
+      radial-gradient(1.5px 1.5px at 63% 16%, #fff7dc 60%, transparent 62%),
+      radial-gradient(1px 1px at 82% 38%, #fff 60%, transparent 62%),
+      radial-gradient(1.3px 1.3px at 90% 12%, #fff 60%, transparent 62%),
+      radial-gradient(1px 1px at 12% 46%, #fff 60%, transparent 62%),
+      radial-gradient(1px 1px at 70% 44%, #dfe8ff 60%, transparent 62%),
+      radial-gradient(ellipse 60% 20% at 40% 30%, rgba(170, 160, 230, .18), transparent 70%),
+      linear-gradient(180deg, #081029 0%, #18295a 65%, #34497a 100%);
+    --sun-x: 76%; --sun-y: 18%; --sun-size: 7%;
+    --sun-color: #f6f2e2; --sun-glow: rgba(220, 225, 255, .45);
+    --far: #1b2a48;
+    --far-h: 52%;
+    --near: #0c1426;
+    --near-h: 40%;
+    --near-shape: polygon(0 100%, 0 50%, 20% 38%, 36% 46%, 52% 22%, 66% 32%, 80% 26%, 100% 44%, 100% 100%);
+    --mist: linear-gradient(0deg, rgba(120, 140, 200, .2), transparent);
+  }
+  /* 6. 赤岳（八ヶ岳）— 冬 */
+  .scene--aka {
+    --sky: linear-gradient(180deg, #9db8cf 0%, #cfdeea 60%, #f1f5f8 100%);
+    --sun-x: 22%; --sun-y: 16%; --sun-size: 10%;
+    --sun-color: #ffffff; --sun-glow: rgba(255, 255, 255, .85);
+    --far: #c4d2de;
+    --near: #6f8396;
+    --snow: #f7fafc;
+    --snow-line: 34%;
+    --near-h: 60%;
+    --near-shape: polygon(0 100%, 0 60%, 16% 48%, 30% 54%, 42% 30%, 50% 8%, 58% 26%, 66% 22%, 76% 40%, 88% 36%, 100% 48%, 100% 100%);
+    --mist: linear-gradient(0deg, rgba(255, 255, 255, .55), transparent);
+  }
+
+  /* ---- 拡大表示ダイアログ ---- */
+  .dialog {
+    width: min(920px, 100% - 32px);
+    max-height: calc(100% - 32px);
+    padding: 0;
+    border: none;
+    border-radius: 20px;
+    background: var(--surface);
+    color: var(--text);
+    box-shadow: 0 30px 80px -20px rgba(0, 0, 0, .55);
+    overflow: auto;
+  }
+  .dialog[open] { animation: pop .45s var(--ease-out); }
+  .dialog::backdrop {
+    background: rgba(8, 14, 11, .72);
+    -webkit-backdrop-filter: blur(4px);
+    backdrop-filter: blur(4px);
+    animation: fade .35s ease;
+  }
+  @keyframes pop { from { opacity: 0; transform: translateY(16px) scale(.96); } }
+  @keyframes fade { from { opacity: 0; } }
+
+  .dialog-inner { position: relative; }
+  .dialog-scene .scene { aspect-ratio: 16 / 9; }
+  .dialog-body { padding: 24px clamp(20px, 4vw, 36px) 32px; }
+  .dialog-title {
+    margin: 0;
+    font-family: var(--font-serif);
+    font-size: clamp(1.4rem, 3.4vw, 1.8rem);
+    font-weight: 600;
+    letter-spacing: .1em;
+  }
+  .dialog-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 16px;
+    margin: 4px 0 14px;
+    font-size: .88rem;
+    color: var(--muted);
+  }
+  .dialog-meta .elev { color: var(--accent); font-weight: 600; }
+  .dialog-note { margin: 0; }
+  .dialog-close {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    z-index: 2;
+    background: rgba(255, 255, 255, .85);
+    color: #22302a;
+    border-color: transparent;
+  }
+
+  /* =========================================================
+     連絡先
+     ========================================================= */
+  .contact { text-align: center; }
+  .contact .section-head { margin-bottom: 24px; }
+  .contact .eyebrow { justify-content: center; }
+  .contact-lead {
+    margin: 0 auto clamp(36px, 5vw, 52px);
+    max-width: 34em;
+    color: var(--muted);
+  }
+  .contact-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 0;
+    list-style: none;
+  }
+  .contact-link {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 18px 22px;
+    text-align: left;
+    text-decoration: none;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    transition: border-color .3s, transform .4s var(--ease-out), background-color .5s;
+  }
+  .contact-link:hover { border-color: var(--accent); transform: translateY(-3px); }
+  .contact-icon {
+    flex: none;
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: var(--accent-soft);
+    color: var(--accent);
+  }
+  .contact-icon svg { width: 20px; height: 20px; }
+  .contact-text { min-width: 0; }
+  .contact-label {
+    display: block;
+    font-size: .72rem;
+    letter-spacing: .24em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .contact-value {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-weight: 600;
+  }
+  .contact-arrow {
+    margin-left: auto;
+    flex: none;
+    width: 16px;
+    height: 16px;
+    color: var(--muted);
+    transition: transform .3s var(--ease-out), color .3s;
+  }
+  .contact-link:hover .contact-arrow { transform: translateX(4px); color: var(--accent); }
+
+  .site-footer {
+    padding: 32px 0 40px;
+    border-top: 1px solid var(--line);
+    font-size: .8rem;
+    color: var(--muted);
+  }
+  .footer-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+  }
+  .to-top {
+    text-decoration: none;
+    letter-spacing: .2em;
+  }
+  .to-top:hover { color: var(--accent); }
+
+  /* トースト */
+  .toast {
+    position: fixed;
+    left: 50%;
+    bottom: 24px;
+    z-index: 300;
+    max-width: calc(100% - 32px);
+    padding: 10px 20px;
+    font-size: .88rem;
+    color: var(--bg);
+    background: var(--text);
+    border-radius: 999px;
+    box-shadow: var(--shadow);
+    opacity: 0;
+    pointer-events: none;
+    transform: translate(-50%, 12px);
+    transition: opacity .3s, transform .3s var(--ease-out);
+  }
+  .toast.is-show { opacity: 1; transform: translate(-50%, 0); }
+
+  /* =========================================================
+     レスポンシブ
+     ========================================================= */
+  @media (max-width: 860px) {
+    .gallery { grid-template-columns: repeat(2, 1fr); }
+    .profile-grid { grid-template-columns: 1fr; }
+    .stat-card { max-width: 420px; width: 100%; margin-inline: auto; }
+  }
+
+  @media (max-width: 760px) {
+    .menu-toggle { display: inline-grid; }
+    .site-nav {
+      position: absolute;
+      top: var(--header-h);
+      left: 0;
+      right: 0;
+      padding: 8px 16px 20px;
+      background: var(--bg);
+      border-bottom: 1px solid var(--line);
+      box-shadow: 0 20px 30px -24px rgba(0, 0, 0, .5);
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-8px);
+      transition: opacity .3s, transform .3s var(--ease-out), visibility 0s .3s;
+    }
+    .site-nav.is-open {
+      opacity: 1;
+      visibility: visible;
+      transform: none;
+      transition: opacity .3s, transform .3s var(--ease-out), visibility 0s;
+    }
+    .nav-list { flex-direction: column; gap: 2px; }
+    .nav-link { padding: 12px 16px; font-size: .95rem; border-radius: 10px; }
+    .nav-link::after {
+      left: 6px;
+      top: 50%;
+      bottom: auto;
+      width: 3px;
+      height: 16px;
+      transform: translateY(-50%) scaleY(0);
+    }
+    .nav-link.is-active::after { transform: translateY(-50%) scaleY(1); }
+  }
+
+  @media (max-width: 480px) {
+    :root { --header-h: 58px; }
+    body { font-size: 15px; }
+    .container { width: calc(100% - 32px); }
+    .brand-text { font-size: .95rem; }
+    .hero-reading { letter-spacing: .24em; font-size: .7rem; }
+    .hero-name { letter-spacing: .1em; padding-left: .1em; }
+    .hero-role { flex-direction: column; gap: 2px; }
+    .hero-role .sep { display: none; }
+    .hero-quote { margin-top: 32px; }
+    .gallery { grid-template-columns: 1fr; }
+    .contact-list { grid-template-columns: 1fr; }
+    .contact-link { padding: 14px 16px; }
+    .dialog-scene .scene { aspect-ratio: 4 / 3; }
+    .footer-inner { flex-direction: column; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after {
+      animation-duration: .01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: .01ms !important;
+      transition-delay: 0s !important;
+    }
+    .caret { display: none; }
+  }
+</style>
+</head>
+<body>
+  <a class="skip-link" href="#profile">本文へスキップ</a>
+
+  <!-- ===== ヘッダー ===== -->
+  <header class="site-header" id="siteHeader">
+    <div class="container header-inner">
+      <a class="brand" href="#top" aria-label="山田 太郎 トップへ">
+        <svg class="brand-mark" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+          <circle cx="16" cy="16" r="15" stroke="currentColor" stroke-width="1.4"/>
+          <path d="M5 23 L12.5 13 L16.5 18 L20 13.5 L27 23 Z" fill="currentColor"/>
+          <circle cx="22" cy="9" r="2" fill="currentColor"/>
+        </svg>
+        <span class="brand-text">Taro Yamada</span>
+      </a>
+
+      <nav class="site-nav" id="siteNav" aria-label="ページ内ナビゲーション">
+        <ul class="nav-list">
+          <li><a class="nav-link" href="#top">ホーム</a></li>
+          <li><a class="nav-link" href="#profile">プロフィール</a></li>
+          <li><a class="nav-link" href="#skills">スキル</a></li>
+          <li><a class="nav-link" href="#gallery">ギャラリー</a></li>
+          <li><a class="nav-link" href="#contact">連絡先</a></li>
+        </ul>
+      </nav>
+
+      <div class="header-actions">
+        <button class="icon-btn theme-toggle" id="themeToggle" type="button" aria-label="ダークモードに切り替え">
+          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="4.2"/>
+            <path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.3 5.3l1.4 1.4M17.3 17.3l1.4 1.4M5.3 18.7l1.4-1.4M17.3 6.7l1.4-1.4"/>
+          </svg>
+          <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z"/>
+          </svg>
+        </button>
+        <button class="icon-btn menu-toggle" id="menuToggle" type="button" aria-label="メニューを開く" aria-expanded="false" aria-controls="siteNav">
+          <span class="bars" aria-hidden="true"><span class="bar"></span><span class="bar"></span><span class="bar"></span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- ===== 1. ヒーロー ===== -->
+    <section class="hero" id="top" aria-label="ヒーロー">
+      <div class="hero-scene" aria-hidden="true">
+        <div class="ridge ridge--far"></div>
+        <div class="ridge ridge--near"></div>
+      </div>
+
+      <div class="container hero-inner">
+        <p class="hero-reading hero-anim" style="--d:0">Yamada Taro &nbsp;/&nbsp; やまだ たろう</p>
+        <h1 class="hero-name hero-anim" style="--d:1">山田 太郎</h1>
+        <p class="hero-role hero-anim" style="--d:2">
+          <span>週末フォトグラファー</span><span class="sep" aria-hidden="true"></span><span>社内エンジニア</span>
+        </p>
+        <p class="hero-quote" aria-label="山頂で飲むコーヒーが一番おいしいと思っています">
+          <span aria-hidden="true"><span class="q">“</span><span id="typewriter" data-text="山頂で飲むコーヒーが一番おいしいと思っています"></span><span class="caret" id="caret"></span><span class="q" id="quoteEnd" hidden>”</span></span>
+        </p>
+      </div>
+
+      <a class="scroll-cue" href="#profile" aria-label="プロフィールへスクロール">
+        <span>Scroll</span>
+        <span class="line" aria-hidden="true"></span>
+      </a>
+    </section>
+
+    <!-- ===== 2. プロフィール ===== -->
+    <section class="section" id="profile" aria-labelledby="profileTitle">
+      <div class="container">
+        <div class="section-head reveal">
+          <p class="eyebrow">Profile</p>
+          <h2 class="section-title" id="profileTitle">プロフィール</h2>
+        </div>
+
+        <div class="profile-grid">
+          <div class="profile-text reveal" style="--d:1">
+            <p class="lead">平日はコードを書き、週末はカメラを担いで山へ。</p>
+            <p>社内エンジニアとして、業務ツールや Web システムの開発を担当しています。休みの日は登山とカメラが生活の中心。夜明け前の稜線、足もとに広がる雲海、山小屋の上の星空――山でしか出会えない光を探して歩いています。</p>
+            <p>撮った写真は自分で RAW 現像し、あのとき感じた空気の色にできるだけ近づけるのがこだわりです。</p>
+            <ul class="tags" aria-label="好きなもの">
+              <li>登山</li>
+              <li>写真</li>
+              <li>RAW 現像</li>
+              <li>山頂のコーヒー</li>
+            </ul>
+          </div>
+
+          <div class="stat-card reveal" style="--d:2">
+            <p class="stat-label">これまでに登った山</p>
+            <p class="stat-value">
+              <span class="stat-number" data-count-to="42" aria-label="42">0</span>
+              <span class="stat-unit">座</span>
+            </p>
+            <p class="stat-note"><strong>3,000m 級</strong>の山も含みます</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 3. スキル ===== -->
+    <section class="section section--alt" id="skills" aria-labelledby="skillsTitle">
+      <div class="container">
+        <div class="section-head reveal">
+          <p class="eyebrow">Skills</p>
+          <h2 class="section-title" id="skillsTitle">スキル</h2>
+        </div>
+
+        <ul class="skills reveal" style="--d:1">
+          <li class="skill" style="--i:0">
+            <div class="skill-head">
+              <h3 class="skill-name">Python</h3>
+              <span class="skill-level"><span data-count-to="88">0</span>%</span>
+            </div>
+            <div class="skill-track" role="meter" aria-label="Python の習熟度" aria-valuemin="0" aria-valuemax="100" aria-valuenow="88">
+              <span class="skill-fill" style="--level:88%"></span>
+            </div>
+            <p class="skill-desc">業務の自動化スクリプト、データ処理、社内ツールの開発。</p>
+          </li>
+          <li class="skill" style="--i:1">
+            <div class="skill-head">
+              <h3 class="skill-name">Web 制作</h3>
+              <span class="skill-level"><span data-count-to="76">0</span>%</span>
+            </div>
+            <div class="skill-track" role="meter" aria-label="Web 制作の習熟度" aria-valuemin="0" aria-valuemax="100" aria-valuenow="76">
+              <span class="skill-fill" style="--level:76%"></span>
+            </div>
+            <p class="skill-desc">HTML / CSS / JavaScript によるサイト制作と UI 実装。</p>
+          </li>
+          <li class="skill" style="--i:2">
+            <div class="skill-head">
+              <h3 class="skill-name">写真の現像（RAW 現像）</h3>
+              <span class="skill-level"><span data-count-to="82">0</span>%</span>
+            </div>
+            <div class="skill-track" role="meter" aria-label="RAW 現像の習熟度" aria-valuemin="0" aria-valuemax="100" aria-valuenow="82">
+              <span class="skill-fill" style="--level:82%"></span>
+            </div>
+            <p class="skill-desc">山の光と空気感を残すことを大切にした、自然なトーンの仕上げ。</p>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ===== 4. 好きな山ギャラリー ===== -->
+    <section class="section" id="gallery" aria-labelledby="galleryTitle">
+      <div class="container">
+        <div class="section-head reveal">
+          <p class="eyebrow">Gallery</p>
+          <h2 class="section-title" id="galleryTitle">好きな山ギャラリー</h2>
+        </div>
+
+        <ul class="gallery">
+          <li class="reveal" style="--d:0">
+            <button class="card" type="button" data-name="槍ヶ岳" data-elev="3,180m" data-area="北アルプス" data-mood="朝焼け"
+              data-note="天を突く穂先が朝日に染まる瞬間は、何度見ても息をのみます。肩の小屋から見上げるモルゲンロートが一番のお気に入り。">
+              <div class="scene-wrap">
+                <div class="scene scene--yari" aria-hidden="true"><span class="sun"></span><span class="ridge ridge--far"></span><span class="mist"></span><span class="ridge ridge--near"></span></div>
+                <span class="zoom-hint" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></span>
+              </div>
+              <div class="card-body">
+                <h3 class="card-name">槍ヶ岳</h3>
+                <p class="card-meta"><span class="elev">3,180m</span><span>北アルプス・朝焼け</span></p>
+              </div>
+            </button>
+          </li>
+          <li class="reveal" style="--d:1">
+            <button class="card" type="button" data-name="北岳" data-elev="3,193m" data-area="南アルプス" data-mood="夏の青空"
+              data-note="日本で2番目に高い山。夏の稜線歩きは、青空とハイマツの緑のコントラストが最高です。">
+              <div class="scene-wrap">
+                <div class="scene scene--kita" aria-hidden="true"><span class="sun"></span><span class="ridge ridge--far"></span><span class="mist"></span><span class="ridge ridge--near"></span></div>
+                <span class="zoom-hint" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></span>
+              </div>
+              <div class="card-body">
+                <h3 class="card-name">北岳</h3>
+                <p class="card-meta"><span class="elev">3,193m</span><span>南アルプス・夏の青空</span></p>
+              </div>
+            </button>
+          </li>
+          <li class="reveal" style="--d:2">
+            <button class="card" type="button" data-name="奥穂高岳" data-elev="3,190m" data-area="北アルプス" data-mood="雲海"
+              data-note="足もとに広がる雲海と、その上に浮かぶ峰々。岩稜の向こうに見えた景色は今でも忘れられません。">
+              <div class="scene-wrap">
+                <div class="scene scene--hotaka" aria-hidden="true"><span class="sun"></span><span class="ridge ridge--far"></span><span class="mist"></span><span class="ridge ridge--near"></span></div>
+                <span class="zoom-hint" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></span>
+              </div>
+              <div class="card-body">
+                <h3 class="card-name">奥穂高岳</h3>
+                <p class="card-meta"><span class="elev">3,190m</span><span>北アルプス・雲海</span></p>
+              </div>
+            </button>
+          </li>
+          <li class="reveal" style="--d:0">
+            <button class="card" type="button" data-name="富士山" data-elev="3,776m" data-area="静岡・山梨" data-mood="夕暮れ"
+              data-note="言わずと知れた日本最高峰。登っても、遠くから眺めても美しい山。夕暮れのシルエットは格別です。">
+              <div class="scene-wrap">
+                <div class="scene scene--fuji" aria-hidden="true"><span class="sun"></span><span class="ridge ridge--far"></span><span class="mist"></span><span class="ridge ridge--near"></span></div>
+                <span class="zoom-hint" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></span>
+              </div>
+              <div class="card-body">
+                <h3 class="card-name">富士山</h3>
+                <p class="card-meta"><span class="elev">3,776m</span><span>静岡・山梨・夕暮れ</span></p>
+              </div>
+            </button>
+          </li>
+          <li class="reveal" style="--d:1">
+            <button class="card" type="button" data-name="木曽駒ヶ岳" data-elev="2,956m" data-area="中央アルプス" data-mood="星空"
+              data-note="ロープウェイで一気に標高を上げられる、星空撮影の定番スポット。満天の星の下で淹れるコーヒーは格別です。">
+              <div class="scene-wrap">
+                <div class="scene scene--koma" aria-hidden="true"><span class="sun"></span><span class="ridge ridge--far"></span><span class="mist"></span><span class="ridge ridge--near"></span></div>
+                <span class="zoom-hint" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></span>
+              </div>
+              <div class="card-body">
+                <h3 class="card-name">木曽駒ヶ岳</h3>
+                <p class="card-meta"><span class="elev">2,956m</span><span>中央アルプス・星空</span></p>
+              </div>
+            </button>
+          </li>
+          <li class="reveal" style="--d:2">
+            <button class="card" type="button" data-name="赤岳（八ヶ岳）" data-elev="2,899m" data-area="八ヶ岳連峰" data-mood="冬の雪景色"
+              data-note="雪をまとった冬の赤岳は、凛とした空気そのもの。冷えた指先でシャッターを切った思い出の一枚です。">
+              <div class="scene-wrap">
+                <div class="scene scene--aka" aria-hidden="true"><span class="sun"></span><span class="ridge ridge--far"></span><span class="mist"></span><span class="ridge ridge--near"></span></div>
+                <span class="zoom-hint" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></span>
+              </div>
+              <div class="card-body">
+                <h3 class="card-name">赤岳（八ヶ岳）</h3>
+                <p class="card-meta"><span class="elev">2,899m</span><span>八ヶ岳連峰・冬の雪景色</span></p>
+              </div>
+            </button>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ===== 5. 連絡先 ===== -->
+    <section class="section section--alt contact" id="contact" aria-labelledby="contactTitle">
+      <div class="container">
+        <div class="section-head reveal">
+          <p class="eyebrow">Contact</p>
+          <h2 class="section-title" id="contactTitle">連絡先</h2>
+        </div>
+        <p class="contact-lead reveal" style="--d:1">山の話、写真の話、お仕事のご相談など、お気軽にどうぞ。</p>
+
+        <ul class="contact-list">
+          <li class="reveal" style="--d:1">
+            <a class="contact-link" href="#" data-dummy="メール">
+              <span class="contact-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3.5 6.5 8.5 6.5 8.5-6.5"/></svg></span>
+              <span class="contact-text"><span class="contact-label">Mail</span><span class="contact-value">taro.yamada@example.com</span></span>
+              <svg class="contact-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </a>
+          </li>
+          <li class="reveal" style="--d:2">
+            <a class="contact-link" href="#" data-dummy="X">
+              <span class="contact-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 4l16 16M20 4L4 20"/></svg></span>
+              <span class="contact-text"><span class="contact-label">X</span><span class="contact-value">@taro_yama_photo</span></span>
+              <svg class="contact-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </a>
+          </li>
+          <li class="reveal" style="--d:1">
+            <a class="contact-link" href="#" data-dummy="Instagram">
+              <span class="contact-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1" fill="currentColor" stroke="none"/></svg></span>
+              <span class="contact-text"><span class="contact-label">Instagram</span><span class="contact-value">@taro.mountain</span></span>
+              <svg class="contact-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </a>
+          </li>
+          <li class="reveal" style="--d:2">
+            <a class="contact-link" href="#" data-dummy="GitHub">
+              <span class="contact-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m8 8-4 4 4 4M16 8l4 4-4 4M13.5 5l-3 14"/></svg></span>
+              <span class="contact-text"><span class="contact-label">GitHub</span><span class="contact-value">github.com/taro-yamada</span></span>
+              <svg class="contact-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <small>&copy; 2026 Taro Yamada</small>
+      <a class="to-top" href="#top">PAGE TOP ↑</a>
+    </div>
+  </footer>
+
+  <!-- 拡大表示ダイアログ -->
+  <dialog class="dialog" id="mountainDialog" aria-labelledby="dialogTitle">
+    <div class="dialog-inner">
+      <button class="icon-btn dialog-close" id="dialogClose" type="button" aria-label="閉じる">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+      </button>
+      <div class="dialog-scene" id="dialogScene"></div>
+      <div class="dialog-body">
+        <h3 class="dialog-title" id="dialogTitle"></h3>
+        <p class="dialog-meta"><span class="elev" id="dialogElev"></span><span id="dialogArea"></span><span id="dialogMood"></span></p>
+        <p class="dialog-note" id="dialogNote"></p>
+      </div>
+    </div>
+  </dialog>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function () {
+  'use strict';
+
+  var root = document.documentElement;
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ---------- ライト／ダーク切り替え ---------- */
+  var themeBtn = document.getElementById('themeToggle');
+  var metaTheme = document.querySelector('meta[name="theme-color"]');
+
+  function applyTheme(theme) {
+    root.setAttribute('data-theme', theme);
+    var isDark = theme === 'dark';
+    themeBtn.setAttribute('aria-pressed', String(isDark));
+    themeBtn.setAttribute('aria-label', isDark ? 'ライトモードに切り替え' : 'ダークモードに切り替え');
+    themeBtn.title = themeBtn.getAttribute('aria-label');
+    if (metaTheme) metaTheme.setAttribute('content', isDark ? '#111a16' : '#f4efe3');
+  }
+  applyTheme(root.getAttribute('data-theme') || 'light');
+
+  themeBtn.addEventListener('click', function () {
+    var next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    applyTheme(next);
+    // アイコンのアニメーションを再生し直す
+    themeBtn.querySelectorAll('svg').forEach(function (svg) {
+      svg.style.animation = 'none';
+      void svg.getBoundingClientRect();
+      svg.style.animation = '';
+    });
+    try { localStorage.setItem('profile-theme', next); } catch (e) {}
+  });
+
+  /* ---------- モバイルメニュー ---------- */
+  var menuBtn = document.getElementById('menuToggle');
+  var nav = document.getElementById('siteNav');
+
+  function setMenu(open) {
+    nav.classList.toggle('is-open', open);
+    menuBtn.setAttribute('aria-expanded', String(open));
+    menuBtn.setAttribute('aria-label', open ? 'メニューを閉じる' : 'メニューを開く');
+  }
+  menuBtn.addEventListener('click', function () {
+    setMenu(menuBtn.getAttribute('aria-expanded') !== 'true');
+  });
+  nav.addEventListener('click', function (e) {
+    if (e.target.closest('a')) setMenu(false);
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && nav.classList.contains('is-open')) {
+      setMenu(false);
+      menuBtn.focus();
+    }
+  });
+  document.addEventListener('click', function (e) {
+    if (nav.classList.contains('is-open') && !e.target.closest('.site-header')) setMenu(false);
+  });
+
+  /* ---------- タイプライター ---------- */
+  var tw = document.getElementById('typewriter');
+  var caret = document.getElementById('caret');
+  var quoteEnd = document.getElementById('quoteEnd');
+  var fullText = tw.getAttribute('data-text');
+  var chars = Array.from(fullText);
+
+  function finishTyping() {
+    quoteEnd.hidden = false;
+    setTimeout(function () { caret.style.opacity = '0'; caret.style.animation = 'none'; caret.style.transition = 'opacity .6s'; }, 2400);
+  }
+
+  if (reduceMotion) {
+    tw.textContent = fullText;
+    finishTyping();
+  } else {
+    var idx = 0;
+    var typeNext = function () {
+      idx++;
+      tw.textContent = chars.slice(0, idx).join('');
+      if (idx < chars.length) {
+        var ch = chars[idx - 1];
+        var wait = /[、。が]/.test(ch) ? 220 : 85 + Math.random() * 70;
+        setTimeout(typeNext, wait);
+      } else {
+        finishTyping();
+      }
+    };
+    setTimeout(typeNext, 1300);
+  }
+
+  /* ---------- カウントアップ ---------- */
+  function countUp(el) {
+    if (el.dataset.counted) return;
+    el.dataset.counted = '1';
+    var target = parseInt(el.getAttribute('data-count-to'), 10) || 0;
+    if (reduceMotion) { el.textContent = target; return; }
+    var duration = 1800;
+    var start = null;
+    function frame(ts) {
+      if (start === null) start = ts;
+      var p = Math.min((ts - start) / duration, 1);
+      var eased = 1 - Math.pow(1 - p, 4);
+      el.textContent = Math.round(target * eased);
+      if (p < 1) requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+  }
+
+  /* ---------- スクロールでふわっと表示 ---------- */
+  var revealEls = document.querySelectorAll('.reveal');
+
+  function onReveal(el) {
+    el.classList.add('is-visible');
+    var delay = (parseFloat(getComputedStyle(el).getPropertyValue('--d')) || 0) * 120 + 200;
+    el.querySelectorAll('[data-count-to]').forEach(function (n) {
+      setTimeout(function () { countUp(n); }, reduceMotion ? 0 : delay);
+    });
+  }
+
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          onReveal(entry.target);
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -8% 0px' });
+    revealEls.forEach(function (el) { io.observe(el); });
+  } else {
+    revealEls.forEach(onReveal);
+  }
+
+  /* ---------- ナビの現在地ハイライト & ヘッダーの影 ---------- */
+  var header = document.getElementById('siteHeader');
+  var navLinks = Array.prototype.slice.call(document.querySelectorAll('.nav-link'));
+  var sections = navLinks.map(function (a) { return document.querySelector(a.getAttribute('href')); });
+  var currentId = null;
+  var ticking = false;
+
+  function updateNav() {
+    ticking = false;
+    var y = window.scrollY || window.pageYOffset;
+    header.classList.toggle('is-scrolled', y > 8);
+
+    var probe = header.offsetHeight + window.innerHeight * 0.35;
+    var active = sections[0];
+    sections.forEach(function (sec) {
+      if (sec && sec.getBoundingClientRect().top <= probe) active = sec;
+    });
+    // ページ最下部に到達したら最後のセクションを強調
+    if (window.innerHeight + y >= document.documentElement.scrollHeight - 4) {
+      active = sections[sections.length - 1];
+    }
+    if (active && active.id !== currentId) {
+      currentId = active.id;
+      navLinks.forEach(function (a, i) {
+        var on = sections[i] === active;
+        a.classList.toggle('is-active', on);
+        if (on) a.setAttribute('aria-current', 'location');
+        else a.removeAttribute('aria-current');
+      });
+    }
+  }
+  function requestUpdate() {
+    if (!ticking) { ticking = true; requestAnimationFrame(updateNav); }
+  }
+  window.addEventListener('scroll', requestUpdate, { passive: true });
+  window.addEventListener('resize', requestUpdate);
+  updateNav();
+
+  /* ---------- ギャラリーの拡大表示 ---------- */
+  var dialog = document.getElementById('mountainDialog');
+  var dialogScene = document.getElementById('dialogScene');
+  var dTitle = document.getElementById('dialogTitle');
+  var dElev = document.getElementById('dialogElev');
+  var dArea = document.getElementById('dialogArea');
+  var dMood = document.getElementById('dialogMood');
+  var dNote = document.getElementById('dialogNote');
+  var lastCard = null;
+  var supportsDialog = typeof dialog.showModal === 'function';
+
+  function openDialog(card) {
+    lastCard = card;
+    var scene = card.querySelector('.scene').cloneNode(true);
+    dialogScene.innerHTML = '';
+    dialogScene.appendChild(scene);
+    dTitle.textContent = card.dataset.name;
+    dElev.textContent = '標高 ' + card.dataset.elev;
+    dArea.textContent = card.dataset.area;
+    dMood.textContent = card.dataset.mood;
+    dNote.textContent = card.dataset.note;
+    if (supportsDialog) dialog.showModal();
+    else dialog.setAttribute('open', '');
+    document.getElementById('dialogClose').focus();
+  }
+  function closeDialog() {
+    if (supportsDialog) dialog.close();
+    else { dialog.removeAttribute('open'); onClosed(); }
+  }
+  function onClosed() {
+    if (lastCard) lastCard.focus({ preventScroll: true });
+  }
+
+  document.querySelectorAll('.card').forEach(function (card) {
+    card.addEventListener('click', function () { openDialog(card); });
+  });
+  document.getElementById('dialogClose').addEventListener('click', closeDialog);
+  dialog.addEventListener('click', function (e) {
+    // 背景（ダイアログ外側）クリックで閉じる
+    if (e.target === dialog) closeDialog();
+  });
+  dialog.addEventListener('close', onClosed);
+
+  /* ---------- ダミーリンク ---------- */
+  var toast = document.getElementById('toast');
+  var toastTimer = null;
+  function showToast(msg) {
+    toast.textContent = msg;
+    toast.classList.add('is-show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () { toast.classList.remove('is-show'); }, 2400);
+  }
+  document.querySelectorAll('[data-dummy]').forEach(function (link) {
+    link.addEventListener('click', function (e) {
+      e.preventDefault();
+      showToast(link.dataset.dummy + ' はダミーリンクです');
+    });
+  });
+})();
+</script>
+</body>
+</html>

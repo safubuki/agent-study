@@ -1,0 +1,113 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 560" font-family="Meiryo, 'Yu Gothic UI', 'Noto Sans JP', sans-serif">
+  <rect x="0.5" y="0.5" width="899" height="559" rx="14" fill="#ffffff" stroke="#e5e7eb"/>
+  <text x="30" y="40" font-size="18" font-weight="700" fill="#111827">何に時間を使ったか（自己紹介ページ・各1回）</text>
+  <text x="30" y="62" font-size="12.5" fill="#6b7280">横軸は経過時間（秒）。セッション記録のタイムスタンプから作図。1秒 = 1.7px</text>
+
+  <!-- grid: x = 170 + 1.7 * t -->
+  <g stroke="#e5e7eb" stroke-width="1">
+    <line x1="170" y1="80" x2="170" y2="490"/>
+    <line x1="272" y1="80" x2="272" y2="490"/>
+    <line x1="374" y1="80" x2="374" y2="490"/>
+    <line x1="476" y1="80" x2="476" y2="490"/>
+    <line x1="578" y1="80" x2="578" y2="490"/>
+    <line x1="680" y1="80" x2="680" y2="490"/>
+    <line x1="782" y1="80" x2="782" y2="490"/>
+  </g>
+  <g font-size="11" fill="#6b7280" text-anchor="middle">
+    <text x="170" y="507">0</text>
+    <text x="272" y="507">60</text>
+    <text x="374" y="507">120</text>
+    <text x="476" y="507">180</text>
+    <text x="578" y="507">240</text>
+    <text x="680" y="507">300</text>
+    <text x="782" y="507">360 秒</text>
+  </g>
+
+  <!-- ===== A ===== -->
+  <text x="30" y="104" font-size="13" font-weight="700" fill="#1d4ed8">A：1人</text>
+  <text x="30" y="121" font-size="11" fill="#6b7280">Claude（opus）</text>
+  <rect x="170" y="92" width="483.7" height="30" rx="4" fill="#3b82f6" fill-opacity="0.75"/>
+  <text x="180" y="112" font-size="12" fill="#ffffff">考える → 1ファイルを一気に書く（54,680字）</text>
+  <rect x="653.7" y="92" width="60.6" height="30" rx="4" fill="#3b82f6" fill-opacity="0.35"/>
+  <text x="684" y="112" font-size="11" fill="#1e3a8a" text-anchor="middle">確認</text>
+  <text x="722" y="112" font-size="13" font-weight="700" fill="#111827">5分21秒</text>
+
+  <line x1="30" y1="140" x2="870" y2="140" stroke="#e5e7eb"/>
+
+  <!-- ===== B ===== -->
+  <text x="30" y="168" font-size="13" font-weight="700" fill="#6d28d9">B：分担</text>
+  <text x="30" y="185" font-size="11" fill="#6b7280">親（opus）</text>
+  <rect x="170" y="156" width="149.8" height="30" rx="4" fill="#8b5cf6" fill-opacity="0.75"/>
+  <text x="180" y="176" font-size="12" fill="#ffffff">① 設計書を書く</text>
+  <rect x="319.8" y="156" width="30.4" height="30" rx="4" fill="#8b5cf6" fill-opacity="0.45"/>
+  <text x="335" y="176" font-size="11" fill="#ffffff" text-anchor="middle">②</text>
+  <rect x="350.2" y="156" width="230.7" height="30" rx="4" fill="#8b5cf6" fill-opacity="0.15" stroke="#8b5cf6" stroke-dasharray="4 3"/>
+  <text x="465" y="176" font-size="11.5" fill="#4c1d95" text-anchor="middle">③ 部品を待ちながら、届いた順に検品</text>
+  <rect x="580.9" y="156" width="219.1" height="30" rx="4" fill="#8b5cf6" fill-opacity="0.75"/>
+  <text x="690" y="176" font-size="12" fill="#ffffff" text-anchor="middle">④ 統合（42,984字を書き写す）</text>
+  <rect x="800" y="156" width="15.2" height="30" rx="4" fill="#8b5cf6" fill-opacity="0.45"/>
+  <text x="824" y="176" font-size="13" font-weight="700" fill="#111827">6分20秒</text>
+
+  <text x="44" y="211" font-size="11" fill="#047857">HTML（sonnet）</text>
+  <rect x="330.8" y="198" width="51.9" height="18" rx="4" fill="#10b981" fill-opacity="0.75"/>
+  <text x="388" y="211" font-size="11" fill="#065f46">31秒</text>
+  <text x="44" y="237" font-size="11" fill="#047857">CSS（sonnet）</text>
+  <rect x="340.7" y="224" width="226.9" height="18" rx="4" fill="#10b981" fill-opacity="0.75"/>
+  <text x="454" y="237" font-size="11" fill="#ffffff" text-anchor="middle">134秒</text>
+  <text x="44" y="263" font-size="11" fill="#047857">JS（haiku）</text>
+  <rect x="349.7" y="250" width="124.8" height="18" rx="4" fill="#10b981" fill-opacity="0.75"/>
+  <text x="480" y="263" font-size="11" fill="#065f46">73秒</text>
+
+  <path d="M 330.8 276 L 330.8 283 L 567.6 283 L 567.6 276" fill="none" stroke="#047857" stroke-width="1.5"/>
+  <text x="449" y="299" font-size="11" fill="#047857" text-anchor="middle">並列：作業の合計 237秒 → 実際は 139秒</text>
+
+  <path d="M 690 190 L 690 212" stroke="#6d28d9" stroke-width="1.2" fill="none"/>
+  <text x="690" y="227" font-size="11.5" fill="#6d28d9" text-anchor="middle">全体の約34%（129秒）は</text>
+  <text x="690" y="244" font-size="11.5" fill="#6d28d9" text-anchor="middle">部品を1ファイルに書き写す時間</text>
+
+  <line x1="30" y1="312" x2="870" y2="312" stroke="#e5e7eb"/>
+
+  <!-- ===== C ===== -->
+  <text x="30" y="340" font-size="13" font-weight="700" fill="#b45309">C：分担＋</text>
+  <text x="30" y="357" font-size="13" font-weight="700" fill="#b45309">統合スクリプト</text>
+  <rect x="170" y="328" width="128.5" height="30" rx="4" fill="#8b5cf6" fill-opacity="0.75"/>
+  <text x="180" y="348" font-size="12" fill="#ffffff">① 設計書を書く</text>
+  <rect x="298.5" y="328" width="37.6" height="30" rx="4" fill="#8b5cf6" fill-opacity="0.45"/>
+  <text x="317" y="348" font-size="11" fill="#ffffff" text-anchor="middle">②</text>
+  <rect x="336.1" y="328" width="257" height="30" rx="4" fill="#8b5cf6" fill-opacity="0.15" stroke="#8b5cf6" stroke-dasharray="4 3"/>
+  <text x="464" y="348" font-size="11.5" fill="#4c1d95" text-anchor="middle">③ 部品を待ちながら、届いた順に検品</text>
+  <rect x="593.1" y="328" width="3" height="30" fill="#f59e0b"/>
+  <rect x="596.1" y="328" width="11" height="30" rx="3" fill="#8b5cf6" fill-opacity="0.45"/>
+  <text x="616" y="348" font-size="13" font-weight="700" fill="#111827">4分18秒</text>
+
+  <text x="44" y="383" font-size="11" fill="#047857">HTML（sonnet）</text>
+  <rect x="314.2" y="370" width="35.2" height="18" rx="4" fill="#10b981" fill-opacity="0.75"/>
+  <text x="355" y="383" font-size="11" fill="#065f46">21秒</text>
+  <text x="44" y="409" font-size="11" fill="#047857">CSS（sonnet）</text>
+  <rect x="324.4" y="396" width="202.6" height="18" rx="4" fill="#10b981" fill-opacity="0.75"/>
+  <text x="426" y="409" font-size="11" fill="#ffffff" text-anchor="middle">119秒</text>
+  <text x="44" y="435" font-size="11" fill="#047857">JS（haiku）</text>
+  <rect x="336.1" y="422" width="135.7" height="18" rx="4" fill="#10b981" fill-opacity="0.75"/>
+  <text x="478" y="435" font-size="11" fill="#065f46">80秒</text>
+
+  <path d="M 314.2 448 L 314.2 455 L 527 455 L 527 448" fill="none" stroke="#047857" stroke-width="1.5"/>
+  <text x="420" y="471" font-size="11" fill="#047857" text-anchor="middle">並列：作業の合計 220秒 → 実際は 125秒</text>
+
+  <path d="M 594.6 362 L 660 384" stroke="#b45309" stroke-width="1.2" fill="none"/>
+  <text x="664" y="389" font-size="11.5" fill="#b45309">④ 統合はスクリプトで約1秒</text>
+  <text x="664" y="406" font-size="11.5" fill="#b45309">（B では 129秒）</text>
+
+  <!-- legend -->
+  <g font-size="11" fill="#374151">
+    <rect x="30" y="528" width="12" height="12" rx="2" fill="#3b82f6" fill-opacity="0.75"/>
+    <text x="48" y="539">1人（opus）</text>
+    <rect x="130" y="528" width="12" height="12" rx="2" fill="#8b5cf6" fill-opacity="0.75"/>
+    <text x="148" y="539">親（opus）が書いている</text>
+    <rect x="290" y="528" width="12" height="12" rx="2" fill="#8b5cf6" fill-opacity="0.15" stroke="#8b5cf6" stroke-dasharray="3 2"/>
+    <text x="308" y="539">親が待っている</text>
+    <rect x="410" y="528" width="12" height="12" rx="2" fill="#10b981" fill-opacity="0.75"/>
+    <text x="428" y="539">職人（sonnet / haiku）</text>
+    <rect x="570" y="528" width="12" height="12" rx="2" fill="#f59e0b"/>
+    <text x="588" y="539">統合スクリプト（node）</text>
+  </g>
+</svg>

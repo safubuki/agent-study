@@ -1,0 +1,120 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 640" font-family="Meiryo, 'Yu Gothic UI', 'Noto Sans JP', sans-serif">
+  <defs>
+    <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#6b7280"/>
+    </marker>
+  </defs>
+  <rect x="0.5" y="0.5" width="899" height="639" rx="14" fill="#ffffff" stroke="#e5e7eb"/>
+  <text x="30" y="42" font-size="20" font-weight="700" fill="#111827">実験の構成：同じお題を「1人」と「分担」で作る</text>
+  <text x="30" y="64" font-size="13" fill="#6b7280">お題は prompts/01-profile.md（自己紹介ページ）。どちらも claude -p で一発実行し、外側のスクリプトが時間を測る</text>
+
+  <!-- ===== A panel ===== -->
+  <rect x="30" y="86" width="300" height="514" rx="12" fill="#f9fafb" stroke="#e5e7eb"/>
+  <text x="180" y="116" font-size="16" font-weight="700" fill="#111827" text-anchor="middle">A：1人で作る</text>
+  <text x="180" y="136" font-size="12" fill="#6b7280" text-anchor="middle">--disallowedTools Agent（子を呼べない）</text>
+
+  <rect x="105" y="152" width="150" height="40" rx="8" fill="#ffffff" stroke="#9ca3af"/>
+  <text x="180" y="177" font-size="13" fill="#111827" text-anchor="middle">ユーザー（スクリプト）</text>
+
+  <line x1="180" y1="192" x2="180" y2="230" stroke="#6b7280" stroke-width="1.6" marker-end="url(#ah)"/>
+  <text x="190" y="216" font-size="11.5" fill="#374151">お題＋保存先</text>
+
+  <rect x="70" y="232" width="220" height="238" rx="10" fill="#3b82f6" fill-opacity="0.12" stroke="#3b82f6"/>
+  <text x="180" y="260" font-size="15" font-weight="700" fill="#1d4ed8" text-anchor="middle">Claude（opus）</text>
+  <text x="180" y="280" font-size="11.5" fill="#1e3a8a" text-anchor="middle">全部を1人で、順番に</text>
+  <g font-size="12.5" fill="#1f2937">
+    <text x="96" y="314">1. 構成と見た目を考える</text>
+    <text x="96" y="342">2. HTML を書く</text>
+    <text x="96" y="370">3. CSS を書く</text>
+    <text x="96" y="398">4. JavaScript を書く</text>
+    <text x="96" y="426">5. 1ファイルにまとめて保存</text>
+  </g>
+  <text x="180" y="456" font-size="11" fill="#6b7280" text-anchor="middle">受け渡し・設計書なし</text>
+
+  <line x1="180" y1="470" x2="180" y2="514" stroke="#6b7280" stroke-width="1.6" marker-end="url(#ah)"/>
+  <rect x="105" y="516" width="150" height="40" rx="6" fill="#f3f4f6" stroke="#9ca3af"/>
+  <text x="180" y="541" font-size="13" fill="#111827" text-anchor="middle" font-family="Consolas, 'Courier New', monospace">index.html</text>
+  <text x="180" y="580" font-size="11.5" fill="#6b7280" text-anchor="middle">AI 1体</text>
+
+  <!-- ===== B panel ===== -->
+  <rect x="350" y="86" width="520" height="514" rx="12" fill="#f9fafb" stroke="#e5e7eb"/>
+  <text x="610" y="116" font-size="16" font-weight="700" fill="#111827" text-anchor="middle">B：分担して作る（親1＋職人3）</text>
+  <text x="610" y="136" font-size="12" fill="#6b7280" text-anchor="middle">--agent page-director（親として起動）</text>
+
+  <rect x="535" y="152" width="150" height="40" rx="8" fill="#ffffff" stroke="#9ca3af"/>
+  <text x="610" y="177" font-size="13" fill="#111827" text-anchor="middle">ユーザー（スクリプト）</text>
+
+  <line x1="610" y1="192" x2="610" y2="230" stroke="#6b7280" stroke-width="1.6" marker-end="url(#ah)"/>
+  <text x="620" y="216" font-size="11.5" fill="#374151">お題（A と同じ文面）</text>
+
+  <rect x="490" y="232" width="240" height="56" rx="10" fill="#8b5cf6" fill-opacity="0.13" stroke="#8b5cf6"/>
+  <text x="610" y="256" font-size="15" font-weight="700" fill="#6d28d9" text-anchor="middle">page-director（opus）</text>
+  <text x="610" y="276" font-size="11.5" fill="#4c1d95" text-anchor="middle">設計・発注・検品・統合（部品は書かない）</text>
+
+  <line x1="730" y1="260" x2="756" y2="260" stroke="#6b7280" stroke-width="1.6" marker-end="url(#ah)"/>
+  <rect x="758" y="238" width="100" height="44" rx="6" fill="#f3f4f6" stroke="#9ca3af"/>
+  <text x="808" y="256" font-size="11" fill="#374151" text-anchor="middle">① 設計書</text>
+  <text x="808" y="273" font-size="11.5" fill="#111827" text-anchor="middle" font-family="Consolas, 'Courier New', monospace">spec.md</text>
+
+  <!-- fan-out -->
+  <g stroke="#6b7280" stroke-width="1.6" fill="none">
+    <path d="M 610 288 L 447 348" marker-end="url(#ah)"/>
+    <path d="M 610 288 L 610 348" marker-end="url(#ah)"/>
+    <path d="M 610 288 L 773 348" marker-end="url(#ah)"/>
+  </g>
+  <rect x="548" y="304" width="124" height="22" rx="11" fill="#ffffff" stroke="#d1d5db"/>
+  <text x="610" y="319" font-size="11.5" fill="#374151" text-anchor="middle">② 3体に並列で発注</text>
+
+  <g>
+    <rect x="372" y="350" width="150" height="52" rx="10" fill="#10b981" fill-opacity="0.13" stroke="#10b981"/>
+    <text x="447" y="372" font-size="13" font-weight="700" fill="#047857" text-anchor="middle">markup-builder</text>
+    <text x="447" y="391" font-size="11.5" fill="#065f46" text-anchor="middle">HTML（sonnet）</text>
+
+    <rect x="535" y="350" width="150" height="52" rx="10" fill="#10b981" fill-opacity="0.13" stroke="#10b981"/>
+    <text x="610" y="372" font-size="13" font-weight="700" fill="#047857" text-anchor="middle">style-builder</text>
+    <text x="610" y="391" font-size="11.5" fill="#065f46" text-anchor="middle">CSS（sonnet）</text>
+
+    <rect x="698" y="350" width="150" height="52" rx="10" fill="#10b981" fill-opacity="0.13" stroke="#10b981"/>
+    <text x="773" y="372" font-size="13" font-weight="700" fill="#047857" text-anchor="middle">script-builder</text>
+    <text x="773" y="391" font-size="11.5" fill="#065f46" text-anchor="middle">JS（haiku）</text>
+  </g>
+
+  <g stroke="#6b7280" stroke-width="1.6">
+    <line x1="447" y1="402" x2="447" y2="428" marker-end="url(#ah)"/>
+    <line x1="610" y1="402" x2="610" y2="428" marker-end="url(#ah)"/>
+    <line x1="773" y1="402" x2="773" y2="428" marker-end="url(#ah)"/>
+  </g>
+  <g font-family="Consolas, 'Courier New', monospace" font-size="12" fill="#111827" text-anchor="middle">
+    <rect x="392" y="430" width="110" height="30" rx="6" fill="#f3f4f6" stroke="#9ca3af"/>
+    <text x="447" y="450">body.html</text>
+    <rect x="555" y="430" width="110" height="30" rx="6" fill="#f3f4f6" stroke="#9ca3af"/>
+    <text x="610" y="450">style.css</text>
+    <rect x="718" y="430" width="110" height="30" rx="6" fill="#f3f4f6" stroke="#9ca3af"/>
+    <text x="773" y="450">script.js</text>
+  </g>
+
+  <!-- converge -->
+  <g stroke="#6b7280" stroke-width="1.6" fill="none">
+    <path d="M 447 460 L 610 514" marker-end="url(#ah)"/>
+    <path d="M 610 460 L 610 514" marker-end="url(#ah)"/>
+    <path d="M 773 460 L 610 514" marker-end="url(#ah)"/>
+  </g>
+  <rect x="500" y="476" width="220" height="22" rx="11" fill="#ffffff" stroke="#d1d5db"/>
+  <text x="610" y="491" font-size="11.5" fill="#374151" text-anchor="middle">③ 親が検品 → ④ 1ファイルに統合</text>
+
+  <rect x="535" y="516" width="150" height="40" rx="6" fill="#f3f4f6" stroke="#9ca3af"/>
+  <text x="610" y="541" font-size="13" fill="#111827" text-anchor="middle" font-family="Consolas, 'Courier New', monospace">index.html</text>
+  <text x="610" y="580" font-size="11.5" fill="#6b7280" text-anchor="middle">AI 4体（食い違いがあれば担当だけに差し戻し、最大2回）</text>
+
+  <!-- legend -->
+  <g font-size="11.5" fill="#374151">
+    <rect x="30" y="614" width="12" height="12" rx="2" fill="#3b82f6" fill-opacity="0.25" stroke="#3b82f6"/>
+    <text x="48" y="625">1人で全部（opus）</text>
+    <rect x="180" y="614" width="12" height="12" rx="2" fill="#8b5cf6" fill-opacity="0.25" stroke="#8b5cf6"/>
+    <text x="198" y="625">親：まとめ役（opus）</text>
+    <rect x="340" y="614" width="12" height="12" rx="2" fill="#10b981" fill-opacity="0.25" stroke="#10b981"/>
+    <text x="358" y="625">職人：部品だけ書く（sonnet / haiku）</text>
+    <rect x="590" y="614" width="12" height="12" rx="2" fill="#f3f4f6" stroke="#9ca3af"/>
+    <text x="608" y="625">ファイル</text>
+  </g>
+</svg>

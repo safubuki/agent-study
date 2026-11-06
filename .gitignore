@@ -1,5 +1,5 @@
 # page-director が作業中に使う一時フォルダ（実験スクリプトが終了時に output/ へ移動する）
-work/
+/work/
 
 # merge-parts.js を作るときの動作確認用（make-merge-script.md の指示で作られる）
-tmp-merge-test/
+/tmp-merge-test/

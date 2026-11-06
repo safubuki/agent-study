@@ -1,0 +1,196 @@
+<header class="site-header" id="site-header">
+  <nav class="site-nav" aria-label="メインナビゲーション">
+    <a class="site-logo" href="#hero">Taro Yamada</a>
+    <ul class="nav-list">
+      <li><a class="nav-link" href="#profile">Profile</a></li>
+      <li><a class="nav-link" href="#skills">Skills</a></li>
+      <li><a class="nav-link" href="#gallery">Gallery</a></li>
+      <li><a class="nav-link" href="#contact">Contact</a></li>
+    </ul>
+    <button class="theme-toggle" id="theme-toggle" type="button"
+            aria-label="ダークモードに切り替え" aria-pressed="false">
+      <span class="theme-toggle-icon" aria-hidden="true">☾</span>
+    </button>
+  </nav>
+</header>
+
+<main id="main">
+  <section class="section hero" id="hero">
+    <div class="section-inner hero-inner reveal">
+      <p class="hero-greeting">Hello, I'm</p>
+      <h1 class="hero-name">山田 太郎<span class="hero-kana">やまだ たろう</span></h1>
+      <p class="hero-title">週末フォトグラファー／社内エンジニア</p>
+      <p class="hero-tagline" aria-label="山頂で飲むコーヒーが一番おいしいと思っています">
+        <span class="typewriter" id="typewriter" aria-hidden="true"
+              data-text="山頂で飲むコーヒーが一番おいしいと思っています"></span><span class="typewriter-cursor" aria-hidden="true"></span>
+      </p>
+      <a class="hero-scroll" href="#profile">Scroll</a>
+    </div>
+  </section>
+
+  <section class="section profile" id="profile">
+    <div class="section-inner reveal">
+      <p class="section-label">About</p>
+      <h2 class="section-title">プロフィール</h2>
+      <div class="profile-body">
+        <div class="profile-text">
+          <p>山田 太郎です。平日は社内エンジニアとして、Python での業務効率化ツールの開発や、社内向け Web サイトの制作に取り組んでいます。地味な仕事ですが、「これ、助かります」と言ってもらえる瞬間がいちばんのやりがいです。</p>
+          <p>週末はカメラを担いで山へ向かいます。登山と写真という二つの趣味は、気づけばひとつにつながっていました。早朝の澄んだ空気、ゆっくり色を変えていく空、稜線に差し込む光。その一瞬を持ち帰りたくて、シャッターを切っています。</p>
+          <p>帰宅後は RAW 現像で、その日に見た景色にできるだけ近づける作業を楽しんでいます。山頂で飲むコーヒーが一番おいしいと思っているので、荷物にはいつも小さなバーナーとドリッパーが入っています。</p>
+        </div>
+        <div class="profile-stat">
+          <p class="stat-label">これまでに登った山</p>
+          <p class="stat-value"><span class="count-number" id="mountain-count" data-target="42">0</span><span class="count-unit">座</span></p>
+          <p class="stat-note">3,000m 級を含む</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section skills" id="skills">
+    <div class="section-inner reveal">
+      <p class="section-label">Skills</p>
+      <h2 class="section-title">得意なこと</h2>
+      <ul class="skill-list" id="skill-list">
+        <li class="skill-item">
+          <div class="skill-header">
+            <span class="skill-name">Python</span>
+            <span class="skill-value">85%</span>
+          </div>
+          <div class="skill-bar" role="progressbar" aria-label="Python" aria-valuemin="0" aria-valuemax="100" aria-valuenow="85">
+            <div class="skill-bar-fill" data-level="85"></div>
+          </div>
+        </li>
+        <li class="skill-item">
+          <div class="skill-header">
+            <span class="skill-name">Web 制作</span>
+            <span class="skill-value">75%</span>
+          </div>
+          <div class="skill-bar" role="progressbar" aria-label="Web 制作" aria-valuemin="0" aria-valuemax="100" aria-valuenow="75">
+            <div class="skill-bar-fill" data-level="75"></div>
+          </div>
+        </li>
+        <li class="skill-item">
+          <div class="skill-header">
+            <span class="skill-name">RAW 現像</span>
+            <span class="skill-value">80%</span>
+          </div>
+          <div class="skill-bar" role="progressbar" aria-label="RAW 現像" aria-valuemin="0" aria-valuemax="100" aria-valuenow="80">
+            <div class="skill-bar-fill" data-level="80"></div>
+          </div>
+        </li>
+        <li class="skill-item">
+          <div class="skill-header">
+            <span class="skill-name">山岳写真</span>
+            <span class="skill-value">90%</span>
+          </div>
+          <div class="skill-bar" role="progressbar" aria-label="山岳写真" aria-valuemin="0" aria-valuemax="100" aria-valuenow="90">
+            <div class="skill-bar-fill" data-level="90"></div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section gallery" id="gallery">
+    <div class="section-inner reveal">
+      <p class="section-label">Gallery</p>
+      <h2 class="section-title">好きな山</h2>
+      <p class="section-lead">カードをクリックすると大きく表示します。</p>
+      <ul class="gallery-grid">
+        <li>
+          <button class="gallery-card" type="button" data-mountain="1"
+                  data-desc="夜明け前に山頂へ立ち、藍色から薄紅色に染まっていく空を眺めました。雪をかぶった端正な姿は、何度見ても息をのむ美しさです。" aria-haspopup="dialog">
+            <span class="gallery-art mountain-1" aria-hidden="true"></span>
+            <span class="gallery-caption">
+              <span class="gallery-name">富士山</span>
+              <span class="gallery-meta">3,776m ／ 静岡・山梨</span>
+            </span>
+          </button>
+        </li>
+        <li>
+          <button class="gallery-card" type="button" data-mountain="2"
+                  data-desc="日本第2位の高峰で、澄んだ青空と濃い緑の稜線が印象的でした。長い登りのあとに広がる大展望に、疲れも吹き飛びました。" aria-haspopup="dialog">
+            <span class="gallery-art mountain-2" aria-hidden="true"></span>
+            <span class="gallery-caption">
+              <span class="gallery-name">北岳</span>
+              <span class="gallery-meta">3,193m ／ 山梨</span>
+            </span>
+          </button>
+        </li>
+        <li>
+          <button class="gallery-card" type="button" data-mountain="3"
+                  data-desc="夕焼けの橙色の空に、尖った穂先が黒いシルエットとなって浮かび上がりました。ハシゴを登りきった先の山頂は、忘れられない景色です。" aria-haspopup="dialog">
+            <span class="gallery-art mountain-3" aria-hidden="true"></span>
+            <span class="gallery-caption">
+              <span class="gallery-name">槍ヶ岳</span>
+              <span class="gallery-meta">3,180m ／ 長野・岐阜</span>
+            </span>
+          </button>
+        </li>
+        <li>
+          <button class="gallery-card" type="button" data-mountain="4"
+                  data-desc="灰青色の岩稜が霧の中に幾重にも重なり、静かで凛とした空気が漂っていました。ガスが流れる一瞬を狙ってシャッターを切りました。" aria-haspopup="dialog">
+            <span class="gallery-art mountain-4" aria-hidden="true"></span>
+            <span class="gallery-caption">
+              <span class="gallery-name">奥穂高岳</span>
+              <span class="gallery-meta">3,190m ／ 長野・岐阜</span>
+            </span>
+          </button>
+        </li>
+        <li>
+          <button class="gallery-card" type="button" data-mountain="5"
+                  data-desc="残雪の白と若草色のコントラストが美しく、明るい空の下を気持ちよく歩けました。のんびり景色を眺めながら飲んだコーヒーの味が思い出です。" aria-haspopup="dialog">
+            <span class="gallery-art mountain-5" aria-hidden="true"></span>
+            <span class="gallery-caption">
+              <span class="gallery-name">立山</span>
+              <span class="gallery-meta">3,015m ／ 富山</span>
+            </span>
+          </button>
+        </li>
+        <li>
+          <button class="gallery-card" type="button" data-mountain="6"
+                  data-desc="秋の紅葉が赤茶色から金色へと山肌を染め、薄青の空によく映えていました。紅葉の盛りに合わせて登ったかいがありました。" aria-haspopup="dialog">
+            <span class="gallery-art mountain-6" aria-hidden="true"></span>
+            <span class="gallery-caption">
+              <span class="gallery-name">赤岳</span>
+              <span class="gallery-meta">2,899m ／ 長野・山梨</span>
+            </span>
+          </button>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section contact" id="contact">
+    <div class="section-inner reveal">
+      <p class="section-label">Contact</p>
+      <h2 class="section-title">連絡先</h2>
+      <p class="section-lead">撮影や登山のお誘い、お気軽にどうぞ。</p>
+      <ul class="contact-list">
+        <li><a class="contact-link" href="mailto:taro.yamada@example.com"><span class="contact-kind">Mail</span><span class="contact-value">taro.yamada@example.com</span></a></li>
+        <li><a class="contact-link" href="https://example.com/x/taro_yamada" target="_blank" rel="noopener noreferrer"><span class="contact-kind">X</span><span class="contact-value">@taro_yamada</span></a></li>
+        <li><a class="contact-link" href="https://example.com/instagram/taro.mountain" target="_blank" rel="noopener noreferrer"><span class="contact-kind">Instagram</span><span class="contact-value">@taro.mountain</span></a></li>
+        <li><a class="contact-link" href="https://example.com/github/taro-yamada" target="_blank" rel="noopener noreferrer"><span class="contact-kind">GitHub</span><span class="contact-value">taro-yamada</span></a></li>
+      </ul>
+    </div>
+  </section>
+</main>
+
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true"
+     aria-labelledby="lightbox-title" hidden>
+  <div class="lightbox-backdrop" data-close></div>
+  <div class="lightbox-content">
+    <button class="lightbox-close" id="lightbox-close" type="button" aria-label="閉じる" data-close>×</button>
+    <div class="lightbox-art" id="lightbox-art" aria-hidden="true"></div>
+    <div class="lightbox-text">
+      <h3 class="lightbox-title" id="lightbox-title"></h3>
+      <p class="lightbox-meta" id="lightbox-meta"></p>
+      <p class="lightbox-desc" id="lightbox-desc"></p>
+    </div>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <p class="footer-text"><small>&copy; 2026 Taro Yamada</small></p>
+</footer>

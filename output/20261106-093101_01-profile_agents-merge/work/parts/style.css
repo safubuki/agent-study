@@ -1,0 +1,1059 @@
+/* ==========================================================
+   山田 太郎 自己紹介ページ  style.css
+   配色: :root = ライト / [data-theme="dark"] = ダーク
+   ========================================================== */
+
+/* ---------- 1. カスタムプロパティ ---------- */
+:root {
+  --color-bg: #f4efe4;
+  --color-surface: #fbf8f1;
+  --color-text: #1f2a24;
+  --color-muted: #6b7068;
+  --color-primary: #1f4d3a;
+  --color-accent: #b8894a;
+  --color-border: rgba(31, 77, 58, 0.15);
+
+  /* 補助変数（このファイル内だけで使用） */
+  --header-bg: rgba(244, 239, 228, 0.72);
+  --header-bg-scrolled: rgba(244, 239, 228, 0.94);
+  --shadow-soft: 0 10px 30px rgba(31, 77, 58, 0.14);
+  --shadow-header: 0 4px 18px rgba(31, 42, 36, 0.12);
+  --backdrop: rgba(10, 18, 14, 0.72);
+
+  --font-body: "Hiragino Sans", "Yu Gothic UI", "Yu Gothic", "Meiryo", system-ui, sans-serif;
+  --font-serif: "Hiragino Mincho ProN", "Yu Mincho", "YuMincho", serif;
+
+  --header-h: 64px;
+  --ease-theme: 0.3s ease;
+}
+
+[data-theme="dark"] {
+  --color-bg: #121a16;
+  --color-surface: #1b2620;
+  --color-text: #e9e4d8;
+  --color-muted: #9aa59d;
+  --color-primary: #7fb89a;
+  --color-accent: #d4a866;
+  --color-border: rgba(233, 228, 216, 0.12);
+
+  --header-bg: rgba(18, 26, 22, 0.72);
+  --header-bg-scrolled: rgba(18, 26, 22, 0.94);
+  --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.45);
+  --shadow-header: 0 4px 18px rgba(0, 0, 0, 0.5);
+  --backdrop: rgba(0, 0, 0, 0.82);
+}
+
+/* ---------- 2. ベース ---------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.9;
+  overflow-x: hidden;
+  transition: background-color var(--ease-theme), color var(--ease-theme);
+}
+
+body.is-locked {
+  overflow: hidden;
+}
+
+h1,
+h2,
+h3,
+p,
+ul {
+  margin: 0;
+  padding: 0;
+}
+
+ul {
+  list-style: none;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+}
+
+main {
+  display: block;
+}
+
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+}
+
+/* ---------- 3. レイアウト共通 ---------- */
+.container {
+  width: 100%;
+  max-width: 960px;
+  margin: 0 auto;
+  padding-left: 24px;
+  padding-right: 24px;
+}
+
+.section {
+  padding: 120px 0;
+  scroll-margin-top: var(--header-h);
+  transition: background-color var(--ease-theme);
+}
+
+.skills,
+.contact {
+  background: var(--color-surface);
+}
+
+.section-label {
+  margin-bottom: 12px;
+  font-family: var(--font-serif);
+  font-size: 0.8rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  line-height: 1.4;
+  color: var(--color-accent);
+}
+
+.section-title {
+  position: relative;
+  margin-bottom: 56px;
+  padding-bottom: 20px;
+  font-family: var(--font-serif);
+  font-size: clamp(1.7rem, 4.5vw, 2.4rem);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  line-height: 1.4;
+  color: var(--color-text);
+}
+
+.section-title::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 48px;
+  height: 2px;
+  background: var(--color-accent);
+}
+
+/* ---------- 4. ヘッダー / ナビ ---------- */
+.site-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  width: 100%;
+  background: var(--header-bg);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid transparent;
+  transition: background-color var(--ease-theme), box-shadow var(--ease-theme),
+    border-color var(--ease-theme);
+}
+
+.site-header.is-scrolled {
+  background: var(--header-bg-scrolled);
+  border-bottom-color: var(--color-border);
+  box-shadow: var(--shadow-header);
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  max-width: 960px;
+  min-height: var(--header-h);
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.nav-logo {
+  flex-shrink: 0;
+  font-family: var(--font-serif);
+  font-size: 1.1rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  color: var(--color-primary);
+  white-space: nowrap;
+  transition: color var(--ease-theme);
+}
+
+.nav-list {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  margin-left: auto;
+  min-width: 0;
+}
+
+.nav-link {
+  position: relative;
+  display: inline-block;
+  padding: 4px 0;
+  font-size: 0.9rem;
+  letter-spacing: 0.08em;
+  line-height: 1.6;
+  color: var(--color-muted);
+  white-space: nowrap;
+  transition: color 0.25s ease;
+}
+
+.nav-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -2px;
+  height: 2px;
+  background: var(--color-accent);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.3s ease;
+}
+
+.nav-link:hover {
+  color: var(--color-primary);
+}
+
+.nav-link.is-active {
+  color: var(--color-primary);
+}
+
+.nav-link.is-active::after {
+  transform: scaleX(1);
+}
+
+.theme-toggle {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: 1px solid var(--color-border);
+  border-radius: 50%;
+  background: var(--color-surface);
+  cursor: pointer;
+  transition: background-color var(--ease-theme), border-color var(--ease-theme),
+    transform 0.2s ease;
+}
+
+.theme-toggle:hover {
+  border-color: var(--color-accent);
+  transform: rotate(12deg);
+}
+
+.theme-toggle-icon {
+  font-size: 1.1rem;
+  line-height: 1;
+}
+
+/* ---------- 5. ヒーロー ---------- */
+.hero {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  min-height: 100svh;
+  padding: 96px 0 0;
+  overflow: hidden;
+  text-align: center;
+  color: #f4efe4;
+  background:
+    radial-gradient(ellipse at 50% 30%, rgba(184, 137, 74, 0.18), transparent 60%),
+    linear-gradient(180deg, #0f211a 0%, #1a4030 50%, #2c6350 100%);
+}
+
+/* 奥の稜線 */
+.hero::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 38%;
+  background: linear-gradient(180deg, rgba(10, 30, 22, 0.55), rgba(10, 30, 22, 0.85));
+  clip-path: polygon(0 62%, 8% 48%, 17% 58%, 28% 26%, 37% 46%, 46% 34%, 57% 56%,
+    68% 22%, 79% 48%, 88% 38%, 100% 58%, 100% 100%, 0 100%);
+  pointer-events: none;
+}
+
+/* 手前の稜線（次のセクションの背景色と同化） */
+.hero::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 16%;
+  background: var(--color-bg);
+  clip-path: polygon(0 66%, 14% 44%, 27% 62%, 42% 30%, 55% 56%, 70% 36%, 84% 58%,
+    100% 40%, 100% 100%, 0 100%);
+  pointer-events: none;
+  transition: background-color var(--ease-theme);
+}
+
+.hero-inner {
+  position: relative;
+  z-index: 1;
+  padding-bottom: clamp(96px, 20vh, 180px);
+}
+
+.hero-kana {
+  margin-bottom: 8px;
+  font-family: var(--font-serif);
+  font-size: 0.95rem;
+  letter-spacing: 0.4em;
+  color: #d4a866;
+}
+
+.hero-name {
+  margin: 0 0 16px;
+  font-family: var(--font-serif);
+  font-size: clamp(2.6rem, 11vw, 5.5rem);
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  line-height: 1.2;
+  overflow-wrap: anywhere;
+}
+
+.hero-title {
+  margin-bottom: 36px;
+  font-family: var(--font-serif);
+  font-size: clamp(0.95rem, 3.4vw, 1.2rem);
+  letter-spacing: 0.15em;
+  color: rgba(244, 239, 228, 0.85);
+}
+
+.hero-quote {
+  min-height: 2em;
+  font-family: var(--font-serif);
+  font-size: clamp(0.9rem, 3.4vw, 1.1rem);
+  letter-spacing: 0.08em;
+  color: rgba(244, 239, 228, 0.92);
+  overflow-wrap: anywhere;
+}
+
+.typewriter-cursor {
+  display: inline-block;
+  margin-left: 2px;
+  color: #d4a866;
+  animation: cursor-blink 1s steps(1, end) infinite;
+}
+
+@keyframes cursor-blink {
+  0%,
+  50% {
+    opacity: 1;
+  }
+  50.01%,
+  100% {
+    opacity: 0;
+  }
+}
+
+.hero-scroll {
+  position: relative;
+  display: inline-block;
+  margin-top: 48px;
+  padding-bottom: 44px;
+  font-family: var(--font-serif);
+  font-size: 0.75rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: rgba(244, 239, 228, 0.85);
+}
+
+.hero-scroll::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  width: 1px;
+  height: 36px;
+  background: linear-gradient(180deg, #d4a866, transparent);
+  transform-origin: top center;
+  animation: scroll-line 2s ease-in-out infinite;
+}
+
+@keyframes scroll-line {
+  0% {
+    transform: scaleY(0);
+    opacity: 0;
+  }
+  40% {
+    transform: scaleY(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scaleY(1);
+    opacity: 0;
+  }
+}
+
+/* ---------- 6. スクロール出現 ---------- */
+.reveal {
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1),
+    background-color var(--ease-theme);
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* ---------- 7. プロフィール ---------- */
+.profile-body {
+  display: grid;
+  grid-template-columns: 1.6fr 1fr;
+  gap: 64px;
+  align-items: center;
+}
+
+.profile-text p {
+  font-size: 1.02rem;
+  line-height: 2.1;
+  letter-spacing: 0.04em;
+}
+
+.profile-text p + p {
+  margin-top: 1.2em;
+}
+
+.profile-stat {
+  padding: 40px 24px;
+  text-align: center;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 16px;
+  box-shadow: var(--shadow-soft);
+  transition: background-color var(--ease-theme), border-color var(--ease-theme);
+}
+
+.stat-number {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 6px;
+  font-family: var(--font-serif);
+  font-size: clamp(4rem, 12vw, 5rem);
+  font-weight: 600;
+  line-height: 1.1;
+  color: var(--color-primary);
+}
+
+.counter {
+  font-variant-numeric: tabular-nums;
+}
+
+.stat-unit {
+  font-size: 0.4em;
+  letter-spacing: 0.1em;
+  color: var(--color-accent);
+}
+
+.stat-caption {
+  margin-top: 12px;
+  font-size: 0.88rem;
+  line-height: 1.7;
+  color: var(--color-muted);
+}
+
+/* ---------- 8. スキル ---------- */
+.skill-list {
+  display: grid;
+  gap: 32px;
+  max-width: 720px;
+}
+
+.skill-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 10px;
+}
+
+.skill-name {
+  font-family: var(--font-serif);
+  font-size: 1.05rem;
+  letter-spacing: 0.08em;
+}
+
+.skill-percent {
+  font-family: var(--font-serif);
+  font-size: 0.95rem;
+  color: var(--color-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.skill-bar {
+  height: 8px;
+  overflow: hidden;
+  background: var(--color-border);
+  border-radius: 999px;
+}
+
+.skill-bar-fill {
+  display: block;
+  width: 0;
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--color-primary), var(--color-accent));
+  transition: width 1.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+/* ---------- 9. ギャラリー ---------- */
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.gallery-grid > li {
+  min-width: 0;
+}
+
+.gallery-card {
+  display: block;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  text-align: left;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 14px;
+  box-shadow: 0 2px 8px rgba(31, 77, 58, 0.06);
+  transition: transform 0.3s ease, box-shadow 0.3s ease,
+    background-color var(--ease-theme), border-color var(--ease-theme);
+}
+
+.gallery-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-soft);
+}
+
+.gallery-card:focus-visible {
+  outline: 3px solid var(--color-accent);
+  outline-offset: 3px;
+}
+
+.card-caption {
+  display: block;
+  padding: 16px 18px 18px;
+}
+
+.card-title {
+  display: block;
+  font-family: var(--font-serif);
+  font-size: 1.1rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  line-height: 1.5;
+  color: var(--color-text);
+}
+
+.card-meta {
+  display: block;
+  margin-top: 2px;
+  font-size: 0.8rem;
+  letter-spacing: 0.04em;
+  line-height: 1.6;
+  color: var(--color-muted);
+}
+
+/* --- 山のアート（カードとライトボックス共通） --- */
+.card-art,
+.lightbox-art {
+  position: relative;
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background: var(--sky, #9db8a8);
+}
+
+.card-art::before,
+.card-art::after,
+.lightbox-art::before,
+.lightbox-art::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+}
+
+/* 奥の山 */
+.card-art::before,
+.lightbox-art::before {
+  height: 100%;
+  background: var(--far, #4b6b5a);
+  clip-path: var(--far-clip, polygon(0 60%, 50% 30%, 100% 60%, 100% 100%, 0 100%));
+}
+
+/* 手前の山 */
+.card-art::after,
+.lightbox-art::after {
+  height: 100%;
+  background: var(--near, #264636);
+  clip-path: var(--near-clip, polygon(0 80%, 50% 68%, 100% 80%, 100% 100%, 0 100%));
+}
+
+.gallery-card .card-art {
+  transition: transform 0.6s ease;
+}
+
+.gallery-card:hover .card-art {
+  transform: scale(1.04);
+}
+
+/* 1: 朝焼け（淡いピンク〜橙の空、濃緑の稜線） */
+.mountain-1 .card-art,
+.lightbox-art.mountain-1 {
+  --sky:
+    radial-gradient(circle at 72% 60%, #fff3d0 0, rgba(255, 220, 160, 0.9) 7%, rgba(255, 190, 130, 0) 34%),
+    linear-gradient(180deg, #f6c4cc 0%, #fbd2b4 52%, #f5a766 100%);
+  --far: linear-gradient(180deg, #5f7f66 0%, #2f5a46 100%);
+  --far-clip: polygon(0 62%, 10% 50%, 22% 58%, 36% 32%, 48% 52%, 62% 40%, 76% 60%,
+    90% 46%, 100% 56%, 100% 100%, 0 100%);
+  --near: linear-gradient(180deg, #1f4d3a 0%, #12301f 100%);
+  --near-clip: polygon(0 80%, 16% 70%, 34% 80%, 54% 66%, 72% 78%, 88% 68%, 100% 76%,
+    100% 100%, 0 100%);
+}
+
+/* 2: 青空と鋭い岩峰（青〜灰） */
+.mountain-2 .card-art,
+.lightbox-art.mountain-2 {
+  --sky: linear-gradient(180deg, #2f78c0 0%, #6fa8d8 55%, #c4dbec 100%);
+  --far: linear-gradient(180deg, #f3f6f9 0%, #a3b0bc 20%, #5f6d7b 60%, #46535f 100%);
+  --far-clip: polygon(0 74%, 18% 62%, 32% 54%, 42% 36%, 48% 8%, 51% 6%, 55% 30%,
+    60% 50%, 72% 58%, 86% 52%, 100% 66%, 100% 100%, 0 100%);
+  --near: linear-gradient(180deg, #3b4752 0%, #232c34 100%);
+  --near-clip: polygon(0 84%, 22% 76%, 40% 84%, 62% 74%, 82% 82%, 100% 76%,
+    100% 100%, 0 100%);
+}
+
+/* 3: 夏の緑（若草〜深緑） */
+.mountain-3 .card-art,
+.lightbox-art.mountain-3 {
+  --sky: linear-gradient(180deg, #bfe3ee 0%, #e2f1cf 70%, #f1f6d4 100%);
+  --far: linear-gradient(180deg, #a2cf7c 0%, #5f9c4d 100%);
+  --far-clip: polygon(0 60%, 8% 52%, 20% 44%, 32% 46%, 44% 36%, 56% 40%, 68% 34%,
+    80% 42%, 92% 50%, 100% 54%, 100% 100%, 0 100%);
+  --near: linear-gradient(180deg, #3f8040 0%, #1c5434 100%);
+  --near-clip: polygon(0 74%, 12% 70%, 28% 76%, 46% 68%, 64% 76%, 82% 70%, 100% 74%,
+    100% 100%, 0 100%);
+}
+
+/* 4: 夕暮れ（紫〜金） */
+.mountain-4 .card-art,
+.lightbox-art.mountain-4 {
+  --sky:
+    radial-gradient(circle at 28% 68%, #fff0b0 0, rgba(255, 214, 120, 0.85) 6%, rgba(255, 190, 90, 0) 32%),
+    linear-gradient(180deg, #3a2a6a 0%, #8b4f9d 42%, #e8a45c 80%, #f6d27c 100%);
+  --far: linear-gradient(180deg, #6d4690 0%, #3c2858 100%);
+  --far-clip: polygon(0 60%, 14% 50%, 30% 38%, 42% 30%, 52% 36%, 64% 28%, 78% 46%,
+    90% 52%, 100% 48%, 100% 100%, 0 100%);
+  --near: linear-gradient(180deg, #2a1a45 0%, #120a22 100%);
+  --near-clip: polygon(0 78%, 20% 70%, 38% 78%, 58% 68%, 78% 76%, 100% 70%,
+    100% 100%, 0 100%);
+}
+
+/* 5: 紅葉（赤〜橙〜茶） */
+.mountain-5 .card-art,
+.lightbox-art.mountain-5 {
+  --sky: linear-gradient(180deg, #f6dcb8 0%, #f2c18a 60%, #eca066 100%);
+  --far: linear-gradient(180deg, #d24b2b 0%, #e5872f 45%, #9a4220 100%);
+  --far-clip: polygon(0 68%, 12% 58%, 24% 38%, 32% 28%, 38% 40%, 45% 46%, 53% 30%,
+    60% 24%, 68% 42%, 80% 56%, 100% 52%, 100% 100%, 0 100%);
+  --near: linear-gradient(180deg, #8a3a1a 0%, #4a2412 100%);
+  --near-clip: polygon(0 82%, 18% 72%, 36% 80%, 56% 70%, 76% 80%, 100% 72%,
+    100% 100%, 0 100%);
+}
+
+/* 6: 雪山（白〜水色の空と夜明け前の藍） */
+.mountain-6 .card-art,
+.lightbox-art.mountain-6 {
+  --sky: linear-gradient(180deg, #1b2a5e 0%, #5273b0 45%, #bcd8ee 80%, #e6f2fa 100%);
+  --far: linear-gradient(180deg, #ffffff 0%, #d2e4f2 45%, #8ea9c9 100%);
+  --far-clip: polygon(0 66%, 10% 54%, 20% 42%, 28% 22%, 34% 14%, 42% 32%, 50% 40%,
+    60% 26%, 68% 18%, 76% 38%, 88% 52%, 100% 58%, 100% 100%, 0 100%);
+  --near: linear-gradient(180deg, #dcebf6 0%, #6d89b0 100%);
+  --near-clip: polygon(0 82%, 20% 74%, 40% 82%, 60% 72%, 80% 80%, 100% 74%,
+    100% 100%, 0 100%);
+}
+
+/* ---------- 10. 連絡先 ---------- */
+.contact-lead {
+  margin-bottom: 32px;
+  font-family: var(--font-serif);
+  font-size: 1.1rem;
+  letter-spacing: 0.08em;
+}
+
+.contact-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.contact-list > li {
+  min-width: 0;
+}
+
+.contact-link {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  height: 100%;
+  padding: 20px 24px;
+  font-family: var(--font-serif);
+  font-size: 1.05rem;
+  letter-spacing: 0.1em;
+  color: var(--color-primary);
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease,
+    background-color var(--ease-theme), color var(--ease-theme);
+}
+
+.contact-link:hover {
+  transform: translateY(-3px);
+  border-color: var(--color-accent);
+  box-shadow: var(--shadow-soft);
+}
+
+.contact-sub {
+  display: block;
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  letter-spacing: 0.03em;
+  color: var(--color-muted);
+  overflow-wrap: anywhere;
+}
+
+/* ---------- 11. フッター ---------- */
+.site-footer {
+  padding: 32px 24px;
+  text-align: center;
+  font-size: 0.8rem;
+  letter-spacing: 0.1em;
+  color: var(--color-muted);
+  background: var(--color-bg);
+  border-top: 1px solid var(--color-border);
+  transition: background-color var(--ease-theme), color var(--ease-theme);
+}
+
+/* ---------- 12. ライトボックス ---------- */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.lightbox[hidden] {
+  display: none;
+}
+
+.lightbox.is-open {
+  opacity: 1;
+}
+
+.lightbox-backdrop {
+  position: absolute;
+  inset: 0;
+  background: var(--backdrop);
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+}
+
+.lightbox-content {
+  position: relative;
+  width: 100%;
+  max-width: 640px;
+  max-height: 100%;
+  overflow-y: auto;
+  padding: 0 0 28px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 16px;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.4);
+  transform: scale(0.9);
+  transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.lightbox.is-open .lightbox-content {
+  transform: scale(1);
+}
+
+.lightbox-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  font-size: 1.6rem;
+  line-height: 1;
+  color: #fff;
+  cursor: pointer;
+  background: rgba(15, 25, 20, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 50%;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.lightbox-close:hover {
+  background: rgba(15, 25, 20, 0.85);
+  transform: rotate(90deg);
+}
+
+.lightbox-art {
+  aspect-ratio: 16 / 10;
+  border-radius: 16px 16px 0 0;
+}
+
+.lightbox-title {
+  margin: 24px 28px 8px;
+  font-family: var(--font-serif);
+  font-size: 1.5rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  line-height: 1.4;
+  color: var(--color-primary);
+}
+
+.lightbox-desc {
+  margin: 0 28px;
+  color: var(--color-text);
+  line-height: 1.9;
+}
+
+/* ---------- 13. レスポンシブ ---------- */
+@media (max-width: 768px) {
+  .section {
+    padding: 88px 0;
+  }
+
+  .gallery-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+
+  .profile-body {
+    gap: 40px;
+  }
+}
+
+@media (max-width: 640px) {
+  .profile-body {
+    grid-template-columns: 1fr;
+  }
+
+  .contact-list {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  :root {
+    --header-h: 56px;
+  }
+
+  .container {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .section {
+    padding: 72px 0;
+  }
+
+  .section-title {
+    margin-bottom: 40px;
+  }
+
+  .nav {
+    gap: 8px;
+    padding: 0 12px;
+  }
+
+  .nav-logo {
+    font-size: 0.82rem;
+    letter-spacing: 0.04em;
+  }
+
+  .nav-list {
+    gap: 10px;
+  }
+
+  .nav-link {
+    font-size: 0.8rem;
+    letter-spacing: 0.02em;
+  }
+
+  .theme-toggle {
+    width: 34px;
+    height: 34px;
+  }
+
+  .theme-toggle-icon {
+    font-size: 0.95rem;
+  }
+
+  .gallery-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .profile-stat {
+    padding: 32px 16px;
+  }
+
+  .stat-number {
+    font-size: 4rem;
+  }
+
+  .contact-link {
+    padding: 16px 18px;
+  }
+
+  .lightbox {
+    padding: 12px;
+  }
+
+  .lightbox-title {
+    margin: 20px 20px 6px;
+    font-size: 1.3rem;
+  }
+
+  .lightbox-desc {
+    margin: 0 20px;
+  }
+
+  .hero-kana {
+    letter-spacing: 0.3em;
+  }
+}
+
+/* 極小幅：ナビを2段にして崩れを防ぐ */
+@media (max-width: 380px) {
+  :root {
+    --header-h: 84px;
+  }
+
+  .nav {
+    flex-wrap: wrap;
+    justify-content: space-between;
+    row-gap: 2px;
+    padding-top: 6px;
+    padding-bottom: 6px;
+    min-height: 0;
+  }
+
+  .nav-logo {
+    order: 1;
+  }
+
+  .theme-toggle {
+    order: 2;
+  }
+
+  .nav-list {
+    order: 3;
+    flex: 1 0 100%;
+    justify-content: space-between;
+    gap: 6px;
+    margin-left: 0;
+  }
+}
+
+/* ---------- 14. 動きを減らす設定 ---------- */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    transition-delay: 0ms !important;
+  }
+
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
+
+  .typewriter-cursor {
+    animation: none;
+    opacity: 1;
+  }
+
+  .hero-scroll::after {
+    animation: none;
+    transform: none;
+    opacity: 1;
+  }
+
+  .gallery-card:hover,
+  .contact-link:hover,
+  .theme-toggle:hover,
+  .lightbox-close:hover {
+    transform: none;
+  }
+
+  .gallery-card:hover .card-art {
+    transform: none;
+  }
+
+  .lightbox-content,
+  .lightbox.is-open .lightbox-content {
+    transform: none;
+  }
+}

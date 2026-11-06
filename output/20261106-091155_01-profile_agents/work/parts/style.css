@@ -1,0 +1,1019 @@
+/* ==========================================================
+   山田 太郎 自己紹介ページ  style.css
+   - 外部フォント・外部画像・@import 不使用
+   - :root = ライト / [data-theme="dark"] = ダーク
+   - ブレークポイント: 768px / 480px
+   ========================================================== */
+
+/* ---------- カスタムプロパティ ---------- */
+:root {
+  --color-bg: #f4efe4;
+  --color-surface: #fbf8f1;
+  --color-text: #2a2f2a;
+  --color-muted: #6b6f63;
+  --color-primary: #2f4f3a;
+  --color-primary-strong: #1e3528;
+  --color-accent: #b08a52;
+  --color-border: rgba(47, 79, 58, .15);
+  --shadow: 0 10px 30px rgba(30, 53, 40, .10);
+
+  /* 補助（配色表の派生値） */
+  --header-bg: rgba(244, 239, 228, .72);
+  --header-bg-scrolled: rgba(244, 239, 228, .94);
+  --hero-bottom: #e7e1d0;
+  --hero-glow: rgba(176, 138, 82, .24);
+  --hero-ridge-far: rgba(47, 79, 58, .10);
+  --hero-ridge-near: rgba(47, 79, 58, .20);
+
+  --font-heading: "Hiragino Mincho ProN", "Yu Mincho", "YuMincho", serif;
+  --font-body: "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Yu Gothic", "YuGothic", "Meiryo", sans-serif;
+
+  --header-height: 64px;
+  color-scheme: light;
+}
+
+[data-theme="dark"] {
+  --color-bg: #121a15;
+  --color-surface: #1b2720;
+  --color-text: #ebe5d6;
+  --color-muted: #a5a99c;
+  --color-primary: #8db597;
+  --color-primary-strong: #b5d4bc;
+  --color-accent: #d4b47e;
+  --color-border: rgba(235, 229, 214, .12);
+  --shadow: 0 10px 30px rgba(0, 0, 0, .40);
+
+  --header-bg: rgba(18, 26, 21, .72);
+  --header-bg-scrolled: rgba(18, 26, 21, .94);
+  --hero-bottom: #17231c;
+  --hero-glow: rgba(212, 180, 126, .12);
+  --hero-ridge-far: rgba(141, 181, 151, .08);
+  --hero-ridge-near: rgba(141, 181, 151, .15);
+
+  color-scheme: dark;
+}
+
+/* ---------- ベース ---------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 64px;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.8;
+  overflow-x: hidden;
+  transition: background-color .3s ease, color .3s ease;
+}
+
+body.is-locked {
+  overflow: hidden;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+p,
+h1,
+h2,
+h3 {
+  margin: 0;
+}
+
+a {
+  color: var(--color-primary);
+  text-decoration: none;
+  transition: color .3s ease;
+}
+
+a:hover {
+  color: var(--color-primary-strong);
+}
+
+button {
+  font: inherit;
+  color: inherit;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+}
+
+/* ---------- ヘッダー ---------- */
+.site-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  height: 64px;
+  background-color: var(--header-bg);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid transparent;
+  transition: background-color .3s ease, box-shadow .3s ease, border-color .3s ease;
+}
+
+.site-header.is-scrolled {
+  background-color: var(--header-bg-scrolled);
+  border-bottom-color: var(--color-border);
+  box-shadow: var(--shadow);
+}
+
+.site-nav {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  max-width: 1040px;
+  height: 100%;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.site-logo,
+.nav-link {
+  font-family: var(--font-body);
+  font-size: .8rem;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+}
+
+.site-logo {
+  flex-shrink: 0;
+  color: var(--color-primary);
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.nav-list {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  min-width: 0;
+  margin-left: auto;
+}
+
+.nav-link {
+  display: block;
+  padding: 6px 0;
+  color: var(--color-muted);
+  white-space: nowrap;
+  border-bottom: 1px solid transparent;
+  transition: color .3s ease, border-color .3s ease;
+}
+
+.nav-link:hover {
+  color: var(--color-primary-strong);
+}
+
+.nav-link.is-active {
+  color: var(--color-primary);
+  border-bottom-color: var(--color-accent);
+}
+
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  background: transparent;
+  border: 1px solid var(--color-border);
+  border-radius: 50%;
+  color: var(--color-primary);
+  cursor: pointer;
+  transition: background-color .3s ease, color .3s ease, border-color .3s ease, transform .3s ease;
+}
+
+.theme-toggle:hover {
+  background-color: var(--color-border);
+  color: var(--color-primary-strong);
+  transform: rotate(12deg);
+}
+
+.theme-toggle[aria-pressed="true"] {
+  color: var(--color-accent);
+}
+
+.theme-toggle-icon {
+  font-size: 1.15rem;
+  line-height: 1;
+}
+
+/* ---------- セクション共通 ---------- */
+.section {
+  padding: 120px 0;
+}
+
+.section-inner {
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.section-label {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+  color: var(--color-accent);
+  font-family: var(--font-body);
+  font-size: .8rem;
+  font-weight: 700;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+}
+
+.section-label::before {
+  content: "";
+  flex-shrink: 0;
+  width: 32px;
+  height: 1px;
+  background-color: var(--color-accent);
+}
+
+.section-title {
+  margin-bottom: 48px;
+  color: var(--color-primary);
+  font-family: var(--font-heading);
+  font-size: clamp(1.7rem, 4vw, 2.3rem);
+  font-weight: 700;
+  line-height: 1.4;
+  letter-spacing: .06em;
+}
+
+.section-lead {
+  margin: -24px 0 40px;
+  color: var(--color-muted);
+}
+
+/* ふわっと表示（JS 有効時のみ非表示にする） */
+.js .reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity .8s ease, transform .8s ease;
+}
+
+.js .reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* ---------- ヒーロー ---------- */
+.hero {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-height: 100vh;
+  min-height: 100svh;
+  padding: 96px 0 120px;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse at 75% 28%, var(--hero-glow), transparent 60%),
+    linear-gradient(180deg, var(--color-bg) 0%, var(--hero-bottom) 100%);
+  transition: background-color .3s ease;
+}
+
+.hero::before,
+.hero::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+}
+
+.hero::before {
+  height: 52%;
+  background: var(--hero-ridge-far);
+  clip-path: polygon(0 62%, 9% 44%, 18% 56%, 31% 22%, 40% 42%, 52% 8%, 63% 40%, 72% 28%, 84% 52%, 92% 38%, 100% 50%, 100% 100%, 0 100%);
+}
+
+.hero::after {
+  height: 32%;
+  background: var(--hero-ridge-near);
+  clip-path: polygon(0 55%, 14% 30%, 26% 52%, 41% 18%, 55% 50%, 68% 26%, 82% 56%, 93% 36%, 100% 52%, 100% 100%, 0 100%);
+}
+
+.hero-inner {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+}
+
+.hero-greeting {
+  margin-bottom: 8px;
+  color: var(--color-accent);
+  font-family: var(--font-body);
+  font-size: .9rem;
+  font-weight: 700;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+}
+
+.hero-name {
+  color: var(--color-primary);
+  font-family: var(--font-heading);
+  font-size: clamp(2.4rem, 7vw, 4.5rem);
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: .06em;
+}
+
+.hero-kana {
+  display: block;
+  margin-top: 8px;
+  color: var(--color-muted);
+  font-family: var(--font-body);
+  font-size: clamp(.8rem, 2vw, 1rem);
+  font-weight: 400;
+  letter-spacing: .35em;
+}
+
+.hero-title {
+  margin-top: 24px;
+  font-size: clamp(1rem, 2.6vw, 1.25rem);
+  letter-spacing: .12em;
+}
+
+.hero-tagline {
+  min-height: 1.8em;
+  margin-top: 28px;
+  padding-left: 16px;
+  border-left: 2px solid var(--color-accent);
+  color: var(--color-muted);
+  font-size: clamp(.95rem, 2.2vw, 1.1rem);
+  letter-spacing: .06em;
+}
+
+.typewriter {
+  display: inline;
+}
+
+.typewriter-cursor {
+  display: inline-block;
+  width: 2px;
+  height: 1.15em;
+  margin-left: 3px;
+  background-color: var(--color-accent);
+  vertical-align: text-bottom;
+  animation: cursor-blink 1s steps(1, end) infinite;
+}
+
+.typewriter.is-done + .typewriter-cursor {
+  animation-duration: 1.2s;
+}
+
+.hero-scroll {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  margin-top: 56px;
+  color: var(--color-muted);
+  font-size: .75rem;
+  letter-spacing: .3em;
+  text-transform: uppercase;
+}
+
+.hero-scroll::after {
+  content: "";
+  width: 1px;
+  height: 48px;
+  background-color: var(--color-accent);
+  transform-origin: top;
+  animation: scroll-line 2.2s ease-in-out infinite;
+}
+
+@keyframes cursor-blink {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+
+@keyframes scroll-line {
+  0% { transform: scaleY(0); opacity: 1; }
+  60% { transform: scaleY(1); opacity: 1; }
+  100% { transform: scaleY(1); opacity: 0; }
+}
+
+/* ---------- プロフィール ---------- */
+.profile {
+  background-color: var(--color-surface);
+  border-top: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
+  transition: background-color .3s ease;
+}
+
+.profile-body {
+  display: grid;
+  grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+  gap: 56px;
+  align-items: center;
+}
+
+.profile-text p {
+  line-height: 2;
+}
+
+.profile-text p + p {
+  margin-top: 1.2em;
+}
+
+.profile-stat {
+  padding: 40px 24px;
+  background-color: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-top: 3px solid var(--color-accent);
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+  text-align: center;
+  transition: background-color .3s ease, border-color .3s ease, box-shadow .3s ease;
+}
+
+.stat-label {
+  color: var(--color-muted);
+  font-size: .95rem;
+  letter-spacing: .1em;
+}
+
+.stat-value {
+  margin: 8px 0 4px;
+  color: var(--color-primary);
+  font-family: var(--font-heading);
+  line-height: 1.2;
+}
+
+.count-number {
+  font-size: clamp(3.5rem, 12vw, 5.5rem);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.count-unit {
+  margin-left: 6px;
+  font-size: 1.4rem;
+}
+
+.stat-note {
+  color: var(--color-muted);
+  font-size: .85rem;
+}
+
+/* ---------- スキル ---------- */
+.skill-list {
+  max-width: 720px;
+}
+
+.skill-item + .skill-item {
+  margin-top: 28px;
+}
+
+.skill-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 8px;
+}
+
+.skill-name {
+  font-weight: 700;
+  letter-spacing: .06em;
+}
+
+.skill-value {
+  color: var(--color-muted);
+  font-size: .9rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.skill-bar {
+  height: 8px;
+  background-color: var(--color-border);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.skill-bar-fill {
+  width: 0;
+  height: 100%;
+  background: linear-gradient(90deg, var(--color-primary), var(--color-accent));
+  border-radius: 999px;
+  transition: width 1.2s ease-out;
+}
+
+/* ---------- ギャラリー ---------- */
+.gallery {
+  background-color: var(--color-surface);
+  border-top: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
+  transition: background-color .3s ease;
+}
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+}
+
+.gallery-card {
+  display: block;
+  width: 100%;
+  padding: 0;
+  background-color: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  text-align: left;
+  cursor: pointer;
+  transition: transform .3s ease, box-shadow .3s ease, background-color .3s ease, border-color .3s ease;
+}
+
+.gallery-card:hover,
+.gallery-card:focus-visible {
+  transform: translateY(-6px);
+  border-color: var(--color-accent);
+  box-shadow: 0 16px 36px rgba(30, 53, 40, .20);
+}
+
+.gallery-art {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+}
+
+.gallery-caption {
+  display: block;
+  padding: 16px 18px 18px;
+}
+
+.gallery-name {
+  display: block;
+  color: var(--color-text);
+  font-family: var(--font-heading);
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: .06em;
+}
+
+.gallery-meta {
+  display: block;
+  margin-top: 2px;
+  color: var(--color-muted);
+  font-size: .85rem;
+}
+
+/* ---------- 山の絵（.gallery-art / .lightbox-art 共通） ----------
+   変数：--far-* = 奥の稜線（::before） / --near-* = 手前の稜線（::after） */
+.mountain-1,
+.mountain-2,
+.mountain-3,
+.mountain-4,
+.mountain-5,
+.mountain-6 {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.mountain-1::before,
+.mountain-2::before,
+.mountain-3::before,
+.mountain-4::before,
+.mountain-5::before,
+.mountain-6::before,
+.mountain-1::after,
+.mountain-2::after,
+.mountain-3::after,
+.mountain-4::after,
+.mountain-5::after,
+.mountain-6::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.mountain-1::before,
+.mountain-2::before,
+.mountain-3::before,
+.mountain-4::before,
+.mountain-5::before,
+.mountain-6::before {
+  height: var(--far-h);
+  background: var(--far-bg);
+  clip-path: var(--far-shape);
+}
+
+.mountain-1::after,
+.mountain-2::after,
+.mountain-3::after,
+.mountain-4::after,
+.mountain-5::after,
+.mountain-6::after {
+  height: var(--near-h);
+  background: var(--near-bg);
+  clip-path: var(--near-shape);
+}
+
+/* 1 富士山：夜明け（藍→薄紅の空、雪をかぶった山） */
+.mountain-1 {
+  background:
+    radial-gradient(ellipse 70% 45% at 50% 100%, rgba(255, 220, 196, .85), transparent 70%),
+    linear-gradient(180deg, #1d2860 0%, #4a4f94 38%, #c78aa6 72%, #f4c6c0 100%);
+  --far-h: 74%;
+  --far-bg: linear-gradient(180deg, #ffffff 0, #fdfcff 20%, #dfe2f0 30%, #5a639a 38%, #333b6e 70%, #232a58 100%);
+  --far-shape: polygon(0 100%, 20% 66%, 38% 28%, 46% 11%, 50% 7%, 54% 11%, 62% 28%, 80% 66%, 100% 100%);
+  --near-h: 26%;
+  --near-bg: linear-gradient(180deg, #2a3162, #181d42);
+  --near-shape: polygon(0 100%, 0 58%, 14% 40%, 30% 66%, 48% 46%, 66% 70%, 84% 42%, 100% 60%, 100% 100%);
+}
+
+/* 2 北岳：澄んだ青空と濃緑の稜線 */
+.mountain-2 {
+  background:
+    radial-gradient(ellipse 30% 14% at 24% 24%, rgba(255, 255, 255, .8), transparent 70%),
+    radial-gradient(ellipse 22% 10% at 74% 36%, rgba(255, 255, 255, .65), transparent 70%),
+    linear-gradient(180deg, #3f95e3 0%, #8ac6f2 55%, #d6eefc 100%);
+  --far-h: 68%;
+  --far-bg: linear-gradient(180deg, #5b9577, #3b7656 55%, #2d6048 100%);
+  --far-shape: polygon(0 100%, 0 62%, 14% 48%, 30% 30%, 44% 6%, 54% 26%, 68% 38%, 84% 52%, 100% 44%, 100% 100%);
+  --near-h: 38%;
+  --near-bg: linear-gradient(180deg, #2a5a40, #163a29);
+  --near-shape: polygon(0 100%, 0 46%, 18% 30%, 38% 56%, 58% 28%, 78% 50%, 100% 34%, 100% 100%);
+}
+
+/* 3 槍ヶ岳：夕焼けの橙、尖った黒いシルエット */
+.mountain-3 {
+  background:
+    radial-gradient(circle at 70% 62%, rgba(255, 232, 160, .95) 0, rgba(255, 190, 90, .5) 14%, transparent 42%),
+    linear-gradient(180deg, #3a2a52 0%, #a8444a 38%, #e5712f 68%, #f8b04e 100%);
+  --far-h: 82%;
+  --far-bg: linear-gradient(180deg, #1c1513, #0f0b0a);
+  --far-shape: polygon(0 100%, 0 78%, 16% 66%, 30% 58%, 39% 40%, 46% 16%, 50% 2%, 54% 18%, 59% 44%, 70% 62%, 84% 70%, 100% 62%, 100% 100%);
+  --near-h: 24%;
+  --near-bg: #070504;
+  --near-shape: polygon(0 100%, 0 52%, 18% 36%, 36% 62%, 56% 40%, 76% 64%, 92% 44%, 100% 56%, 100% 100%);
+}
+
+/* 4 奥穂高岳：灰青の岩稜、霧がかった重なり */
+.mountain-4 {
+  background:
+    radial-gradient(ellipse 80% 30% at 50% 70%, rgba(236, 240, 244, .75), transparent 75%),
+    linear-gradient(180deg, #96a6b6 0%, #c4cfd8 60%, #e1e7ec 100%);
+  --far-h: 72%;
+  --far-bg: linear-gradient(180deg, #8394a6 0%, #a6b3c0 100%);
+  --far-shape: polygon(0 100%, 0 54%, 10% 38%, 20% 46%, 30% 18%, 38% 30%, 48% 4%, 58% 28%, 68% 16%, 80% 40%, 90% 30%, 100% 46%, 100% 100%);
+  --near-h: 46%;
+  --near-bg: linear-gradient(180deg, rgba(214, 222, 229, .75) 0, #6a7d91 45%, #46586b 100%);
+  --near-shape: polygon(0 100%, 0 40%, 12% 28%, 24% 46%, 36% 14%, 48% 40%, 62% 20%, 76% 44%, 88% 26%, 100% 42%, 100% 100%);
+}
+
+/* 5 立山：残雪の白と若草色、明るい空 */
+.mountain-5 {
+  background:
+    radial-gradient(ellipse 28% 12% at 70% 22%, rgba(255, 255, 255, .85), transparent 70%),
+    linear-gradient(180deg, #7fc7f4 0%, #bfe6fa 60%, #eaf8ff 100%);
+  --far-h: 66%;
+  --far-bg: linear-gradient(180deg, #ffffff 0, #f3f7fa 34%, #cfe0b8 52%, #a6c874 78%, #8db55c 100%);
+  --far-shape: polygon(0 100%, 0 56%, 16% 36%, 30% 18%, 40% 22%, 52% 4%, 66% 24%, 80% 34%, 92% 46%, 100% 40%, 100% 100%);
+  --near-h: 34%;
+  --near-bg: linear-gradient(180deg, #9cc96a, #6e9f3f);
+  --near-shape: polygon(0 100%, 0 48%, 20% 34%, 42% 58%, 64% 32%, 84% 52%, 100% 38%, 100% 100%);
+}
+
+/* 6 赤岳：秋の紅葉色（赤茶〜金）の山肌と薄青の空 */
+.mountain-6 {
+  background:
+    radial-gradient(ellipse 26% 12% at 26% 26%, rgba(255, 255, 255, .7), transparent 70%),
+    linear-gradient(180deg, #86bde6 0%, #bddcf0 60%, #e4f0f7 100%);
+  --far-h: 72%;
+  --far-bg: linear-gradient(180deg, #b8382a 0%, #d2692a 42%, #e0a43e 80%, #e9c264 100%);
+  --far-shape: polygon(0 100%, 0 60%, 14% 44%, 28% 30%, 40% 12%, 48% 4%, 56% 16%, 70% 34%, 84% 48%, 100% 40%, 100% 100%);
+  --near-h: 36%;
+  --near-bg: linear-gradient(180deg, #a5502a 0%, #7d3a1f 100%);
+  --near-shape: polygon(0 100%, 0 46%, 16% 32%, 34% 54%, 54% 28%, 74% 52%, 90% 36%, 100% 46%, 100% 100%);
+}
+
+/* ---------- ライトボックス ---------- */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  opacity: 0;
+  transition: opacity .25s ease;
+}
+
+.lightbox[hidden] {
+  display: none;
+}
+
+.lightbox.is-open {
+  opacity: 1;
+}
+
+.lightbox-backdrop {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(8, 12, 10, .76);
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+}
+
+.lightbox-content {
+  position: relative;
+  width: 100%;
+  max-width: 880px;
+  max-height: calc(100vh - 48px);
+  max-height: calc(100svh - 48px);
+  overflow-y: auto;
+  background-color: var(--color-surface);
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+  border-radius: 14px;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, .45);
+  transform: scale(.96);
+  transition: transform .25s ease;
+}
+
+.lightbox.is-open .lightbox-content {
+  transform: scale(1);
+}
+
+.lightbox-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  background-color: rgba(10, 15, 12, .55);
+  border: 1px solid rgba(255, 255, 255, .35);
+  border-radius: 50%;
+  color: #ffffff;
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: background-color .2s ease, transform .2s ease;
+}
+
+.lightbox-close:hover {
+  background-color: rgba(10, 15, 12, .85);
+  transform: scale(1.08);
+}
+
+.lightbox-art {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+}
+
+.lightbox-text {
+  padding: 24px 28px 32px;
+}
+
+.lightbox-title {
+  color: var(--color-primary);
+  font-family: var(--font-heading);
+  font-size: clamp(1.4rem, 4vw, 1.8rem);
+  font-weight: 700;
+  letter-spacing: .06em;
+  line-height: 1.4;
+}
+
+.lightbox-meta {
+  margin-top: 4px;
+  color: var(--color-accent);
+  font-size: .9rem;
+  letter-spacing: .08em;
+}
+
+.lightbox-desc {
+  margin-top: 16px;
+  line-height: 1.9;
+}
+
+/* ---------- 連絡先 ---------- */
+.contact-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.contact-link {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  height: 100%;
+  padding: 20px 24px;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+  transition: transform .3s ease, border-color .3s ease, background-color .3s ease, color .3s ease;
+}
+
+.contact-link:hover,
+.contact-link:focus-visible {
+  transform: translateY(-3px);
+  border-color: var(--color-accent);
+}
+
+.contact-kind {
+  color: var(--color-accent);
+  font-size: .75rem;
+  font-weight: 700;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+}
+
+.contact-value {
+  color: var(--color-primary);
+  font-size: 1.05rem;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.contact-link:hover .contact-value {
+  color: var(--color-primary-strong);
+}
+
+/* ---------- フッター ---------- */
+.site-footer {
+  padding: 40px 24px;
+  background-color: var(--color-surface);
+  border-top: 1px solid var(--color-border);
+  text-align: center;
+  transition: background-color .3s ease;
+}
+
+.footer-text {
+  color: var(--color-muted);
+  font-size: .85rem;
+  letter-spacing: .08em;
+}
+
+/* ==========================================================
+   レスポンシブ
+   ========================================================== */
+@media (max-width: 768px) {
+  .site-nav {
+    gap: 16px;
+  }
+
+  .nav-list {
+    gap: 18px;
+  }
+
+  .profile-body {
+    gap: 40px;
+  }
+
+  .gallery-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .site-nav {
+    gap: 10px;
+    padding: 0 16px;
+  }
+
+  .site-logo {
+    font-size: .68rem;
+    letter-spacing: .1em;
+  }
+
+  .nav-list {
+    gap: 14px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  .nav-list::-webkit-scrollbar {
+    display: none;
+  }
+
+  .nav-link {
+    font-size: .65rem;
+    letter-spacing: .1em;
+  }
+
+  .theme-toggle {
+    width: 36px;
+    height: 36px;
+  }
+
+  .section {
+    padding: 72px 0;
+  }
+
+  .section-inner {
+    padding: 0 16px;
+  }
+
+  .section-title {
+    margin-bottom: 32px;
+  }
+
+  .section-lead {
+    margin: -16px 0 28px;
+  }
+
+  .hero {
+    padding: 88px 0 72px;
+  }
+
+  .hero-tagline {
+    min-height: 3.6em;
+    padding-left: 12px;
+  }
+
+  .hero-scroll {
+    margin-top: 40px;
+  }
+
+  .profile-body {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 32px;
+  }
+
+  .profile-stat {
+    padding: 32px 16px;
+  }
+
+  .gallery-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 16px;
+  }
+
+  .lightbox {
+    padding: 16px;
+  }
+
+  .lightbox-content {
+    max-height: calc(100vh - 32px);
+    max-height: calc(100svh - 32px);
+  }
+
+  .lightbox-text {
+    padding: 20px 20px 24px;
+  }
+
+  .contact-list {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .contact-link {
+    padding: 16px 18px;
+  }
+}
+
+/* ==========================================================
+   モーション低減
+   ========================================================== */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}

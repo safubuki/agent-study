@@ -1,0 +1,172 @@
+<header class="site-header" id="site-header">
+  <nav class="nav" aria-label="ページ内ナビゲーション">
+    <a class="nav-logo" href="#hero">Taro Yamada</a>
+    <ul class="nav-list">
+      <li><a class="nav-link" href="#profile">Profile</a></li>
+      <li><a class="nav-link" href="#skills">Skills</a></li>
+      <li><a class="nav-link" href="#gallery">Gallery</a></li>
+      <li><a class="nav-link" href="#contact">Contact</a></li>
+    </ul>
+    <button class="theme-toggle" id="theme-toggle" type="button" aria-label="ダークモードに切り替え" aria-pressed="false">
+      <span class="theme-toggle-icon" aria-hidden="true">🌙</span>
+    </button>
+  </nav>
+</header>
+
+<main>
+  <section class="section hero" id="hero">
+    <div class="container hero-inner">
+      <p class="hero-kana">やまだ たろう</p>
+      <h1 class="hero-name">山田 太郎</h1>
+      <p class="hero-title">週末フォトグラファー／社内エンジニア</p>
+      <p class="hero-quote">
+        <span class="typewriter" id="typewriter" data-text="山頂で飲むコーヒーが一番おいしいと思っています"></span><span class="typewriter-cursor" aria-hidden="true">|</span>
+      </p>
+      <a class="hero-scroll" href="#profile">Scroll</a>
+    </div>
+  </section>
+
+  <section class="section profile reveal" id="profile">
+    <div class="container">
+      <p class="section-label">01 — Profile</p>
+      <h2 class="section-title">プロフィール</h2>
+      <div class="profile-body">
+        <div class="profile-text">
+          <p>平日は社内エンジニアとして働き、週末はカメラを手に山へ向かう、登山と写真が趣味の山田太郎です。これまでに 3,000m 級を含む 42 座に登り、その景色を写真に残してきました。得意なのは Python、Web 制作、そして RAW 現像で、撮った一枚をじっくり仕上げる時間も楽しんでいます。</p>
+        </div>
+        <div class="profile-stat">
+          <p class="stat-number"><span class="counter" id="mountain-counter" data-target="42">0</span><span class="stat-unit">座</span></p>
+          <p class="stat-caption">これまでに登った山（3,000m 級を含む）</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section skills reveal" id="skills">
+    <div class="container">
+      <p class="section-label">02 — Skills</p>
+      <h2 class="section-title">スキル</h2>
+      <ul class="skill-list">
+        <li class="skill-item">
+          <div class="skill-head">
+            <span class="skill-name">Python</span>
+            <span class="skill-percent">85%</span>
+          </div>
+          <div class="skill-bar"><span class="skill-bar-fill" data-level="85"></span></div>
+        </li>
+        <li class="skill-item">
+          <div class="skill-head">
+            <span class="skill-name">Web 制作</span>
+            <span class="skill-percent">75%</span>
+          </div>
+          <div class="skill-bar"><span class="skill-bar-fill" data-level="75"></span></div>
+        </li>
+        <li class="skill-item">
+          <div class="skill-head">
+            <span class="skill-name">RAW 現像</span>
+            <span class="skill-percent">80%</span>
+          </div>
+          <div class="skill-bar"><span class="skill-bar-fill" data-level="80"></span></div>
+        </li>
+        <li class="skill-item">
+          <div class="skill-head">
+            <span class="skill-name">登山</span>
+            <span class="skill-percent">90%</span>
+          </div>
+          <div class="skill-bar"><span class="skill-bar-fill" data-level="90"></span></div>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section gallery reveal" id="gallery">
+    <div class="container">
+      <p class="section-label">03 — Gallery</p>
+      <h2 class="section-title">好きな山</h2>
+      <ul class="gallery-grid">
+        <li>
+          <button class="gallery-card mountain-1" type="button" data-title="北岳" data-desc="標高 3,193m。日本第二の高峰。夏の稜線はお花畑。">
+            <span class="card-art" aria-hidden="true"></span>
+            <span class="card-caption">
+              <span class="card-title">北岳</span>
+              <span class="card-meta">3,193m · 山梨県</span>
+            </span>
+          </button>
+        </li>
+        <li>
+          <button class="gallery-card mountain-2" type="button" data-title="槍ヶ岳" data-desc="標高 3,180m。天を突く穂先が目印。">
+            <span class="card-art" aria-hidden="true"></span>
+            <span class="card-caption">
+              <span class="card-title">槍ヶ岳</span>
+              <span class="card-meta">3,180m · 長野県/岐阜県</span>
+            </span>
+          </button>
+        </li>
+        <li>
+          <button class="gallery-card mountain-3" type="button" data-title="木曽駒ヶ岳" data-desc="標高 2,956m。千畳敷カールの景色が見事。">
+            <span class="card-art" aria-hidden="true"></span>
+            <span class="card-caption">
+              <span class="card-title">木曽駒ヶ岳</span>
+              <span class="card-meta">2,956m · 長野県</span>
+            </span>
+          </button>
+        </li>
+        <li>
+          <button class="gallery-card mountain-4" type="button" data-title="燕岳" data-desc="標高 2,763m。白い花崗岩と北アルプスの女王。">
+            <span class="card-art" aria-hidden="true"></span>
+            <span class="card-caption">
+              <span class="card-title">燕岳</span>
+              <span class="card-meta">2,763m · 長野県</span>
+            </span>
+          </button>
+        </li>
+        <li>
+          <button class="gallery-card mountain-5" type="button" data-title="谷川岳" data-desc="標高 1,977m。紅葉の季節が特に美しい。">
+            <span class="card-art" aria-hidden="true"></span>
+            <span class="card-caption">
+              <span class="card-title">谷川岳</span>
+              <span class="card-meta">1,977m · 群馬県/新潟県</span>
+            </span>
+          </button>
+        </li>
+        <li>
+          <button class="gallery-card mountain-6" type="button" data-title="八ヶ岳・赤岳" data-desc="標高 2,899m。冬の雪山登山で何度も通った山。">
+            <span class="card-art" aria-hidden="true"></span>
+            <span class="card-caption">
+              <span class="card-title">八ヶ岳・赤岳</span>
+              <span class="card-meta">2,899m · 長野県/山梨県</span>
+            </span>
+          </button>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section contact reveal" id="contact">
+    <div class="container">
+      <p class="section-label">04 — Contact</p>
+      <h2 class="section-title">連絡先</h2>
+      <p class="contact-lead">山や写真の話、お気軽にどうぞ。</p>
+      <ul class="contact-list">
+        <li><a class="contact-link" href="mailto:taro.yamada@example.com">Mail <span class="contact-sub">taro.yamada@example.com</span></a></li>
+        <li><a class="contact-link" href="#" data-dummy="true">Instagram <span class="contact-sub">@taro_yama_photo</span></a></li>
+        <li><a class="contact-link" href="#" data-dummy="true">X <span class="contact-sub">@taro_yamada</span></a></li>
+        <li><a class="contact-link" href="#" data-dummy="true">GitHub <span class="contact-sub">taro-yamada</span></a></li>
+      </ul>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <p>&copy; 2026 Taro Yamada</p>
+</footer>
+
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-labelledby="lightbox-title" hidden>
+  <div class="lightbox-backdrop" data-close="true"></div>
+  <div class="lightbox-content">
+    <button class="lightbox-close" id="lightbox-close" type="button" aria-label="閉じる" data-close="true">&times;</button>
+    <div class="lightbox-art" id="lightbox-art"></div>
+    <h3 class="lightbox-title" id="lightbox-title"></h3>
+    <p class="lightbox-desc" id="lightbox-desc"></p>
+  </div>
+</div>

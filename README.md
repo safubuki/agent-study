@@ -2,6 +2,7 @@
 
 このリポジトリは、サブエージェント（AI に仕事を分担させる仕組み）を学ぶための作業場です。
 読み物は [docs/](docs/)、構成パターンの見本は [samples/](samples/README.md) にあります。
+親子エージェントの定番パターン5つと、AI の進化で古くなる部分の整理は [docs/02_agent-patterns.md](docs/02_agent-patterns.md)（調査メモは [INFO/](INFO/README.md)）にあります。
 
 この README では、ルートに置いた**すぐ使えるエージェント**を使って、
 
@@ -40,6 +41,7 @@ agent-study/
 ├─ output/                  ← ★成果物の置き場（実行するたびにフォルダが増える）
 │   └─ summary.md           … 全実行の一覧表（自動で1行ずつ追記）
 ├─ docs/                    ← 読み物
+├─ INFO/                    ← docs/02 を書くために集めた出典メモ（1ファイル＝1出典、鮮度つき）
 └─ samples/                 ← 構成パターンの見本
 ```
 

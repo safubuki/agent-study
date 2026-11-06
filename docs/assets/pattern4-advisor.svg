@@ -1,0 +1,136 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 470" font-family="Meiryo, 'Yu Gothic UI', 'Noto Sans JP', sans-serif">
+  <defs>
+    <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#6b7280"/>
+    </marker>
+    <marker id="ahO" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#d97706"/>
+    </marker>
+    <style>
+      .h{font-size:14px;font-weight:700}
+      .b{font-size:12.5px;fill:#374151}
+      .s{font-size:11.5px;fill:#6b7280}
+    </style>
+  </defs>
+  <rect x="0.5" y="0.5" width="899" height="469" rx="14" fill="#ffffff" stroke="#e5e7eb"/>
+  <text x="30" y="42" font-size="20" font-weight="700" fill="#111827">④ 相談役（アドバイザー／スマートフレンド）</text>
+  <text x="30" y="64" class="s" font-size="13">小さいモデルが最初から最後まで進め、難所でだけ大きいモデルに相談する（ふつうの親子の逆）</text>
+
+  <rect x="30" y="84" width="250" height="256" rx="10" fill="#f9fafb" stroke="#e5e7eb"/>
+  <text x="155" y="106" text-anchor="middle" class="s">参考：ふつうの親子</text>
+  <rect x="55" y="120" width="200" height="50" rx="8" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="155" y="150" text-anchor="middle" class="b">大きいモデルが分解・指揮</text>
+  <g stroke="#9ca3af" stroke-width="1.4" marker-end="url(#ah)">
+    <line x1="120" y1="170" x2="90" y2="228"/><line x1="155" y1="170" x2="155" y2="228"/><line x1="190" y1="170" x2="220" y2="228"/>
+  </g>
+  <rect x="62" y="230" width="56" height="40" rx="6" fill="#d1fae5" stroke="#10b981"/>
+  <text x="90" y="255" text-anchor="middle" class="s">小</text>
+  <rect x="127" y="230" width="56" height="40" rx="6" fill="#d1fae5" stroke="#10b981"/>
+  <text x="155" y="255" text-anchor="middle" class="s">小</text>
+  <rect x="192" y="230" width="56" height="40" rx="6" fill="#d1fae5" stroke="#10b981"/>
+  <text x="220" y="255" text-anchor="middle" class="s">小</text>
+  <text x="155" y="300" text-anchor="middle" class="s">小さい子は言われた部分だけ</text>
+  <text x="155" y="320" text-anchor="middle" class="s">親が全体を握り続ける</text>
+
+  <rect x="660" y="90" width="210" height="84" rx="10" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/>
+  <text x="765" y="120" text-anchor="middle" class="h" fill="#b45309">相談役（Opus）</text>
+  <text x="765" y="143" text-anchor="middle" class="b">同じ文脈を読んで助言</text>
+  <text x="765" y="162" text-anchor="middle" class="s">ツールは使わない</text>
+
+  <rect x="330" y="200" width="280" height="84" rx="10" fill="#d1fae5" stroke="#10b981" stroke-width="2"/>
+  <text x="470" y="230" text-anchor="middle" class="h" fill="#047857">実行役（Sonnet / Haiku）</text>
+  <text x="470" y="252" text-anchor="middle" class="b">最初から最後まで自分で進める</text>
+  <text x="470" y="272" text-anchor="middle" class="s">ツールを使い、結果を見て繰り返す</text>
+
+  <path d="M560 200 C580 150 610 130 656 128" fill="none" stroke="#d97706" stroke-width="1.8" stroke-dasharray="6 4" marker-end="url(#ahO)"/>
+  <text x="520" y="150" class="b" style="fill:#b45309">難所だけ相談</text>
+  <path d="M720 174 C715 220 680 244 614 246" fill="none" stroke="#d97706" stroke-width="1.8" marker-end="url(#ahO)"/>
+  <text x="710" y="226" class="s" style="fill:#b45309">計画・修正・中止の合図</text>
+
+  <g stroke="#9ca3af" stroke-width="1.4">
+    <line x1="390" y1="284" x2="390" y2="310"/><line x1="470" y1="284" x2="470" y2="310"/><line x1="550" y1="284" x2="550" y2="310"/>
+  </g>
+  <rect x="350" y="310" width="80" height="30" rx="6" fill="#f3f4f6" stroke="#9ca3af"/>
+  <text x="390" y="330" text-anchor="middle" class="s">ファイル</text>
+  <rect x="430" y="310" width="80" height="30" rx="6" fill="#f3f4f6" stroke="#9ca3af"/>
+  <text x="470" y="330" text-anchor="middle" class="s">検索</text>
+  <rect x="510" y="310" width="80" height="30" rx="6" fill="#f3f4f6" stroke="#9ca3af"/>
+  <text x="550" y="330" text-anchor="middle" class="s">テスト</text>
+
+  <rect x="30" y="358" width="370" height="100" rx="10" fill="#f0fdf4" stroke="#bbf7d0"/>
+  <text x="48" y="382" class="h" fill="#15803d">得るもの</text>
+  <text x="48" y="406" class="b">・難所だけ賢いモデル：性能↑・コスト↓</text>
+  <text x="48" y="427" class="b">　（Sonnet＋Opus 相談：+2.7pt・−11.9%）</text>
+  <text x="48" y="448" class="b">・分解も指揮ロジックも要らず、作り込みが少ない</text>
+
+  <rect x="410" y="358" width="370" height="100" rx="10" fill="#fef2f2" stroke="#fecaca"/>
+  <text x="428" y="382" class="h" fill="#b91c1c">失うもの・注意点</text>
+  <text x="428" y="406" class="b">・いつ相談するかは実行役まかせ（弱いと聞けない）</text>
+  <text x="428" y="427" class="b">・並列化はしないので、速くはならない</text>
+  <text x="428" y="448" class="b">・2026-04 公開の新しい型。API はベータ</text>
+  <!-- 作者サイン：右下から図を見上げる亀（横向き） -->
+  <g transform="translate(794 404) scale(0.78)">
+  <g id="kame-mark" opacity="0.94">
+    <defs>
+      <linearGradient id="kameShell" x1="0.3" y1="0" x2="0.6" y2="1">
+        <stop offset="0" stop-color="#c9f1e0"/>
+        <stop offset="1" stop-color="#86d3b4"/>
+      </linearGradient>
+      <linearGradient id="kameScute" x1="0.3" y1="0" x2="0.6" y2="1">
+        <stop offset="0" stop-color="#ecfbf4"/>
+        <stop offset="1" stop-color="#b3e6d0"/>
+      </linearGradient>
+      <radialGradient id="kameSkin" cx="0.38" cy="0.32" r="0.8">
+        <stop offset="0" stop-color="#e6f7c2"/>
+        <stop offset="1" stop-color="#b3df86"/>
+      </radialGradient>
+      <linearGradient id="kameRim" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#fff1cf"/>
+        <stop offset="1" stop-color="#fbd79b"/>
+      </linearGradient>
+      <filter id="kameSoft" x="-20%" y="-50%" width="140%" height="200%"><feGaussianBlur stdDeviation="2.2"/></filter>
+      <filter id="kameGlow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="1.6"/></filter>
+      <clipPath id="kameDome"><path d="M34 58 C34 31 51 17 71 17 C92 17 108 32 108 58 Z"/></clipPath>
+    </defs>
+    <!-- soft ground shadow -->
+    <ellipse cx="68" cy="73" rx="44" ry="3.6" fill="#5b8f7b" opacity="0.22" filter="url(#kameSoft)"/>
+    <!-- far legs, tail -->
+    <ellipse cx="56" cy="66" rx="5.5" ry="6.5" fill="#a4d47a"/>
+    <ellipse cx="84" cy="66" rx="5.5" ry="6.5" fill="#a4d47a"/>
+    <path d="M106 57 C112 57 116 60 116 63 C112 64.5 107 63.5 104 61 Z" fill="url(#kameSkin)" stroke="#a2d27a" stroke-width="1.2" stroke-linejoin="round"/>
+    <!-- neck -->
+    <path d="M42 60 C36 58 30 54 26 47" fill="none" stroke="url(#kameSkin)" stroke-width="13" stroke-linecap="round"/>
+    <!-- near legs (chubby) -->
+    <rect x="37" y="57" width="13" height="15" rx="6.5" fill="url(#kameSkin)" stroke="#a2d27a" stroke-width="1.2"/>
+    <rect x="91" y="57" width="13" height="15" rx="6.5" fill="url(#kameSkin)" stroke="#a2d27a" stroke-width="1.2"/>
+    <!-- shell -->
+    <path d="M34 58 C34 31 51 17 71 17 C92 17 108 32 108 58 Z" fill="url(#kameShell)" stroke="#7fcaa9" stroke-width="1.4"/>
+    <g clip-path="url(#kameDome)" fill="url(#kameScute)" stroke="#a9e0c8" stroke-width="5" stroke-linejoin="round">
+      <path d="M60 27 L82 27 L88 38 L82 48 L60 48 L54 38 Z"/>
+      <path d="M31 60 L38 40 L49 34 L54 38 L60 48 L56 60 Z"/>
+      <path d="M111 60 L104 40 L93 34 L88 38 L82 48 L86 60 Z"/>
+      <path d="M60 48 L82 48 L86 60 L56 60 Z"/>
+    </g>
+    <ellipse cx="54" cy="29" rx="10" ry="4.5" fill="#ffffff" opacity="0.7" transform="rotate(-28 54 29)" filter="url(#kameGlow)"/>
+    <!-- rim -->
+    <rect x="30" y="54" width="82" height="9.5" rx="4.75" fill="url(#kameRim)" stroke="#f3c57e" stroke-width="1.2"/>
+    <g fill="#f6cf8f" opacity="0.8">
+      <circle cx="45" cy="58.8" r="1.2"/><circle cx="58" cy="58.8" r="1.2"/><circle cx="71" cy="58.8" r="1.2"/>
+      <circle cx="84" cy="58.8" r="1.2"/><circle cx="97" cy="58.8" r="1.2"/>
+    </g>
+    <!-- head: gazing up-left at the figure -->
+    <circle cx="23" cy="40" r="15.5" fill="url(#kameSkin)" stroke="#a2d27a" stroke-width="1.2"/>
+    <ellipse cx="20" cy="31" rx="6" ry="3" fill="#ffffff" opacity="0.6" transform="rotate(-20 20 31)" filter="url(#kameGlow)"/>
+    <ellipse cx="16.2" cy="38.5" rx="2.9" ry="3.6" fill="#3d3a4a"/>
+    <circle cx="15.3" cy="37.2" r="1.25" fill="#ffffff"/>
+    <circle cx="17" cy="40" r="0.55" fill="#ffffff" opacity="0.9"/>
+    <ellipse cx="24" cy="46" rx="4" ry="2.6" fill="#ffb3c1" opacity="0.75" filter="url(#kameGlow)"/>
+    <path d="M9.5 44.5 Q12.5 47.8 16 46" fill="none" stroke="#6f8f56" stroke-width="1.4" stroke-linecap="round"/>
+    <!-- toes -->
+    <g fill="#ffffff" opacity="0.65">
+      <circle cx="40.5" cy="69.6" r="1.1"/><circle cx="44" cy="70.2" r="1.1"/>
+      <circle cx="94.5" cy="69.6" r="1.1"/><circle cx="98" cy="70.2" r="1.1"/>
+    </g>
+  </g>
+  </g>
+</svg>

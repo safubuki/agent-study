@@ -1,0 +1,129 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 480" font-family="Meiryo, 'Yu Gothic UI', 'Noto Sans JP', sans-serif">
+  <defs>
+    <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#6b7280"/>
+    </marker>
+    <style>
+      .h{font-size:14px;font-weight:700}
+      .b{font-size:12.5px;fill:#374151}
+      .s{font-size:11.5px;fill:#6b7280}
+    </style>
+  </defs>
+  <rect x="0.5" y="0.5" width="899" height="479" rx="14" fill="#ffffff" stroke="#e5e7eb"/>
+  <text x="30" y="42" font-size="20" font-weight="700" fill="#111827">⑤ 受付と専門窓口（ルーティング／ハンドオフ）</text>
+  <text x="30" y="64" class="s" font-size="13">入口で依頼の種類を見分け、その分野だけの指示とツールを持つ担当に渡す</text>
+
+  <rect x="30" y="204" width="110" height="44" rx="8" fill="#ffffff" stroke="#9ca3af"/>
+  <text x="85" y="231" text-anchor="middle" class="b">ユーザー</text>
+  <line x1="140" y1="226" x2="178" y2="226" stroke="#6b7280" stroke-width="1.6" marker-end="url(#ah)"/>
+
+  <rect x="180" y="188" width="170" height="76" rx="10" fill="#ffedd5" stroke="#f97316" stroke-width="2"/>
+  <text x="265" y="219" text-anchor="middle" class="h" fill="#c2410c">受付（振り分け）</text>
+  <text x="265" y="242" text-anchor="middle" class="s">種類を見分けるだけ</text>
+
+  <g stroke="#6b7280" stroke-width="1.6" marker-end="url(#ah)">
+    <line x1="350" y1="212" x2="428" y2="128"/>
+    <line x1="350" y1="226" x2="428" y2="226"/>
+    <line x1="350" y1="240" x2="428" y2="322"/>
+  </g>
+  <rect x="430" y="96" width="190" height="60" rx="10" fill="#d1fae5" stroke="#10b981"/>
+  <text x="525" y="122" text-anchor="middle" class="h" fill="#047857">返品の窓口</text>
+  <text x="525" y="143" text-anchor="middle" class="s">専用の指示＋少数のツール</text>
+  <rect x="430" y="196" width="190" height="60" rx="10" fill="#d1fae5" stroke="#10b981"/>
+  <text x="525" y="222" text-anchor="middle" class="h" fill="#047857">技術サポート</text>
+  <text x="525" y="243" text-anchor="middle" class="s">専用の指示＋少数のツール</text>
+  <rect x="430" y="296" width="190" height="60" rx="10" fill="#d1fae5" stroke="#10b981"/>
+  <text x="525" y="322" text-anchor="middle" class="h" fill="#047857">見積もり・営業</text>
+  <text x="525" y="343" text-anchor="middle" class="s">専用の指示＋少数のツール</text>
+
+  <rect x="650" y="90" width="220" height="272" rx="10" fill="#f9fafb" stroke="#e5e7eb"/>
+  <text x="760" y="114" text-anchor="middle" class="h" fill="#111827">2つの渡し方</text>
+  <text x="668" y="142" class="b" font-weight="700" style="fill:#c2410c">ハンドオフ型</text>
+  <text x="668" y="162" class="s">会話ごと担当に引き継ぎ、</text>
+  <text x="668" y="180" class="s">担当がユーザーと直接話す</text>
+  <text x="668" y="198" class="s">（OpenAI 分散型・スウォーム）</text>
+  <text x="668" y="230" class="b" font-weight="700" style="fill:#6d28d9">マネージャー型</text>
+  <text x="668" y="250" class="s">受付が担当を道具として呼び、</text>
+  <text x="668" y="268" class="s">結果をまとめて自分が答える</text>
+  <text x="668" y="286" class="s">（言い換えによる劣化に注意）</text>
+  <line x1="668" y1="304" x2="852" y2="304" stroke="#e5e7eb"/>
+  <text x="668" y="326" class="s">規則で決まる振り分けなら</text>
+  <text x="668" y="344" class="s">LLM ではなくコードで書く</text>
+
+  <rect x="30" y="374" width="370" height="96" rx="10" fill="#f0fdf4" stroke="#bbf7d0"/>
+  <text x="48" y="398" class="h" fill="#15803d">得るもの</text>
+  <text x="48" y="421" class="b">・担当ごとの指示とツールが少なく、迷いにくい</text>
+  <text x="48" y="441" class="b">・関係ない道具が多いと単体が急落する問題を回避</text>
+  <text x="48" y="461" class="b">・担当ごとに安いモデル・権限を選べる</text>
+
+  <rect x="410" y="374" width="370" height="96" rx="10" fill="#fef2f2" stroke="#fecaca"/>
+  <text x="428" y="398" class="h" fill="#b91c1c">失うもの・注意点</text>
+  <text x="428" y="421" class="b">・振り分け違いがそのまま失敗になる</text>
+  <text x="428" y="441" class="b">・引き継ぎで文脈が落ちる／中継の言い換えで劣化</text>
+  <text x="428" y="461" class="b">・根拠の多くは 2025年（gpt-4o 世代）の計測</text>
+  <!-- 作者サイン：右下から図を見上げる亀（横向き） -->
+  <g transform="translate(794 414) scale(0.78)">
+  <g id="kame-mark" opacity="0.94">
+    <defs>
+      <linearGradient id="kameShell" x1="0.3" y1="0" x2="0.6" y2="1">
+        <stop offset="0" stop-color="#c9f1e0"/>
+        <stop offset="1" stop-color="#86d3b4"/>
+      </linearGradient>
+      <linearGradient id="kameScute" x1="0.3" y1="0" x2="0.6" y2="1">
+        <stop offset="0" stop-color="#ecfbf4"/>
+        <stop offset="1" stop-color="#b3e6d0"/>
+      </linearGradient>
+      <radialGradient id="kameSkin" cx="0.38" cy="0.32" r="0.8">
+        <stop offset="0" stop-color="#e6f7c2"/>
+        <stop offset="1" stop-color="#b3df86"/>
+      </radialGradient>
+      <linearGradient id="kameRim" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#fff1cf"/>
+        <stop offset="1" stop-color="#fbd79b"/>
+      </linearGradient>
+      <filter id="kameSoft" x="-20%" y="-50%" width="140%" height="200%"><feGaussianBlur stdDeviation="2.2"/></filter>
+      <filter id="kameGlow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="1.6"/></filter>
+      <clipPath id="kameDome"><path d="M34 58 C34 31 51 17 71 17 C92 17 108 32 108 58 Z"/></clipPath>
+    </defs>
+    <!-- soft ground shadow -->
+    <ellipse cx="68" cy="73" rx="44" ry="3.6" fill="#5b8f7b" opacity="0.22" filter="url(#kameSoft)"/>
+    <!-- far legs, tail -->
+    <ellipse cx="56" cy="66" rx="5.5" ry="6.5" fill="#a4d47a"/>
+    <ellipse cx="84" cy="66" rx="5.5" ry="6.5" fill="#a4d47a"/>
+    <path d="M106 57 C112 57 116 60 116 63 C112 64.5 107 63.5 104 61 Z" fill="url(#kameSkin)" stroke="#a2d27a" stroke-width="1.2" stroke-linejoin="round"/>
+    <!-- neck -->
+    <path d="M42 60 C36 58 30 54 26 47" fill="none" stroke="url(#kameSkin)" stroke-width="13" stroke-linecap="round"/>
+    <!-- near legs (chubby) -->
+    <rect x="37" y="57" width="13" height="15" rx="6.5" fill="url(#kameSkin)" stroke="#a2d27a" stroke-width="1.2"/>
+    <rect x="91" y="57" width="13" height="15" rx="6.5" fill="url(#kameSkin)" stroke="#a2d27a" stroke-width="1.2"/>
+    <!-- shell -->
+    <path d="M34 58 C34 31 51 17 71 17 C92 17 108 32 108 58 Z" fill="url(#kameShell)" stroke="#7fcaa9" stroke-width="1.4"/>
+    <g clip-path="url(#kameDome)" fill="url(#kameScute)" stroke="#a9e0c8" stroke-width="5" stroke-linejoin="round">
+      <path d="M60 27 L82 27 L88 38 L82 48 L60 48 L54 38 Z"/>
+      <path d="M31 60 L38 40 L49 34 L54 38 L60 48 L56 60 Z"/>
+      <path d="M111 60 L104 40 L93 34 L88 38 L82 48 L86 60 Z"/>
+      <path d="M60 48 L82 48 L86 60 L56 60 Z"/>
+    </g>
+    <ellipse cx="54" cy="29" rx="10" ry="4.5" fill="#ffffff" opacity="0.7" transform="rotate(-28 54 29)" filter="url(#kameGlow)"/>
+    <!-- rim -->
+    <rect x="30" y="54" width="82" height="9.5" rx="4.75" fill="url(#kameRim)" stroke="#f3c57e" stroke-width="1.2"/>
+    <g fill="#f6cf8f" opacity="0.8">
+      <circle cx="45" cy="58.8" r="1.2"/><circle cx="58" cy="58.8" r="1.2"/><circle cx="71" cy="58.8" r="1.2"/>
+      <circle cx="84" cy="58.8" r="1.2"/><circle cx="97" cy="58.8" r="1.2"/>
+    </g>
+    <!-- head: gazing up-left at the figure -->
+    <circle cx="23" cy="40" r="15.5" fill="url(#kameSkin)" stroke="#a2d27a" stroke-width="1.2"/>
+    <ellipse cx="20" cy="31" rx="6" ry="3" fill="#ffffff" opacity="0.6" transform="rotate(-20 20 31)" filter="url(#kameGlow)"/>
+    <ellipse cx="16.2" cy="38.5" rx="2.9" ry="3.6" fill="#3d3a4a"/>
+    <circle cx="15.3" cy="37.2" r="1.25" fill="#ffffff"/>
+    <circle cx="17" cy="40" r="0.55" fill="#ffffff" opacity="0.9"/>
+    <ellipse cx="24" cy="46" rx="4" ry="2.6" fill="#ffb3c1" opacity="0.75" filter="url(#kameGlow)"/>
+    <path d="M9.5 44.5 Q12.5 47.8 16 46" fill="none" stroke="#6f8f56" stroke-width="1.4" stroke-linecap="round"/>
+    <!-- toes -->
+    <g fill="#ffffff" opacity="0.65">
+      <circle cx="40.5" cy="69.6" r="1.1"/><circle cx="44" cy="70.2" r="1.1"/>
+      <circle cx="94.5" cy="69.6" r="1.1"/><circle cx="98" cy="70.2" r="1.1"/>
+    </g>
+  </g>
+  </g>
+</svg>

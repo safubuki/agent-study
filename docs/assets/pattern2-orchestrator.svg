@@ -1,0 +1,152 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 520" font-family="Meiryo, 'Yu Gothic UI', 'Noto Sans JP', sans-serif">
+  <defs>
+    <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#6b7280"/>
+    </marker>
+    <style>
+      .h{font-size:14px;font-weight:700}
+      .b{font-size:12.5px;fill:#374151}
+      .s{font-size:11.5px;fill:#6b7280}
+      .m{font-size:11.5px;fill:#374151;font-family:Consolas,'Courier New',monospace}
+    </style>
+  </defs>
+  <rect x="0.5" y="0.5" width="899" height="519" rx="14" fill="#ffffff" stroke="#e5e7eb"/>
+  <text x="30" y="42" font-size="20" font-weight="700" fill="#111827">② オーケストレーター・ワーカー（配って、まとめる）</text>
+  <text x="30" y="64" class="s" font-size="13">親が仕事を分けて子に並列で配り、成果はファイルに置かせ、最後の清書は1人で行う</text>
+
+  <g class="s" text-anchor="middle">
+    <text x="115" y="94">① 分解する</text>
+    <text x="345" y="94">② 並列に作業（主に調べる）</text>
+    <text x="555" y="94">③ 成果はファイルへ</text>
+    <text x="775" y="94">④ 書くのは1人</text>
+  </g>
+
+  <rect x="55" y="118" width="120" height="34" rx="8" fill="#ffffff" stroke="#9ca3af"/>
+  <text x="115" y="140" text-anchor="middle" class="b">ユーザー</text>
+  <line x1="115" y1="152" x2="115" y2="198" stroke="#6b7280" stroke-width="1.6" marker-end="url(#ah)"/>
+  <rect x="40" y="200" width="150" height="90" rx="10" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="115" y="230" text-anchor="middle" class="h" fill="#6d28d9">親</text>
+  <text x="115" y="253" text-anchor="middle" class="b">分解・計画</text>
+  <text x="115" y="273" text-anchor="middle" class="b">検品・判断</text>
+
+  <g stroke="#6b7280" stroke-width="1.5" marker-end="url(#ah)">
+    <line x1="190" y1="235" x2="258" y2="135"/>
+    <line x1="190" y1="240" x2="258" y2="191"/>
+    <line x1="190" y1="250" x2="258" y2="247"/>
+    <line x1="190" y1="260" x2="258" y2="303"/>
+  </g>
+  <g>
+    <rect x="260" y="112" width="170" height="46" rx="8" fill="#d1fae5" stroke="#10b981"/>
+    <text x="345" y="140" text-anchor="middle" class="b">子 1：観点 A を調べる</text>
+    <rect x="260" y="168" width="170" height="46" rx="8" fill="#d1fae5" stroke="#10b981"/>
+    <text x="345" y="196" text-anchor="middle" class="b">子 2：観点 B を調べる</text>
+    <rect x="260" y="224" width="170" height="46" rx="8" fill="#d1fae5" stroke="#10b981"/>
+    <text x="345" y="252" text-anchor="middle" class="b">子 3：観点 C を調べる</text>
+    <rect x="260" y="280" width="170" height="46" rx="8" fill="#d1fae5" stroke="#10b981"/>
+    <text x="345" y="308" text-anchor="middle" class="b">子 4：観点 D を調べる</text>
+  </g>
+
+  <g stroke="#6b7280" stroke-width="1.5" marker-end="url(#ah)">
+    <line x1="430" y1="135" x2="478" y2="180"/>
+    <line x1="430" y1="191" x2="478" y2="205"/>
+    <line x1="430" y1="247" x2="478" y2="235"/>
+    <line x1="430" y1="303" x2="478" y2="262"/>
+  </g>
+  <rect x="480" y="150" width="150" height="140" rx="8" fill="#f3f4f6" stroke="#9ca3af"/>
+  <text x="555" y="176" text-anchor="middle" class="h" fill="#374151">共有フォルダ</text>
+  <text x="555" y="202" text-anchor="middle" class="m">a.md</text>
+  <text x="555" y="222" text-anchor="middle" class="m">b.md</text>
+  <text x="555" y="242" text-anchor="middle" class="m">c.md</text>
+  <text x="555" y="262" text-anchor="middle" class="m">d.md</text>
+  <text x="555" y="310" text-anchor="middle" class="s">親には「置き場所」だけ返す</text>
+
+  <line x1="630" y1="222" x2="678" y2="222" stroke="#6b7280" stroke-width="1.6" marker-end="url(#ah)"/>
+  <rect x="680" y="182" width="190" height="80" rx="10" fill="#ede9fe" stroke="#8b5cf6" stroke-width="2"/>
+  <text x="775" y="212" text-anchor="middle" class="h" fill="#6d28d9">清書・統合は1人</text>
+  <text x="775" y="236" text-anchor="middle" class="b">親 または 専任の書き手</text>
+  <line x1="775" y1="262" x2="775" y2="288" stroke="#6b7280" stroke-width="1.6" marker-end="url(#ah)"/>
+  <rect x="715" y="290" width="120" height="36" rx="8" fill="#f3f4f6" stroke="#9ca3af"/>
+  <text x="775" y="313" text-anchor="middle" class="b">成果物</text>
+
+  <rect x="260" y="338" width="420" height="30" rx="8" fill="#ffffff" stroke="#c4b5fd" stroke-dasharray="5 4"/>
+  <text x="470" y="358" text-anchor="middle" class="s">大規模なら子の下に「サブプランナー」を置いて階層にする（Cursor 2026-01）</text>
+
+  <rect x="30" y="386" width="370" height="120" rx="10" fill="#f0fdf4" stroke="#bbf7d0"/>
+  <text x="48" y="410" class="h" fill="#15803d">得るもの</text>
+  <text x="48" y="434" class="b">・独立した調べものは大幅に速い（最大90%短縮）</text>
+  <text x="48" y="455" class="b">・分解できる仕事で単体比 +80.9%（Google）</text>
+  <text x="48" y="476" class="b">・親が関所になり、誤りの増幅を抑える</text>
+  <text x="48" y="497" class="b">　（連絡なし並列 17.2倍 → 親あり 4.4倍）</text>
+
+  <rect x="410" y="386" width="370" height="120" rx="10" fill="#fef2f2" stroke="#fecaca"/>
+  <text x="428" y="410" class="h" fill="#b91c1c">失うもの・注意点</text>
+  <text x="428" y="434" class="b">・トークンはチャットの約15倍（Anthropic）</text>
+  <text x="428" y="455" class="b">・全員そろうまで待つ／伝言ゲームで情報が落ちる</text>
+  <text x="428" y="476" class="b">・順番に積み上げる仕事では 39〜70% 悪化</text>
+  <text x="428" y="497" class="b">・子に並列で「書かせる」と判断が食い違う</text>
+  <!-- 作者サイン：右下から図を見上げる亀（横向き） -->
+  <g transform="translate(794 454) scale(0.78)">
+  <g id="kame-mark" opacity="0.94">
+    <defs>
+      <linearGradient id="kameShell" x1="0.3" y1="0" x2="0.6" y2="1">
+        <stop offset="0" stop-color="#c9f1e0"/>
+        <stop offset="1" stop-color="#86d3b4"/>
+      </linearGradient>
+      <linearGradient id="kameScute" x1="0.3" y1="0" x2="0.6" y2="1">
+        <stop offset="0" stop-color="#ecfbf4"/>
+        <stop offset="1" stop-color="#b3e6d0"/>
+      </linearGradient>
+      <radialGradient id="kameSkin" cx="0.38" cy="0.32" r="0.8">
+        <stop offset="0" stop-color="#e6f7c2"/>
+        <stop offset="1" stop-color="#b3df86"/>
+      </radialGradient>
+      <linearGradient id="kameRim" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#fff1cf"/>
+        <stop offset="1" stop-color="#fbd79b"/>
+      </linearGradient>
+      <filter id="kameSoft" x="-20%" y="-50%" width="140%" height="200%"><feGaussianBlur stdDeviation="2.2"/></filter>
+      <filter id="kameGlow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="1.6"/></filter>
+      <clipPath id="kameDome"><path d="M34 58 C34 31 51 17 71 17 C92 17 108 32 108 58 Z"/></clipPath>
+    </defs>
+    <!-- soft ground shadow -->
+    <ellipse cx="68" cy="73" rx="44" ry="3.6" fill="#5b8f7b" opacity="0.22" filter="url(#kameSoft)"/>
+    <!-- far legs, tail -->
+    <ellipse cx="56" cy="66" rx="5.5" ry="6.5" fill="#a4d47a"/>
+    <ellipse cx="84" cy="66" rx="5.5" ry="6.5" fill="#a4d47a"/>
+    <path d="M106 57 C112 57 116 60 116 63 C112 64.5 107 63.5 104 61 Z" fill="url(#kameSkin)" stroke="#a2d27a" stroke-width="1.2" stroke-linejoin="round"/>
+    <!-- neck -->
+    <path d="M42 60 C36 58 30 54 26 47" fill="none" stroke="url(#kameSkin)" stroke-width="13" stroke-linecap="round"/>
+    <!-- near legs (chubby) -->
+    <rect x="37" y="57" width="13" height="15" rx="6.5" fill="url(#kameSkin)" stroke="#a2d27a" stroke-width="1.2"/>
+    <rect x="91" y="57" width="13" height="15" rx="6.5" fill="url(#kameSkin)" stroke="#a2d27a" stroke-width="1.2"/>
+    <!-- shell -->
+    <path d="M34 58 C34 31 51 17 71 17 C92 17 108 32 108 58 Z" fill="url(#kameShell)" stroke="#7fcaa9" stroke-width="1.4"/>
+    <g clip-path="url(#kameDome)" fill="url(#kameScute)" stroke="#a9e0c8" stroke-width="5" stroke-linejoin="round">
+      <path d="M60 27 L82 27 L88 38 L82 48 L60 48 L54 38 Z"/>
+      <path d="M31 60 L38 40 L49 34 L54 38 L60 48 L56 60 Z"/>
+      <path d="M111 60 L104 40 L93 34 L88 38 L82 48 L86 60 Z"/>
+      <path d="M60 48 L82 48 L86 60 L56 60 Z"/>
+    </g>
+    <ellipse cx="54" cy="29" rx="10" ry="4.5" fill="#ffffff" opacity="0.7" transform="rotate(-28 54 29)" filter="url(#kameGlow)"/>
+    <!-- rim -->
+    <rect x="30" y="54" width="82" height="9.5" rx="4.75" fill="url(#kameRim)" stroke="#f3c57e" stroke-width="1.2"/>
+    <g fill="#f6cf8f" opacity="0.8">
+      <circle cx="45" cy="58.8" r="1.2"/><circle cx="58" cy="58.8" r="1.2"/><circle cx="71" cy="58.8" r="1.2"/>
+      <circle cx="84" cy="58.8" r="1.2"/><circle cx="97" cy="58.8" r="1.2"/>
+    </g>
+    <!-- head: gazing up-left at the figure -->
+    <circle cx="23" cy="40" r="15.5" fill="url(#kameSkin)" stroke="#a2d27a" stroke-width="1.2"/>
+    <ellipse cx="20" cy="31" rx="6" ry="3" fill="#ffffff" opacity="0.6" transform="rotate(-20 20 31)" filter="url(#kameGlow)"/>
+    <ellipse cx="16.2" cy="38.5" rx="2.9" ry="3.6" fill="#3d3a4a"/>
+    <circle cx="15.3" cy="37.2" r="1.25" fill="#ffffff"/>
+    <circle cx="17" cy="40" r="0.55" fill="#ffffff" opacity="0.9"/>
+    <ellipse cx="24" cy="46" rx="4" ry="2.6" fill="#ffb3c1" opacity="0.75" filter="url(#kameGlow)"/>
+    <path d="M9.5 44.5 Q12.5 47.8 16 46" fill="none" stroke="#6f8f56" stroke-width="1.4" stroke-linecap="round"/>
+    <!-- toes -->
+    <g fill="#ffffff" opacity="0.65">
+      <circle cx="40.5" cy="69.6" r="1.1"/><circle cx="44" cy="70.2" r="1.1"/>
+      <circle cx="94.5" cy="69.6" r="1.1"/><circle cx="98" cy="70.2" r="1.1"/>
+    </g>
+  </g>
+  </g>
+</svg>

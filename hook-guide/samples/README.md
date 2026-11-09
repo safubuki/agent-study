@@ -14,25 +14,7 @@
 | 04 | [ブランチ名・規約の自動注入](04-context-injection/) | `UserPromptSubmit` | 02 の 5章 | ○ | ○ |
 | 05 | [監査ログの記録と完了チャイム通知](05-audit-and-notify/) | `PostToolUse` / `Notification` | 02 の 6章 | ○ | ○ |
 
-```mermaid
-flowchart LR
-    subgraph p04["04 文脈注入"]
-        u["UserPromptSubmit"] --> i["ブランチ名・時刻を添付"]
-    end
-    subgraph p01["01 関所ガード"]
-        pre["PreToolUse"] --> b[".env・危険コマンド阻止"]
-    end
-    subgraph p02["02 事後チェック"]
-        post["PostToolUse"] --> f["自動整形・構文検査"]
-    end
-    subgraph p05["05 記録・通知"]
-        n["PostToolUse / Notification"] --> l["audit.jsonl ＆ 通知音"]
-    end
-    subgraph p03["03 完了ゲート"]
-        s["Stop"] --> v["合格するまで差し戻し"]
-    end
-    p04 --> p01 --> p02 --> p05 --> p03
-```
+![フックの定番5パターン早見表](../docs/assets/hook-patterns-5-cards.svg)
 
 ## フォルダの見方
 

@@ -14,24 +14,7 @@
 | 04 | [サブエージェント×専用 MCP](04-subagent-scoped/) | 特定のサブエージェントにだけ MCP サーバーを許可する | 01 の 5章、02 の 5章（パターン④） | ○ | ○ |
 | 05 | [Resources と Prompts も返すサーバー](05-resources-and-prompts/) | Tools だけでなく参考資料（Resources）と定型文（Prompts）も実装する | 00 の 2.1節 | ○ | ○ |
 
-```mermaid
-flowchart LR
-    subgraph s01["01 最小構成"]
-        a1["AI"] -->|"tools/call"| a2["サイコロ MCP"]
-    end
-    subgraph s02["02 知識ゲートウェイ"]
-        b1["AI"] -->|"キーワード検索"| b2["用語集 MCP"] --> b3[("glossary.json")]
-    end
-    subgraph s03["03 業務ファサード"]
-        c1["AI"] -->|"1回呼ぶだけ"| c2["見積・判定 MCP<br/>（内部で4段階処理）"]
-    end
-    subgraph s04["04 サブ×専用MCP"]
-        d0["親"] --> d1["専門サブ"] --> d2["専用 MCP"]
-    end
-    subgraph s05["05 3機能フル実装"]
-        e1["AI / ユーザー"] -->|"Tools / Resources / Prompts"| e2["フル機能 MCP"]
-    end
-```
+![MCP の実践5パターン早見表](../docs/assets/mcp-patterns-5-cards.svg)
 
 ## フォルダの見方
 

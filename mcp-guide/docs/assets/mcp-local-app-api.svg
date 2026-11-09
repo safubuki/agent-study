@@ -1,0 +1,150 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 540" font-family="Meiryo, 'Yu Gothic UI', 'Noto Sans JP', sans-serif">
+  <defs>
+    <marker id="ah-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#2563eb"/>
+    </marker>
+    <marker id="ah-purple" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#7c3aed"/>
+    </marker>
+    <style>
+      .h{font-size:13.5px;font-weight:700}
+      .b{font-size:11.5px;fill:#374151}
+      .s{font-size:11px;fill:#6b7280}
+    </style>
+  </defs>
+  <rect x="0.5" y="0.5" width="899" height="539" rx="14" fill="#ffffff" stroke="#e5e7eb"/>
+  <text x="30" y="40" font-size="20" font-weight="700" fill="#111827">PC 内のアプリ（ローカル API）を自作 MCP サーバーで AI につなぐ仕組み</text>
+  <text x="30" y="62" class="s" font-size="13">すべて自分の PC 内（localhost）で完結し、アプリの複雑な生 API を「AI が迷わない安全なリモコン」に変換できる</text>
+
+  <!-- Outer Frame: Inside User's PC -->
+  <rect x="30" y="78" width="840" height="208" rx="12" fill="#f8fafc" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="6 4"/>
+  <rect x="46" y="88" width="380" height="22" rx="6" fill="#e2e8f0"/>
+  <text x="236" y="103" text-anchor="middle" font-size="11.5" font-weight="700" fill="#1e293b">自分の PC の中（クラウド契約不要・すべてローカル内で完結）</text>
+
+  <!-- Box 1: AI App (Host) -->
+  <rect x="44" y="118" width="224" height="154" rx="10" fill="#eff6ff" stroke="#3b82f6" stroke-width="1.8"/>
+  <rect x="54" y="128" width="204" height="26" rx="6" fill="#2563eb"/>
+  <text x="156" y="146" text-anchor="middle" font-size="12" font-weight="700" fill="#ffffff">① AI アプリ（ホスト）</text>
+  <text x="156" y="170" text-anchor="middle" class="s" fill="#1d4ed8">Claude Code / VS Code 等</text>
+  <text x="56" y="194" class="b">・あなたの指示を理解する</text>
+  <text x="56" y="214" class="b">・「箱を作って」等の意図から</text>
+  <text x="56" y="232" class="b">　MCP の道具を1回呼ぶだけ</text>
+  <rect x="54" y="242" width="204" height="20" rx="4" fill="#ffffff" stroke="#bfdbfe"/>
+  <text x="156" y="256" text-anchor="middle" font-size="10.5" font-weight="700" fill="#1d4ed8">複雑な API 仕様は知らなくてOK</text>
+
+  <!-- Arrow 1: AI App <-> Custom MCP Server -->
+  <line x1="272" y1="186" x2="332" y2="186" stroke="#2563eb" stroke-width="2" marker-start="url(#ah-blue)" marker-end="url(#ah-blue)"/>
+  <text x="302" y="164" text-anchor="middle" font-size="11" font-weight="700" fill="#1d4ed8">stdio 通信</text>
+  <text x="302" y="178" text-anchor="middle" font-size="10" fill="#475569">(JSON-RPC)</text>
+  <text x="302" y="204" text-anchor="middle" font-size="10" font-weight="700" fill="#059669">裏で自動起動</text>
+  <text x="302" y="218" text-anchor="middle" font-size="10" fill="#475569">手動起動は不要</text>
+
+  <!-- Box 2: Custom Local MCP Server -->
+  <rect x="336" y="118" width="236" height="154" rx="10" fill="#ecfdf5" stroke="#10b981" stroke-width="2"/>
+  <rect x="346" y="128" width="216" height="26" rx="6" fill="#059669"/>
+  <text x="454" y="146" text-anchor="middle" font-size="12" font-weight="700" fill="#ffffff">② 自作 MCP サーバー（通訳）</text>
+  <text x="454" y="170" text-anchor="middle" class="s" fill="#065f46">Node.js / Python スクリプト</text>
+  <text x="348" y="194" class="b">・AI 向けに簡単な道具を公開</text>
+  <text x="348" y="214" class="b">・裏でアプリの細かい生 API を</text>
+  <text x="348" y="232" class="b">　順番に呼び出して結果を整形</text>
+  <rect x="346" y="242" width="216" height="20" rx="4" fill="#ffffff" stroke="#a7f3d0"/>
+  <text x="454" y="256" text-anchor="middle" font-size="10.5" font-weight="700" fill="#065f46">安全検査＋API 呼び出しを代行</text>
+
+  <!-- Arrow 2: Custom MCP Server <-> Local App API -->
+  <line x1="576" y1="186" x2="636" y2="186" stroke="#7c3aed" stroke-width="2" marker-start="url(#ah-purple)" marker-end="url(#ah-purple)"/>
+  <text x="606" y="164" text-anchor="middle" font-size="11" font-weight="700" fill="#6d28d9">ローカル API</text>
+  <text x="606" y="178" text-anchor="middle" font-size="10" fill="#475569">(localhost 等)</text>
+  <text x="606" y="204" text-anchor="middle" font-size="10" fill="#475569">HTTP / Socket</text>
+  <text x="606" y="218" text-anchor="middle" font-size="10" fill="#475569">パイプ / CLI</text>
+
+  <!-- Box 3: Local PC Application -->
+  <rect x="640" y="118" width="216" height="154" rx="10" fill="#f5f3ff" stroke="#8b5cf6" stroke-width="1.8"/>
+  <rect x="650" y="128" width="196" height="26" rx="6" fill="#7c3aed"/>
+  <text x="748" y="146" text-anchor="middle" font-size="12" font-weight="700" fill="#ffffff">③ PC 内のアプリ本体</text>
+  <text x="748" y="170" text-anchor="middle" class="s" fill="#5b21b6">API を持つローカルソフト</text>
+  <text x="652" y="194" class="b">・自作のローカルアプリ</text>
+  <text x="652" y="214" class="b">・3D / CAD（Blender 等）</text>
+  <text x="652" y="232" class="b">・Unity / VOICEVOX 等</text>
+  <rect x="650" y="242" width="196" height="20" rx="4" fill="#ffffff" stroke="#ddd6fe"/>
+  <text x="748" y="256" text-anchor="middle" font-size="10.5" font-weight="700" fill="#5b21b6">普段通り PC で起動しておくだけ</text>
+
+  <!-- Bottom Section: 4 Benefits of Wrapping Local App API in MCP -->
+  <text x="30" y="312" class="h" fill="#111827">なぜ AI に直接アプリの API を叩かせず、「自作 MCP サーバー」を間に挟むのか？</text>
+
+  <!-- Benefit 1 -->
+  <rect x="30" y="324" width="410" height="68" rx="10" fill="#ecfdf5" stroke="#10b981" stroke-width="1.4"/>
+  <text x="44" y="346" font-size="12" font-weight="700" fill="#065f46">① 複雑な生 API を「AI が迷わない1ボタン」に集約</text>
+  <text x="44" y="366" class="b">座標計算や複数回の API 呼び出しを1つの関数にまとめ、</text>
+  <text x="44" y="382" class="b">AI が手順や引数を間違えずに一発で操作できるようにします。</text>
+
+  <!-- Benefit 2 -->
+  <rect x="460" y="324" width="410" height="68" rx="10" fill="#fff7ed" stroke="#f59e0b" stroke-width="1.4"/>
+  <text x="474" y="346" font-size="12" font-weight="700" fill="#b45309">② 危険な API を隠して「安全な操作だけ」に制限</text>
+  <text x="474" y="366" class="b">「全消去」等の危険な API は AI に見せず、数値の範囲検査を</text>
+  <text x="474" y="382" class="b">MCP サーバー側に入れてアプリのクラッシュを防ぎます。</text>
+
+  <!-- Benefit 3 -->
+  <rect x="30" y="402" width="410" height="68" rx="10" fill="#eff6ff" stroke="#3b82f6" stroke-width="1.4"/>
+  <text x="44" y="424" font-size="12" font-weight="700" fill="#1d4ed8">③ 生 API の巨大な応答を「必要な数行」に絞れる</text>
+  <text x="44" y="444" class="b">アプリが数千行の JSON を返しても、AI に必要な項目だけを</text>
+  <text x="44" y="460" class="b">抜き出して返すことで、会話枠（トークン）を節約できます。</text>
+
+  <!-- Benefit 4 -->
+  <rect x="460" y="402" width="410" height="68" rx="10" fill="#f5f3ff" stroke="#8b5cf6" stroke-width="1.4"/>
+  <text x="474" y="424" font-size="12" font-weight="700" fill="#5b21b6">④ どの AI アプリからでも同じように操作できる</text>
+  <text x="474" y="444" class="b">共通規格で作っておけば、Claude Code・VS Code・</text>
+  <text x="474" y="460" class="b">Claude Desktop のどれからでも自作アプリを操れます。</text>
+
+  <text x="30" y="502" class="s">実例：Blender MCP・Unity MCP・VOICEVOX MCP なども、この「PC 内アプリの API ＋ ローカル MCP サーバー」で動いています</text>
+
+  <!-- 作者サイン：右下から図を見上げる亀（横向き） -->
+  <g transform="translate(794 474) scale(0.78)">
+  <g id="kame-mark" opacity="0.94">
+    <defs>
+      <linearGradient id="kameShell" x1="0.3" y1="0" x2="0.6" y2="1">
+        <stop offset="0" stop-color="#c9f1e0"/>
+        <stop offset="0.55" stop-color="#9be2c8"/>
+        <stop offset="1" stop-color="#6fc9ab"/>
+      </linearGradient>
+      <linearGradient id="kameSkin" x1="0.3" y1="0" x2="0.7" y2="1">
+        <stop offset="0" stop-color="#d7f2a7"/>
+        <stop offset="0.6" stop-color="#b8e07a"/>
+        <stop offset="1" stop-color="#95c85a"/>
+      </linearGradient>
+      <radialGradient id="kameHead" cx="0.38" cy="0.35" r="0.65">
+        <stop offset="0" stop-color="#e2f7b8"/>
+        <stop offset="0.65" stop-color="#bde383"/>
+        <stop offset="1" stop-color="#96c85c"/>
+      </radialGradient>
+    </defs>
+    <ellipse cx="64" cy="54" rx="45" ry="6" fill="#0f172a" opacity="0.08"/>
+    <path d="M 101 41 Q 112 39 115 34 Q 111 44 100 45 Z" fill="url(#kameSkin)" stroke="#6ea343" stroke-width="1.1" stroke-linejoin="round"/>
+    <ellipse cx="88" cy="49" rx="9" ry="5.5" transform="rotate(14 88 49)" fill="#8cc053" stroke="#689c38" stroke-width="1.1"/>
+    <ellipse cx="52" cy="50" rx="9.5" ry="5.5" transform="rotate(-12 52 50)" fill="url(#kameSkin)" stroke="#689c38" stroke-width="1.1"/>
+    <circle cx="44.5" cy="51.5" r="1.5" fill="#e6f5be"/>
+    <circle cx="47.5" cy="53" r="1.5" fill="#e6f5be"/>
+    <circle cx="51" cy="53.5" r="1.4" fill="#e6f5be"/>
+    <path d="M 38 40 C 33 41, 27 36, 25 30 C 29 26, 35 28, 41 34 Z" fill="url(#kameSkin)"/>
+    <ellipse cx="22" cy="27" rx="14.5" ry="12.5" transform="rotate(-12 22 27)" fill="url(#kameHead)" stroke="#6ea343" stroke-width="1.2"/>
+    <path d="M 10 29 C 14 35, 25 35, 31 29" fill="none" stroke="#8ab85c" stroke-width="0.9" opacity="0.5"/>
+    <ellipse cx="27" cy="30.5" rx="3.8" ry="2.3" fill="#f9a8d4" opacity="0.45"/>
+    <circle cx="17.5" cy="22.5" r="4.2" fill="#1e293b"/>
+    <circle cx="16.2" cy="21" r="1.7" fill="#ffffff"/>
+    <circle cx="19.2" cy="24.2" r="0.8" fill="#ffffff"/>
+    <path d="M 10.5 29.5 Q 13.5 32.5 18 30.8" fill="none" stroke="#365314" stroke-width="1.3" stroke-linecap="round"/>
+    <circle cx="10.2" cy="25.5" r="0.8" fill="#4d7c0f" opacity="0.65"/>
+    <path d="M 35 42 C 37 13, 99 13, 101 42 Z" fill="url(#kameShell)" stroke="#4ea88a" stroke-width="1.3" stroke-linejoin="round"/>
+    <g fill="none" stroke="#5bbaa0" stroke-width="1.1" opacity="0.55">
+      <polygon points="68,21 79,26 77,36 59,36 57,26"/>
+      <line x1="68" y1="21" x2="68" y2="19"/>
+      <line x1="57" y1="26" x2="43" y2="27"/>
+      <line x1="79" y1="26" x2="93" y2="27"/>
+      <line x1="59" y1="36" x2="49" y2="41"/>
+      <line x1="77" y1="36" x2="87" y2="41"/>
+    </g>
+    <ellipse cx="56" cy="24" rx="9" ry="3.8" transform="rotate(-18 56 24)" fill="#ffffff" opacity="0.45"/>
+    <ellipse cx="44" cy="31" rx="3.2" ry="1.8" transform="rotate(-28 44 31)" fill="#ffffff" opacity="0.35"/>
+    <path d="M 32 41 Q 68 47 104 41 Q 103 45 99 45 Q 68 50 37 45 Q 33 45 32 41 Z" fill="#e8f7b2" stroke="#6ea343" stroke-width="1.2" stroke-linejoin="round"/>
+  </g>
+  </g>
+</svg>

@@ -1,0 +1,14 @@
+{
+  "version": 1,
+  "hooks": {
+    "postToolUse": [
+      {
+        "type": "command",
+        "bash": "node hooks/post-format-check.js",
+        "powershell": "node hooks/post-format-check.js",
+        "cwd": ".",
+        "timeoutSec": 15
+      }
+    ]
+  }
+}

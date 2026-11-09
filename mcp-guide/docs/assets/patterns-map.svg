@@ -1,0 +1,138 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 560" font-family="Meiryo, 'Yu Gothic UI', 'Noto Sans JP', sans-serif">
+  <defs>
+    <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#6b7280"/>
+    </marker>
+    <style>
+      .h{font-size:13.5px;font-weight:700}
+      .b{font-size:12px;fill:#374151}
+      .s{font-size:11px;fill:#6b7280}
+    </style>
+  </defs>
+  <rect x="0.5" y="0.5" width="899" height="559" rx="14" fill="#ffffff" stroke="#e5e7eb"/>
+  <text x="30" y="42" font-size="20" font-weight="700" fill="#111827">MCP のどのパターンを使うか（早見図）</text>
+  <text x="30" y="64" class="s" font-size="12.5">まず「CLI やスキルで済まないか」を確認し、目的別に5つの型を選ぶ（筆者の整理。根拠は本文と info/）</text>
+
+  <rect x="210" y="84" width="480" height="50" rx="10" fill="#f9fafb" stroke="#9ca3af"/>
+  <text x="450" y="107" text-anchor="middle" class="h" fill="#111827">まず確認：既存の CLI やスキル（SKILL.md）で済むか？</text>
+  <text x="450" y="125" text-anchor="middle" class="s">済まない（外部接続・認証・安全な絞り込みが要る）なら下の5型へ</text>
+  <line x1="450" y1="134" x2="450" y2="166" stroke="#6b7280" stroke-width="1.6"/>
+  <line x1="108" y1="168" x2="792" y2="168" stroke="#6b7280" stroke-width="1.6"/>
+  <g stroke="#6b7280" stroke-width="1.6" marker-end="url(#ah)">
+    <line x1="108" y1="168" x2="108" y2="194"/><line x1="279" y1="168" x2="279" y2="194"/>
+    <line x1="450" y1="168" x2="450" y2="194"/><line x1="621" y1="168" x2="621" y2="194"/>
+    <line x1="792" y1="168" x2="792" y2="194"/>
+  </g>
+
+  <!-- 1 -->
+  <rect x="30" y="196" width="156" height="172" rx="10" fill="#d1fae5" fill-opacity="0.5" stroke="#10b981"/>
+  <text x="108" y="222" text-anchor="middle" class="h" fill="#047857">① 知識ゲートウェイ</text>
+  <text x="108" y="250" text-anchor="middle" class="b">社内 DB・用語集・</text>
+  <text x="108" y="270" text-anchor="middle" class="b">カタログから必要な</text>
+  <text x="108" y="290" text-anchor="middle" class="b">断片だけ引きたい</text>
+  <rect x="42" y="312" width="132" height="22" rx="11" fill="#ffffff" stroke="#10b981"/>
+  <text x="108" y="327" text-anchor="middle" class="s" style="fill:#047857">読み取り専用検索</text>
+  <text x="108" y="354" text-anchor="middle" class="s">最も安全・基本の型</text>
+
+  <!-- 2 -->
+  <rect x="201" y="196" width="156" height="172" rx="10" fill="#ede9fe" fill-opacity="0.6" stroke="#8b5cf6"/>
+  <text x="279" y="222" text-anchor="middle" class="h" fill="#6d28d9">② 外部SaaSブリッジ</text>
+  <text x="279" y="250" text-anchor="middle" class="b">Notion・Sentry・</text>
+  <text x="279" y="270" text-anchor="middle" class="b">ブラウザなど認証や</text>
+  <text x="279" y="290" text-anchor="middle" class="b">状態を持つ操作</text>
+  <rect x="213" y="312" width="132" height="22" rx="11" fill="#ffffff" stroke="#8b5cf6"/>
+  <text x="279" y="327" text-anchor="middle" class="s" style="fill:#6d28d9">OAuth・状態保持</text>
+  <text x="279" y="354" text-anchor="middle" class="s">公式サーバーを活用</text>
+
+  <!-- 3 -->
+  <rect x="372" y="196" width="156" height="172" rx="10" fill="#dbeafe" fill-opacity="0.6" stroke="#3b82f6"/>
+  <text x="450" y="222" text-anchor="middle" class="h" fill="#1d4ed8">③ 業務ファサード</text>
+  <text x="450" y="250" text-anchor="middle" class="b">細かい API をそのまま</text>
+  <text x="450" y="270" text-anchor="middle" class="b">並べると AI が迷う・</text>
+  <text x="450" y="290" text-anchor="middle" class="b">往復が増える</text>
+  <rect x="384" y="312" width="132" height="22" rx="11" fill="#ffffff" stroke="#3b82f6"/>
+  <text x="450" y="327" text-anchor="middle" class="s" style="fill:#1d4ed8">1つの業務に束ねる</text>
+  <text x="450" y="354" text-anchor="middle" class="s">精度と速度が上がる</text>
+
+  <!-- 4 -->
+  <rect x="543" y="196" width="156" height="172" rx="10" fill="#fef3c7" fill-opacity="0.7" stroke="#f59e0b"/>
+  <text x="621" y="222" text-anchor="middle" class="h" fill="#b45309">④ サブ×専用MCP</text>
+  <text x="621" y="250" text-anchor="middle" class="b">メインの頭や権限を</text>
+  <text x="621" y="270" text-anchor="middle" class="b">汚さず、専門担当に</text>
+  <text x="621" y="290" text-anchor="middle" class="b">だけ道具を渡したい</text>
+  <rect x="555" y="312" width="132" height="22" rx="11" fill="#ffffff" stroke="#f59e0b"/>
+  <text x="621" y="327" text-anchor="middle" class="s" style="fill:#b45309">子にだけMCP許可</text>
+  <text x="621" y="354" text-anchor="middle" class="s">セキュリティにも効く</text>
+
+  <!-- 5 -->
+  <rect x="714" y="196" width="156" height="172" rx="10" fill="#ffedd5" fill-opacity="0.7" stroke="#f97316"/>
+  <text x="792" y="222" text-anchor="middle" class="h" fill="#c2410c">⑤ 遅延読込・Code</text>
+  <text x="792" y="250" text-anchor="middle" class="b">ツールが数十〜数千</text>
+  <text x="792" y="270" text-anchor="middle" class="b">あり、定義だけで</text>
+  <text x="792" y="290" text-anchor="middle" class="b">トークンが溢れる</text>
+  <rect x="726" y="312" width="132" height="22" rx="11" fill="#ffffff" stroke="#f97316"/>
+  <text x="792" y="327" text-anchor="middle" class="s" style="fill:#c2410c">オンデマンド検索</text>
+  <text x="792" y="354" text-anchor="middle" class="s">トークン 95〜99% 削減</text>
+
+  <rect x="30" y="392" width="750" height="72" rx="10" fill="#fff7ed" stroke="#fed7aa"/>
+  <text x="48" y="419" class="h" fill="#9a3412">標準コマンド（git, gh, npm）や定型手順書だけで済む仕事 → MCP を作らない</text>
+  <text x="48" y="444" class="b">AI が熟知している CLI は Bash で直接呼び、手順や作法は Skills に書く方が軽くて保守も楽</text>
+  <text x="30" y="494" class="s">鮮度：2025年後半〜2026年11月の仕様・事例に基づく整理</text>
+  <!-- 作者サイン：右下から図を見上げる亀（横向き） -->
+  <g transform="translate(794 494) scale(0.78)">
+  <g id="kame-mark" opacity="0.94">
+    <defs>
+      <linearGradient id="kameShell" x1="0.3" y1="0" x2="0.6" y2="1">
+        <stop offset="0" stop-color="#c9f1e0"/>
+        <stop offset="1" stop-color="#86d3b4"/>
+      </linearGradient>
+      <linearGradient id="kameScute" x1="0.3" y1="0" x2="0.6" y2="1">
+        <stop offset="0" stop-color="#ecfbf4"/>
+        <stop offset="1" stop-color="#b3e6d0"/>
+      </linearGradient>
+      <radialGradient id="kameSkin" cx="0.38" cy="0.32" r="0.8">
+        <stop offset="0" stop-color="#e6f7c2"/>
+        <stop offset="1" stop-color="#b3df86"/>
+      </radialGradient>
+      <linearGradient id="kameRim" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#fff1cf"/>
+        <stop offset="1" stop-color="#fbd79b"/>
+      </linearGradient>
+      <filter id="kameSoft" x="-20%" y="-50%" width="140%" height="200%"><feGaussianBlur stdDeviation="2.2"/></filter>
+      <filter id="kameGlow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="1.6"/></filter>
+      <clipPath id="kameDome"><path d="M34 58 C34 31 51 17 71 17 C92 17 108 32 108 58 Z"/></clipPath>
+    </defs>
+    <ellipse cx="68" cy="73" rx="44" ry="3.6" fill="#5b8f7b" opacity="0.22" filter="url(#kameSoft)"/>
+    <ellipse cx="56" cy="66" rx="5.5" ry="6.5" fill="#a4d47a"/>
+    <ellipse cx="84" cy="66" rx="5.5" ry="6.5" fill="#a4d47a"/>
+    <path d="M106 57 C112 57 116 60 116 63 C112 64.5 107 63.5 104 61 Z" fill="url(#kameSkin)" stroke="#a2d27a" stroke-width="1.2" stroke-linejoin="round"/>
+    <path d="M42 60 C36 58 30 54 26 47" fill="none" stroke="url(#kameSkin)" stroke-width="13" stroke-linecap="round"/>
+    <rect x="37" y="57" width="13" height="15" rx="6.5" fill="url(#kameSkin)" stroke="#a2d27a" stroke-width="1.2"/>
+    <rect x="91" y="57" width="13" height="15" rx="6.5" fill="url(#kameSkin)" stroke="#a2d27a" stroke-width="1.2"/>
+    <path d="M34 58 C34 31 51 17 71 17 C92 17 108 32 108 58 Z" fill="url(#kameShell)" stroke="#7fcaa9" stroke-width="1.4"/>
+    <g clip-path="url(#kameDome)" fill="url(#kameScute)" stroke="#a9e0c8" stroke-width="5" stroke-linejoin="round">
+      <path d="M60 27 L82 27 L88 38 L82 48 L60 48 L54 38 Z"/>
+      <path d="M31 60 L38 40 L49 34 L54 38 L60 48 L56 60 Z"/>
+      <path d="M111 60 L104 40 L93 34 L88 38 L82 48 L86 60 Z"/>
+      <path d="M60 48 L82 48 L86 60 L56 60 Z"/>
+    </g>
+    <ellipse cx="54" cy="29" rx="10" ry="4.5" fill="#ffffff" opacity="0.7" transform="rotate(-28 54 29)" filter="url(#kameGlow)"/>
+    <rect x="30" y="54" width="82" height="9.5" rx="4.75" fill="url(#kameRim)" stroke="#f3c57e" stroke-width="1.2"/>
+    <g fill="#f6cf8f" opacity="0.8">
+      <circle cx="45" cy="58.8" r="1.2"/><circle cx="58" cy="58.8" r="1.2"/><circle cx="71" cy="58.8" r="1.2"/>
+      <circle cx="84" cy="58.8" r="1.2"/><circle cx="97" cy="58.8" r="1.2"/>
+    </g>
+    <circle cx="23" cy="40" r="15.5" fill="url(#kameSkin)" stroke="#a2d27a" stroke-width="1.2"/>
+    <ellipse cx="20" cy="31" rx="6" ry="3" fill="#ffffff" opacity="0.6" transform="rotate(-20 20 31)" filter="url(#kameGlow)"/>
+    <ellipse cx="16.2" cy="38.5" rx="2.9" ry="3.6" fill="#3d3a4a"/>
+    <circle cx="15.3" cy="37.2" r="1.25" fill="#ffffff"/>
+    <circle cx="17" cy="40" r="0.55" fill="#ffffff" opacity="0.9"/>
+    <ellipse cx="24" cy="46" rx="4" ry="2.6" fill="#ffb3c1" opacity="0.75" filter="url(#kameGlow)"/>
+    <path d="M9.5 44.5 Q12.5 47.8 16 46" fill="none" stroke="#6f8f56" stroke-width="1.4" stroke-linecap="round"/>
+    <g fill="#ffffff" opacity="0.65">
+      <circle cx="40.5" cy="69.6" r="1.1"/><circle cx="44" cy="70.2" r="1.1"/>
+      <circle cx="94.5" cy="69.6" r="1.1"/><circle cx="98" cy="70.2" r="1.1"/>
+    </g>
+  </g>
+  </g>
+</svg>

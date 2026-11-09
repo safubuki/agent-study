@@ -1,0 +1,121 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 480" font-family="Meiryo, 'Yu Gothic UI', 'Noto Sans JP', sans-serif">
+  <defs>
+    <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#6b7280"/>
+    </marker>
+    <style>
+      .h{font-size:14px;font-weight:700}
+      .b{font-size:12px;fill:#374151}
+      .s{font-size:11px;fill:#6b7280}
+    </style>
+  </defs>
+  <rect x="0.5" y="0.5" width="899" height="479" rx="14" fill="#ffffff" stroke="#e5e7eb"/>
+  <text x="30" y="42" font-size="20" font-weight="700" fill="#111827">② 外部 SaaS・ブラウザ操作のブリッジ</text>
+  <text x="30" y="64" class="s" font-size="12.5">OAuth 認証が必要なクラウドサービスや、開いたままにするブラウザ操作を MCP サーバーに仲介させる</text>
+
+  <rect x="130" y="84" width="140" height="50" rx="10" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="200" y="114" text-anchor="middle" class="h" fill="#6d28d9">AI エージェント</text>
+
+  <g stroke="#6b7280" stroke-width="1.6" marker-start="url(#ah)" marker-end="url(#ah)">
+    <line x1="160" y1="134" x2="112" y2="196"/>
+    <line x1="240" y1="134" x2="292" y2="196"/>
+  </g>
+
+  <!-- Remote HTTP Bridge -->
+  <rect x="30" y="198" width="164" height="106" rx="10" fill="#f5f3ff" stroke="#8b5cf6" stroke-width="1.5"/>
+  <text x="112" y="222" text-anchor="middle" class="h" fill="#5b21b6">リモート MCP</text>
+  <text x="112" y="242" text-anchor="middle" class="s">Streamable HTTP</text>
+  <text x="112" y="264" text-anchor="middle" class="b">OAuth 2.1 認証</text>
+  <text x="112" y="286" text-anchor="middle" class="s">トークン管理を代行</text>
+
+  <!-- Stateful Browser Bridge -->
+  <rect x="210" y="198" width="164" height="106" rx="10" fill="#dbeafe" stroke="#3b82f6" stroke-width="1.5"/>
+  <text x="292" y="222" text-anchor="middle" class="h" fill="#1e40af">状態保持 MCP</text>
+  <text x="292" y="242" text-anchor="middle" class="s">stdio 常駐プロセス</text>
+  <text x="292" y="264" text-anchor="middle" class="b">Playwright 等</text>
+  <text x="292" y="286" text-anchor="middle" class="s">開いた画面を維持</text>
+
+  <line x1="112" y1="304" x2="112" y2="336" stroke="#6b7280" stroke-width="1.6" marker-end="url(#ah)"/>
+  <line x1="292" y1="304" x2="292" y2="336" stroke="#6b7280" stroke-width="1.6" marker-end="url(#ah)"/>
+
+  <rect x="30" y="338" width="164" height="60" rx="8" fill="#f9fafb" stroke="#d1d5db"/>
+  <text x="112" y="364" text-anchor="middle" class="b">Notion / Jira /</text>
+  <text x="112" y="384" text-anchor="middle" class="b">Sentry / Linear</text>
+
+  <rect x="210" y="338" width="164" height="60" rx="8" fill="#f9fafb" stroke="#d1d5db"/>
+  <text x="292" y="364" text-anchor="middle" class="b">操作中のブラウザ</text>
+  <text x="292" y="384" text-anchor="middle" class="s">（クリック→確認）</text>
+
+  <rect x="410" y="84" width="460" height="148" rx="10" fill="#f0fdf4" stroke="#bbf7d0"/>
+  <text x="430" y="110" class="h" fill="#15803d">得るもの（CLI 単体より MCP が向く理由）</text>
+  <text x="430" y="136" class="b">・OAuth 2.1 のログインやトークン更新をホストとサーバーが処理</text>
+  <text x="430" y="159" class="b">・ブラウザのように「ページを開いたまま次のボタンを押す」という</text>
+  <text x="430" y="182" class="b">　状態（セッション）を、常駐する MCP プロセスが保てる</text>
+  <text x="430" y="205" class="b">・各社公式のリモート MCP なら URL を1行足すだけで使える</text>
+
+  <rect x="410" y="246" width="460" height="154" rx="10" fill="#fef2f2" stroke="#fecaca"/>
+  <text x="430" y="272" class="h" fill="#b91c1c">失うもの・注意点</text>
+  <text x="430" y="298" class="b">・公式 CLI（gh, aws, gcloud 等）がすでにあるサービスなら、</text>
+  <text x="430" y="321" class="b">　MCP を入れずに CLI を呼ぶ方がトークン消費が少ないことも多い</text>
+  <text x="430" y="344" class="b">・外部の Issue や Web ページを読むと「間接プロンプトインジェク</text>
+  <text x="430" y="367" class="b">　ション」の入り口になるため、書き込み権限の自動許可は避ける</text>
+
+  <text x="30" y="436" class="s">根拠：MCP 公式仕様（Streamable HTTP / OAuth 2.1）、Claude Code Docs（Remote MCP servers）</text>
+  <!-- 作者サイン：右下から図を見上げる亀（横向き） -->
+  <g transform="translate(794 414) scale(0.78)">
+  <g id="kame-mark" opacity="0.94">
+    <defs>
+      <linearGradient id="kameShell" x1="0.3" y1="0" x2="0.6" y2="1">
+        <stop offset="0" stop-color="#c9f1e0"/>
+        <stop offset="1" stop-color="#86d3b4"/>
+      </linearGradient>
+      <linearGradient id="kameScute" x1="0.3" y1="0" x2="0.6" y2="1">
+        <stop offset="0" stop-color="#ecfbf4"/>
+        <stop offset="1" stop-color="#b3e6d0"/>
+      </linearGradient>
+      <radialGradient id="kameSkin" cx="0.38" cy="0.32" r="0.8">
+        <stop offset="0" stop-color="#e6f7c2"/>
+        <stop offset="1" stop-color="#b3df86"/>
+      </radialGradient>
+      <linearGradient id="kameRim" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#fff1cf"/>
+        <stop offset="1" stop-color="#fbd79b"/>
+      </linearGradient>
+      <filter id="kameSoft" x="-20%" y="-50%" width="140%" height="200%"><feGaussianBlur stdDeviation="2.2"/></filter>
+      <filter id="kameGlow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="1.6"/></filter>
+      <clipPath id="kameDome"><path d="M34 58 C34 31 51 17 71 17 C92 17 108 32 108 58 Z"/></clipPath>
+    </defs>
+    <ellipse cx="68" cy="73" rx="44" ry="3.6" fill="#5b8f7b" opacity="0.22" filter="url(#kameSoft)"/>
+    <ellipse cx="56" cy="66" rx="5.5" ry="6.5" fill="#a4d47a"/>
+    <ellipse cx="84" cy="66" rx="5.5" ry="6.5" fill="#a4d47a"/>
+    <path d="M106 57 C112 57 116 60 116 63 C112 64.5 107 63.5 104 61 Z" fill="url(#kameSkin)" stroke="#a2d27a" stroke-width="1.2" stroke-linejoin="round"/>
+    <path d="M42 60 C36 58 30 54 26 47" fill="none" stroke="url(#kameSkin)" stroke-width="13" stroke-linecap="round"/>
+    <rect x="37" y="57" width="13" height="15" rx="6.5" fill="url(#kameSkin)" stroke="#a2d27a" stroke-width="1.2"/>
+    <rect x="91" y="57" width="13" height="15" rx="6.5" fill="url(#kameSkin)" stroke="#a2d27a" stroke-width="1.2"/>
+    <path d="M34 58 C34 31 51 17 71 17 C92 17 108 32 108 58 Z" fill="url(#kameShell)" stroke="#7fcaa9" stroke-width="1.4"/>
+    <g clip-path="url(#kameDome)" fill="url(#kameScute)" stroke="#a9e0c8" stroke-width="5" stroke-linejoin="round">
+      <path d="M60 27 L82 27 L88 38 L82 48 L60 48 L54 38 Z"/>
+      <path d="M31 60 L38 40 L49 34 L54 38 L60 48 L56 60 Z"/>
+      <path d="M111 60 L104 40 L93 34 L88 38 L82 48 L86 60 Z"/>
+      <path d="M60 48 L82 48 L86 60 L56 60 Z"/>
+    </g>
+    <ellipse cx="54" cy="29" rx="10" ry="4.5" fill="#ffffff" opacity="0.7" transform="rotate(-28 54 29)" filter="url(#kameGlow)"/>
+    <rect x="30" y="54" width="82" height="9.5" rx="4.75" fill="url(#kameRim)" stroke="#f3c57e" stroke-width="1.2"/>
+    <g fill="#f6cf8f" opacity="0.8">
+      <circle cx="45" cy="58.8" r="1.2"/><circle cx="58" cy="58.8" r="1.2"/><circle cx="71" cy="58.8" r="1.2"/>
+      <circle cx="84" cy="58.8" r="1.2"/><circle cx="97" cy="58.8" r="1.2"/>
+    </g>
+    <circle cx="23" cy="40" r="15.5" fill="url(#kameSkin)" stroke="#a2d27a" stroke-width="1.2"/>
+    <ellipse cx="20" cy="31" rx="6" ry="3" fill="#ffffff" opacity="0.6" transform="rotate(-20 20 31)" filter="url(#kameGlow)"/>
+    <ellipse cx="16.2" cy="38.5" rx="2.9" ry="3.6" fill="#3d3a4a"/>
+    <circle cx="15.3" cy="37.2" r="1.25" fill="#ffffff"/>
+    <circle cx="17" cy="40" r="0.55" fill="#ffffff" opacity="0.9"/>
+    <ellipse cx="24" cy="46" rx="4" ry="2.6" fill="#ffb3c1" opacity="0.75" filter="url(#kameGlow)"/>
+    <path d="M9.5 44.5 Q12.5 47.8 16 46" fill="none" stroke="#6f8f56" stroke-width="1.4" stroke-linecap="round"/>
+    <g fill="#ffffff" opacity="0.65">
+      <circle cx="40.5" cy="69.6" r="1.1"/><circle cx="44" cy="70.2" r="1.1"/>
+      <circle cx="94.5" cy="69.6" r="1.1"/><circle cx="98" cy="70.2" r="1.1"/>
+    </g>
+  </g>
+  </g>
+</svg>

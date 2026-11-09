@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "hooks": {
+    "postToolUse": [
+      {
+        "type": "command",
+        "bash": "node hooks/audit-log.js",
+        "powershell": "node hooks/audit-log.js",
+        "cwd": ".",
+        "timeoutSec": 5
+      }
+    ],
+    "agentStop": [
+      {
+        "type": "command",
+        "bash": "node hooks/notify-done.js",
+        "powershell": "node hooks/notify-done.js",
+        "cwd": ".",
+        "timeoutSec": 5
+      }
+    ]
+  }
+}

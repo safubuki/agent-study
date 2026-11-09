@@ -1,0 +1,121 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 480" font-family="Meiryo, 'Yu Gothic UI', 'Noto Sans JP', sans-serif">
+  <defs>
+    <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#6b7280"/>
+    </marker>
+    <style>
+      .h{font-size:14px;font-weight:700}
+      .b{font-size:12.5px;fill:#374151}
+      .s{font-size:11.5px;fill:#6b7280}
+    </style>
+  </defs>
+  <rect x="0.5" y="0.5" width="899" height="479" rx="14" fill="#ffffff" stroke="#e5e7eb"/>
+  <text x="30" y="42" font-size="20" font-weight="700" fill="#111827">⑤ 監査ログ・通知と権限の自動判定（Notification / PermissionRequest 等）</text>
+  <text x="30" y="64" class="s" font-size="13">AI の行動履歴を裏でファイルに記録し、確認待ちや作業完了のタイミングで人間に通知を送る</text>
+
+  <rect x="50" y="92" width="310" height="58" rx="10" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="205" y="118" text-anchor="middle" class="h" fill="#6d28d9">AI エージェントの稼働中</text>
+  <text x="205" y="138" text-anchor="middle" class="b">ツール実行 ／ 許可確認待ち ／ 全作業の完了</text>
+
+  <g stroke="#6b7280" stroke-width="1.6" marker-end="url(#ah)">
+    <line x1="130" y1="150" x2="110" y2="196"/>
+    <line x1="280" y1="150" x2="300" y2="196"/>
+  </g>
+
+  <rect x="30" y="198" width="170" height="88" rx="10" fill="#fef3c7" stroke="#f59e0b"/>
+  <text x="115" y="222" text-anchor="middle" class="h" fill="#b45309">監査ログ記録</text>
+  <text x="115" y="244" text-anchor="middle" class="b">PostToolUse 等で</text>
+  <text x="115" y="264" text-anchor="middle" class="b">audit.jsonl に追記</text>
+
+  <rect x="212" y="198" width="170" height="88" rx="10" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="297" y="222" text-anchor="middle" class="h" fill="#1d4ed8">通知・自動承認</text>
+  <text x="297" y="244" text-anchor="middle" class="b">Notification で通知音</text>
+  <text x="297" y="264" text-anchor="middle" class="b">安全な確認は自動承認</text>
+
+  <g stroke="#6b7280" stroke-width="1.6" marker-end="url(#ah)">
+    <line x1="115" y1="286" x2="115" y2="322"/>
+    <line x1="297" y1="286" x2="297" y2="322"/>
+  </g>
+
+  <rect x="30" y="324" width="170" height="68" rx="8" fill="#f9fafb" stroke="#9ca3af"/>
+  <text x="115" y="348" text-anchor="middle" class="b" font-weight="700">logs/audit.jsonl</text>
+  <text x="115" y="370" text-anchor="middle" class="s">日時と操作対象を記録</text>
+
+  <rect x="212" y="324" width="170" height="68" rx="8" fill="#f9fafb" stroke="#9ca3af"/>
+  <text x="297" y="348" text-anchor="middle" class="b" font-weight="700">デスクトップ通知 / 音</text>
+  <text x="297" y="370" text-anchor="middle" class="s">別作業中でもすぐ気づく</text>
+
+  <rect x="410" y="92" width="460" height="146" rx="10" fill="#f0fdf4" stroke="#bbf7d0"/>
+  <text x="426" y="118" class="h" fill="#15803d">得るもの</text>
+  <text x="426" y="144" class="b">・長時間タスクでターミナルをずっと見張っている必要がなくなる</text>
+  <text x="426" y="167" class="b">・「AI が裏でどのコマンドを叩いたか」が100%改ざん不能な記録に残る</text>
+  <text x="426" y="190" class="b">・PermissionRequest で「読み取り系や指定フォルダ内なら自動承認」</text>
+  <text x="426" y="213" class="b">　を作れば、承認ポチポチの手間を減らしつつ安全も守れる</text>
+
+  <rect x="410" y="252" width="460" height="142" rx="10" fill="#fef2f2" stroke="#fecaca"/>
+  <text x="426" y="278" class="h" fill="#b91c1c">失うもの・注意点</text>
+  <text x="426" y="304" class="b">・通知コマンドは OS ごとに違うため、共有設定ファイルではなく</text>
+  <text x="426" y="327" class="b">　個人用の settings.local.json 等に置く</text>
+  <text x="426" y="350" class="b">・監査ログには引数の秘密情報もそのまま記録されるため、</text>
+  <text x="426" y="373" class="b">　ログファイル自体は必ず .gitignore に入れてリポジトリ外に保つ</text>
+
+  <text x="30" y="436" class="s">根拠：Claude Code Docs「Automate workflows with hooks / Settings」（2026-11 取得）、GitHub Copilot Docs</text>
+
+  <!-- 作者サイン：右下から図を見上げる亀（横向き） -->
+  <g transform="translate(794 414) scale(0.78)">
+  <g id="kame-mark" opacity="0.94">
+    <defs>
+      <linearGradient id="kameShell" x1="0.3" y1="0" x2="0.6" y2="1">
+        <stop offset="0" stop-color="#c9f1e0"/>
+        <stop offset="1" stop-color="#86d3b4"/>
+      </linearGradient>
+      <linearGradient id="kameScute" x1="0.3" y1="0" x2="0.6" y2="1">
+        <stop offset="0" stop-color="#ecfbf4"/>
+        <stop offset="1" stop-color="#b3e6d0"/>
+      </linearGradient>
+      <radialGradient id="kameSkin" cx="0.38" cy="0.32" r="0.8">
+        <stop offset="0" stop-color="#e6f7c2"/>
+        <stop offset="1" stop-color="#b3df86"/>
+      </radialGradient>
+      <linearGradient id="kameRim" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#fff1cf"/>
+        <stop offset="1" stop-color="#fbd79b"/>
+      </linearGradient>
+      <filter id="kameSoft" x="-20%" y="-50%" width="140%" height="200%"><feGaussianBlur stdDeviation="2.2"/></filter>
+      <filter id="kameGlow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="1.6"/></filter>
+      <clipPath id="kameDome"><path d="M34 58 C34 31 51 17 71 17 C92 17 108 32 108 58 Z"/></clipPath>
+    </defs>
+    <ellipse cx="68" cy="73" rx="44" ry="3.6" fill="#5b8f7b" opacity="0.22" filter="url(#kameSoft)"/>
+    <ellipse cx="56" cy="66" rx="5.5" ry="6.5" fill="#a4d47a"/>
+    <ellipse cx="84" cy="66" rx="5.5" ry="6.5" fill="#a4d47a"/>
+    <path d="M106 57 C112 57 116 60 116 63 C112 64.5 107 63.5 104 61 Z" fill="url(#kameSkin)" stroke="#a2d27a" stroke-width="1.2" stroke-linejoin="round"/>
+    <path d="M42 60 C36 58 30 54 26 47" fill="none" stroke="url(#kameSkin)" stroke-width="13" stroke-linecap="round"/>
+    <rect x="37" y="57" width="13" height="15" rx="6.5" fill="url(#kameSkin)" stroke="#a2d27a" stroke-width="1.2"/>
+    <rect x="91" y="57" width="13" height="15" rx="6.5" fill="url(#kameSkin)" stroke="#a2d27a" stroke-width="1.2"/>
+    <path d="M34 58 C34 31 51 17 71 17 C92 17 108 32 108 58 Z" fill="url(#kameShell)" stroke="#7fcaa9" stroke-width="1.4"/>
+    <g clip-path="url(#kameDome)" fill="url(#kameScute)" stroke="#a9e0c8" stroke-width="5" stroke-linejoin="round">
+      <path d="M60 27 L82 27 L88 38 L82 48 L60 48 L54 38 Z"/>
+      <path d="M31 60 L38 40 L49 34 L54 38 L60 48 L56 60 Z"/>
+      <path d="M111 60 L104 40 L93 34 L88 38 L82 48 L86 60 Z"/>
+      <path d="M60 48 L82 48 L86 60 L56 60 Z"/>
+    </g>
+    <ellipse cx="54" cy="29" rx="10" ry="4.5" fill="#ffffff" opacity="0.7" transform="rotate(-28 54 29)" filter="url(#kameGlow)"/>
+    <rect x="30" y="54" width="82" height="9.5" rx="4.75" fill="url(#kameRim)" stroke="#f3c57e" stroke-width="1.2"/>
+    <g fill="#f6cf8f" opacity="0.8">
+      <circle cx="45" cy="58.8" r="1.2"/><circle cx="58" cy="58.8" r="1.2"/><circle cx="71" cy="58.8" r="1.2"/>
+      <circle cx="84" cy="58.8" r="1.2"/><circle cx="97" cy="58.8" r="1.2"/>
+    </g>
+    <circle cx="23" cy="40" r="15.5" fill="url(#kameSkin)" stroke="#a2d27a" stroke-width="1.2"/>
+    <ellipse cx="20" cy="31" rx="6" ry="3" fill="#ffffff" opacity="0.6" transform="rotate(-20 20 31)" filter="url(#kameGlow)"/>
+    <ellipse cx="16.2" cy="38.5" rx="2.9" ry="3.6" fill="#3d3a4a"/>
+    <circle cx="15.3" cy="37.2" r="1.25" fill="#ffffff"/>
+    <circle cx="17" cy="40" r="0.55" fill="#ffffff" opacity="0.9"/>
+    <ellipse cx="24" cy="46" rx="4" ry="2.6" fill="#ffb3c1" opacity="0.75" filter="url(#kameGlow)"/>
+    <path d="M9.5 44.5 Q12.5 47.8 16 46" fill="none" stroke="#6f8f56" stroke-width="1.4" stroke-linecap="round"/>
+    <g fill="#ffffff" opacity="0.65">
+      <circle cx="40.5" cy="69.6" r="1.1"/><circle cx="44" cy="70.2" r="1.1"/>
+      <circle cx="94.5" cy="69.6" r="1.1"/><circle cx="98" cy="70.2" r="1.1"/>
+    </g>
+  </g>
+  </g>
+</svg>

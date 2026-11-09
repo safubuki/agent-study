@@ -1,0 +1,9 @@
+{
+  "servers": {
+    "company-glossary": {
+      "type": "stdio",
+      "command": "node",
+      "args": ["${workspaceFolder}/../glossary-mcp.js"]
+    }
+  }
+}

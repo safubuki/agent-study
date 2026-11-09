@@ -1,0 +1,135 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 640" font-family="Meiryo, 'Yu Gothic UI', 'Noto Sans JP', sans-serif">
+  <rect x="0.5" y="0.5" width="899" height="639" rx="14" fill="#ffffff" stroke="#e5e7eb"/>
+  <text x="30" y="42" font-size="20" font-weight="700" fill="#111827">フック設定ファイルの解剖図</text>
+  <text x="30" y="64" font-size="13" fill="#6b7280">.claude/settings.json の「どこが」「何を決めるか」</text>
+
+  <!-- editor panel -->
+  <rect x="30" y="82" width="430" height="390" rx="10" fill="#1e293b"/>
+  <rect x="30" y="82" width="430" height="30" rx="10" fill="#334155"/>
+  <rect x="30" y="100" width="430" height="12" fill="#334155"/>
+  <circle cx="48" cy="97" r="5" fill="#f87171"/><circle cx="64" cy="97" r="5" fill="#fbbf24"/><circle cx="80" cy="97" r="5" fill="#34d399"/>
+  <text x="96" y="102" font-size="12.5" fill="#cbd5e1" font-family="Consolas, 'Courier New', monospace">.claude/settings.json</text>
+
+  <!-- highlight bands -->
+  <rect x="42" y="140" width="406" height="36" rx="6" fill="#8b5cf6" fill-opacity="0.22"/>
+  <rect x="42" y="182" width="406" height="36" rx="6" fill="#3b82f6" fill-opacity="0.22"/>
+  <rect x="42" y="224" width="406" height="162" rx="6" fill="#10b981" fill-opacity="0.18"/>
+
+  <g font-family="Consolas, 'Courier New', monospace" font-size="13.5" fill="#e2e8f0">
+    <text x="52" y="132" fill="#94a3b8">{ "hooks": {</text>
+    <text x="64" y="163"><tspan fill="#c4b5fd">"PreToolUse"</tspan>: [</text>
+    <text x="76" y="205">{ <tspan fill="#93c5fd">"matcher"</tspan>: <tspan fill="#fde68a">"Edit|Write"</tspan>,</text>
+    <text x="88" y="246"><tspan fill="#6ee7b7">"hooks"</tspan>: [{</text>
+    <text x="100" y="276"><tspan fill="#6ee7b7">"type"</tspan>: <tspan fill="#a7f3d0">"command"</tspan>,</text>
+    <text x="100" y="306"><tspan fill="#6ee7b7">"command"</tspan>: <tspan fill="#a7f3d0">"node hooks/guard.js"</tspan>,</text>
+    <text x="100" y="336"><tspan fill="#6ee7b7">"timeout"</tspan>: <tspan fill="#fca5a5">10</tspan></text>
+    <text x="88" y="366">}]</text>
+    <text x="76" y="396">}</text>
+    <text x="64" y="424">]</text>
+    <text x="52" y="452" fill="#94a3b8">}}</text>
+  </g>
+
+  <!-- connectors -->
+  <g stroke="#9ca3af" stroke-width="1.5" fill="none">
+    <path d="M 448 158 L 520 142"/>
+    <path d="M 448 200 L 520 212"/>
+    <path d="M 448 272 L 520 282"/>
+    <path d="M 448 306 L 520 352"/>
+    <path d="M 448 336 L 520 422"/>
+  </g>
+  <g fill="#9ca3af">
+    <circle cx="520" cy="142" r="3"/><circle cx="520" cy="212" r="3"/>
+    <circle cx="520" cy="282" r="3"/><circle cx="520" cy="352" r="3"/><circle cx="520" cy="422" r="3"/>
+  </g>
+
+  <!-- cards -->
+  <g>
+    <rect x="514" y="114" width="356" height="56" rx="8" fill="#f5f3ff" stroke="#ddd6fe"/>
+    <text x="528" y="136" font-size="14.5" font-weight="700" fill="#5b21b6">① イベント名 ─ いつ動くか</text>
+    <text x="528" y="156" font-size="12.5" fill="#374151">PreToolUse（前）/ PostToolUse（後）/ Stop 等</text>
+
+    <rect x="514" y="182" width="356" height="58" rx="8" fill="#eff6ff" stroke="#bfdbfe"/>
+    <text x="528" y="204" font-size="14.5" font-weight="700" fill="#1e3a8a">② matcher ─ どの道具のときに動くか</text>
+    <text x="528" y="224" font-size="12.5" fill="#374151">正規表現で絞り込む（省略や "*" なら全ツール）</text>
+
+    <rect x="514" y="252" width="356" height="56" rx="8" fill="#ecfdf5" stroke="#a7f3d0"/>
+    <text x="528" y="274" font-size="14.5" font-weight="700" fill="#065f46">③ type ─ 動かし方の種類</text>
+    <text x="528" y="294" font-size="12.5" fill="#374151">command（実行）/ http（通信）/ prompt（AI）</text>
+
+    <rect x="514" y="320" width="356" height="58" rx="8" fill="#ecfdf5" stroke="#a7f3d0"/>
+    <text x="528" y="342" font-size="14.5" font-weight="700" fill="#065f46">④ command ─ 実行するコマンド</text>
+    <text x="528" y="362" font-size="12.5" fill="#374151">標準入力（stdin）で状況 JSON を受け取り判定</text>
+
+    <rect x="514" y="390" width="356" height="58" rx="8" fill="#ecfdf5" stroke="#a7f3d0"/>
+    <text x="528" y="412" font-size="14.5" font-weight="700" fill="#065f46">⑤ timeout ─ 最大待ち時間（秒）</text>
+    <text x="528" y="432" font-size="12.5" fill="#374151">処理が固まっても、この秒数で強制終了して次へ</text>
+  </g>
+
+  <!-- runtime band -->
+  <text x="30" y="498" font-size="13" font-weight="700" fill="#6b7280">実行時に自動でやり取りされるデータ（パイプライン）</text>
+  <rect x="30" y="510" width="412" height="58" rx="8" fill="#fff7ed" stroke="#fed7aa"/>
+  <text x="44" y="532" font-size="14" font-weight="700" fill="#9a3412">Claude Code → フック：標準入力（stdin）の JSON</text>
+  <text x="44" y="552" font-size="12.5" fill="#374151">「どのツールを」「どんな引数で」呼ぶかが届く</text>
+
+  <rect x="458" y="510" width="412" height="58" rx="8" fill="#fff7ed" stroke="#fed7aa"/>
+  <text x="472" y="532" font-size="14" font-weight="700" fill="#9a3412">フック → Claude Code：終了コード ＆ 標準出力 JSON</text>
+  <text x="472" y="552" font-size="12.5" fill="#374151">exit 0（通過・JSON制御）または exit 2（強制阻止）</text>
+
+  <!-- 作者サイン：右下から図を見上げる亀（横向き） -->
+  <g transform="translate(794 574) scale(0.78)">
+  <g id="kame-mark" opacity="0.94">
+    <defs>
+      <linearGradient id="kameShell" x1="0.3" y1="0" x2="0.6" y2="1">
+        <stop offset="0" stop-color="#c9f1e0"/>
+        <stop offset="1" stop-color="#86d3b4"/>
+      </linearGradient>
+      <linearGradient id="kameScute" x1="0.3" y1="0" x2="0.6" y2="1">
+        <stop offset="0" stop-color="#ecfbf4"/>
+        <stop offset="1" stop-color="#b3e6d0"/>
+      </linearGradient>
+      <radialGradient id="kameSkin" cx="0.38" cy="0.32" r="0.8">
+        <stop offset="0" stop-color="#e6f7c2"/>
+        <stop offset="1" stop-color="#b3df86"/>
+      </radialGradient>
+      <linearGradient id="kameRim" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#fff1cf"/>
+        <stop offset="1" stop-color="#fbd79b"/>
+      </linearGradient>
+      <filter id="kameSoft" x="-20%" y="-50%" width="140%" height="200%"><feGaussianBlur stdDeviation="2.2"/></filter>
+      <filter id="kameGlow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="1.6"/></filter>
+      <clipPath id="kameDome"><path d="M34 58 C34 31 51 17 71 17 C92 17 108 32 108 58 Z"/></clipPath>
+    </defs>
+    <ellipse cx="68" cy="73" rx="44" ry="3.6" fill="#5b8f7b" opacity="0.22" filter="url(#kameSoft)"/>
+    <ellipse cx="56" cy="66" rx="5.5" ry="6.5" fill="#a4d47a"/>
+    <ellipse cx="84" cy="66" rx="5.5" ry="6.5" fill="#a4d47a"/>
+    <path d="M106 57 C112 57 116 60 116 63 C112 64.5 107 63.5 104 61 Z" fill="url(#kameSkin)" stroke="#a2d27a" stroke-width="1.2" stroke-linejoin="round"/>
+    <path d="M42 60 C36 58 30 54 26 47" fill="none" stroke="url(#kameSkin)" stroke-width="13" stroke-linecap="round"/>
+    <rect x="37" y="57" width="13" height="15" rx="6.5" fill="url(#kameSkin)" stroke="#a2d27a" stroke-width="1.2"/>
+    <rect x="91" y="57" width="13" height="15" rx="6.5" fill="url(#kameSkin)" stroke="#a2d27a" stroke-width="1.2"/>
+    <path d="M34 58 C34 31 51 17 71 17 C92 17 108 32 108 58 Z" fill="url(#kameShell)" stroke="#7fcaa9" stroke-width="1.4"/>
+    <g clip-path="url(#kameDome)" fill="url(#kameScute)" stroke="#a9e0c8" stroke-width="5" stroke-linejoin="round">
+      <path d="M60 27 L82 27 L88 38 L82 48 L60 48 L54 38 Z"/>
+      <path d="M31 60 L38 40 L49 34 L54 38 L60 48 L56 60 Z"/>
+      <path d="M111 60 L104 40 L93 34 L88 38 L82 48 L86 60 Z"/>
+      <path d="M60 48 L82 48 L86 60 L56 60 Z"/>
+    </g>
+    <ellipse cx="54" cy="29" rx="10" ry="4.5" fill="#ffffff" opacity="0.7" transform="rotate(-28 54 29)" filter="url(#kameGlow)"/>
+    <rect x="30" y="54" width="82" height="9.5" rx="4.75" fill="url(#kameRim)" stroke="#f3c57e" stroke-width="1.2"/>
+    <g fill="#f6cf8f" opacity="0.8">
+      <circle cx="45" cy="58.8" r="1.2"/><circle cx="58" cy="58.8" r="1.2"/><circle cx="71" cy="58.8" r="1.2"/>
+      <circle cx="84" cy="58.8" r="1.2"/><circle cx="97" cy="58.8" r="1.2"/>
+    </g>
+    <circle cx="23" cy="40" r="15.5" fill="url(#kameSkin)" stroke="#a2d27a" stroke-width="1.2"/>
+    <ellipse cx="20" cy="31" rx="6" ry="3" fill="#ffffff" opacity="0.6" transform="rotate(-20 20 31)" filter="url(#kameGlow)"/>
+    <ellipse cx="16.2" cy="38.5" rx="2.9" ry="3.6" fill="#3d3a4a"/>
+    <circle cx="15.3" cy="37.2" r="1.25" fill="#ffffff"/>
+    <circle cx="17" cy="40" r="0.55" fill="#ffffff" opacity="0.9"/>
+    <ellipse cx="24" cy="46" rx="4" ry="2.6" fill="#ffb3c1" opacity="0.75" filter="url(#kameGlow)"/>
+    <path d="M9.5 44.5 Q12.5 47.8 16 46" fill="none" stroke="#6f8f56" stroke-width="1.4" stroke-linecap="round"/>
+    <g fill="#ffffff" opacity="0.65">
+      <circle cx="40.5" cy="69.6" r="1.1"/><circle cx="44" cy="70.2" r="1.1"/>
+      <circle cx="94.5" cy="69.6" r="1.1"/><circle cx="98" cy="70.2" r="1.1"/>
+    </g>
+  </g>
+  </g>
+</svg>

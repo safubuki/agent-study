@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "catering-workflow": {
+      "command": "node",
+      "args": ["../release-check-mcp.js"]
+    }
+  }
+}

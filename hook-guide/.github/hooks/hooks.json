@@ -1,0 +1,32 @@
+{
+  "version": 1,
+  "hooks": {
+    "preToolUse": [
+      {
+        "type": "command",
+        "bash": "node hooks/guard-write.js",
+        "powershell": "node hooks/guard-write.js",
+        "cwd": ".",
+        "timeoutSec": 10
+      }
+    ],
+    "postToolUse": [
+      {
+        "type": "command",
+        "bash": "node hooks/post-check.js",
+        "powershell": "node hooks/post-check.js",
+        "cwd": ".",
+        "timeoutSec": 15
+      }
+    ],
+    "agentStop": [
+      {
+        "type": "command",
+        "bash": "node hooks/stop-verify.js",
+        "powershell": "node hooks/stop-verify.js",
+        "cwd": ".",
+        "timeoutSec": 20
+      }
+    ]
+  }
+}

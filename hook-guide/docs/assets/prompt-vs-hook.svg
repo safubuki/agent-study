@@ -1,0 +1,119 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 500" font-family="Meiryo, 'Yu Gothic UI', 'Noto Sans JP', sans-serif">
+  <defs>
+    <style>
+      .h{font-size:15px;font-weight:700}
+      .b{font-size:12.5px;fill:#374151}
+      .s{font-size:11.5px;fill:#6b7280}
+    </style>
+  </defs>
+  <rect x="0.5" y="0.5" width="899" height="499" rx="14" fill="#ffffff" stroke="#e5e7eb"/>
+  <text x="30" y="42" font-size="20" font-weight="700" fill="#111827">フック（強制）とプロンプト（お願い）の境界線</text>
+  <text x="30" y="64" class="s" font-size="13">AI モデルが賢くなっても「フックに残すべきもの」と「モデル（CLAUDE.md）に任せるべきもの」</text>
+
+  <!-- Left: Hook -->
+  <rect x="30" y="88" width="410" height="320" rx="12" fill="#ecfdf5" fill-opacity="0.7" stroke="#10b981" stroke-width="1.6"/>
+  <rect x="50" y="106" width="210" height="26" rx="13" fill="#10b981"/>
+  <text x="155" y="124" text-anchor="middle" font-size="12.5" font-weight="700" fill="#ffffff">決定論的（100% 同じ動き）</text>
+  <text x="50" y="156" class="h" fill="#065f46">フック（Hooks）＋ 権限設定にするもの</text>
+  <text x="50" y="178" class="s">モデルがどれだけ進化しても、コードで縛る価値が消えない領域</text>
+
+  <rect x="44" y="194" width="382" height="46" rx="8" fill="#ffffff" stroke="#a7f3d0"/>
+  <text x="56" y="214" class="b" font-weight="700" fill="#065f46">① 安全とセキュリティの絶対境界（PreToolUse）</text>
+  <text x="56" y="232" class="s">「.env 保護」「本番 DB 保護」など例外ゼロの規則</text>
+
+  <rect x="44" y="248" width="382" height="46" rx="8" fill="#ffffff" stroke="#a7f3d0"/>
+  <text x="56" y="268" class="b" font-weight="700" fill="#065f46">② 毎回同じ機械的な整形・変換（PostToolUse）</text>
+  <text x="56" y="286" class="s">Prettier や Linter など、AI の思考力が不要な定型処理</text>
+
+  <rect x="44" y="302" width="382" height="46" rx="8" fill="#ffffff" stroke="#a7f3d0"/>
+  <text x="56" y="322" class="b" font-weight="700" fill="#065f46">③ 客観的な合格ラインの検証（Stop）</text>
+  <text x="56" y="340" class="s">「テストが通ること」「必須タグがあること」の最終チェック</text>
+
+  <rect x="44" y="356" width="382" height="40" rx="8" fill="#ffffff" stroke="#a7f3d0"/>
+  <text x="56" y="381" class="b" font-weight="700" fill="#065f46">④ 監査ログ・通知（Notification / SessionEnd）</text>
+
+  <!-- Right: Prompt -->
+  <rect x="460" y="88" width="410" height="320" rx="12" fill="#eff6ff" fill-opacity="0.7" stroke="#3b82f6" stroke-width="1.6"/>
+  <rect x="480" y="106" width="210" height="26" rx="13" fill="#3b82f6"/>
+  <text x="585" y="124" text-anchor="middle" font-size="12.5" font-weight="700" fill="#ffffff">確率的（文脈を読んで判断）</text>
+  <text x="480" y="156" class="h" fill="#1e3a8a">プロンプト（CLAUDE.md / スキル）に任せるもの</text>
+  <text x="480" y="178" class="s">フックで縛ると融通が利かず、モデルの能力を殺してしまう領域</text>
+
+  <rect x="474" y="194" width="382" height="46" rx="8" fill="#ffffff" stroke="#bfdbfe"/>
+  <text x="486" y="214" class="b" font-weight="700" fill="#1e3a8a">① 設計方針・アーキテクチャの好み</text>
+  <text x="486" y="232" class="s">「状態管理はシンプルに」「こういう責務で分ける」など</text>
+
+  <rect x="474" y="248" width="382" height="46" rx="8" fill="#ffffff" stroke="#bfdbfe"/>
+  <text x="486" y="268" class="b" font-weight="700" fill="#1e3a8a">② 状況によって例外があるガイドライン</text>
+  <text x="486" y="286" class="s">「基本は関数型で書くが、性能が要る箇所はループでよい」など</text>
+
+  <rect x="474" y="302" width="382" height="46" rx="8" fill="#ffffff" stroke="#bfdbfe"/>
+  <text x="486" y="322" class="b" font-weight="700" fill="#1e3a8a">③ 作業の進め方・調査や実装の順番</text>
+  <text x="486" y="340" class="s">何から調べてどう直すかは、モデル自身の判断に任せる方が強い</text>
+
+  <rect x="474" y="356" width="382" height="40" rx="8" fill="#ffffff" stroke="#bfdbfe"/>
+  <text x="486" y="381" class="b" font-weight="700" fill="#1e3a8a">④ トーン・デザインの雰囲気・命名のセンス</text>
+
+  <!-- bottom bar -->
+  <rect x="30" y="422" width="750" height="50" rx="8" fill="#fff7ed" stroke="#fed7aa"/>
+  <text x="48" y="444" font-size="13.5" font-weight="700" fill="#9a3412">見分け方の合言葉：「1回でも破られたら困るか？」「プログラムの if 文で合否が書けるか？」</text>
+  <text x="48" y="463" class="b">両方 YES ならフック（左側）にします。NO なら CLAUDE.md（右側）に普通の文面で書きます。</text>
+
+  <!-- 作者サイン：右下から図を見上げる亀（横向き） -->
+  <g transform="translate(794 434) scale(0.78)">
+  <g id="kame-mark" opacity="0.94">
+    <defs>
+      <linearGradient id="kameShell" x1="0.3" y1="0" x2="0.6" y2="1">
+        <stop offset="0" stop-color="#c9f1e0"/>
+        <stop offset="1" stop-color="#86d3b4"/>
+      </linearGradient>
+      <linearGradient id="kameScute" x1="0.3" y1="0" x2="0.6" y2="1">
+        <stop offset="0" stop-color="#ecfbf4"/>
+        <stop offset="1" stop-color="#b3e6d0"/>
+      </linearGradient>
+      <radialGradient id="kameSkin" cx="0.38" cy="0.32" r="0.8">
+        <stop offset="0" stop-color="#e6f7c2"/>
+        <stop offset="1" stop-color="#b3df86"/>
+      </radialGradient>
+      <linearGradient id="kameRim" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#fff1cf"/>
+        <stop offset="1" stop-color="#fbd79b"/>
+      </linearGradient>
+      <filter id="kameSoft" x="-20%" y="-50%" width="140%" height="200%"><feGaussianBlur stdDeviation="2.2"/></filter>
+      <filter id="kameGlow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="1.6"/></filter>
+      <clipPath id="kameDome"><path d="M34 58 C34 31 51 17 71 17 C92 17 108 32 108 58 Z"/></clipPath>
+    </defs>
+    <ellipse cx="68" cy="73" rx="44" ry="3.6" fill="#5b8f7b" opacity="0.22" filter="url(#kameSoft)"/>
+    <ellipse cx="56" cy="66" rx="5.5" ry="6.5" fill="#a4d47a"/>
+    <ellipse cx="84" cy="66" rx="5.5" ry="6.5" fill="#a4d47a"/>
+    <path d="M106 57 C112 57 116 60 116 63 C112 64.5 107 63.5 104 61 Z" fill="url(#kameSkin)" stroke="#a2d27a" stroke-width="1.2" stroke-linejoin="round"/>
+    <path d="M42 60 C36 58 30 54 26 47" fill="none" stroke="url(#kameSkin)" stroke-width="13" stroke-linecap="round"/>
+    <rect x="37" y="57" width="13" height="15" rx="6.5" fill="url(#kameSkin)" stroke="#a2d27a" stroke-width="1.2"/>
+    <rect x="91" y="57" width="13" height="15" rx="6.5" fill="url(#kameSkin)" stroke="#a2d27a" stroke-width="1.2"/>
+    <path d="M34 58 C34 31 51 17 71 17 C92 17 108 32 108 58 Z" fill="url(#kameShell)" stroke="#7fcaa9" stroke-width="1.4"/>
+    <g clip-path="url(#kameDome)" fill="url(#kameScute)" stroke="#a9e0c8" stroke-width="5" stroke-linejoin="round">
+      <path d="M60 27 L82 27 L88 38 L82 48 L60 48 L54 38 Z"/>
+      <path d="M31 60 L38 40 L49 34 L54 38 L60 48 L56 60 Z"/>
+      <path d="M111 60 L104 40 L93 34 L88 38 L82 48 L86 60 Z"/>
+      <path d="M60 48 L82 48 L86 60 L56 60 Z"/>
+    </g>
+    <ellipse cx="54" cy="29" rx="10" ry="4.5" fill="#ffffff" opacity="0.7" transform="rotate(-28 54 29)" filter="url(#kameGlow)"/>
+    <rect x="30" y="54" width="82" height="9.5" rx="4.75" fill="url(#kameRim)" stroke="#f3c57e" stroke-width="1.2"/>
+    <g fill="#f6cf8f" opacity="0.8">
+      <circle cx="45" cy="58.8" r="1.2"/><circle cx="58" cy="58.8" r="1.2"/><circle cx="71" cy="58.8" r="1.2"/>
+      <circle cx="84" cy="58.8" r="1.2"/><circle cx="97" cy="58.8" r="1.2"/>
+    </g>
+    <circle cx="23" cy="40" r="15.5" fill="url(#kameSkin)" stroke="#a2d27a" stroke-width="1.2"/>
+    <ellipse cx="20" cy="31" rx="6" ry="3" fill="#ffffff" opacity="0.6" transform="rotate(-20 20 31)" filter="url(#kameGlow)"/>
+    <ellipse cx="16.2" cy="38.5" rx="2.9" ry="3.6" fill="#3d3a4a"/>
+    <circle cx="15.3" cy="37.2" r="1.25" fill="#ffffff"/>
+    <circle cx="17" cy="40" r="0.55" fill="#ffffff" opacity="0.9"/>
+    <ellipse cx="24" cy="46" rx="4" ry="2.6" fill="#ffb3c1" opacity="0.75" filter="url(#kameGlow)"/>
+    <path d="M9.5 44.5 Q12.5 47.8 16 46" fill="none" stroke="#6f8f56" stroke-width="1.4" stroke-linecap="round"/>
+    <g fill="#ffffff" opacity="0.65">
+      <circle cx="40.5" cy="69.6" r="1.1"/><circle cx="44" cy="70.2" r="1.1"/>
+      <circle cx="94.5" cy="69.6" r="1.1"/><circle cx="98" cy="70.2" r="1.1"/>
+    </g>
+  </g>
+  </g>
+</svg>

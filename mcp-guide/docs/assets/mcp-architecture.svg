@@ -1,0 +1,141 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 540" font-family="Meiryo, 'Yu Gothic UI', 'Noto Sans JP', sans-serif">
+  <defs>
+    <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#4b5563"/>
+    </marker>
+    <style>
+      .h{font-size:14px;font-weight:700}
+      .b{font-size:12px;fill:#374151}
+      .s{font-size:11px;fill:#6b7280}
+    </style>
+  </defs>
+  <rect x="0.5" y="0.5" width="899" height="539" rx="14" fill="#ffffff" stroke="#e5e7eb"/>
+  <text x="30" y="42" font-size="20" font-weight="700" fill="#111827">MCP（Model Context Protocol）の全体像</text>
+  <text x="30" y="64" class="s" font-size="12.5">「AI アプリ（Host）」と「外部の道具・データ（Server）」を共通規格でつなぐ USB-C ポート</text>
+
+  <!-- Host Box -->
+  <rect x="26" y="86" width="324" height="316" rx="12" fill="#eff6ff" stroke="#60a5fa" stroke-width="1.5"/>
+  <text x="44" y="114" class="h" fill="#1e3a8a">MCP Host（AI アプリ本体）</text>
+  <text x="44" y="134" class="s">例：Claude Code / VS Code / Claude Desktop</text>
+
+  <rect x="44" y="150" width="288" height="72" rx="8" fill="#ffffff" stroke="#93c5fd"/>
+  <text x="188" y="176" text-anchor="middle" class="h" fill="#1d4ed8">AI モデル（LLM）＋ 実行管理</text>
+  <text x="188" y="198" text-anchor="middle" class="b">考える・使う道具を選ぶ・権限を確認する</text>
+
+  <!-- Clients inside Host -->
+  <rect x="44" y="242" width="138" height="64" rx="8" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="113" y="268" text-anchor="middle" class="h" fill="#1e40af">MCP Client A</text>
+  <text x="113" y="288" text-anchor="middle" class="s">A専用の接続係</text>
+
+  <rect x="194" y="242" width="138" height="64" rx="8" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="263" y="268" text-anchor="middle" class="h" fill="#1e40af">MCP Client B</text>
+  <text x="263" y="288" text-anchor="middle" class="s">B専用の接続係</text>
+
+  <line x1="113" y1="222" x2="113" y2="242" stroke="#3b82f6" stroke-width="1.5"/>
+  <line x1="263" y1="222" x2="263" y2="242" stroke="#3b82f6" stroke-width="1.5"/>
+
+  <rect x="44" y="322" width="288" height="64" rx="8" fill="#ffffff" stroke="#bfdbfe"/>
+  <text x="58" y="344" class="b" font-weight="700" fill="#1e3a8a">ホスト側が守る安全の境界</text>
+  <text x="58" y="364" class="s">・触れる範囲の制限　・実行前の人間による承認</text>
+
+  <!-- Transport Middle Column -->
+  <rect x="372" y="106" width="156" height="128" rx="10" fill="#f9fafb" stroke="#9ca3af" stroke-dasharray="5 4"/>
+  <text x="450" y="132" text-anchor="middle" class="h" fill="#374151">① stdio 通信</text>
+  <text x="450" y="154" text-anchor="middle" class="b">自分の PC 内で起動</text>
+  <text x="450" y="176" text-anchor="middle" class="s">標準入出力で</text>
+  <text x="450" y="194" text-anchor="middle" class="s">JSON-RPC を</text>
+  <text x="450" y="212" text-anchor="middle" class="s">1行ずつ送受信</text>
+
+  <rect x="372" y="256" width="156" height="128" rx="10" fill="#f9fafb" stroke="#9ca3af" stroke-dasharray="5 4"/>
+  <text x="450" y="282" text-anchor="middle" class="h" fill="#374151">② HTTP 通信</text>
+  <text x="450" y="302" text-anchor="middle" class="s">(Streamable HTTP)</text>
+  <text x="450" y="324" text-anchor="middle" class="b">Web 越しに接続</text>
+  <text x="450" y="346" text-anchor="middle" class="s">クラウドと通信</text>
+  <text x="450" y="364" text-anchor="middle" class="s">OAuth 2.1 認証対応</text>
+
+  <!-- Arrows Host <-> Transport <-> Server -->
+  <line x1="332" y1="264" x2="370" y2="180" stroke="#4b5563" stroke-width="1.6" marker-start="url(#ah)" marker-end="url(#ah)"/>
+  <line x1="332" y1="284" x2="370" y2="316" stroke="#4b5563" stroke-width="1.6" marker-start="url(#ah)" marker-end="url(#ah)"/>
+  <line x1="528" y1="180" x2="550" y2="160" stroke="#4b5563" stroke-width="1.6" marker-start="url(#ah)" marker-end="url(#ah)"/>
+  <line x1="528" y1="316" x2="550" y2="324" stroke="#4b5563" stroke-width="1.6" marker-start="url(#ah)" marker-end="url(#ah)"/>
+
+  <!-- Servers Box -->
+  <rect x="552" y="86" width="322" height="162" rx="12" fill="#ecfdf5" stroke="#10b981" stroke-width="1.5"/>
+  <text x="570" y="112" class="h" fill="#065f46">ローカル MCP Server A（PC内）</text>
+  <text x="570" y="132" class="s">例：node cafe-catalog-mcp.js / SQLite</text>
+  <rect x="570" y="144" width="286" height="88" rx="8" fill="#ffffff" stroke="#a7f3d0"/>
+  <text x="584" y="166" class="b">・<tspan font-weight="700" fill="#047857">Tools</tspan>：AI が呼ぶ関数（検索・計算）</text>
+  <text x="584" y="190" class="b">・<tspan font-weight="700" fill="#047857">Resources</tspan>：AI が読む参考資料</text>
+  <text x="584" y="214" class="b">・<tspan font-weight="700" fill="#047857">Prompts</tspan>：定型の依頼テンプレート</text>
+
+  <rect x="552" y="262" width="322" height="140" rx="12" fill="#f5f3ff" stroke="#8b5cf6" stroke-width="1.5"/>
+  <text x="570" y="288" class="h" fill="#5b21b6">リモート MCP Server B（クラウド）</text>
+  <text x="570" y="308" class="s">例：Notion / Sentry / 社内ナレッジ API</text>
+  <rect x="570" y="320" width="286" height="66" rx="8" fill="#ffffff" stroke="#ddd6fe"/>
+  <text x="584" y="344" class="b">・ソフト導入不要、URL を登録するだけ</text>
+  <text x="584" y="368" class="b">・社内 DB や外部 SaaS を安全に中継</text>
+
+  <!-- Bottom summary -->
+  <rect x="26" y="420" width="752" height="64" rx="10" fill="#fff7ed" stroke="#fed7aa"/>
+  <text x="44" y="445" class="h" fill="#9a3412">なぜ直接 API を叩くのと違うのか？</text>
+  <text x="44" y="468" class="b">1つ MCP Server を作れば、Claude Code でも VS Code でも設定1つで同じ道具が使える</text>
+  <text x="30" y="508" class="s">出典：Model Context Protocol 公式仕様（modelcontextprotocol.io, 2026-11 取得）をもとに筆者作成</text>
+
+  <!-- 作者サイン：右下から図を見上げる亀（横向き） -->
+  <g transform="translate(794 474) scale(0.78)">
+  <g id="kame-mark" opacity="0.94">
+    <defs>
+      <linearGradient id="kameShell" x1="0.3" y1="0" x2="0.6" y2="1">
+        <stop offset="0" stop-color="#c9f1e0"/>
+        <stop offset="1" stop-color="#86d3b4"/>
+      </linearGradient>
+      <linearGradient id="kameScute" x1="0.3" y1="0" x2="0.6" y2="1">
+        <stop offset="0" stop-color="#ecfbf4"/>
+        <stop offset="1" stop-color="#b3e6d0"/>
+      </linearGradient>
+      <radialGradient id="kameSkin" cx="0.38" cy="0.32" r="0.8">
+        <stop offset="0" stop-color="#e6f7c2"/>
+        <stop offset="1" stop-color="#b3df86"/>
+      </radialGradient>
+      <linearGradient id="kameRim" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#fff1cf"/>
+        <stop offset="1" stop-color="#fbd79b"/>
+      </linearGradient>
+      <filter id="kameSoft" x="-20%" y="-50%" width="140%" height="200%"><feGaussianBlur stdDeviation="2.2"/></filter>
+      <filter id="kameGlow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="1.6"/></filter>
+      <clipPath id="kameDome"><path d="M34 58 C34 31 51 17 71 17 C92 17 108 32 108 58 Z"/></clipPath>
+    </defs>
+    <ellipse cx="68" cy="73" rx="44" ry="3.6" fill="#5b8f7b" opacity="0.22" filter="url(#kameSoft)"/>
+    <ellipse cx="56" cy="66" rx="5.5" ry="6.5" fill="#a4d47a"/>
+    <ellipse cx="84" cy="66" rx="5.5" ry="6.5" fill="#a4d47a"/>
+    <path d="M106 57 C112 57 116 60 116 63 C112 64.5 107 63.5 104 61 Z" fill="url(#kameSkin)" stroke="#a2d27a" stroke-width="1.2" stroke-linejoin="round"/>
+    <path d="M42 60 C36 58 30 54 26 47" fill="none" stroke="url(#kameSkin)" stroke-width="13" stroke-linecap="round"/>
+    <rect x="37" y="57" width="13" height="15" rx="6.5" fill="url(#kameSkin)" stroke="#a2d27a" stroke-width="1.2"/>
+    <rect x="91" y="57" width="13" height="15" rx="6.5" fill="url(#kameSkin)" stroke="#a2d27a" stroke-width="1.2"/>
+    <path d="M34 58 C34 31 51 17 71 17 C92 17 108 32 108 58 Z" fill="url(#kameShell)" stroke="#7fcaa9" stroke-width="1.4"/>
+    <g clip-path="url(#kameDome)" fill="url(#kameScute)" stroke="#a9e0c8" stroke-width="5" stroke-linejoin="round">
+      <path d="M60 27 L82 27 L88 38 L82 48 L60 48 L54 38 Z"/>
+      <path d="M31 60 L38 40 L49 34 L54 38 L60 48 L56 60 Z"/>
+      <path d="M111 60 L104 40 L93 34 L88 38 L82 48 L86 60 Z"/>
+      <path d="M60 48 L82 48 L86 60 L56 60 Z"/>
+    </g>
+    <ellipse cx="54" cy="29" rx="10" ry="4.5" fill="#ffffff" opacity="0.7" transform="rotate(-28 54 29)" filter="url(#kameGlow)"/>
+    <rect x="30" y="54" width="82" height="9.5" rx="4.75" fill="url(#kameRim)" stroke="#f3c57e" stroke-width="1.2"/>
+    <g fill="#f6cf8f" opacity="0.8">
+      <circle cx="45" cy="58.8" r="1.2"/><circle cx="58" cy="58.8" r="1.2"/><circle cx="71" cy="58.8" r="1.2"/>
+      <circle cx="84" cy="58.8" r="1.2"/><circle cx="97" cy="58.8" r="1.2"/>
+    </g>
+    <circle cx="23" cy="40" r="15.5" fill="url(#kameSkin)" stroke="#a2d27a" stroke-width="1.2"/>
+    <ellipse cx="20" cy="31" rx="6" ry="3" fill="#ffffff" opacity="0.6" transform="rotate(-20 20 31)" filter="url(#kameGlow)"/>
+    <ellipse cx="16.2" cy="38.5" rx="2.9" ry="3.6" fill="#3d3a4a"/>
+    <circle cx="15.3" cy="37.2" r="1.25" fill="#ffffff"/>
+    <circle cx="17" cy="40" r="0.55" fill="#ffffff" opacity="0.9"/>
+    <ellipse cx="24" cy="46" rx="4" ry="2.6" fill="#ffb3c1" opacity="0.75" filter="url(#kameGlow)"/>
+    <path d="M9.5 44.5 Q12.5 47.8 16 46" fill="none" stroke="#6f8f56" stroke-width="1.4" stroke-linecap="round"/>
+    <g fill="#ffffff" opacity="0.65">
+      <circle cx="40.5" cy="69.6" r="1.1"/><circle cx="44" cy="70.2" r="1.1"/>
+      <circle cx="94.5" cy="69.6" r="1.1"/><circle cx="98" cy="70.2" r="1.1"/>
+    </g>
+  </g>
+  </g>
+</svg>

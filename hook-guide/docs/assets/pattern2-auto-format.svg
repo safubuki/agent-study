@@ -1,0 +1,109 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 480" font-family="Meiryo, 'Yu Gothic UI', 'Noto Sans JP', sans-serif">
+  <defs>
+    <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#6b7280"/>
+    </marker>
+    <style>
+      .h{font-size:14px;font-weight:700}
+      .b{font-size:12.5px;fill:#374151}
+      .s{font-size:11.5px;fill:#6b7280}
+    </style>
+  </defs>
+  <rect x="0.5" y="0.5" width="899" height="479" rx="14" fill="#ffffff" stroke="#e5e7eb"/>
+  <text x="30" y="42" font-size="20" font-weight="700" fill="#111827">② 自動整形・事後チェック（PostToolUse）</text>
+  <text x="30" y="64" class="s" font-size="13">AI がファイルを保存した「直後」にフォーマッターや構文チェックを自動実行し、違反があれば即座にフィードバックする</text>
+
+  <rect x="50" y="92" width="310" height="54" rx="10" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="205" y="116" text-anchor="middle" class="h" fill="#6d28d9">AI エージェント（Write / Edit 完了）</text>
+  <text x="205" y="136" text-anchor="middle" class="b">対象ファイルがディスクに書き込まれる</text>
+
+  <line x1="205" y1="146" x2="205" y2="182" stroke="#6b7280" stroke-width="1.6" marker-end="url(#ah)"/>
+  <text x="215" y="169" class="s">書き込んだファイルパス（file_path）が届く</text>
+
+  <rect x="50" y="184" width="310" height="78" rx="10" fill="#d1fae5" stroke="#10b981" stroke-width="1.8"/>
+  <text x="205" y="210" text-anchor="middle" class="h" fill="#047857">PostToolUse フック（自動整形・検査）</text>
+  <text x="205" y="232" text-anchor="middle" class="b">① Prettier / ESLint で自動整形</text>
+  <text x="205" y="250" text-anchor="middle" class="b">② 型チェック・アクセシビリティ検査を実行</text>
+
+  <line x1="205" y1="262" x2="205" y2="298" stroke="#6b7280" stroke-width="1.6" marker-end="url(#ah)"/>
+
+  <rect x="34" y="300" width="342" height="92" rx="10" fill="#eff6ff" stroke="#3b82f6"/>
+  <text x="205" y="324" text-anchor="middle" class="h" fill="#1d4ed8">検査結果を AI へ即座にフィードバック</text>
+  <text x="205" y="346" text-anchor="middle" class="b">・問題なし → 無言で通過（文脈を汚さない）</text>
+  <text x="205" y="368" text-anchor="middle" class="b">・違反あり → decision: block で即座に通知</text>
+  <text x="205" y="384" text-anchor="middle" class="s">AI は記憶が新しいその場のターンで直せる</text>
+
+  <rect x="410" y="92" width="460" height="146" rx="10" fill="#f0fdf4" stroke="#bbf7d0"/>
+  <text x="426" y="118" class="h" fill="#15803d">得るもの</text>
+  <text x="426" y="144" class="b">・AI に「Prettier を実行して」と頼むターンとトークンが浮く</text>
+  <text x="426" y="167" class="b">・インデントやクォートの揺れを AI に考えさせずに100%統一できる</text>
+  <text x="426" y="190" class="b">・編集直後にエラーが返るため、最後に直すより手戻りが少ない</text>
+  <text x="426" y="213" class="b">・正常時は何も出力しなければ、コンテキスト窓を1文字も消費しない</text>
+
+  <rect x="410" y="252" width="460" height="142" rx="10" fill="#fef2f2" stroke="#fecaca"/>
+  <text x="426" y="278" class="h" fill="#b91c1c">失うもの・注意点</text>
+  <text x="426" y="304" class="b">・ツール実行後なので、危険な操作の「予防」には使えない（→①へ）</text>
+  <text x="426" y="327" class="b">・1ファイル編集するたびに全体ビルドを走らせると、毎回待たされる</text>
+  <text x="426" y="350" class="b">・フックが中身を大きく書き換えると、AI の記憶とズレることがある</text>
+  <text x="426" y="373" class="b">　（大幅な書き換えより、空白・整形程度に留めるのが安全）</text>
+
+  <text x="30" y="436" class="s">根拠：Claude Code Docs「Automate workflows with hooks」（2026-11 取得）、GitHub Copilot Docs</text>
+
+  <!-- 作者サイン：右下から図を見上げる亀（横向き） -->
+  <g transform="translate(794 414) scale(0.78)">
+  <g id="kame-mark" opacity="0.94">
+    <defs>
+      <linearGradient id="kameShell" x1="0.3" y1="0" x2="0.6" y2="1">
+        <stop offset="0" stop-color="#c9f1e0"/>
+        <stop offset="1" stop-color="#86d3b4"/>
+      </linearGradient>
+      <linearGradient id="kameScute" x1="0.3" y1="0" x2="0.6" y2="1">
+        <stop offset="0" stop-color="#ecfbf4"/>
+        <stop offset="1" stop-color="#b3e6d0"/>
+      </linearGradient>
+      <radialGradient id="kameSkin" cx="0.38" cy="0.32" r="0.8">
+        <stop offset="0" stop-color="#e6f7c2"/>
+        <stop offset="1" stop-color="#b3df86"/>
+      </radialGradient>
+      <linearGradient id="kameRim" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#fff1cf"/>
+        <stop offset="1" stop-color="#fbd79b"/>
+      </linearGradient>
+      <filter id="kameSoft" x="-20%" y="-50%" width="140%" height="200%"><feGaussianBlur stdDeviation="2.2"/></filter>
+      <filter id="kameGlow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="1.6"/></filter>
+      <clipPath id="kameDome"><path d="M34 58 C34 31 51 17 71 17 C92 17 108 32 108 58 Z"/></clipPath>
+    </defs>
+    <ellipse cx="68" cy="73" rx="44" ry="3.6" fill="#5b8f7b" opacity="0.22" filter="url(#kameSoft)"/>
+    <ellipse cx="56" cy="66" rx="5.5" ry="6.5" fill="#a4d47a"/>
+    <ellipse cx="84" cy="66" rx="5.5" ry="6.5" fill="#a4d47a"/>
+    <path d="M106 57 C112 57 116 60 116 63 C112 64.5 107 63.5 104 61 Z" fill="url(#kameSkin)" stroke="#a2d27a" stroke-width="1.2" stroke-linejoin="round"/>
+    <path d="M42 60 C36 58 30 54 26 47" fill="none" stroke="url(#kameSkin)" stroke-width="13" stroke-linecap="round"/>
+    <rect x="37" y="57" width="13" height="15" rx="6.5" fill="url(#kameSkin)" stroke="#a2d27a" stroke-width="1.2"/>
+    <rect x="91" y="57" width="13" height="15" rx="6.5" fill="url(#kameSkin)" stroke="#a2d27a" stroke-width="1.2"/>
+    <path d="M34 58 C34 31 51 17 71 17 C92 17 108 32 108 58 Z" fill="url(#kameShell)" stroke="#7fcaa9" stroke-width="1.4"/>
+    <g clip-path="url(#kameDome)" fill="url(#kameScute)" stroke="#a9e0c8" stroke-width="5" stroke-linejoin="round">
+      <path d="M60 27 L82 27 L88 38 L82 48 L60 48 L54 38 Z"/>
+      <path d="M31 60 L38 40 L49 34 L54 38 L60 48 L56 60 Z"/>
+      <path d="M111 60 L104 40 L93 34 L88 38 L82 48 L86 60 Z"/>
+      <path d="M60 48 L82 48 L86 60 L56 60 Z"/>
+    </g>
+    <ellipse cx="54" cy="29" rx="10" ry="4.5" fill="#ffffff" opacity="0.7" transform="rotate(-28 54 29)" filter="url(#kameGlow)"/>
+    <rect x="30" y="54" width="82" height="9.5" rx="4.75" fill="url(#kameRim)" stroke="#f3c57e" stroke-width="1.2"/>
+    <g fill="#f6cf8f" opacity="0.8">
+      <circle cx="45" cy="58.8" r="1.2"/><circle cx="58" cy="58.8" r="1.2"/><circle cx="71" cy="58.8" r="1.2"/>
+      <circle cx="84" cy="58.8" r="1.2"/><circle cx="97" cy="58.8" r="1.2"/>
+    </g>
+    <circle cx="23" cy="40" r="15.5" fill="url(#kameSkin)" stroke="#a2d27a" stroke-width="1.2"/>
+    <ellipse cx="20" cy="31" rx="6" ry="3" fill="#ffffff" opacity="0.6" transform="rotate(-20 20 31)" filter="url(#kameGlow)"/>
+    <ellipse cx="16.2" cy="38.5" rx="2.9" ry="3.6" fill="#3d3a4a"/>
+    <circle cx="15.3" cy="37.2" r="1.25" fill="#ffffff"/>
+    <circle cx="17" cy="40" r="0.55" fill="#ffffff" opacity="0.9"/>
+    <ellipse cx="24" cy="46" rx="4" ry="2.6" fill="#ffb3c1" opacity="0.75" filter="url(#kameGlow)"/>
+    <path d="M9.5 44.5 Q12.5 47.8 16 46" fill="none" stroke="#6f8f56" stroke-width="1.4" stroke-linecap="round"/>
+    <g fill="#ffffff" opacity="0.65">
+      <circle cx="40.5" cy="69.6" r="1.1"/><circle cx="44" cy="70.2" r="1.1"/>
+      <circle cx="94.5" cy="69.6" r="1.1"/><circle cx="98" cy="70.2" r="1.1"/>
+    </g>
+  </g>
+  </g>
+</svg>

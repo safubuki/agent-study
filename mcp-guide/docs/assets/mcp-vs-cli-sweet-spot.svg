@@ -1,0 +1,122 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 520" font-family="Meiryo, 'Yu Gothic UI', 'Noto Sans JP', sans-serif">
+  <rect x="0.5" y="0.5" width="899" height="519" rx="14" fill="#ffffff" stroke="#e5e7eb"/>
+  <text x="36" y="42" font-size="19" font-weight="700" fill="#111827">登録ツール数とトークン消費・精度の関係（概念図）</text>
+
+  <!-- legend -->
+  <line x1="450" y1="37" x2="478" y2="37" stroke="#2563eb" stroke-width="3"/>
+  <text x="484" y="42" font-size="11.5" fill="#374151">一括読込の効率</text>
+  <line x1="585" y1="37" x2="613" y2="37" stroke="#10b981" stroke-width="3"/>
+  <text x="619" y="42" font-size="11.5" fill="#374151">Tool Search / Code Mode</text>
+  <line x1="772" y1="37" x2="796" y2="37" stroke="#dc2626" stroke-width="2.5" stroke-dasharray="6 4"/>
+  <text x="802" y="42" font-size="11.5" fill="#374151">定義コスト</text>
+
+  <!-- zones -->
+  <rect x="70"  y="70" width="220" height="300" fill="#dcfce7"/>
+  <rect x="290" y="70" width="240" height="300" fill="#fef3c7"/>
+  <rect x="530" y="70" width="330" height="300" fill="#ffe4e6"/>
+
+  <text x="180" y="94" font-size="13.5" font-weight="700" fill="#166534" text-anchor="middle">快適ゾーン（〜15ツール）</text>
+  <text x="180" y="114" font-size="11.5" fill="#166534" text-anchor="middle">厳選した2〜3個の MCP サーバー</text>
+  <text x="180" y="132" font-size="11" fill="#166534" text-anchor="middle">数千トークン以内・迷わず選べる</text>
+
+  <text x="410" y="94" font-size="13.5" font-weight="700" fill="#92400e" text-anchor="middle">注意ゾーン（15〜50ツール）</text>
+  <text x="410" y="114" font-size="11.5" fill="#92400e" text-anchor="middle">似た名前で選び間違いが増える</text>
+  <text x="410" y="132" font-size="11" fill="#92400e" text-anchor="middle">→ ファサード③・サブ分離④が効く</text>
+
+  <text x="695" y="94" font-size="13.5" font-weight="700" fill="#9f1239" text-anchor="middle">一括読込の破綻ゾーン（50個〜）</text>
+  <text x="695" y="114" font-size="11.5" fill="#9f1239" text-anchor="middle">質問前に数万〜100万トークン消費</text>
+  <text x="695" y="132" font-size="11" fill="#9f1239" text-anchor="middle">→ Tool Search / Code Mode⑤が必須</text>
+
+  <!-- threshold line -->
+  <line x1="530" y1="70" x2="530" y2="370" stroke="#4b5563" stroke-width="2" stroke-dasharray="4 4"/>
+  <text x="542" y="356" font-size="11" fill="#374151">Tool Search 自動切替の目安（文脈の約10%）</text>
+
+  <!-- axes -->
+  <line x1="70" y1="370" x2="860" y2="370" stroke="#6b7280" stroke-width="1.5"/>
+  <line x1="70" y1="70"  x2="70"  y2="370" stroke="#6b7280" stroke-width="1.5"/>
+
+  <!-- upfront token cost line -->
+  <polyline points="85,355 280,310 530,210 850,88" fill="none" stroke="#dc2626" stroke-width="2.5" stroke-dasharray="7 5"/>
+
+  <!-- traditional efficiency curve -->
+  <polyline points="85,260 145,175 180,162 290,180 410,235 530,295 700,340 850,355"
+            fill="none" stroke="#2563eb" stroke-width="3.5" stroke-linejoin="round" stroke-linecap="round"/>
+
+  <!-- Tool Search / Code Mode curve -->
+  <polyline points="290,180 410,172 530,168 700,170 850,175"
+            fill="none" stroke="#10b981" stroke-width="3.5" stroke-linejoin="round" stroke-linecap="round"/>
+
+  <circle cx="180" cy="162" r="5.5" fill="#2563eb"/>
+  <text x="180" y="152" font-size="11.5" font-weight="700" fill="#1e40af" text-anchor="middle">常時ロードの最適点</text>
+
+  <text x="695" y="158" font-size="11.5" font-weight="700" fill="#047857" text-anchor="middle">オンデマンド検索なら大量でも維持</text>
+
+  <!-- ticks -->
+  <g font-size="12" fill="#374151" text-anchor="middle">
+    <text x="105" y="392" text-anchor="middle">5個</text>
+    <text x="280" y="392" text-anchor="middle">15個</text>
+    <text x="520" y="392" text-anchor="middle">50個</text>
+    <text x="690" y="392" text-anchor="middle">200個</text>
+    <text x="815" y="392" text-anchor="middle">1,000個〜</text>
+  </g>
+  <text x="465" y="416" font-size="13" fill="#374151" text-anchor="middle">セッションに同時接続された MCP ツールの総数</text>
+  <text x="36" y="450" font-size="11" fill="#6b7280">※ 筆者作成の概念図。根拠：OpenAI（10〜15個の類似ツールで迷う）、Anthropic（15万→2千トークン）、Cloudflare（117万→1千トークン）。</text>
+
+  <!-- 作者サイン：右下から図を見上げる亀（横向き） -->
+  <g transform="translate(794 454) scale(0.78)">
+  <g id="kame-mark" opacity="0.94">
+    <defs>
+      <linearGradient id="kameShell" x1="0.3" y1="0" x2="0.6" y2="1">
+        <stop offset="0" stop-color="#c9f1e0"/>
+        <stop offset="1" stop-color="#86d3b4"/>
+      </linearGradient>
+      <linearGradient id="kameScute" x1="0.3" y1="0" x2="0.6" y2="1">
+        <stop offset="0" stop-color="#ecfbf4"/>
+        <stop offset="1" stop-color="#b3e6d0"/>
+      </linearGradient>
+      <radialGradient id="kameSkin" cx="0.38" cy="0.32" r="0.8">
+        <stop offset="0" stop-color="#e6f7c2"/>
+        <stop offset="1" stop-color="#b3df86"/>
+      </radialGradient>
+      <linearGradient id="kameRim" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#fff1cf"/>
+        <stop offset="1" stop-color="#fbd79b"/>
+      </linearGradient>
+      <filter id="kameSoft" x="-20%" y="-50%" width="140%" height="200%"><feGaussianBlur stdDeviation="2.2"/></filter>
+      <filter id="kameGlow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="1.6"/></filter>
+      <clipPath id="kameDome"><path d="M34 58 C34 31 51 17 71 17 C92 17 108 32 108 58 Z"/></clipPath>
+    </defs>
+    <ellipse cx="68" cy="73" rx="44" ry="3.6" fill="#5b8f7b" opacity="0.22" filter="url(#kameSoft)"/>
+    <ellipse cx="56" cy="66" rx="5.5" ry="6.5" fill="#a4d47a"/>
+    <ellipse cx="84" cy="66" rx="5.5" ry="6.5" fill="#a4d47a"/>
+    <path d="M106 57 C112 57 116 60 116 63 C112 64.5 107 63.5 104 61 Z" fill="url(#kameSkin)" stroke="#a2d27a" stroke-width="1.2" stroke-linejoin="round"/>
+    <path d="M42 60 C36 58 30 54 26 47" fill="none" stroke="url(#kameSkin)" stroke-width="13" stroke-linecap="round"/>
+    <rect x="37" y="57" width="13" height="15" rx="6.5" fill="url(#kameSkin)" stroke="#a2d27a" stroke-width="1.2"/>
+    <rect x="91" y="57" width="13" height="15" rx="6.5" fill="url(#kameSkin)" stroke="#a2d27a" stroke-width="1.2"/>
+    <path d="M34 58 C34 31 51 17 71 17 C92 17 108 32 108 58 Z" fill="url(#kameShell)" stroke="#7fcaa9" stroke-width="1.4"/>
+    <g clip-path="url(#kameDome)" fill="url(#kameScute)" stroke="#a9e0c8" stroke-width="5" stroke-linejoin="round">
+      <path d="M60 27 L82 27 L88 38 L82 48 L60 48 L54 38 Z"/>
+      <path d="M31 60 L38 40 L49 34 L54 38 L60 48 L56 60 Z"/>
+      <path d="M111 60 L104 40 L93 34 L88 38 L82 48 L86 60 Z"/>
+      <path d="M60 48 L82 48 L86 60 L56 60 Z"/>
+    </g>
+    <ellipse cx="54" cy="29" rx="10" ry="4.5" fill="#ffffff" opacity="0.7" transform="rotate(-28 54 29)" filter="url(#kameGlow)"/>
+    <rect x="30" y="54" width="82" height="9.5" rx="4.75" fill="url(#kameRim)" stroke="#f3c57e" stroke-width="1.2"/>
+    <g fill="#f6cf8f" opacity="0.8">
+      <circle cx="45" cy="58.8" r="1.2"/><circle cx="58" cy="58.8" r="1.2"/><circle cx="71" cy="58.8" r="1.2"/>
+      <circle cx="84" cy="58.8" r="1.2"/><circle cx="97" cy="58.8" r="1.2"/>
+    </g>
+    <circle cx="23" cy="40" r="15.5" fill="url(#kameSkin)" stroke="#a2d27a" stroke-width="1.2"/>
+    <ellipse cx="20" cy="31" rx="6" ry="3" fill="#ffffff" opacity="0.6" transform="rotate(-20 20 31)" filter="url(#kameGlow)"/>
+    <ellipse cx="16.2" cy="38.5" rx="2.9" ry="3.6" fill="#3d3a4a"/>
+    <circle cx="15.3" cy="37.2" r="1.25" fill="#ffffff"/>
+    <circle cx="17" cy="40" r="0.55" fill="#ffffff" opacity="0.9"/>
+    <ellipse cx="24" cy="46" rx="4" ry="2.6" fill="#ffb3c1" opacity="0.75" filter="url(#kameGlow)"/>
+    <path d="M9.5 44.5 Q12.5 47.8 16 46" fill="none" stroke="#6f8f56" stroke-width="1.4" stroke-linecap="round"/>
+    <g fill="#ffffff" opacity="0.65">
+      <circle cx="40.5" cy="69.6" r="1.1"/><circle cx="44" cy="70.2" r="1.1"/>
+      <circle cx="94.5" cy="69.6" r="1.1"/><circle cx="98" cy="70.2" r="1.1"/>
+    </g>
+  </g>
+  </g>
+</svg>

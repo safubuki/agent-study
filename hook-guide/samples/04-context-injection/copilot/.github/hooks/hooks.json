@@ -1,0 +1,14 @@
+{
+  "version": 1,
+  "hooks": {
+    "userPromptSubmitted": [
+      {
+        "type": "command",
+        "bash": "node hooks/inject-context.js",
+        "powershell": "node hooks/inject-context.js",
+        "cwd": ".",
+        "timeoutSec": 5
+      }
+    ]
+  }
+}

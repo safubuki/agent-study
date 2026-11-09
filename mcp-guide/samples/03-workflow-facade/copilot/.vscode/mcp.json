@@ -1,0 +1,9 @@
+{
+  "servers": {
+    "catering-workflow": {
+      "type": "stdio",
+      "command": "node",
+      "args": ["${workspaceFolder}/../release-check-mcp.js"]
+    }
+  }
+}

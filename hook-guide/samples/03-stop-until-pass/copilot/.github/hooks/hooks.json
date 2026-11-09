@@ -1,0 +1,14 @@
+{
+  "version": 1,
+  "hooks": {
+    "agentStop": [
+      {
+        "type": "command",
+        "bash": "node hooks/verify-completion.js",
+        "powershell": "node hooks/verify-completion.js",
+        "cwd": ".",
+        "timeoutSec": 20
+      }
+    ]
+  }
+}

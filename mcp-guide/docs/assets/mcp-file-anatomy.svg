@@ -1,0 +1,144 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 640" font-family="Meiryo, 'Yu Gothic UI', 'Noto Sans JP', sans-serif">
+  <rect x="0.5" y="0.5" width="899" height="639" rx="14" fill="#ffffff" stroke="#e5e7eb"/>
+  <text x="30" y="42" font-size="20" font-weight="700" fill="#111827">MCP 設定ファイル（.mcp.json）の解剖図</text>
+  <text x="30" y="64" font-size="13" fill="#6b7280">設定ファイルの「どこが」「何に使われるか」と、裏で流れる JSON-RPC メッセージ</text>
+
+  <!-- editor panel -->
+  <rect x="26" y="82" width="424" height="380" rx="10" fill="#1e293b"/>
+  <rect x="26" y="82" width="424" height="30" rx="10" fill="#334155"/>
+  <rect x="26" y="100" width="424" height="12" fill="#334155"/>
+  <circle cx="44" cy="97" r="5" fill="#f87171"/><circle cx="60" cy="97" r="5" fill="#fbbf24"/><circle cx="76" cy="97" r="5" fill="#34d399"/>
+  <text x="92" y="102" font-size="12" fill="#cbd5e1" font-family="Consolas, 'Courier New', monospace">.mcp.json（Claude Code プロジェクト共有用）</text>
+
+  <!-- local stdio band -->
+  <rect x="38" y="142" width="400" height="176" rx="6" fill="#3b82f6" fill-opacity="0.16"/>
+  <!-- remote http band -->
+  <rect x="38" y="328" width="400" height="106" rx="6" fill="#10b981" fill-opacity="0.16"/>
+
+  <g font-family="Consolas, 'Courier New', monospace" font-size="12.5" fill="#e2e8f0">
+    <text x="46" y="134">{ <tspan fill="#93c5fd">"mcpServers"</tspan>: {</text>
+    <text x="60" y="164"><tspan fill="#fde047">"cafe-catalog"</tspan>: {</text>
+    <text x="74" y="192"><tspan fill="#93c5fd">"command"</tspan>: <tspan fill="#a7f3d0">"node"</tspan>,</text>
+    <text x="74" y="220"><tspan fill="#93c5fd">"args"</tspan>: [<tspan fill="#a7f3d0">"servers/cafe-catalog-mcp.js"</tspan>],</text>
+    <text x="74" y="248"><tspan fill="#93c5fd">"env"</tspan>: {</text>
+    <text x="88" y="274"><tspan fill="#93c5fd">"CAFE_TAX_RATE"</tspan>: <tspan fill="#a7f3d0">"${CAFE_TAX_RATE:-0.10}"</tspan></text>
+    <text x="74" y="298">}</text>
+    <text x="60" y="314">},</text>
+    <text x="60" y="350"><tspan fill="#fde047">"remote-docs"</tspan>: {</text>
+    <text x="74" y="376"><tspan fill="#6ee7b7">"type"</tspan>: <tspan fill="#a7f3d0">"http"</tspan>,</text>
+    <text x="74" y="402"><tspan fill="#6ee7b7">"url"</tspan>: <tspan fill="#a7f3d0">"https://mcp.example.com/mcp"</tspan></text>
+    <text x="60" y="424">}</text>
+    <text x="46" y="450">}}</text>
+  </g>
+  <text x="430" y="158" font-size="11" fill="#93c5fd" text-anchor="end">ローカル（stdio）</text>
+  <text x="430" y="346" font-size="11" fill="#6ee7b7" text-anchor="end">リモート（HTTP）</text>
+
+  <!-- connectors -->
+  <g stroke="#9ca3af" stroke-width="1.5" fill="none">
+    <path d="M 290 130 L 496 140"/>
+    <path d="M 230 160 L 496 198"/>
+    <path d="M 370 206 L 496 256"/>
+    <path d="M 370 268 L 496 314"/>
+    <path d="M 400 388 L 496 392"/>
+  </g>
+  <g fill="#9ca3af">
+    <circle cx="496" cy="140" r="3"/><circle cx="496" cy="198" r="3"/>
+    <circle cx="496" cy="256" r="3"/><circle cx="496" cy="314" r="3"/><circle cx="496" cy="392" r="3"/>
+  </g>
+
+  <!-- cards -->
+  <g>
+    <rect x="500" y="114" width="374" height="52" rx="8" fill="#eff6ff" stroke="#bfdbfe"/>
+    <text x="514" y="135" font-size="14" font-weight="700" fill="#1e3a8a">mcpServers ─ 一番外側のキー</text>
+    <text x="514" y="155" font-size="11.5" fill="#374151">※ VS Code（.vscode/mcp.json）では "servers"</text>
+
+    <rect x="500" y="174" width="374" height="52" rx="8" fill="#eff6ff" stroke="#bfdbfe"/>
+    <text x="514" y="195" font-size="14" font-weight="700" fill="#1e3a8a">cafe-catalog ─ サーバーの識別名</text>
+    <text x="514" y="215" font-size="11.5" fill="#374151">ツール名は mcp__cafe-catalog__ツール名 になる</text>
+
+    <rect x="500" y="234" width="374" height="52" rx="8" fill="#eff6ff" stroke="#bfdbfe"/>
+    <text x="514" y="255" font-size="14" font-weight="700" fill="#1e3a8a">command / args ─ 起動するプログラム</text>
+    <text x="514" y="275" font-size="11.5" fill="#374151">AI アプリがこのコマンドを裏で自動起動する</text>
+
+    <rect x="500" y="294" width="374" height="52" rx="8" fill="#eff6ff" stroke="#bfdbfe"/>
+    <text x="514" y="315" font-size="14" font-weight="700" fill="#1e3a8a">env ─ 環境変数（秘密情報の受け渡し）</text>
+    <text x="514" y="335" font-size="11.5" fill="#374151">${変数名} と書けば API キーをファイルに残さない</text>
+
+    <rect x="500" y="358" width="374" height="68" rx="8" fill="#ecfdf5" stroke="#a7f3d0"/>
+    <text x="514" y="380" font-size="14" font-weight="700" fill="#065f46">type: "http" / url ─ クラウド接続</text>
+    <text x="514" y="400" font-size="11.5" fill="#374151">自分の PC にソフトを入れず、Web 上のサーバーに</text>
+    <text x="514" y="417" font-size="11.5" fill="#374151">URL で直接つながる（headers で認証指定も可）</text>
+  </g>
+
+  <!-- runtime band -->
+  <text x="30" y="492" font-size="13" font-weight="700" fill="#6b7280">起動したあと、ホストとサーバーの間で自動で行われる3ステップ（JSON-RPC 2.0）</text>
+  <rect x="26" y="504" width="272" height="62" rx="8" fill="#fff7ed" stroke="#fed7aa"/>
+  <text x="40" y="526" font-size="13.5" font-weight="700" fill="#9a3412">① initialize（あいさつ）</text>
+  <text x="40" y="546" font-size="11.5" fill="#374151">仕様バージョンと使える機能を交換</text>
+
+  <rect x="310" y="504" width="272" height="62" rx="8" fill="#fff7ed" stroke="#fed7aa"/>
+  <text x="324" y="526" font-size="13.5" font-weight="700" fill="#9a3412">② tools/list（お品書き取得）</text>
+  <text x="324" y="546" font-size="11.5" fill="#374151">ツール名・説明文・引数の型を受け取る</text>
+
+  <rect x="594" y="504" width="280" height="62" rx="8" fill="#fff7ed" stroke="#fed7aa"/>
+  <text x="608" y="526" font-size="13.5" font-weight="700" fill="#9a3412">③ tools/call（道具の実行）</text>
+  <text x="608" y="546" font-size="11.5" fill="#374151">選んだツールに引数を渡して結果を得る</text>
+
+  <!-- 作者サイン：右下から図を見上げる亀（横向き） -->
+  <g transform="translate(794 574) scale(0.78)">
+  <g id="kame-mark" opacity="0.94">
+    <defs>
+      <linearGradient id="kameShell" x1="0.3" y1="0" x2="0.6" y2="1">
+        <stop offset="0" stop-color="#c9f1e0"/>
+        <stop offset="1" stop-color="#86d3b4"/>
+      </linearGradient>
+      <linearGradient id="kameScute" x1="0.3" y1="0" x2="0.6" y2="1">
+        <stop offset="0" stop-color="#ecfbf4"/>
+        <stop offset="1" stop-color="#b3e6d0"/>
+      </linearGradient>
+      <radialGradient id="kameSkin" cx="0.38" cy="0.32" r="0.8">
+        <stop offset="0" stop-color="#e6f7c2"/>
+        <stop offset="1" stop-color="#b3df86"/>
+      </radialGradient>
+      <linearGradient id="kameRim" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#fff1cf"/>
+        <stop offset="1" stop-color="#fbd79b"/>
+      </linearGradient>
+      <filter id="kameSoft" x="-20%" y="-50%" width="140%" height="200%"><feGaussianBlur stdDeviation="2.2"/></filter>
+      <filter id="kameGlow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="1.6"/></filter>
+      <clipPath id="kameDome"><path d="M34 58 C34 31 51 17 71 17 C92 17 108 32 108 58 Z"/></clipPath>
+    </defs>
+    <ellipse cx="68" cy="73" rx="44" ry="3.6" fill="#5b8f7b" opacity="0.22" filter="url(#kameSoft)"/>
+    <ellipse cx="56" cy="66" rx="5.5" ry="6.5" fill="#a4d47a"/>
+    <ellipse cx="84" cy="66" rx="5.5" ry="6.5" fill="#a4d47a"/>
+    <path d="M106 57 C112 57 116 60 116 63 C112 64.5 107 63.5 104 61 Z" fill="url(#kameSkin)" stroke="#a2d27a" stroke-width="1.2" stroke-linejoin="round"/>
+    <path d="M42 60 C36 58 30 54 26 47" fill="none" stroke="url(#kameSkin)" stroke-width="13" stroke-linecap="round"/>
+    <rect x="37" y="57" width="13" height="15" rx="6.5" fill="url(#kameSkin)" stroke="#a2d27a" stroke-width="1.2"/>
+    <rect x="91" y="57" width="13" height="15" rx="6.5" fill="url(#kameSkin)" stroke="#a2d27a" stroke-width="1.2"/>
+    <path d="M34 58 C34 31 51 17 71 17 C92 17 108 32 108 58 Z" fill="url(#kameShell)" stroke="#7fcaa9" stroke-width="1.4"/>
+    <g clip-path="url(#kameDome)" fill="url(#kameScute)" stroke="#a9e0c8" stroke-width="5" stroke-linejoin="round">
+      <path d="M60 27 L82 27 L88 38 L82 48 L60 48 L54 38 Z"/>
+      <path d="M31 60 L38 40 L49 34 L54 38 L60 48 L56 60 Z"/>
+      <path d="M111 60 L104 40 L93 34 L88 38 L82 48 L86 60 Z"/>
+      <path d="M60 48 L82 48 L86 60 L56 60 Z"/>
+    </g>
+    <ellipse cx="54" cy="29" rx="10" ry="4.5" fill="#ffffff" opacity="0.7" transform="rotate(-28 54 29)" filter="url(#kameGlow)"/>
+    <rect x="30" y="54" width="82" height="9.5" rx="4.75" fill="url(#kameRim)" stroke="#f3c57e" stroke-width="1.2"/>
+    <g fill="#f6cf8f" opacity="0.8">
+      <circle cx="45" cy="58.8" r="1.2"/><circle cx="58" cy="58.8" r="1.2"/><circle cx="71" cy="58.8" r="1.2"/>
+      <circle cx="84" cy="58.8" r="1.2"/><circle cx="97" cy="58.8" r="1.2"/>
+    </g>
+    <circle cx="23" cy="40" r="15.5" fill="url(#kameSkin)" stroke="#a2d27a" stroke-width="1.2"/>
+    <ellipse cx="20" cy="31" rx="6" ry="3" fill="#ffffff" opacity="0.6" transform="rotate(-20 20 31)" filter="url(#kameGlow)"/>
+    <ellipse cx="16.2" cy="38.5" rx="2.9" ry="3.6" fill="#3d3a4a"/>
+    <circle cx="15.3" cy="37.2" r="1.25" fill="#ffffff"/>
+    <circle cx="17" cy="40" r="0.55" fill="#ffffff" opacity="0.9"/>
+    <ellipse cx="24" cy="46" rx="4" ry="2.6" fill="#ffb3c1" opacity="0.75" filter="url(#kameGlow)"/>
+    <path d="M9.5 44.5 Q12.5 47.8 16 46" fill="none" stroke="#6f8f56" stroke-width="1.4" stroke-linecap="round"/>
+    <g fill="#ffffff" opacity="0.65">
+      <circle cx="40.5" cy="69.6" r="1.1"/><circle cx="44" cy="70.2" r="1.1"/>
+      <circle cx="94.5" cy="69.6" r="1.1"/><circle cx="98" cy="70.2" r="1.1"/>
+    </g>
+  </g>
+  </g>
+</svg>

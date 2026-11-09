@@ -1,0 +1,9 @@
+{
+  "servers": {
+    "full-feature-demo": {
+      "type": "stdio",
+      "command": "node",
+      "args": ["${workspaceFolder}/../full-feature-mcp.js"]
+    }
+  }
+}

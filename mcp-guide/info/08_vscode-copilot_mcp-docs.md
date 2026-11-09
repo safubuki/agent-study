@@ -4,7 +4,7 @@
 |---|---|
 | 発行元 | Microsoft / GitHub（code.visualstudio.com および docs.github.com） |
 | 取得日 | 2026-11-10 |
-| 鮮度 | **新**（取得当日の内容） |
+| 鮮度 | ** **取得当日の内容） |
 | URL | https://code.visualstudio.com/docs/copilot/customization/mcp-servers ／ https://docs.github.com/en/copilot/customizing-copilot/extending-copilot-chat-with-mcp |
 
 ## 要点
@@ -12,7 +12,7 @@
 ### 1. 設定ファイルの場所と Claude Code との違い
 - プロジェクト共有の設定ファイルは **`.vscode/mcp.json`** に置く。
 - Claude Code の `.mcp.json` との最大の違いは、**一番外側のキー名が `"mcpServers"` ではなく `"servers"` である**こと。
-- **入力変数（`inputs`）**：API キーなどの秘密情報をファイルに書かず、初回起動時に VS Code の入力欄でユーザーに尋ねて安全に記憶する `"inputs": [{ "type": "promptString", "id": "...", "password": true }]` の仕組みが組み込まれている。
+- **入力変数（`inputs`** API キーなどの秘密情報をファイルに書かず、初回起動時に VS Code の入力欄でユーザーに尋ねて安全に記憶する `"inputs": [{ "type": "promptString", "id": "...", "password": true }]` の仕組みが組み込まれている。
 
 ### 2. Agent Mode とカスタムエージェントでの利用
 - VS Code のチャットを **Agent** モードにすると、`.vscode/mcp.json` のツールが自動で認識される。チャット入力欄のツールアイコン（レンチマーク）から、その会話で有効にするツールを手動でオン・オフできる。

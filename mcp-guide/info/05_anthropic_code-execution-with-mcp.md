@@ -4,7 +4,7 @@
 |---|---|
 | 発行元 | Anthropic Engineering（公式ブログ） |
 | 公開日 | 2025-11-04 |
-| 鮮度 | **中**（約12か月前）。MCP 開発元自身が「ツール定義の肥大化」への処方箋を示した記事 |
+| 鮮度 | ** **約12か月前）。MCP 開発元自身が「ツール定義の肥大化」への処方箋を示した記事 |
 | URL | https://www.anthropic.com/engineering/code-execution-with-mcp |
 
 ## 要点

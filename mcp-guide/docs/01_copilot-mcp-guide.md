@@ -1,6 +1,6 @@
 # GitHub Copilot / VS Code で MCP はどう使うか
 
-> [MCP 入門（Claude Code 編）](00_mcp-guide.md)の続編です。Claude Code で作った MCP サーバーを、**GitHub Copilot（VS Code の Agent Mode や Copilot CLI）**でもそのまま使えるか、設定ファイルの書き方がどう違うかをまとめます。
+> [MCP 入門（Claude Code 編）](00_mcp-guide.md)の続編です。Claude Code で作った MCP サーバーを、**GitHub Copilot（VS Code の Agent Mode や Copilot CLI** もそのまま使えるか、設定ファイルの書き方がどう違うかをまとめます。
 > 内容は 2026-11-10 時点の公式ドキュメントにもとづきます。根拠となる一次情報は [info/08_vscode-copilot_mcp-docs.md](../info/08_vscode-copilot_mcp-docs.md) および[参考文献](#参考文献)にあります。
 > Claude Code 用（`.mcp.json`）と VS Code 用（`.vscode/mcp.json`）の両方を並べた見本は、[samples/](../samples/README.md) およびこのワークスペースのルート直下に置いてあります。
 
@@ -24,7 +24,7 @@
 **MCP の最大のメリットがここで活きます。**
 
 - サーバー側のプログラム（たとえばこのワークスペースの `servers/cafe-catalog-mcp.js` や、各社の公式 MCP サーバー）は、**1行も書き換えることなく Claude Code と VS Code（GitHub Copilot）の両方でそのまま動きます**。
-- 変える必要があるのは、**「どのファイルを読みに行くか（置き場所）」**と**「JSON の一番外側のキー名（`mcpServers` か `servers` か）」**の2点だけです。
+- 変える必要があるのは **どのファイルを読みに行くか（置き場所）」** **JSON の一番外側のキー名（`mcpServers` か `servers` か）** 2点だけです。
 
 ```mermaid
 flowchart LR
@@ -50,7 +50,7 @@ flowchart LR
 | **プロジェクト共有の設定ファイル** | リポジトリ直下の **`.mcp.json`** | リポジトリ内の **`.vscode/mcp.json`** |
 | **個人全体の設定ファイル** | `~/.claude.json` | VS Code のユーザー設定フォルダ内の `mcp.json`（コマンドパレット `MCP: Open User Configuration` で開く） |
 | **JSON の一番外側のキー名** | **`"mcpServers"`** | **`"servers"`** |
-| **秘密の API キーの渡し方** | 環境変数 `"${API_KEY}"` | 環境変数 `"${env:API_KEY}"` または **入力プロンプト `"${input:id}"`**（初回に入力欄が出る） |
+| **秘密の API キーの渡し方** | 環境変数 `"${API_KEY}"` | 環境変数 `"${env:API_KEY}"` または **入力プロンプト `"${input:id}" **初回に入力欄が出る） |
 | **ツールを使わせるモード** | 通常の対話 / `claude -p` | チャットパネルの **Agent Mode（エージェントモード）** |
 | **稼働状態の確認・再起動** | チャットで `/mcp` | コマンドパレット `MCP: List Servers`、または `.vscode/mcp.json` ファイル内の「Start / Restart」ボタン |
 | **Resources（資料）の参照** | `@サーバー名:URI` | チャットの「Add Context...」→「MCP Resources」 |
@@ -137,7 +137,7 @@ flowchart LR
 ## 4. VS Code の Agent Mode で実際に動かす手順
 
 1. VS Code でこのフォルダ（`mcp-guide`）を開く。
-2. `.vscode/mcp.json` を開くと、エディタ上の `"cafe-catalog"` のすぐ上に小さく **`Start`**（または `Running | Stop | Restart`）という文字（コードレンズ）が表示されるので、`Start` をクリックして起動できることを確認する。
+2. `.vscode/mcp.json` を開くと、エディタ上の `"cafe-catalog"` のすぐ上に小さく **`Start **または `Running | Stop | Restart`）という文字（コードレンズ）が表示されるので、`Start` をクリックして起動できることを確認する。
 3. Copilot Chat パネルを開き、入力欄のモード選択を **Agent** に切り替える。
 4. 入力欄のツールアイコン（🔧）をクリックし、`cafe-catalog` のツール（`search_menu`、`check_allergens`、`calculate_set_price`）にチェックが入っていることを確認する。
 5. `prompts/01-allergen-menu.md` の内容を貼り付けて依頼する。
@@ -149,7 +149,7 @@ flowchart LR
 
 [agent-guide の Copilot 編](../../agent-guide/docs/01_copilot-subagent-guide.md)で扱った `.github/agents/*.agent.md`（カスタムエージェント／サブエージェント）と MCP を組み合わせることもできます。
 
-すべてのエージェントに全部の MCP ツールを持たせるのではなく、**「カタログ調査担当のサブエージェントにだけ `cafe-catalog` の MCP ツールを持たせる」**という絞り込みが可能です（見本は [samples/04-subagent-scoped/](../samples/04-subagent-scoped/)）。
+すべてのエージェントに全部の MCP ツールを持たせるのではなく、****という絞り込みが可能です（見本は [samples/04-subagent-scoped/](../samples/04-subagent-scoped/)）。
 
 ### Claude Code と Copilot での書き方の違い
 
@@ -175,7 +175,7 @@ user-invocable: false
 ```
 
 - **Claude Code**：`mcpServers:` にサーバー名を列挙し、さらに特定のツールだけに絞りたい場合は `tools:` に `mcp__サーバー名__ツール名` と書きます。
-- **GitHub Copilot（VS Code）**：`tools:` の配列の中に `'サーバー名/*'`（そのサーバーの全ツール）または `'サーバー名/ツール名'` を書きます。
+- **GitHub Copilot（VS Code** `tools:` の配列の中に `'サーバー名/*'`（そのサーバーの全ツール）または `'サーバー名/ツール名'` を書きます。
 
 ---
 

@@ -1,6 +1,6 @@
 # GitHub Copilot / VS Code でフック相当の仕組みはどう使うか
 
-> [フック（Hooks）入門（Claude Code 編）](00_hook-guide.md)の続編です。Claude Code でできた「ツール実行前のブロック（`PreToolUse`）」「編集後の自動整形（`PostToolUse`）」「完了前の検査ゲート（`Stop`）」を、**GitHub Copilot**（VS Code のエージェントモード、Copilot CLI、Copilot Coding Agent）や既存の **Git Hooks / VS Code タスク**でどう実現するかをまとめます。
+> [フック（Hooks）入門（Claude Code 編）](00_hook-guide.md)の続編です。Claude Code でできた「ツール実行前のブロック（`PreToolUse`）」「編集後の自動整形（`PostToolUse`）」「完了前の検査ゲート（`Stop`）」を、**GitHub Copilo **VS Code のエージェントモード、Copilot CLI、Copilot Coding Agent）や既存の **Git Hooks / VS Code タスク**でどう実現するかをまとめます。
 > 内容は 2026-11-10 時点の公式ドキュメントにもとづきます。Copilot のフック機能は更新が速いため、使う前に[参考文献](#参考文献)のページで最新を確認してください。
 > Copilot 形式のフック設定ファイルは、Claude Code 形式と並べて [samples/](../samples/README.md) にパターン別にまとめてあります。
 
@@ -59,7 +59,7 @@ flowchart TB
 | 階層 | 誰の操作に効くか | 特徴 |
 |---|---|---|
 | **① AI エージェントのフック** | **AI だけ** | AI がツールを使う瞬間や、AI が「終わった」と判断した瞬間に割り込める。失敗理由をそのまま AI に返して自律修正させられる |
-| **② VS Code の保存時設定** | 主に**人間**（エディタ保存） | 設定が簡単で動作が速い。ただし AI が裏でファイルを直接書き換えたときには動かないことがある |
+| **② VS Code の保存時設定** | 主に**人 **エディタ保存） | 設定が簡単で動作が速い。ただし AI が裏でファイルを直接書き換えたときには動かないことがある |
 | **③ Git Hooks（`pre-commit` 等）** | **AI と人間の両方** | コミットという最終関所で確実に止められる。ただし「AI がファイルを編集中」の段階では動かない |
 
 ---
@@ -90,7 +90,7 @@ Claude Code のフックと、GitHub Copilot（CLI / Coding Agent / VS Code）�
 | **ツール実行の直後** | **`PostToolUse`** | **`postToolUse`** |
 | サブエージェント開始時 | （なし／PreToolUse(Agent)） | `subagentStart` |
 | サブエージェント完了時 | `SubagentStop` | `subagentStop` |
-| **メインの完了時** | **`Stop`** | **`agentStop`**（VS Code では `Stop` も対応） |
+| **メインの完了時** | **`Stop`** | **`agentStop **VS Code では `Stop` も対応） |
 | コンテキスト圧縮前 | `PreCompact` | `preCompact` |
 
 ---
@@ -141,7 +141,7 @@ Claude Code のフックと、GitHub Copilot（CLI / Coding Agent / VS Code）�
 上の例では、`bash` にも `powershell` にも**まったく同じ `node .github/hooks/scripts/xxx.js`** を書いています。
 
 - もしここを `.sh`（シェルスクリプト）と `.ps1`（PowerShell スクリプト）で別々に書くと、**同じチェック処理を2つの言語で二重管理**することになり、片方だけ直し忘れるバグが必ず起きます。
-- 処理の中身を **Node.js（`.js`）の1ファイル** にまとめておけば、`bash` から呼ばれても `powershell` から呼ばれても、そして **Claude Code（`.claude/settings.json`）から呼ばれても、同じ1つのスクリプトで動きます**（筆者の推奨）。
+- 処理の中身を **Node.js（`.js`）の1ファイル** にまとめておけば、`bash` から呼ばれても `powershell` から呼ばれても、そして **Claude Code（`.claude/settings.json`）から呼ばれても、同じ1つのスクリプトで動きま **筆者の推奨）。
 
 ---
 
@@ -217,7 +217,7 @@ const command = toolInput.command || toolInput.script || '';
 | スクリプトは別々に書く必要がある？ | **ない**。Node.js（`.js`）で1本書いておけば、Claude Code・Copilot・Windows・Mac のすべてで共用できる |
 | 会社の環境で Agent Hooks が使えなかったら？ | `.github/instructions/*.instructions.md`（パス別の指示自動注入）と、**Git の `pre-commit` フック**を組み合わせれば、同等のガードレールを作れる |
 
-次の [02_hook-patterns.md](02_hook-patterns.md) では、ツールを問わず使える**「フックの定番パターン5選」**と、AI の進化によって変わる「プロンプトとフックの境界線」を詳しく解説します。
+次の [02_hook-patterns.md](02_hook-patterns.md) では、ツールを問わず使える****と、AI の進化によって変わる「プロンプトとフックの境界線」を詳しく解説します。
 
 ---
 

@@ -1,6 +1,6 @@
 # hook-guide — フック（Hooks）を「使う／使わない」で AI のルール遵守と品質を比べる
 
-このフォルダ（`agent-study/hook-guide`）は、AI エージェントの**フック（Hooks：動きの節目に自動で割り込むプログラム）**を学ぶための作業場です。
+このフォルダ（`agent-study/hook-guide`）は、AI エージェントの**フック（Hooks：動きの節目に自動で割り込むプログラム** 学ぶための作業場です。
 読み物は [docs/](docs/00_hook-guide.md)、パターン別の見本は [samples/](samples/README.md) にあります。
 フックの定番パターン5選と、AI の進化で変わる「プロンプトとフックの境界線」の整理は [docs/02_hook-patterns.md](docs/02_hook-patterns.md)（調査メモは [info/](info/README.md)）にあります。
 
@@ -13,9 +13,9 @@
 
 | 方式 | モード名 | やり方 |
 |---|---|---|
-| A | **no-hooks**（お願いベース） | フックをすべて無効にし、プロンプトの「禁止事項・技術規約」の文章だけで AI に守らせる |
-| B | **with-hooks**（関所＋事後チェック） | `PreToolUse`（保存前の外部 CDN・保護ファイル遮断）と `PostToolUse`（保存直後の自動整形・インライン `style` 検査）を有効にする |
-| C | **stop-gate**（B＋完了ゲート） | B に加えて `Stop` フックを有効にし、**全7項目の技術規約に100%合格するまで完了させず自動で差し戻す** |
+| A | **no-hook **お願いベース） | フックをすべて無効にし、プロンプトの「禁止事項・技術規約」の文章だけで AI に守らせる |
+| B | **with-hook **関所＋事後チェック） | `PreToolUse`（保存前の外部 CDN・保護ファイル遮断）と `PostToolUse`（保存直後の自動整形・インライン `style` 検査）を有効にする |
+| C | **stop-gat **B＋完了ゲート） | B に加えて `Stop` フックを有効にし、**全7項目の技術規約に100%合格するまで完了させず自動で差し戻す** |
 
 ---
 
@@ -119,7 +119,7 @@ flowchart LR
 
 | 順番 | ファイル | 内容 |
 |---|---|---|
-| 1 | [docs/00_hook-guide.md](docs/00_hook-guide.md) | **フック入門（Claude Code 編）**：プロンプトとの違い、10のイベント、設定ファイルの解剖図、`stdin` / `exit 2` / JSON 出力の仕組み、無限ループ防止などの落とし穴 |
+| 1 | [docs/00_hook-guide.md](docs/00_hook-guide.md) | **フック入門（Claude Code 編** プロンプトとの違い、10のイベント、設定ファイルの解剖図、`stdin` / `exit 2` / JSON 出力の仕組み、無限ループ防止などの落とし穴 |
 | 2 | [docs/01_copilot-hook-guide.md](docs/01_copilot-hook-guide.md) | **GitHub Copilot / VS Code 編**：`.github/hooks/hooks.json` の書き方、Claude Code との対応表、Git Hooks（`pre-commit`）や VS Code 設定との組み合わせ方 |
 | 3 | [docs/02_hook-patterns.md](docs/02_hook-patterns.md) | **フックの定番パターン5選**：関所・自動整形・完了ゲート・文脈注入・監査通知の5つの型と、AI が進化してもフックに残すべき領域の境界線 |
 | 4 | [samples/README.md](samples/README.md) | **サンプル集**：自分のプロジェクトにそのままコピーして使える5パターンの設定＆スクリプト |

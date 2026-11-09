@@ -4,7 +4,7 @@
 |---|---|
 | 発行元 | Anthropic Engineering（公式ブログ） |
 | 公開日 | 2025-04-18 |
-| 鮮度 | **古**（約19か月前） |
+| 鮮度 | ** **約19か月前） |
 | URL | https://www.anthropic.com/engineering/claude-code-best-practices |
 
 ## 要点

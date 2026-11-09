@@ -1,12 +1,12 @@
 # mcp-guide — MCP（Model Context Protocol）を「使う／使わない」で比べて学ぶ
 
-このフォルダ（`agent-study/mcp-guide`）は、隣の [agent-guide](../agent-guide/) と同じ構成で、**MCP（Model Context Protocol：AI に専用の道具やデータ窓口をつなぐ共通規格）**を基礎から実践・設計パターンまで学ぶための作業場です。
+このフォルダ（`agent-study/mcp-guide`）は、隣の [agent-guide](../agent-guide/) と同じ構成で、**MCP（Model Context Protocol：AI に専用の道具やデータ窓口をつなぐ共通規格** 基礎から実践・設計パターンまで学ぶための作業場です。
 
 - **基礎からの読み物**：[docs/00_mcp-guide.md](docs/00_mcp-guide.md)（Claude Code 編）、[docs/01_copilot-mcp-guide.md](docs/01_copilot-mcp-guide.md)（GitHub Copilot / VS Code 編）
 - **定番パターン5選と CLI・スキルとの使い分け**：[docs/02_mcp-patterns.md](docs/02_mcp-patterns.md)（一次情報の出典メモ10件は [info/](info/README.md)）
 - **そのままコピーして使えるサンプル集**：[samples/](samples/README.md)（最小約60行のサーバーから、ファサード型、サブエージェント限定、Resources / Prompts 実装まで）
 
-そしてこの README では、ルートに置いた**架空カフェ「Kame Cafe」のメニュー・アレルギー・原価計算 MCP サーバー**（[servers/cafe-catalog-mcp.js](servers/cafe-catalog-mcp.js)）を使って、
+そしてこの README では、ルートに置いた**架空カフェ「Kame Cafe」のメニュー・アレルギー・原価計算 MCP サーバ **[servers/cafe-catalog-mcp.js](servers/cafe-catalog-mcp.js)）を使って、
 
 1. **Claude なしでも1秒で体験**：MCP の裏側で流れる JSON-RPC メッセージを自分の目で確かめる
 2. **方式 A（`no-mcp`）と方式 B（`with-mcp`）の比較実験**：同じお題の Web ページを作らせ、**数値（アレルギー判定・セット割引・税計算・原価率）の正確さ・時間・トークン消費**を比べる
@@ -15,8 +15,8 @@
 
 | 方式 | モード名 | やり方 |
 |---|---|---|
-| A | **`no-mcp`**（生データ丸読み） | MCP を使わず、AI 自身に生データ [data/menu-catalog.json](data/menu-catalog.json) を読ませ、アレルゲン除外判定やセット割引・原価率計算もすべて AI の頭（暗算）でやらせる |
-| B | **`with-mcp`**（専用 MCP 利用） | 生データは読ませず、専用 MCP サーバー `cafe-catalog` の3つのツール（`search_menu`、`check_allergens`、`calculate_set_price`）で正確に絞り込み・計算させた結果を使ってページを作らせる |
+| A | **`no-mcp **生データ丸読み） | MCP を使わず、AI 自身に生データ [data/menu-catalog.json](data/menu-catalog.json) を読ませ、アレルゲン除外判定やセット割引・原価率計算もすべて AI の頭（暗算）でやらせる |
+| B | **`with-mcp **専用 MCP 利用） | 生データは読ませず、専用 MCP サーバー `cafe-catalog` の3つのツール（`search_menu`、`check_allergens`、`calculate_set_price`）で正確に絞り込み・計算させた結果を使ってページを作らせる |
 
 ---
 
@@ -57,11 +57,11 @@ node scripts\test-mcp-server.js
 
 すると 0.1 秒ほどで、AI アプリ（Client）と MCP サーバー（`servers/cafe-catalog-mcp.js`）の間で行われる **3ステップの会話（JSON-RPC 2.0）** が画面にそのまま表示されます。
 
-1. **`initialize`（あいさつ）**：「私の仕様バージョンは `2025-11-25` です」「私は `tools` と `resources` が使えます」
-2. **`tools/list`（お品書きの取得）**：「どんな道具がありますか？」「`search_menu`、`check_allergens`、`calculate_set_price` の3つがあります」
-3. **`tools/call`（道具の実行）**：
+1. **`initialize`（あいさつ** 「私の仕様バージョンは `2025-11-25` です」「私は `tools` と `resources` が使えます」
+2. **`tools/list`（お品書きの取得** 「どんな道具がありますか？」「`search_menu`、`check_allergens`、`calculate_set_price` の3つがあります」
+3. **`tools/call`（道具の実行** 
    - 「小麦・卵・乳（微量混入含む）を一切含まない安全なメニューを教えて」→ **安全な6品と、除外された10品の理由**が JSON で返る
-   - 「`FD-001` と `DR-001` をイートインで頼んだときのセット価格と原価率を計算して」→ **セット割引 `-150円` 適用後の税抜 `1,210円`、税込 `1,331円`、原価率 `31.0%`（目標35%以下で合格）**が1ミリも狂わず返る
+   - 「`FD-001` と `DR-001` をイートインで頼んだときのセット価格と原価率を計算して」→ **セット割引 `-150円` 適用後の税抜 `1,210円`、税込 `1,331円`、原価率 `31.0%`（目標35%以下で合格** 1ミリも狂わず返る
 
 また、`samples/` にある他のサンプルサーバーも同じスクリプトでテストできます。
 
@@ -135,7 +135,7 @@ flowchart LR
 | コース2 | `FD-004` + `DR-007` | 1,520円 | 1,672円 | 625 kcal | 525円 | **34.5%** | **合格（○）** |
 | コース3 | `SW-004` + `DR-001` | 1,510円 | 1,661円 | 592 kcal | 505円 | **33.4%** | **合格（○）** |
 
-※ お題2のプロンプトには「コース3が超えるかも？」という引っ掛けが書いてありますが、実際に150円引き後の税抜価格に対して計算すると、実は**基準（35.0%）をわずかに超えるのはコース1（35.6%）**です。AI の思い込みではなく MCP ツールの計算結果を信じられるかが試されます。
+※ お題2のプロンプトには「コース3が超えるかも？」という引っ掛けが書いてありますが、実際に150円引き後の税抜価格に対して計算すると、実は**基準（35.0%）をわずかに超えるのはコース1（35.6%** す。AI の思い込みではなく MCP ツールの計算結果を信じられるかが試されます。
 
 ### 4.2 トークンとターン数の違い
 
@@ -147,5 +147,5 @@ flowchart LR
 
 ## 5. 対話モードや VS Code（GitHub Copilot）で試す場合
 
-- **Claude Code（対話モード）**：このフォルダで `claude` を起動し、`/mcp` と打つと `.mcp.json` の `cafe-catalog` が認識されていることを確認できます。そのまま「小麦・卵・乳（コンタミ含む）が入っていないメニューを MCP で調べて教えて」と話しかけてみてください。
-- **VS Code（GitHub Copilot Agent Mode）**：VS Code でこのフォルダを開くと `.vscode/mcp.json` が自動で認識されます。Copilot Chat を **Agent** モードにして同じように質問してみてください（詳しい手順は [docs/01_copilot-mcp-guide.md](docs/01_copilot-mcp-guide.md)）。
+- **Claude Code（対話モード** このフォルダで `claude` を起動し、`/mcp` と打つと `.mcp.json` の `cafe-catalog` が認識されていることを確認できます。そのまま「小麦・卵・乳（コンタミ含む）が入っていないメニューを MCP で調べて教えて」と話しかけてみてください。
+- **VS Code（GitHub Copilot Agent Mode** VS Code でこのフォルダを開くと `.vscode/mcp.json` が自動で認識されます。Copilot Chat を **Agent** モードにして同じように質問してみてください（詳しい手順は [docs/01_copilot-mcp-guide.md](docs/01_copilot-mcp-guide.md)）。

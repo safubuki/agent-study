@@ -3,7 +3,7 @@
 [docs/00_mcp-guide.md](../docs/00_mcp-guide.md)、[docs/01_copilot-mcp-guide.md](../docs/01_copilot-mcp-guide.md)、[docs/02_mcp-patterns.md](../docs/02_mcp-patterns.md) を書くために集めた一次情報のメモ置き場です。
 1ファイル＝1出典。各ファイルに「いつの情報か」「誰が書いたか」「要点」「短い原文引用」「注意点」を書いています。
 
-- 調査日：**2026-11-10**（Web 検索と公式ドキュメント・技術ブログの確認で収集）
+- 調査日：**2026-11-1 **Web 検索と公式ドキュメント・技術ブログの確認で収集）
 - 選んだ基準：公式仕様（`modelcontextprotocol.io`）、AI 企業・クラウド企業の公式エンジニアリングブログ・公式ドキュメント（Anthropic、Cloudflare、Microsoft / GitHub）、セキュリティ研究機関および業界で広く引用された技術記事。
 
 ## 鮮度ラベル

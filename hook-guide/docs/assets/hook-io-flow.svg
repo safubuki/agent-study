@@ -1,0 +1,129 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 500" font-family="Meiryo, 'Yu Gothic UI', 'Noto Sans JP', sans-serif">
+  <defs>
+    <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#6b7280"/>
+    </marker>
+    <style>
+      .h{font-size:14.5px;font-weight:700}
+      .b{font-size:12.5px;fill:#374151}
+      .s{font-size:11.5px;fill:#6b7280}
+    </style>
+  </defs>
+  <rect x="0.5" y="0.5" width="899" height="499" rx="14" fill="#ffffff" stroke="#e5e7eb"/>
+  <text x="30" y="42" font-size="20" font-weight="700" fill="#111827">フックとのデータのやり取り（stdin / 終了コード / stdout）</text>
+  <text x="30" y="64" class="s" font-size="13">標準入力（stdin）で状況 JSON を受け取り、終了コード（0 か 2）または標準出力 JSON で判定を返す</text>
+
+  <!-- Step 1: Input -->
+  <rect x="30" y="92" width="256" height="304" rx="12" fill="#f8fafc" stroke="#94a3b8" stroke-width="1.5"/>
+  <text x="158" y="120" text-anchor="middle" class="h" fill="#1e293b">① 入力：標準入力（stdin）</text>
+  <text x="158" y="142" text-anchor="middle" class="s">Claude Code が JSON を流し込む</text>
+
+  <rect x="42" y="158" width="232" height="156" rx="8" fill="#1e293b"/>
+  <g font-family="Consolas, 'Courier New', monospace" fill="#e2e8f0">
+    <text x="52" y="178" font-size="10.5">{</text>
+    <text x="56" y="198" font-size="10.5"><tspan fill="#93c5fd">"hook_event_name"</tspan>: <tspan fill="#fde68a">"PreToolUse"</tspan>,</text>
+    <text x="56" y="218" font-size="10.5"><tspan fill="#93c5fd">"tool_name"</tspan>: <tspan fill="#fde68a">"Write"</tspan>,</text>
+    <text x="56" y="238" font-size="10.5"><tspan fill="#93c5fd">"tool_input"</tspan>: {</text>
+    <text x="64" y="258" font-size="10.5"><tspan fill="#6ee7b7">"file_path"</tspan>: <tspan fill="#a7f3d0">".env"</tspan>,</text>
+    <text x="64" y="278" font-size="10.5"><tspan fill="#6ee7b7">"content"</tspan>: <tspan fill="#a7f3d0">"KEY=..."</tspan></text>
+    <text x="52" y="298" font-size="10.5">}}</text>
+  </g>
+  <text x="158" y="340" text-anchor="middle" class="b">Node.js なら 1行で読める：</text>
+  <text x="158" y="362" text-anchor="middle" class="s" font-family="Consolas, monospace">JSON.parse(fs.readFileSync(0))</text>
+
+  <line x1="286" y1="244" x2="316" y2="244" stroke="#6b7280" stroke-width="1.8" marker-end="url(#ah)"/>
+
+  <!-- Step 2: Script -->
+  <rect x="314" y="168" width="168" height="152" rx="12" fill="#ede9fe" stroke="#8b5cf6" stroke-width="1.8"/>
+  <text x="398" y="198" text-anchor="middle" class="h" fill="#5b21b6">② スクリプト処理</text>
+  <text x="398" y="224" text-anchor="middle" class="b">・パスや引数の検査</text>
+  <text x="398" y="246" text-anchor="middle" class="b">・Prettier 自動整形</text>
+  <text x="398" y="268" text-anchor="middle" class="b">・完了テスト実行</text>
+  <text x="398" y="296" text-anchor="middle" class="s">結果に応じて3通りで返す</text>
+
+  <g stroke="#6b7280" stroke-width="1.6" marker-end="url(#ah)">
+    <line x1="482" y1="200" x2="516" y2="136"/>
+    <line x1="482" y1="244" x2="516" y2="244"/>
+    <line x1="482" y1="288" x2="516" y2="352"/>
+  </g>
+
+  <!-- Step 3: 3 Output paths -->
+  <rect x="518" y="92" width="352" height="86" rx="10" fill="#ecfdf5" stroke="#10b981" stroke-width="1.6"/>
+  <text x="534" y="118" class="h" fill="#065f46">パターン A：許可して続行（exit 0）</text>
+  <text x="534" y="142" class="b">process.exit(0) で終了 → 操作・完了を続行</text>
+  <text x="534" y="162" class="s">正常時は何も出力しなければトークン消費ゼロ</text>
+
+  <rect x="518" y="194" width="352" height="96" rx="10" fill="#fef2f2" stroke="#ef4444" stroke-width="1.8"/>
+  <text x="534" y="220" class="h" fill="#b91c1c">パターン B：強制ブロック（exit 2）</text>
+  <text x="534" y="244" class="b">stderr に理由を書き process.exit(2) で終了</text>
+  <text x="534" y="264" class="b">→ 操作を即中止し、理由を AI に伝えて別案を促す</text>
+  <text x="534" y="281" class="s">※注意：exit 1 は「スクリプトエラー」扱いで止まらない</text>
+
+  <rect x="518" y="304" width="352" height="96" rx="10" fill="#eff6ff" stroke="#3b82f6" stroke-width="1.6"/>
+  <text x="534" y="330" class="h" fill="#1e3a8a">パターン C：JSON で細かく制御（exit 0）</text>
+  <text x="534" y="354" class="b">・Stop 差し戻し：decision: "block" を出力</text>
+  <text x="534" y="374" class="b">・PreToolUse：allow / deny / ask の詳細判定</text>
+  <text x="534" y="391" class="s">　または updatedInput（引数の自動書き換え）を出力</text>
+
+  <rect x="30" y="416" width="750" height="54" rx="8" fill="#fff7ed" stroke="#fed7aa"/>
+  <text x="48" y="438" font-size="13.5" font-weight="700" fill="#9a3412">鉄則：止めたいときは必ず「終了コード 2（exit 2）」か「JSON の block / deny」を使う</text>
+  <text x="48" y="458" class="b">JSON を返すときは、デバッグ用の console.log が混ざると壊れるため、ログは必ず stderr に出します。</text>
+
+  <!-- 作者サイン：右下から図を見上げる亀（横向き） -->
+  <g transform="translate(794 434) scale(0.78)">
+  <g id="kame-mark" opacity="0.94">
+    <defs>
+      <linearGradient id="kameShell" x1="0.3" y1="0" x2="0.6" y2="1">
+        <stop offset="0" stop-color="#c9f1e0"/>
+        <stop offset="1" stop-color="#86d3b4"/>
+      </linearGradient>
+      <linearGradient id="kameScute" x1="0.3" y1="0" x2="0.6" y2="1">
+        <stop offset="0" stop-color="#ecfbf4"/>
+        <stop offset="1" stop-color="#b3e6d0"/>
+      </linearGradient>
+      <radialGradient id="kameSkin" cx="0.38" cy="0.32" r="0.8">
+        <stop offset="0" stop-color="#e6f7c2"/>
+        <stop offset="1" stop-color="#b3df86"/>
+      </radialGradient>
+      <linearGradient id="kameRim" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#fff1cf"/>
+        <stop offset="1" stop-color="#fbd79b"/>
+      </linearGradient>
+      <filter id="kameSoft" x="-20%" y="-50%" width="140%" height="200%"><feGaussianBlur stdDeviation="2.2"/></filter>
+      <filter id="kameGlow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="1.6"/></filter>
+      <clipPath id="kameDome"><path d="M34 58 C34 31 51 17 71 17 C92 17 108 32 108 58 Z"/></clipPath>
+    </defs>
+    <ellipse cx="68" cy="73" rx="44" ry="3.6" fill="#5b8f7b" opacity="0.22" filter="url(#kameSoft)"/>
+    <ellipse cx="56" cy="66" rx="5.5" ry="6.5" fill="#a4d47a"/>
+    <ellipse cx="84" cy="66" rx="5.5" ry="6.5" fill="#a4d47a"/>
+    <path d="M106 57 C112 57 116 60 116 63 C112 64.5 107 63.5 104 61 Z" fill="url(#kameSkin)" stroke="#a2d27a" stroke-width="1.2" stroke-linejoin="round"/>
+    <path d="M42 60 C36 58 30 54 26 47" fill="none" stroke="url(#kameSkin)" stroke-width="13" stroke-linecap="round"/>
+    <rect x="37" y="57" width="13" height="15" rx="6.5" fill="url(#kameSkin)" stroke="#a2d27a" stroke-width="1.2"/>
+    <rect x="91" y="57" width="13" height="15" rx="6.5" fill="url(#kameSkin)" stroke="#a2d27a" stroke-width="1.2"/>
+    <path d="M34 58 C34 31 51 17 71 17 C92 17 108 32 108 58 Z" fill="url(#kameShell)" stroke="#7fcaa9" stroke-width="1.4"/>
+    <g clip-path="url(#kameDome)" fill="url(#kameScute)" stroke="#a9e0c8" stroke-width="5" stroke-linejoin="round">
+      <path d="M60 27 L82 27 L88 38 L82 48 L60 48 L54 38 Z"/>
+      <path d="M31 60 L38 40 L49 34 L54 38 L60 48 L56 60 Z"/>
+      <path d="M111 60 L104 40 L93 34 L88 38 L82 48 L86 60 Z"/>
+      <path d="M60 48 L82 48 L86 60 L56 60 Z"/>
+    </g>
+    <ellipse cx="54" cy="29" rx="10" ry="4.5" fill="#ffffff" opacity="0.7" transform="rotate(-28 54 29)" filter="url(#kameGlow)"/>
+    <rect x="30" y="54" width="82" height="9.5" rx="4.75" fill="url(#kameRim)" stroke="#f3c57e" stroke-width="1.2"/>
+    <g fill="#f6cf8f" opacity="0.8">
+      <circle cx="45" cy="58.8" r="1.2"/><circle cx="58" cy="58.8" r="1.2"/><circle cx="71" cy="58.8" r="1.2"/>
+      <circle cx="84" cy="58.8" r="1.2"/><circle cx="97" cy="58.8" r="1.2"/>
+    </g>
+    <circle cx="23" cy="40" r="15.5" fill="url(#kameSkin)" stroke="#a2d27a" stroke-width="1.2"/>
+    <ellipse cx="20" cy="31" rx="6" ry="3" fill="#ffffff" opacity="0.6" transform="rotate(-20 20 31)" filter="url(#kameGlow)"/>
+    <ellipse cx="16.2" cy="38.5" rx="2.9" ry="3.6" fill="#3d3a4a"/>
+    <circle cx="15.3" cy="37.2" r="1.25" fill="#ffffff"/>
+    <circle cx="17" cy="40" r="0.55" fill="#ffffff" opacity="0.9"/>
+    <ellipse cx="24" cy="46" rx="4" ry="2.6" fill="#ffb3c1" opacity="0.75" filter="url(#kameGlow)"/>
+    <path d="M9.5 44.5 Q12.5 47.8 16 46" fill="none" stroke="#6f8f56" stroke-width="1.4" stroke-linecap="round"/>
+    <g fill="#ffffff" opacity="0.65">
+      <circle cx="40.5" cy="69.6" r="1.1"/><circle cx="44" cy="70.2" r="1.1"/>
+      <circle cx="94.5" cy="69.6" r="1.1"/><circle cx="98" cy="70.2" r="1.1"/>
+    </g>
+  </g>
+  </g>
+</svg>

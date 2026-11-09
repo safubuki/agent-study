@@ -4,7 +4,7 @@
 |---|---|
 | 発行元 | GitHub（docs.github.com 公式ドキュメント） |
 | 取得日 | 2026-11-10 |
-| 鮮度 | ** **取得当日の内容） |
+| 鮮度 | **新**（取得当日の内容） |
 | URL | https://docs.github.com/en/copilot/customizing-copilot/about-hooks |
 
 ## 要点
@@ -13,7 +13,7 @@
 - **設定ファイルの置き場所**：
   - リポジトリの `.github/hooks/*.json`（例：`.github/hooks/hooks.json`）。
   - 構成は `"version": 1` と `"hooks": { ... }`。
-- **主なイベント名（キャメルケース** 
+- **主なイベント名**（キャメルケース）：
   - `sessionStart`：セッション開始時
   - `userPromptSubmitted`：プロンプト送信時
   - `preToolUse`：ツール実行直前（承認・拒否・検査が可能）

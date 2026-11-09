@@ -2,7 +2,7 @@
 
 ガイド（[00_mcp-guide.md](../docs/00_mcp-guide.md)、[01_copilot-mcp-guide.md](../docs/01_copilot-mcp-guide.md)、[02_mcp-patterns.md](../docs/02_mcp-patterns.md)）に出てきた MCP の構成とサーバー実装を、**そのまま読める・コピーして動かせる見本**としてまとめた置き場です。
 
-> ワークスペース直下の [.mcp.json](../.mcp.json)、[.vscode/mcp.json](../.vscode/mcp.json)、[servers/cafe-catalog-mcp.js](../servers/cafe-catalog-mcp.js) は「このワークスペースですぐ実験に使える MCP サーバー」です。こちらの `samples/` は「目的別の最小コードと設定ファイルを見比べるための見本」です。すべてのサンプルサーバーは**外部パッケージ不要（Node.js 標準機能のみ** 動くように書いてあります。
+> ワークスペース直下の [.mcp.json](../.mcp.json)、[.vscode/mcp.json](../.vscode/mcp.json)、[servers/cafe-catalog-mcp.js](../servers/cafe-catalog-mcp.js) は「このワークスペースですぐ実験に使える MCP サーバー」です。こちらの `samples/` は「目的別の最小コードと設定ファイルを見比べるための見本」です。すべてのサンプルサーバーは**外部パッケージ不要**（Node.js 標準機能のみ）で動くように書いてあります。
 
 ## パターン一覧
 

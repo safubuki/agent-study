@@ -5,7 +5,7 @@
 | 発行元 | UC Berkeley / Intesa Sanpaolo ほか（NeurIPS 2025 Datasets and Benchmarks） |
 | 著者 | Mert Cemri, Melissa Z. Pan, Shuyi Yang ほか |
 | 公開日 | 2025-03（v3: 2025-10） |
-| 鮮度 | ** **約1年超前）。ただしエージェントの失敗原因を定量分類した代表的論文 |
+| 鮮度 | **古**（約1年超前）。ただしエージェントの失敗原因を定量分類した代表的論文 |
 | URL | https://arxiv.org/abs/2503.13657 |
 
 ## 要点
@@ -16,7 +16,7 @@
   2. **エージェント間のズレ（Inter-Agent Misalignment）**
   3. **タスク検証と終了判定の誤り（Task Verification & Termination）：全体の約 23.5%**
 - 特にフック（Hooks）と直結する重要な知見：
-  - **早すぎる終了（Premature Termination** **不完全な検証（Incomplete Verification** 失敗の大きな割合を占める。
+  - **早すぎる終了**（Premature Termination）と**不完全な検証**（Incomplete Verification）が失敗の大きな割合を占める。
   - エージェントが「終わった」と自己申告した時点でそのまま終了させず、**外側の検証器（Verifier / Stop フックの検査スクリプト）で合否を判定して差し戻す**だけで、成功率が大きく改善する（論文実験で +15.6%）。
 
 ## 原文引用（短く）

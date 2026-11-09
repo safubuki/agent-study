@@ -5,7 +5,7 @@
 | 発行元 | Cloudflare Blog（公式エンジニアリングブログ） |
 | 著者 | Kenton Varda, Sunil Pai ほか |
 | 公開日 | 2025-09-26 |
-| 鮮度 | ** **約13か月前）。大量ツール時代の MCP 設計を変えた転換点の記事 |
+| 鮮度 | **古**（約13か月前）。大量ツール時代の MCP 設計を変えた転換点の記事 |
 | URL | https://blog.cloudflare.com/code-mode/ |
 
 ## 要点

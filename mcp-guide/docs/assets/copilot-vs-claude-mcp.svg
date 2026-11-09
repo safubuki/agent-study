@@ -1,0 +1,122 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 470" font-family="Meiryo, 'Yu Gothic UI', 'Noto Sans JP', sans-serif">
+  <defs>
+    <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#059669"/>
+    </marker>
+    <style>
+      .h{font-size:14px;font-weight:700}
+      .b{font-size:12px;fill:#374151}
+      .s{font-size:11px;fill:#6b7280}
+    </style>
+  </defs>
+  <rect x="0.5" y="0.5" width="899" height="469" rx="14" fill="#ffffff" stroke="#e5e7eb"/>
+  <text x="30" y="38" font-size="20" font-weight="700" fill="#111827">Claude Code と VS Code（Copilot）の設定ファイル対比</text>
+  <text x="30" y="60" class="s" font-size="12.5">MCP サーバー本体は100%共通！設定ファイルの「置き場所」と「一番外側のキー名」を変えるだけで両方動く</text>
+
+  <!-- Left: Claude Code -->
+  <rect x="26" y="80" width="286" height="296" rx="12" fill="#eff6ff" stroke="#3b82f6" stroke-width="1.5"/>
+  <rect x="44" y="96" width="250" height="30" rx="15" fill="#2563eb"/>
+  <text x="169" y="116" text-anchor="middle" font-size="13" font-weight="700" fill="#ffffff">Claude Code の設定</text>
+
+  <rect x="44" y="140" width="250" height="218" rx="8" fill="#ffffff" stroke="#93c5fd"/>
+  <text x="58" y="164" class="b" font-weight="700" fill="#1e3a8a">① 場所：.mcp.json</text>
+  <text x="58" y="184" class="s">　（個人設定は ~/.claude.json）</text>
+  <text x="58" y="212" class="b" font-weight="700" fill="#1e3a8a">② 外側のキー："mcpServers"</text>
+  <text x="58" y="240" class="b" font-weight="700" fill="#1e3a8a">③ 環境変数：${VAR:-既定値}</text>
+  <text x="58" y="268" class="b" font-weight="700" fill="#1e3a8a">④ 状態確認：チャットで /mcp</text>
+  <text x="58" y="296" class="b" font-weight="700" fill="#1e3a8a">⑤ 子エージェント限定：</text>
+  <text x="58" y="316" class="s">　.claude/agents/*.md の</text>
+  <text x="58" y="334" class="s">　mcpServers: にサーバー名を記載</text>
+
+  <!-- Center: Shared MCP Server -->
+  <rect x="336" y="138" width="228" height="180" rx="12" fill="#ecfdf5" stroke="#10b981" stroke-width="2"/>
+  <text x="450" y="170" text-anchor="middle" class="h" fill="#065f46">共通の MCP サーバー</text>
+  <text x="450" y="192" text-anchor="middle" class="s" fill="#047857">コード変更は 1行も不要！</text>
+  <rect x="354" y="208" width="192" height="92" rx="8" fill="#ffffff" stroke="#6ee7b7"/>
+  <text x="450" y="232" text-anchor="middle" class="b" font-weight="700" fill="#065f46">ローカル (stdio)</text>
+  <text x="450" y="250" text-anchor="middle" class="s">node cafe-catalog-mcp.js</text>
+  <text x="450" y="274" text-anchor="middle" class="b" font-weight="700" fill="#065f46">または クラウド (HTTP)</text>
+  <text x="450" y="292" text-anchor="middle" class="s">https://mcp.example.com</text>
+
+  <!-- Arrows -->
+  <line x1="312" y1="228" x2="334" y2="228" stroke="#059669" stroke-width="2" marker-end="url(#ah)"/>
+  <line x1="588" y1="228" x2="566" y2="228" stroke="#059669" stroke-width="2" marker-end="url(#ah)"/>
+
+  <!-- Right: VS Code Copilot -->
+  <rect x="588" y="80" width="286" height="296" rx="12" fill="#f5f3ff" stroke="#8b5cf6" stroke-width="1.5"/>
+  <rect x="606" y="96" width="250" height="30" rx="15" fill="#7c3aed"/>
+  <text x="731" y="116" text-anchor="middle" font-size="13" font-weight="700" fill="#ffffff">VS Code (Copilot) の設定</text>
+
+  <rect x="606" y="140" width="250" height="218" rx="8" fill="#ffffff" stroke="#c4b5fd"/>
+  <text x="620" y="164" class="b" font-weight="700" fill="#5b21b6">① 場所：.vscode/mcp.json</text>
+  <text x="620" y="184" class="s">　（両方のファイルを同居させてOK）</text>
+  <text x="620" y="212" class="b" font-weight="700" fill="#5b21b6">② 外側のキー："servers"</text>
+  <text x="620" y="240" class="b" font-weight="700" fill="#5b21b6">③ 秘密入力：${input:id} が便利</text>
+  <text x="620" y="268" class="b" font-weight="700" fill="#5b21b6">④ 状態確認：ファイル内の Start</text>
+  <text x="620" y="296" class="b" font-weight="700" fill="#5b21b6">⑤ 子エージェント限定：</text>
+  <text x="620" y="316" class="s">　.github/agents/*.agent.md の</text>
+  <text x="620" y="334" class="s">　tools: に 'サーバー名/*' を記載</text>
+
+  <!-- Bottom Tip -->
+  <rect x="26" y="392" width="752" height="52" rx="10" fill="#fff7ed" stroke="#fed7aa"/>
+  <text x="44" y="414" class="h" fill="#9a3412">チーム開発のコツ：リポジトリに .mcp.json と .vscode/mcp.json の両方を置いておく</text>
+  <text x="44" y="434" class="b">お互い干渉しないため、メンバーが Claude Code 派でも VS Code 派でもクローンした瞬間に同じ MCP が使えます。</text>
+
+  <!-- 作者サイン：右下から図を見上げる亀（横向き） -->
+  <g transform="translate(794 404) scale(0.78)">
+  <g id="kame-mark" opacity="0.94">
+    <defs>
+      <linearGradient id="kameShell" x1="0.3" y1="0" x2="0.6" y2="1">
+        <stop offset="0" stop-color="#c9f1e0"/>
+        <stop offset="1" stop-color="#86d3b4"/>
+      </linearGradient>
+      <linearGradient id="kameScute" x1="0.3" y1="0" x2="0.6" y2="1">
+        <stop offset="0" stop-color="#ecfbf4"/>
+        <stop offset="1" stop-color="#b3e6d0"/>
+      </linearGradient>
+      <radialGradient id="kameSkin" cx="0.38" cy="0.32" r="0.8">
+        <stop offset="0" stop-color="#e6f7c2"/>
+        <stop offset="1" stop-color="#b3df86"/>
+      </radialGradient>
+      <linearGradient id="kameRim" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#fff1cf"/>
+        <stop offset="1" stop-color="#fbd79b"/>
+      </linearGradient>
+      <filter id="kameSoft" x="-20%" y="-50%" width="140%" height="200%"><feGaussianBlur stdDeviation="2.2"/></filter>
+      <filter id="kameGlow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="1.6"/></filter>
+      <clipPath id="kameDome"><path d="M34 58 C34 31 51 17 71 17 C92 17 108 32 108 58 Z"/></clipPath>
+    </defs>
+    <ellipse cx="68" cy="73" rx="44" ry="3.6" fill="#5b8f7b" opacity="0.22" filter="url(#kameSoft)"/>
+    <ellipse cx="56" cy="66" rx="5.5" ry="6.5" fill="#a4d47a"/>
+    <ellipse cx="84" cy="66" rx="5.5" ry="6.5" fill="#a4d47a"/>
+    <path d="M106 57 C112 57 116 60 116 63 C112 64.5 107 63.5 104 61 Z" fill="url(#kameSkin)" stroke="#a2d27a" stroke-width="1.2" stroke-linejoin="round"/>
+    <path d="M42 60 C36 58 30 54 26 47" fill="none" stroke="url(#kameSkin)" stroke-width="13" stroke-linecap="round"/>
+    <rect x="37" y="57" width="13" height="15" rx="6.5" fill="url(#kameSkin)" stroke="#a2d27a" stroke-width="1.2"/>
+    <rect x="91" y="57" width="13" height="15" rx="6.5" fill="url(#kameSkin)" stroke="#a2d27a" stroke-width="1.2"/>
+    <path d="M34 58 C34 31 51 17 71 17 C92 17 108 32 108 58 Z" fill="url(#kameShell)" stroke="#7fcaa9" stroke-width="1.4"/>
+    <g clip-path="url(#kameDome)" fill="url(#kameScute)" stroke="#a9e0c8" stroke-width="5" stroke-linejoin="round">
+      <path d="M60 27 L82 27 L88 38 L82 48 L60 48 L54 38 Z"/>
+      <path d="M31 60 L38 40 L49 34 L54 38 L60 48 L56 60 Z"/>
+      <path d="M111 60 L104 40 L93 34 L88 38 L82 48 L86 60 Z"/>
+      <path d="M60 48 L82 48 L86 60 L56 60 Z"/>
+    </g>
+    <ellipse cx="54" cy="29" rx="10" ry="4.5" fill="#ffffff" opacity="0.7" transform="rotate(-28 54 29)" filter="url(#kameGlow)"/>
+    <rect x="30" y="54" width="82" height="9.5" rx="4.75" fill="url(#kameRim)" stroke="#f3c57e" stroke-width="1.2"/>
+    <g fill="#f6cf8f" opacity="0.8">
+      <circle cx="45" cy="58.8" r="1.2"/><circle cx="58" cy="58.8" r="1.2"/><circle cx="71" cy="58.8" r="1.2"/>
+      <circle cx="84" cy="58.8" r="1.2"/><circle cx="97" cy="58.8" r="1.2"/>
+    </g>
+    <circle cx="23" cy="40" r="15.5" fill="url(#kameSkin)" stroke="#a2d27a" stroke-width="1.2"/>
+    <ellipse cx="20" cy="31" rx="6" ry="3" fill="#ffffff" opacity="0.6" transform="rotate(-20 20 31)" filter="url(#kameGlow)"/>
+    <ellipse cx="16.2" cy="38.5" rx="2.9" ry="3.6" fill="#3d3a4a"/>
+    <circle cx="15.3" cy="37.2" r="1.25" fill="#ffffff"/>
+    <circle cx="17" cy="40" r="0.55" fill="#ffffff" opacity="0.9"/>
+    <ellipse cx="24" cy="46" rx="4" ry="2.6" fill="#ffb3c1" opacity="0.75" filter="url(#kameGlow)"/>
+    <path d="M9.5 44.5 Q12.5 47.8 16 46" fill="none" stroke="#6f8f56" stroke-width="1.4" stroke-linecap="round"/>
+    <g fill="#ffffff" opacity="0.65">
+      <circle cx="40.5" cy="69.6" r="1.1"/><circle cx="44" cy="70.2" r="1.1"/>
+      <circle cx="94.5" cy="69.6" r="1.1"/><circle cx="98" cy="70.2" r="1.1"/>
+    </g>
+  </g>
+  </g>
+</svg>

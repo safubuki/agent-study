@@ -1,8 +1,8 @@
-# agent-study — サブエージェントを「使う／使わない」で Web ページを作り比べる
+# agent-guide — サブエージェントを「使う／使わない」で Web ページを作り比べる
 
-このリポジトリは、サブエージェント（AI に仕事を分担させる仕組み）を学ぶための作業場です。
+このフォルダ（`ai-study/agent-guide`）は、サブエージェント（AI に仕事を分担させる仕組み）を学ぶための作業場です。
 読み物は [docs/](docs/)、構成パターンの見本は [samples/](samples/README.md) にあります。
-親子エージェントの定番パターン5つと、AI の進化で古くなる部分の整理は [docs/02_agent-patterns.md](docs/02_agent-patterns.md)（調査メモは [INFO/](INFO/README.md)）にあります。
+親子エージェントの定番パターン5つと、AI の進化で古くなる部分の整理は [docs/02_agent-patterns.md](docs/02_agent-patterns.md)（調査メモは [info/](info/README.md)）にあります。
 
 この README では、ルートに置いた**すぐ使えるエージェント**を使って、
 
@@ -22,7 +22,7 @@
 ## 1. フォルダ構成
 
 ```text
-agent-study/
+agent-guide/
 ├─ README.md                ← この手順書
 ├─ .claude/agents/          ← Claude Code 用のエージェント（方式 B・C で使う）
 │   ├─ page-director.md     … B の親：設計・発注・検品・統合（opus）
@@ -41,7 +41,7 @@ agent-study/
 ├─ output/                  ← ★成果物の置き場（実行するたびにフォルダが増える）
 │   └─ summary.md           … 全実行の一覧表（自動で1行ずつ追記）
 ├─ docs/                    ← 読み物
-├─ INFO/                    ← docs/02 を書くために集めた出典メモ（1ファイル＝1出典、鮮度つき）
+├─ info/                    ← docs/02 を書くために集めた出典メモ（1ファイル＝1出典、鮮度つき）
 └─ samples/                 ← 構成パターンの見本
 ```
 
@@ -70,10 +70,10 @@ output/20261106-101500_01-profile_agents/
    claude --version
    ```
 
-2. ターミナルで**このリポジトリのルート**に移動する（`.claude/agents/` を読み込ませるため）。
+2. ターミナルで**このフォルダ（`agent-guide`）**に移動する（`.claude/agents/` を読み込ませるため）。
 
    ```powershell
-   cd C:\git_home\agent-study
+   cd C:\git_home\ai-study\agent-guide
    ```
 
 3. お題を自分用に書き換えたいときは、`prompts/01-profile.md` の名前や趣味を編集する。
@@ -131,7 +131,7 @@ powershell -ExecutionPolicy Bypass -File scripts\run-experiment.ps1 -Prompt prom
 
 ```text
 完了：312.4 秒（5 分 12 秒） / ターン 18 / 1.2345 USD / 完成品 ○
-記録：C:\git_home\agent-study\output\20261106-101500_01-profile_agents\report.md
+記録：C:\git_home\ai-study\agent-guide\output\20261106-101500_01-profile_agents\report.md
 ```
 
 ### スクリプトが内部でやっていること
@@ -240,4 +240,4 @@ AI の出力は毎回変わります。**1回ずつの比較では偶然の差�
 | 日本語が文字化けする | `report.md` を UTF-8 で開く（VS Code なら問題なし） |
 | スクリプトが実行できない | `powershell -ExecutionPolicy Bypass -File …` の形で実行する |
 | C で完成品が × になる | `report.md` の最終報告に統合スクリプトのエラーが出ていないか確認。`work/parts/` の部品は `output/…/work/` に残っているので、`node scripts/merge-parts.js --title "…" --dir output/<実行名>/work` で手動で統合できる |
-| B・C で職人が呼ばれていない | `report.md` のモデル別の表に sonnet / haiku が出ているか確認。出ていなければ、リポジトリのルートで実行しているか確認 |
+| B・C で職人が呼ばれていない | `report.md` のモデル別の表に sonnet / haiku が出ているか確認。出ていなければ、`agent-guide` フォルダで実行しているか確認 |

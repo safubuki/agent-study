@@ -1,4 +1,4 @@
-﻿<#
+<#
 .SYNOPSIS
   同じお題を次のどれかの方式で AI に作らせ、かかった時間・ターン数・トークン・コストを記録する。
     solo         … A：AI 1人（サブエージェント禁止）
@@ -13,7 +13,7 @@
   powershell -ExecutionPolicy Bypass -File scripts\run-experiment.ps1 -Prompt prompts\tools\make-merge-script.md -Mode plain -Model opus
 
 .NOTES
-  - リポジトリのルートで実行する想定（スクリプトが自動でルートに移動する）。
+  - agent-guide フォルダで実行する想定（スクリプトが自動で agent-guide 直下に移動する）。
   - 結果は output\<日時>_<お題>_<方式>\ に保存され、output\summary.md に1行追記される。
 #>
 param(

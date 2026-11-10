@@ -1,6 +1,8 @@
 # フック（Hooks）入門 — どんな時に使い、どんなメリットがあるのか
 
-> **フック**（Hooks）は、あなたが使っている AI アプリ（Claude Code や VS Code）が作業する途中で、**自分の PC 上の小さなスクリプト（通知・チェック・自動整形など）を 100% 確実に自動実行させる仕組み**です。
+> **フック**（Hooks）は、あなたが使っている AI アプリ（Claude Code や VS Code）が作業する途中の決まった節目で、**自分の PC 上の小さなスクリプト（通知・チェック・自動整形など）を毎回必ず自動実行させる仕組み**です。
+>
+> 「必ず実行される」のはフックの起動までです。**何を見逃さずに検査できるかは、あなたが書くスクリプトの出来しだい**である点は最初に押さえておいてください（詳しくは 1章の末尾）。
 
 ---
 
@@ -13,11 +15,15 @@
 1. **AI の作業が終わったら「音や通知」で知らせてほしいとき**（`Notification` / `Stop`）
    - 長い作業を AI に頼んで別画面で仕事をしているとき、終わった瞬間や確認待ちで止まった瞬間に **PC のチャイム音・Windows のデスクトップ通知・Slack 通知**を自動で鳴らせます（画面をずっと見張る必要がなくなります）。
 2. **`.env`（秘密鍵）の書き換えや危険な削除コマンドを絶対防ぎたいとき**（`PreToolUse`）
-   - プロンプトに「`.env` は触らないで」と書いても AI はときどき忘れますが、フックならファイル保存やコマンド実行の「直前」に割り込んで **物理的に 100% ブロック**できます。
+   - プロンプトに「`.env` は触らないで」と書いても AI はときどき忘れますが、フックならファイル保存やコマンド実行の「直前」に割り込んで、**禁止パターンに一致する操作を毎回確実にブロック**できます。
 3. **AI が書いたコードを保存と同時に自動で綺麗に整えたいとき**（`PostToolUse`）
    - AI がファイルを保存した直後に、裏で自動的に `Prettier`（コード整形）や構文チェックを走らせます。AI に「整形して」と頼む時間とトークン代がゼロになります。
 4. **「できました！」と言われて開いたら動かない、をなくしたいとき**（`Stop`）
    - AI が完了して止まろうとした瞬間に自動でテストを走らせ、エラーがあれば **AI に「まだここが通っていないよ」と自動で突き返して続きを直させます**。
+5. **毎回の前提説明や「AI が何をしたか」の記録を自動化したいとき**（`UserPromptSubmit` / `PostToolUse`）
+   - 指示を送るたびに現在の Git ブランチ名などを裏で自動添付したり、AI が実行したコマンドや編集したファイルをログファイルに1行ずつ自動記録したりできます。
+
+> ⚠️ **「100% 防げる」の正しい意味**：フックは**毎回必ず起動**しますが、検査はスクリプトに書いた条件の範囲だけです。たとえば `Write` / `Edit` の `.env` 書き込みだけを検査していると、AI が `Bash` で `echo KEY=1 > .env` を実行した場合はすり抜けます。絶対に守りたい規則は、**関係するツール（`Bash`・`PowerShell`・`Write`・`Edit` など）をすべて `matcher` に含め**、Claude Code の権限設定（`permissions.deny`）とも組み合わせて二重に守るのが安全です。
 
 ![プロンプトのお願いとフックの強制の違い](assets/hook-what-is-it.svg)
 
@@ -29,20 +35,22 @@
 
 ![AI が仕事をする1本の流れとフックが割り込む4つの瞬間](assets/hook-lifecycle.svg)
 
-| イベント名 | タイミング | ブロック可否 | 主な用途 |
-| :--- | :--- | :---: | :--- |
+次の表は、Claude Code のフックイベントのうち**よく使う主要10個**です（2026年11月時点で全30種類近くあります。全量は [Hooks reference](https://code.claude.com/docs/en/hooks) を参照）。
+
+| イベント名 | タイミング | ブロック（止める）できるか | 主な用途 |
+| :--- | :--- | :--- | :--- |
 | **`SessionStart`** | 起動・再開・履歴圧縮直後 | — | 環境変数の設定、圧縮後のルール再注入 |
-| **`UserPromptSubmit`** ★ | ユーザーが指示を送信した直後 | **可** | ブランチ名や差分の自動添付、機密送信阻止 |
-| **`PreToolUse`** ★ | ツール実行の**直前** | **可** | `.env` 保護、`rm -rf` 阻止、引数の書き換え |
-| **`PermissionRequest`** | 確認ダイアログが出る直前 | **可** | 安全なコマンドの自動承認・危険操作の自動拒否 |
-| **`PostToolUse`** ★ | ツール実行の**直後** | 通知のみ | Prettier 自動整形、構文エラーの即時フィードバック |
+| **`UserPromptSubmit`** | ユーザーが指示を送信した直後 | **可**（指示を AI に渡さず破棄） | ブランチ名や差分の自動添付、機密送信阻止 |
+| **`PreToolUse`** ★ | ツール実行の**直前** | **可**（ツールを実行させない） | `.env` 保護、`rm -rf` 阻止、引数の書き換え |
+| **`PermissionRequest`** | 確認ダイアログが出る直前 | **可**（JSON の `decision` で許可／拒否） | 安全なコマンドの自動承認・危険操作の自動拒否 |
+| **`PostToolUse`** ★ | ツール実行の**直後** | **不可**（実行済み。AI に修正を促すだけ） | Prettier 自動整形、構文エラーの即時フィードバック |
 | **`Notification`** | 確認待ち・アイドル通知時 | — | デスクトップ通知・音声アラート・Slack 通知 |
-| **`SubagentStop`** | サブエージェント完了直前 | **可** | 子エージェントの成果物チェック・差し戻し |
-| **`PreCompact`** | 会話履歴の自動圧縮直前 | — | 圧縮前のログ退避 |
-| **`Stop`** ★ | メイン AI が完了して止まる直前 | **可** | テスト・必須項目の検査、不合格なら作業続行を強制 |
+| **`SubagentStop`** | サブエージェント完了直前 | **可**（子に作業を続けさせる） | 子エージェントの成果物チェック・差し戻し |
+| **`PreCompact`** | 会話履歴の圧縮直前 | **可**（圧縮を中止） | 圧縮前のログ退避 |
+| **`Stop`** ★ | メイン AI が完了して止まる直前 | **可**（止まらせず作業を続けさせる） | テスト・必須項目の検査、不合格なら作業続行を強制 |
 | **`SessionEnd`** | セッション終了時 | — | 一時ファイルの掃除、監査ログの集計 |
 
-> 💡 **最初は ★ 印の 3 つ（`PreToolUse`・`PostToolUse`・`Stop`）だけ覚えれば実務の 9 割をカバーできます。**
+> 💡 **最初は ★ 印の 3 つ（`PreToolUse`・`PostToolUse`・`Stop`）だけ覚えれば、実務でよくある用途の大半をカバーできます。**
 
 ---
 
@@ -57,7 +65,10 @@
 | **`~/.claude/settings.json`** | 自分の PC の全プロジェクト | PC 内 | どのリポジトリでも効かせたい共通ガード |
 | **`.claude/agents/*.md` の先頭** | 特定サブエージェントのみ | 共有する | そのサブエージェント稼働中だけ有効なフック |
 
-- **`matcher`**（対象フィルタ）：`PreToolUse` や `PostToolUse` で「どのツールに反応するか」を正規表現で絞ります（例：`"Edit|Write|MultiEdit"`、`"Bash"`）。`Stop` や `UserPromptSubmit` では省略します。
+> ほかに、組織の管理ポリシー設定・プラグイン・スキルの先頭（frontmatter）にもフックを書けます。
+
+- **`.claude/settings.json` が読まれる条件**：Claude Code を**起動したフォルダ（プロジェクトのルート）**の `.claude/` だけが読まれます。たとえば `agent-study/` で起動すると、`agent-study/hook-guide/.claude/settings.json` は読まれません。
+- **`matcher`**（対象フィルタ）：`PreToolUse` や `PostToolUse` で「どのツールに反応するか」をツール名で絞ります（例：`"Edit|Write"`、`"Bash|PowerShell"`）。Windows では Claude Code がコマンド実行に **`PowerShell` ツール**を使うことがあるため、コマンド検査では `Bash` と並べて書いておくと抜け漏れを防げます。`SessionStart`（`startup` / `compact` など）や `Notification`（通知の種類）にも matcher がありますが、`Stop` や `UserPromptSubmit` には matcher がないので省略します。
 - **パスの書き方**：どのフォルダから実行されても動くよう、コマンド内のパスには `$CLAUDE_PROJECT_DIR`（プロジェクトのルート）を付けます。
 
 ---
@@ -69,14 +80,28 @@
 | 終了コード | 意味 | AI エージェントの挙動 |
 | :---: | :--- | :--- |
 | **`0`** | **成功・許可** | そのまま処理を続行（または `stdout` の JSON 指示に従う） |
-| **`2`** | **強制ブロック** | **操作を即座に中止**し、`stderr`（エラー出力）の理由を AI に伝えて別案を促す |
+| **`2`** | **ブロック** | `stderr`（エラー出力）に書いた理由を伝えて、**そのイベントの操作を止める**（何が止まるかはイベントごとに違う。下の表を参照） |
 | **`1` など** | スクリプトの不具合 | 警告を表示するだけで、**処理は止まらず続行される**（ブロックには使えない） |
 
-> ⚠️ **最大の注意点**：AI を止めたいときは必ず **`process.exit(2)`**（シェルスクリプトなら `exit 2`）を使うか、JSON で `"decision": "block"` / `"permissionDecision": "deny"` を返してください。`exit 1` では止まりません。
+`exit 2` で「何が止まるか」はイベントによって違います（主なもの）。
+
+| イベント | `exit 2` の効果 |
+| :--- | :--- |
+| `PreToolUse` | ツールを実行させない。理由は AI に渡り、AI が別の方法を考える |
+| `UserPromptSubmit` | 指示を AI に渡さずに破棄する。理由は**ユーザーに**表示される |
+| `Stop` / `SubagentStop` | 止まらせずに作業を続けさせる。理由は AI に渡る |
+| `PostToolUse` | **ツールはすでに実行済み**なので取り消せない。理由を AI に伝えるだけ |
+| `Notification` / `SessionStart` など | 止める対象がないので、実質的な効果はない |
+
+> ⚠️ **最大の注意点**：AI を止めたいときは必ず **`process.exit(2)`**（シェルスクリプトなら `exit 2`）を使うか、**`exit 0` のうえで** JSON の `"decision": "block"` や `"permissionDecision": "deny"`（`PreToolUse` 用。`hookSpecificOutput` の中に書く）を返してください。`exit 1` では止まりません。
+>
+> 📌 **Copilot では違う**：GitHub Copilot の `preToolUse` では、`exit 2` 以外の非0終了（スクリプトのエラー落ちなど）も「拒否」として扱われます（安全側に倒す設計）。詳しくは [01_copilot-hook-guide.md](01_copilot-hook-guide.md)。
 
 ---
 
-## 5. 3つの実行タイプ — `command` / `prompt` / `http`
+## 5. 主な3つの実行タイプ — `command` / `prompt` / `http`
+
+`type` には次の3つのほか、MCP サーバーのツールを呼ぶ `mcp_tool` や、サブエージェントに検査させる `agent`（実験的機能）もあります。まずはこの3つを押さえれば十分です。
 
 ![3つのフック実行タイプの比較と使い分け](assets/hook-types-compare.svg)
 
@@ -93,18 +118,22 @@
 このフォルダのルート（`hook-guide/`）には、すぐに動く3段構えのフックが入っています。Claude Code がなくても Node.js 単体でテストできます。
 
 ```powershell
-# 1. フック単体の動作確認（10種類の入力JSONを流し込んでテスト）
+cd C:\git_home\agent-study\hook-guide
+
+# 1. フック単体の動作確認（模擬の入力JSONを流し込んでテスト）
 node .\scripts\test-hooks-locally.js
 
 # 2. Claude Code CLI がある場合の比較実験（フックなし vs フックあり）
-.\scripts\run-experiment.ps1
+#    -Prompt（お題）と -Mode（no-hooks / with-hooks / stop-gate）は必須です
+powershell -ExecutionPolicy Bypass -File scripts\run-experiment.ps1 -Prompt prompts\01-profile-strict.md -Mode no-hooks
+powershell -ExecutionPolicy Bypass -File scripts\run-experiment.ps1 -Prompt prompts\01-profile-strict.md -Mode with-hooks
 ```
 
 ---
 
 ## 7. ハマりやすい4つの落とし穴
 
-1. **`Stop` フックの無限ループ**：`Stop` フックで毎回ブロックすると AI が永遠に止まれなくなります。入力 JSON の **`stop_hook_active`** が `true`（すでに差し戻し後の再試行中）なら `exit 0` で通す安全弁を必ず入れてください。
+1. **`Stop` フックの無限ループ**：`Stop` フックで毎回ブロックすると、AI が直せない問題にぶつかったとき止まれなくなります。入力 JSON の **`stop_hook_active`** が `true`（すでに Stop フックの差し戻しを受けて作業を続けている最中）なら `exit 0` で通す安全弁を入れてください。この書き方だと**差し戻しは1回まで**になります。2回以上差し戻したい場合は、回数をファイルに記録して上限で通すようにします（なお Claude Code 側にも「連続8回まで」の上限があります）。
 2. **JSON 出力に `console.log` が混ざる**：`stdout` で JSON を返す際、デバッグ用の `console.log` が1行でも混ざると JSON の解析に失敗します。デバッグ表示は必ず `console.error(...)`（`stderr`）に出します。
 3. **Windows と Mac のコマンド差**：設定ファイル内に直接長いシェルコマンドを書くと、OS ごとのクォートやコマンド差で壊れます。`node hooks/xxx.js` のように **Node.js スクリプト1本を呼び出す構成**にすると全 OS で同じように動きます。
 4. **重いテストを毎回走らせる**：数分かかるテストを `PostToolUse` に入れると編集のたびに待たされます。保存直後は軽量な構文チェックだけに絞り、全体テストは完了時（`Stop`）に回します。
@@ -113,7 +142,7 @@ node .\scripts\test-hooks-locally.js
 
 ## 関連ドキュメント
 
-- **GitHub Copilot / VS Code での使い方** → [01_copilot-hook-guide.md](file:///c:/git_home/agent-study/hook-guide/docs/01_copilot-hook-guide.md)
-- **そのまま使える定番5パターン** → [02_hook-patterns.md](file:///c:/git_home/agent-study/hook-guide/docs/02_hook-patterns.md)
-- **コピペ用サンプル集（5種）** → [samples/README.md](file:///c:/git_home/agent-study/hook-guide/samples/README.md)
-- **一次情報の出典メモ（10件）** → [info/README.md](file:///c:/git_home/agent-study/hook-guide/info/README.md)
+- **GitHub Copilot / VS Code での使い方** → [01_copilot-hook-guide.md](01_copilot-hook-guide.md)
+- **そのまま使える定番5パターン** → [02_hook-patterns.md](02_hook-patterns.md)
+- **コピペ用サンプル集（5種）** → [samples/README.md](../samples/README.md)
+- **一次情報の出典メモ（10件）** → [info/README.md](../info/README.md)

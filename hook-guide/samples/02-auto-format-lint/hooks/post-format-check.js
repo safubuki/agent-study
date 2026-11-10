@@ -3,6 +3,8 @@
  * パターン②：自動整形・事後チェック（PostToolUse）
  * - AI が保存したファイルの末尾空白を自動で掃除し、最終行に改行を揃える
  * - HTML ファイルに禁止されたインライン style 属性や img の alt 抜けがあれば即座に指摘を返す
+ *   （Claude Code は decision:"block"、Copilot は additionalContext で AI に伝える。
+ *     ツールは実行済みなので取り消しではなく「直して」という指摘になる）
  */
 const fs = require('fs');
 
@@ -22,7 +24,11 @@ function main() {
     process.exit(0);
   }
 
-  const toolInput = data.tool_input || data.toolArgs || data.input || {};
+  let toolInput = data.tool_input || data.toolArgs || data.input || {};
+  if (typeof toolInput === 'string') {
+    // GitHub Copilot では引数が JSON 文字列で届く場合がある
+    try { toolInput = JSON.parse(toolInput); } catch { toolInput = {}; }
+  }
   const filePath = String(toolInput.file_path || toolInput.filePath || toolInput.path || '');
   if (!filePath || !fs.existsSync(filePath)) process.exit(0);
 
@@ -57,10 +63,10 @@ function main() {
     }
 
     if (issues.length > 0) {
-      const output = {
-        decision: 'block',
-        reason: `[PostToolUse 自動検査] ${filePath} に規約違反があります。今すぐ修正してください:\n- ${issues.join('\n- ')}`
-      };
+      const reason = `[PostToolUse 自動検査] ${filePath} に規約違反があります。今すぐ修正してください:\n- ${issues.join('\n- ')}`;
+      // Copilot（camelCase 形式）の postToolUse は decision を使わないため additionalContext で渡す
+      const isCopilot = data.toolArgs !== undefined || (data.toolName !== undefined && data.tool_name === undefined);
+      const output = isCopilot ? { additionalContext: reason } : { decision: 'block', reason };
       process.stdout.write(JSON.stringify(output) + '\n');
       process.exit(0);
     }

@@ -11,7 +11,7 @@
   </defs>
   <rect x="0.5" y="0.5" width="899" height="539" rx="14" fill="#ffffff" stroke="#e5e7eb"/>
   <text x="30" y="42" font-size="20" font-weight="700" fill="#111827">プロンプトの「お願い」とフックの「強制」の違い</text>
-  <text x="30" y="64" class="s" font-size="13">AI の気分や記憶に頼らず、決まった節目にプログラム（関所・自動処理）を100%割り込ませる</text>
+  <text x="30" y="64" class="s" font-size="13">AI の気分や記憶に頼らず、決まった節目にプログラム（関所・自動処理）を毎回必ず割り込ませる</text>
 
   <!-- Top Left: Prompt -->
   <rect x="30" y="84" width="410" height="196" rx="12" fill="#fff7ed" fill-opacity="0.7" stroke="#f59e0b" stroke-width="1.5"/>
@@ -21,7 +21,7 @@
   <text x="48" y="172" class="b">「.env は触らないで」「保存後に Prettier を実行して」</text>
 
   <rect x="44" y="190" width="184" height="72" rx="8" fill="#ffffff" stroke="#fcd34d"/>
-  <text x="136" y="214" text-anchor="middle" class="b" font-weight="700" fill="#047857">普段（80〜95%）</text>
+  <text x="136" y="214" text-anchor="middle" class="b" font-weight="700" fill="#047857">普段は</text>
   <text x="136" y="236" text-anchor="middle" class="s">指示を覚えていて守る</text>
   <text x="136" y="253" text-anchor="middle" class="s">（毎回トークンを消費）</text>
 
@@ -33,14 +33,14 @@
   <!-- Top Right: Hooks -->
   <rect x="460" y="84" width="410" height="196" rx="12" fill="#ecfdf5" fill-opacity="0.7" stroke="#10b981" stroke-width="1.8"/>
   <rect x="478" y="100" width="210" height="24" rx="12" fill="#10b981"/>
-  <text x="583" y="117" text-anchor="middle" font-size="12" font-weight="700" fill="#ffffff">決定論的（100% 確実に作動）</text>
+  <text x="583" y="117" text-anchor="middle" font-size="12" font-weight="700" fill="#ffffff">決定論的（毎回必ず作動）</text>
   <text x="478" y="148" class="h" fill="#065f46">フック（Hooks）＝ 物理的な自動改札・機械</text>
   <text x="478" y="172" class="b">ツール実行の前後や完了時にスクリプトが自動起動</text>
 
   <rect x="474" y="190" width="184" height="72" rx="8" fill="#ffffff" stroke="#6ee7b7"/>
   <text x="566" y="214" text-anchor="middle" class="b" font-weight="700" fill="#065f46">関所（PreToolUse）</text>
   <text x="566" y="236" text-anchor="middle" class="s">.env 編集や危険操作を</text>
-  <text x="566" y="253" text-anchor="middle" class="s">exit 2 で 100% 遮断</text>
+  <text x="566" y="253" text-anchor="middle" class="s">exit 2 で確実に遮断</text>
 
   <rect x="668" y="190" width="188" height="72" rx="8" fill="#ffffff" stroke="#6ee7b7"/>
   <text x="762" y="214" text-anchor="middle" class="b" font-weight="700" fill="#065f46">自動化（Post / Stop）</text>

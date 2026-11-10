@@ -41,7 +41,7 @@
 
   <rect x="410" y="92" width="460" height="146" rx="10" fill="#f0fdf4" stroke="#bbf7d0"/>
   <text x="430" y="118" class="h" fill="#15803d">得るもの</text>
-  <text x="430" y="144" class="b">・プロンプトの「触るな」を AI が忘れても、100% 確実に防げる</text>
+  <text x="430" y="144" class="b">・プロンプトの「触るな」を AI が忘れても、毎回確実に止められる</text>
   <text x="430" y="167" class="b">・なぜ拒否されたかを stderr で伝えると、AI が自分で別案を考える</text>
   <text x="430" y="190" class="b">・ファイルの中身（禁止タグや秘密情報）まで見て実行前に止められる</text>
   <text x="430" y="213" class="b">・updatedInput を使えば、拒否せず安全な引数に直して通せる</text>

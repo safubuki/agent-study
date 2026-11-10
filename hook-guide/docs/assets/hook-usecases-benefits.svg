@@ -53,9 +53,9 @@
   <line x1="594" y1="235" x2="610" y2="235" stroke="#64748b" stroke-width="1.6" marker-end="url(#ah)"/>
 
   <rect x="614" y="198" width="260" height="74" rx="8" fill="#ecfdf5" stroke="#a7f3d0"/>
-  <text x="626" y="220" class="h" fill="#065f46">事故の確率を 0% にできる！</text>
+  <text x="626" y="220" class="h" fill="#065f46">事故を仕組みで防げる！</text>
   <text x="626" y="240" class="b">AI の記憶力に頼らず、危ない操作を</text>
-  <text x="626" y="258" class="b">物理的に100%防いで安全に任せられる</text>
+  <text x="626" y="258" class="b">毎回必ず検査して安全に任せられる</text>
 
   <!-- Row 3: Auto Format -->
   <rect x="26" y="282" width="256" height="74" rx="8" fill="#fff7ed" stroke="#fed7aa"/>

@@ -1,6 +1,6 @@
 # 05 監査ログの記録と完了通知（`PostToolUse` / `Notification`）
 
-AI が実行したすべてのツール履歴を `logs/audit.jsonl` に1行ずつ自動記録し、AI が確認待ちや作業完了になったタイミングで通知を出すパターンです。ガイドの [02 の 6章](../../docs/02_hook-patterns.md#6-パターン⑤監査ログ通知と権限の自動判定notification--permissionrequest) に対応します。
+AI が実行したすべてのツール履歴を `logs/audit.jsonl` に1行ずつ自動記録し、AI が確認待ちや作業完了になったタイミングで通知を出すパターンです。ガイドの [02 のパターン 5](../../docs/02_hook-patterns.md#パターン-5監査ログ通知audit-log--notification) に対応します。
 
 ## 仕組み
 
@@ -9,8 +9,31 @@ flowchart LR
     T["AI がツールを実行"] --> A["hooks/audit-log.js<br/>（PostToolUse）"]
     A --> L[("logs/audit.jsonl<br/>時刻・ツール名・対象パスを記録")]
     N["AI が入力待ち / 完了"] --> B["hooks/notify-done.js<br/>（Notification / Stop）"]
-    B --> S["ターミナル通知＆ビープ音"]
+    B -->|"terminalSequence を JSON で返す"| C["Claude Code が代わりに<br/>ベル音＋デスクトップ通知を出す"]
 ```
+
+## 通知のしくみ（なぜ JSON で返すのか）
+
+フックは画面（ターミナル）につながっていない裏方のプロセスとして動きます。そのため、スクリプトからベル文字（`\u0007`）を `stdout` や `stderr` に書いても**音は鳴りません**。
+
+Claude Code では、出力 JSON の **`terminalSequence`** に制御文字を入れて返すと、Claude Code が自分の画面に書き出して代わりに鳴らしてくれます（対話モードで画面を開いているときだけ有効）。
+
+```json
+{ "terminalSequence": "\u0007\u001b]9;Claude needs your permission\u0007" }
+```
+
+- `\u0007` … ベル音
+- `\u001b]9;本文\u0007` … Windows Terminal・iTerm2・WezTerm などのデスクトップ通知
+
+GitHub Copilot にはこの仕組みがないため、Copilot で通知したい場合は、スクリプト内で OS の通知コマンドや Slack の Webhook などを呼び出してください（このサンプルでは、どちらの環境でも `logs/notifications.log` に記録だけは残します）。
+
+## いつ通知されるか
+
+| 設定 | 発火するタイミング |
+|---|---|
+| Claude Code の `Notification` | 許可の確認待ち、入力待ちのまましばらく経ったときなど |
+| Claude Code の `Stop` | AI が返答を終えたとき（＝作業完了） |
+| Copilot の `agentStop` | AI が返答を終えたとき |
 
 ## ファイル構成
 
@@ -26,4 +49,6 @@ flowchart LR
    └─ .github/hooks/hooks.json     ← GitHub Copilot 用設定
 ```
 
-> **注意**：通知音を鳴らすかどうかは個人の好みが分かれるため、実務では通知用のフックだけは `.claude/settings.local.json`（Git 管理外）または `~/.claude/settings.json`（ホームディレクトリ）に置くのがおすすめです。
+> **ログの注意**：`logs/audit.jsonl` には、コマンドの引数に含まれる秘密情報もそのまま記録されます。`logs/` は必ず `.gitignore` に追加してください。また、このファイルは AI 自身も書き換えられるため、改ざんされては困る監査用途なら、AI の作業フォルダの外や外部サーバーに送ってください。
+>
+> **通知の注意**：通知音を鳴らすかどうかは個人の好みが分かれるため、実務では通知用のフックだけは `.claude/settings.local.json`（Git 管理外）または `~/.claude/settings.json`（ホームディレクトリ）に置くのがおすすめです。

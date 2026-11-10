@@ -15,7 +15,7 @@
 
   <rect x="26" y="84" width="360" height="54" rx="10" fill="#ede9fe" stroke="#8b5cf6"/>
   <text x="206" y="108" text-anchor="middle" class="h" fill="#6d28d9">AI エージェント（初期状態）</text>
-  <text x="206" y="128" text-anchor="middle" class="s">最初は MCPSearch（または search / execute）のみ</text>
+  <text x="206" y="128" text-anchor="middle" class="s">最初は ToolSearch（または search / execute）のみ</text>
 
   <line x1="206" y1="138" x2="206" y2="168" stroke="#6b7280" stroke-width="1.6" marker-end="url(#ah)"/>
 
@@ -38,7 +38,7 @@
   <text x="430" y="136" class="b">・ツール定義のトークン消費を 95%〜99.9% 削減できる</text>
   <text x="430" y="159" class="b">　（Anthropic 事例：15万→2千、Cloudflare 事例：117万→1千）</text>
   <text x="430" y="182" class="b">・多数の MCP サーバーを登録したままでも文脈を圧迫しない</text>
-  <text x="430" y="205" class="b">・Claude Code では一定量を超えると自動でこのモードになる</text>
+  <text x="430" y="205" class="b">・Claude Code では既定でオン（MCP ツールは必要時に読込）</text>
 
   <rect x="410" y="252" width="460" height="148" rx="10" fill="#fef2f2" stroke="#fecaca"/>
   <text x="430" y="278" class="h" fill="#b91c1c">失うもの・注意点</text>

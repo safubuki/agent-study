@@ -68,7 +68,7 @@ node scripts\test-mcp-server.js
 ```powershell
 node scripts\test-mcp-server.js samples\01-minimal-stdio\server.js
 node scripts\test-mcp-server.js samples\02-knowledge-search\glossary-mcp.js
-node scripts\test-mcp-server.js samples\03-workflow-facade\release-check-mcp.js
+node scripts\test-mcp-server.js samples\03-workflow-facade\catering-plan-mcp.js
 node scripts\test-mcp-server.js samples\05-resources-and-prompts\full-feature-mcp.js
 ```
 
@@ -147,5 +147,5 @@ flowchart LR
 
 ## 5. 対話モードや VS Code（GitHub Copilot）で試す場合
 
-- **Claude Code**（対話モード）：このフォルダで `claude` を起動し、`/mcp` と打つと `.mcp.json` の `cafe-catalog` が認識されていることを確認できます。そのまま「小麦・卵・乳（コンタミ含む）が入っていないメニューを MCP で調べて教えて」と話しかけてみてください。
+- **Claude Code**（対話モード）：**この `mcp-guide` フォルダで** `claude` を起動します（`.mcp.json` は起動したフォルダのものが読まれ、`servers/...` の相対パスもこのフォルダが基準です）。初回は「このプロジェクトの MCP サーバーを使ってよいか」の確認が出るので承認してください。`/mcp` と打つと `cafe-catalog` が認識されていることを確認できます。そのまま「小麦・卵・乳（コンタミ含む）が入っていないメニューを MCP で調べて教えて」と話しかけてみてください。
 - **VS Code**（GitHub Copilot Agent Mode）：VS Code でこのフォルダを開くと `.vscode/mcp.json` が自動で認識されます。Copilot Chat を **Agent** モードにして同じように質問してみてください（詳しい手順は [docs/01_copilot-mcp-guide.md](docs/01_copilot-mcp-guide.md)）。

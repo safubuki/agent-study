@@ -38,7 +38,8 @@
 
 ![登録ツール数とトークン消費・精度の関係](assets/mcp-vs-cli-sweet-spot.svg)
 
-- **常時ロードの快適ゾーンは 10〜15ツールまで**：MCP サーバーを何十個も同時につなぐと、質問する前にツール定義だけで数万〜100万トークンを消費し、AI の選択ミスも増えます（[info/03](../info/03_armin-mario_mcp-vs-cli.md)、[info/04](../info/04_cloudflare_code-mode.md)、[info/05](../info/05_anthropic_code-execution-with-mcp.md)）。
+- **常時ロードの快適ゾーンは 10〜15ツールまで**：ツール定義をすべて最初に読み込む方式で MCP サーバーを何十個も同時につなぐと、質問する前にツール定義だけで数万トークン（巨大な API を丸ごとツール化した極端な例では100万トークン超）を消費し、AI の選択ミスも増えます（[info/03](../info/03_armin-mario_mcp-vs-cli.md)、[info/04](../info/04_cloudflare_code-mode.md)、[info/05](../info/05_anthropic_code-execution-with-mcp.md)）。
+- **Claude Code では事情が少し違う**：2026年11月時点の Claude Code は **Tool Search が既定でオン**で、MCP のツール定義は必要になるまで読み込まれません（パターン⑤）。そのため「定義だけで文脈が埋まる」問題は起きにくくなりましたが、ツールが多いほど検索の手間と選び間違いは増えるので、**厳選する原則は変わりません**。
 - **作る前の3チェック**：① `git` や `gh` 等の**既存 CLI** で済まないか？ ② 手順書なら **Skills**（`SKILL.md`）で済まないか？ ③ それでも「認証隠蔽・DB 絞り込み・状態維持」が必要なときだけ MCP を選びます。
 
 ---
@@ -75,6 +76,7 @@
 ![サブエージェント×専用 MCP](assets/pattern4-subagent-scoped-mcp.svg)
 
 - **効く理由**：重たい出力を出す MCP や強い権限を持つ MCP を**専門のサブエージェントだけに割り当てる**ことで、親のコンテキストを綺麗に保ち、外部読取と機密 DB 操作の同居（セキュリティ上の危険な組み合わせ）を分断できます（見本：[samples/04-subagent-scoped/](../samples/04-subagent-scoped/)）。
+- **「親に見せない」書き方**：Claude Code では、サブエージェント定義の `mcpServers:` に**サーバーをインラインで定義**し、`.mcp.json` には登録しません。`mcpServers: [cafe-catalog]` のように名前だけ書くと、登録済みサーバーを親と共有する扱いになり、親からも使えてしまいます。
 - **注意点**：サブエージェントの起動には数秒のオーバーヘッドがあるため、1回だけの軽いツール呼び出しなら親で直接呼ぶ方が速いです。
 
 ---
@@ -83,8 +85,8 @@
 
 ![コード実行・オンデマンド読み込み](assets/pattern5-lazy-codemode.svg)
 
-- **効く理由**：①必要な瞬間だけツール定義を検索して読む **Tool Search**（Claude Code に標準搭載：[info/07](../info/07_claude-code_mcp-docs.md)）と、②複数回の呼び出しをスクリプト1本でサンドボックス実行する **Code Mode** により、ツール定義トークンを **98〜99% 削減**できます（[Anthropic 2025-11](../info/05_anthropic_code-execution-with-mcp.md)、[Cloudflare 2025-09](../info/04_cloudflare_code-mode.md)）。
-- **注意点**：ツール総数が 5〜10個程度の小規模な環境では、最初から読み込んでも軽量なため不要です。
+- **効く理由**：①必要な瞬間だけツール定義を検索して読む **Tool Search**（Claude Code に標準搭載で**既定でオン**。環境変数 `ENABLE_TOOL_SEARCH=auto` にすると「定義が文脈の10%を超えたときだけ」使う方式に変えられる：[info/07](../info/07_claude-code_mcp-docs.md)）と、②複数回の呼び出しをスクリプト1本でサンドボックス実行する **Code Mode** により、ツール定義トークンを **98〜99% 削減**できます（[Anthropic 2025-11](../info/05_anthropic_code-execution-with-mcp.md)、[Cloudflare 2025-09](../info/04_cloudflare_code-mode.md)）。
+- **注意点**：ツール総数が 5〜10個程度の小規模な環境では、最初から読み込んでも軽量なため効果は小さく、検索の1ターンが増えるぶん遅くなることもあります。毎ターン必ず使う少数のツールは、Claude Code の `.mcp.json` でサーバーに `"alwaysLoad": true` を付けると最初から読み込ませられます。
 
 ---
 

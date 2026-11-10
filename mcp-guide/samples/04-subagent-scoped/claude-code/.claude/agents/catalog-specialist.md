@@ -3,7 +3,12 @@ name: catalog-specialist
 description: カフェのメニュー検索、アレルゲン除外チェック、セット割引・原価率の計算を専門に行う調査サブエージェント。メニュー選定や価格計算が必要なときに呼ぶ。
 tools: Read, mcp__cafe-catalog__search_menu, mcp__cafe-catalog__check_allergens, mcp__cafe-catalog__calculate_set_price
 mcpServers:
-  - cafe-catalog
+  # インライン定義：このサブエージェントの起動中だけ接続され、親エージェントには見えない
+  # （args の相対パスは Claude Code を起動したフォルダ＝この claude-code/ フォルダが基準）
+  - cafe-catalog:
+      type: stdio
+      command: node
+      args: ["../../../servers/cafe-catalog-mcp.js"]
 model: sonnet
 ---
 

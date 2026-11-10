@@ -1,8 +1,12 @@
 #!/usr/bin/env node
 /**
- * パターン④：文脈の自動注入（UserPromptSubmit）
+ * パターン④：文脈の自動注入（Claude Code: UserPromptSubmit ／ Copilot: sessionStart）
  * - プロンプト内に誤って貼り付けられた API キー（sk-... 等）があれば送信前にブロック（exit 2）
  * - 現在の Git ブランチ名とプロジェクトの必須ミニ規約を additionalContext として自動添付
+ *
+ * 【Copilot での制限】Copilot の userPromptSubmitted は command フックの出力を無視するため、
+ *   プロンプトのブロックも指示ごとの添付もできません。Copilot では sessionStart に登録し、
+ *   会話の開始時に1回だけ文脈を添付します（sessionStart にはプロンプトが届かないので秘密鍵検査は動きません）。
  */
 const fs = require('fs');
 const { execSync } = require('child_process');
@@ -55,12 +59,17 @@ function main() {
     `[厳守事項] 外部 CDN の読み込みは禁止。変更後は関連テストが通ることを確認すること。`
   ].join('\n');
 
-  const output = {
-    hookSpecificOutput: {
-      hookEventName: 'UserPromptSubmit',
-      additionalContext: contextNote
-    }
-  };
+  // Claude Code（UserPromptSubmit）：hookSpecificOutput.additionalContext で添付
+  // Copilot（sessionStart、camelCase 形式）：トップレベルの additionalContext で添付
+  const isCopilot = data.sessionId !== undefined && data.hook_event_name === undefined;
+  const output = isCopilot
+    ? { additionalContext: contextNote }
+    : {
+        hookSpecificOutput: {
+          hookEventName: 'UserPromptSubmit',
+          additionalContext: contextNote
+        }
+      };
 
   process.stdout.write(JSON.stringify(output) + '\n');
   process.exit(0);

@@ -21,7 +21,7 @@
 
   <rect x="42" y="158" width="240" height="46" rx="8" fill="#ffffff" stroke="#93c5fd"/>
   <text x="162" y="178" text-anchor="middle" font-size="13" font-weight="700" fill="#1d4ed8">AI アプリ（Claude / VS Code）</text>
-  <text x="162" y="196" text-anchor="middle" class="s">使うときだけ裏で自動起動・自動終了</text>
+  <text x="162" y="196" text-anchor="middle" class="s">起動時に裏で自動起動・終了時に自動終了</text>
 
   <line x1="162" y1="204" x2="162" y2="234" stroke="#4b5563" stroke-width="1.6" marker-start="url(#ah)" marker-end="url(#ah)"/>
   <text x="172" y="223" class="s">stdio（PC内通信）</text>
@@ -47,7 +47,7 @@
 
   <rect x="330" y="158" width="240" height="46" rx="8" fill="#ffffff" stroke="#6ee7b7"/>
   <text x="450" y="178" text-anchor="middle" font-size="13" font-weight="700" fill="#047857">AI アプリ（Claude / VS Code）</text>
-  <text x="450" y="196" text-anchor="middle" class="s">使うときだけ裏で自動起動・自動終了</text>
+  <text x="450" y="196" text-anchor="middle" class="s">起動時に裏で自動起動・終了時に自動終了</text>
 
   <line x1="450" y1="204" x2="450" y2="234" stroke="#4b5563" stroke-width="1.6" marker-start="url(#ah)" marker-end="url(#ah)"/>
   <text x="460" y="223" class="s">stdio（PC内通信）</text>
@@ -94,7 +94,7 @@
   <!-- Bottom Banner -->
   <rect x="26" y="492" width="752" height="58" rx="10" fill="#fff7ed" stroke="#fed7aa"/>
   <text x="44" y="516" class="h" fill="#9a3412">初心者が安心すべきポイント：①・②（ローカル）は「自分でサーバーを立ち上げっぱなし」にしない！</text>
-  <text x="44" y="538" class="b">設定ファイルに書いておけば、AI アプリが質問を受けたときに裏で自動起動し、終われば自動で閉じます。</text>
+  <text x="44" y="538" class="b">設定ファイルに書いておけば、AI アプリの起動時に裏で自動起動し、AI アプリを閉じれば自動で終了します。</text>
 
   <!-- 作者サイン：右下から図を見上げる亀（横向き） -->
   <g transform="translate(794 514) scale(0.78)">

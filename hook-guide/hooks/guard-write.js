@@ -47,7 +47,11 @@ function main() {
   }
 
   const toolName = (data.tool_name || data.toolName || '').toLowerCase();
-  const toolInput = data.tool_input || data.toolArgs || data.input || {};
+  let toolInput = data.tool_input || data.toolArgs || data.input || {};
+  if (typeof toolInput === 'string') {
+    // GitHub Copilot では引数が JSON 文字列で届く場合がある
+    try { toolInput = JSON.parse(toolInput); } catch { toolInput = {}; }
+  }
 
   // 1. Bash / コマンド実行の検査
   if (toolName === 'bash' || toolName === 'powershell' || toolName === 'execute') {
@@ -77,7 +81,8 @@ function main() {
 
     // (b) HTML ファイルの中身の事前検査（外部リソースの禁止）
     if (/\.html$/i.test(normPath)) {
-      const content = String(toolInput.content || toolInput.new_string || '');
+      // Claude Code: content / new_string、Copilot: file_text / new_str
+      const content = String(toolInput.content || toolInput.new_string || toolInput.file_text || toolInput.new_str || '');
       const externalTag = content.match(/<(script|link|img)\b[^>]*(src|href)\s*=\s*["']https?:\/\/[^"']+["'][^>]*>/i);
       if (externalTag) {
         block(

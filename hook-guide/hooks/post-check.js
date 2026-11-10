@@ -4,9 +4,9 @@
  *
  * 役割：
  * 1. 保存されたファイルの行末空白を除去し、改行コード（LF）と末尾改行を自動で整える
- * 2. HTML ファイルに対して規約チェックを行い、以下の違反があればその場で decision:"block" で通知する：
+ * 2. HTML ファイルに対して規約チェックを行い、以下の違反があればその場で AI に通知する
+ *    （Claude Code は decision:"block"、Copilot は additionalContext。ツールは実行済みなので取り消しではなく「直して」という指摘）：
  *    - インラインの style="..." 属性の使用（すべて <style> タグ内に書く規約）
- *    - CSS 変数（--で始まるカスタムプロパティ）の未使用
  *    - <img> タグの alt 属性抜け
  */
 const fs = require('fs');
@@ -41,7 +41,11 @@ function main() {
     process.exit(0);
   }
 
-  const toolInput = data.tool_input || data.toolArgs || data.input || {};
+  let toolInput = data.tool_input || data.toolArgs || data.input || {};
+  if (typeof toolInput === 'string') {
+    // GitHub Copilot では引数が JSON 文字列で届く場合がある
+    try { toolInput = JSON.parse(toolInput); } catch { toolInput = {}; }
+  }
   const filePath = String(toolInput.file_path || toolInput.filePath || toolInput.path || '');
   if (!filePath || !fs.existsSync(filePath)) process.exit(0);
 
@@ -79,10 +83,10 @@ function main() {
 
     if (warnings.length > 0) {
       appendHookLog({ action: 'FEEDBACK', target: filePath, warnings });
-      const res = {
-        decision: 'block',
-        reason: `[PostToolUse 事後チェック] 保存された ${filePath} に規約違反が見つかりました。続けて修正してください:\n- ${warnings.join('\n- ')}`
-      };
+      const reason = `[PostToolUse 事後チェック] 保存された ${filePath} に規約違反が見つかりました。続けて修正してください:\n- ${warnings.join('\n- ')}`;
+      // Copilot（camelCase 形式）の postToolUse は decision を使わず、additionalContext で AI に伝える
+      const isCopilot = data.toolArgs !== undefined || (data.toolName !== undefined && data.tool_name === undefined);
+      const res = isCopilot ? { additionalContext: reason } : { decision: 'block', reason };
       process.stdout.write(JSON.stringify(res) + '\n');
       process.exit(0);
     }

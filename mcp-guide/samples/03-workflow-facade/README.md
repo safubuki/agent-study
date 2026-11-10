@@ -1,6 +1,6 @@
 # 03 複数ツールを1つの「業務ワークフロー」に束ねる（ファサード型）
 
-ガイドの [02 の 4章（パターン③：業務ワークフロー・ファサード）](../../docs/02_mcp-patterns.md#4-パターン③複数ツールを1つの業務ワークフローに束ねるファサード型) に対応する見本です。
+ガイドの [02 の 4章（パターン③：業務ワークフロー・ファサード）](../../docs/02_mcp-patterns.md#4-パターン③複数処理を1つの業務ワークフローに束ねるファサード型) に対応する見本です。
 
 ## なぜ束ねるのか
 
@@ -15,7 +15,7 @@
 
 ## ファイル
 
-- [release-check-mcp.js](release-check-mcp.js)：ファサード型 MCP サーバー本体
+- [catering-plan-mcp.js](catering-plan-mcp.js)：ファサード型 MCP サーバー本体
 - [claude-code/.mcp.json](claude-code/.mcp.json)：Claude Code 用設定
 - [copilot/.vscode/mcp.json](copilot/.vscode/mcp.json)：VS Code（Copilot）用設定
 
@@ -23,5 +23,5 @@
 
 ```powershell
 cd C:\git_home\agent-study\mcp-guide
-node scripts\test-mcp-server.js samples\03-workflow-facade\release-check-mcp.js
+node scripts\test-mcp-server.js samples\03-workflow-facade\catering-plan-mcp.js
 ```

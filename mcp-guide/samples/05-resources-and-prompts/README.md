@@ -1,6 +1,6 @@
 # 05 Tools だけでなく Resources と Prompts も返す MCP サーバー
 
-ガイドの [00 の 2.1節（MCP が提供する3つの機能）](../../docs/00_mcp-guide.md#2-mcp-が提供する3つの機能と通信の仕組み) に対応する見本です。
+ガイドの [00 の 3.1節（Host・Client・Server の全体構造と3つの機能）](../../docs/00_mcp-guide.md#31-hostclientserver-の全体構造と3つの機能) に対応する見本です。
 
 MCP の仕様が持つ3つの基本機能すべてを1ファイルに実装しています。
 

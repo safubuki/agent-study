@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * 03-workflow-facade/release-check-mcp.js
+ * 03-workflow-facade/catering-plan-mcp.js
  * パターン③：複数ステップの処理を1つの高水準な「業務ツール」に束ねるファサード型 MCP サーバー。
  */
 const readline = require('node:readline');

@@ -3,7 +3,7 @@
     "catering-workflow": {
       "type": "stdio",
       "command": "node",
-      "args": ["${workspaceFolder}/../release-check-mcp.js"]
+      "args": ["${workspaceFolder}/../catering-plan-mcp.js"]
     }
   }
 }

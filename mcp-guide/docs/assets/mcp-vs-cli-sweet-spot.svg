@@ -29,7 +29,7 @@
 
   <!-- threshold line -->
   <line x1="530" y1="70" x2="530" y2="370" stroke="#4b5563" stroke-width="2" stroke-dasharray="4 4"/>
-  <text x="542" y="356" font-size="11" fill="#374151">Tool Search 自動切替の目安（文脈の約10%）</text>
+  <text x="542" y="356" font-size="11" fill="#374151">auto 設定時の Tool Search 切替目安（文脈の10%）</text>
 
   <!-- axes -->
   <line x1="70" y1="370" x2="860" y2="370" stroke="#6b7280" stroke-width="1.5"/>

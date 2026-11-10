@@ -26,7 +26,7 @@
   <text x="58" y="268" class="b" font-weight="700" fill="#1e3a8a">④ 状態確認：チャットで /mcp</text>
   <text x="58" y="296" class="b" font-weight="700" fill="#1e3a8a">⑤ 子エージェント限定：</text>
   <text x="58" y="316" class="s">　.claude/agents/*.md の</text>
-  <text x="58" y="334" class="s">　mcpServers: にサーバー名を記載</text>
+  <text x="58" y="334" class="s">　mcpServers: にインラインで定義</text>
 
   <!-- Center: Shared MCP Server -->
   <rect x="336" y="138" width="228" height="180" rx="12" fill="#ecfdf5" stroke="#10b981" stroke-width="2"/>

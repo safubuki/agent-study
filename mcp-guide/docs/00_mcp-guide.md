@@ -11,7 +11,7 @@
 |---|---|
 | **① MCP とは？** | AI アプリ（Claude Code / VS Code）と外部ツールをつなぐ「**AI 用の USB-C 規格**」（通信の共通ルール）です。 |
 | **② Web API との違いは？** | Web API の競合ではなく、各社でバラバラな API や DB を「**どの AI からでも同じ手順で呼べる形に包む変換アダプター**」です。 |
-| **③ 自分でサーバーを起動しっぱなしにする？** | **不要です**。ローカル利用でも、AI アプリが必要なときだけ裏で自動起動し、終われば自動で閉じます。 |
+| **③ 自分でサーバーを起動しっぱなしにする？** | **不要です**。ローカル利用でも、AI アプリの起動時（セッション開始時）に裏で自動起動し、AI アプリを閉じれば自動で終了します。 |
 | **④ どうやって使うの？** | **①公開ツールを PC 内で動かす**、**②自作スクリプトを PC 内で動かす**、**③クラウドの URL につなぐ** の3通りです。 |
 
 ---
@@ -69,7 +69,7 @@
 
 ![ローカル起動とクラウド利用の流れ](assets/mcp-local-vs-cloud-flow.svg)
 
-- **ローカル（①・②）の設定例**：`.mcp.json` に起動コマンドを書くだけで、AI アプリが裏で勝手に立ち上げ、終了時に自動で閉じます。
+- **ローカル（①・②）の設定例**：`.mcp.json` に起動コマンドを書くだけで、AI アプリが起動時に裏で立ち上げ、AI アプリの終了時に自動で閉じます（1回の質問ごとに起動・終了するわけではなく、セッション中は動き続けます）。
   ```json
   {
     "mcpServers": {
@@ -153,11 +153,14 @@ claude mcp add --scope project cafe-catalog -- node servers/cafe-catalog-mcp.js
 claude mcp list
 ```
 
+- **初回は承認が必要**：プロジェクト共有の `.mcp.json` に書かれたサーバーは、安全のため、対話モードで初めて起動したときに「このサーバーを使ってよいか」の確認が出ます（承認前の `/mcp` では「Pending approval」と表示されます）。
+- **相対パスの基準**：`args` に `servers/cafe-catalog-mcp.js` のような相対パスを書いた場合、**Claude Code を起動したフォルダ**が基準になります。どこから起動しても動かしたいときは `${CLAUDE_PROJECT_DIR:-.}/servers/cafe-catalog-mcp.js` のように書きます。
+
 ---
 
 ## 6. 実践：60行の最小サーバーと 0.1秒テスト
 
-ローカル自作サーバー（[samples/01-minimal-stdio/server.js](../samples/01-minimal-stdio/server.js)）は、外部パッケージ不要・Node.js 標準機能だけで約60行で書けます。やることは **3つの `req.method` に JSON を返すだけ**です。
+ローカル自作サーバー（[samples/01-minimal-stdio/server.js](../samples/01-minimal-stdio/server.js)）は、外部パッケージ不要・Node.js 標準機能だけで約60行で書けます。やることは **3つの `req.method` に JSON を返すだけ**です（下は要点だけに絞った抜粋です。実ファイルには、壊れた JSON や知らないメソッドにエラーを返す処理も入っています）。
 
 ```javascript
 #!/usr/bin/env node
@@ -167,6 +170,8 @@ const rl = readline.createInterface({ input: process.stdin, terminal: false });
 rl.on('line', (line) => {
   if (!line.trim()) return;
   const req = JSON.parse(line);
+  // id のないメッセージ（notifications/initialized などの「通知」）には返事をしない
+  if (req.id === undefined) return;
 
   if (req.method === 'initialize') {
     send(req.id, { protocolVersion: '2025-11-25', capabilities: { tools: {} }, serverInfo: { name: 'dice', version: '1.0.0' } });
@@ -175,6 +180,9 @@ rl.on('line', (line) => {
   } else if (req.method === 'tools/call') {
     const sides = req.params.arguments.sides || 6;
     send(req.id, { content: [{ type: 'text', text: `出目: ${Math.floor(Math.random() * sides) + 1}` }] });
+  } else {
+    // 知らないメソッド（ping など）にもエラーで返事をする（無視するとクライアントが待ち続ける）
+    process.stdout.write(JSON.stringify({ jsonrpc: '2.0', id: req.id, error: { code: -32601, message: 'Method not found' } }) + '\n');
   }
 });
 
@@ -197,7 +205,7 @@ node scripts\test-mcp-server.js
 
 ![知っておくべき2大注意点](assets/mcp-security-rules.svg)
 
-- **入れすぎない**：常時つなぐサーバーは **2〜3個**（10〜15ツール以内）に絞り、残りはサブエージェントに分離するか Claude Code 標準の **MCP Tool Search**（遅延読み込み）に任せます（詳しくは [docs/02](02_mcp-patterns.md)）。
+- **入れすぎない**：常時つなぐサーバーは **2〜3個**（10〜15ツール以内）を目安に絞り、残りはサブエージェントに分離します。なお Claude Code では **MCP Tool Search**（ツール定義の遅延読み込み）が**既定でオン**のため、ツール定義が最初から文脈を埋めることはありませんが、ツールが多いほど「探す手間」と「選び間違い」は増えます。VS Code（Copilot）など他のアプリでは全定義を読み込む場合もあるので、やはり厳選が基本です（詳しくは [docs/02](02_mcp-patterns.md)）。
 - **安全の3原則**：①出所の確かなコードだけを使う（**Tool Poisoning** 対策）、②基本は**読み取り専用**（Read-Only）にする、③パスワードや API キーは **`${環境変数}`** で渡してファイルに直書きしない、の3点を徹底してください。
 
 ---

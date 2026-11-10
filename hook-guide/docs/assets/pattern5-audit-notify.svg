@@ -48,7 +48,7 @@
   <rect x="410" y="92" width="460" height="146" rx="10" fill="#f0fdf4" stroke="#bbf7d0"/>
   <text x="426" y="118" class="h" fill="#15803d">得るもの</text>
   <text x="426" y="144" class="b">・長時間タスクでターミナルをずっと見張っている必要がなくなる</text>
-  <text x="426" y="167" class="b">・「AI が裏でどのコマンドを叩いたか」が100%改ざん不能な記録に残る</text>
+  <text x="426" y="167" class="b">・「AI が裏でどのコマンドを叩いたか」が後から追える記録に残る</text>
   <text x="426" y="190" class="b">・PermissionRequest で「読み取り系や指定フォルダ内なら自動承認」</text>
   <text x="426" y="213" class="b">　を作れば、承認ポチポチの手間を減らしつつ安全も守れる</text>
 

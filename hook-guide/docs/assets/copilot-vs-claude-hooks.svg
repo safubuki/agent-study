@@ -30,7 +30,7 @@
   <rect x="616" y="130" width="238" height="32" rx="6" fill="#ffffff" stroke="#93c5fd"/>
   <text x="735" y="151" text-anchor="middle" class="b" font-weight="700">.github/hooks/hooks.json</text>
   <text x="616" y="186" class="b">・イベント名：先頭小文字</text>
-  <text x="616" y="206" class="s">　preToolUse / postToolUse / stop</text>
+  <text x="616" y="206" class="s">　preToolUse / postToolUse / agentStop</text>
   <text x="616" y="232" class="b">・最上位に "version": 1 が必須</text>
   <text x="616" y="252" class="s">　（VS Code は .claude 側も読める）</text>
   <text x="616" y="278" class="b">・OS別キー："bash" と "powershell"</text>

@@ -1,6 +1,8 @@
 # 04 プロンプト送信時の文脈自動注入（`UserPromptSubmit`）
 
-人間がチャット欄から指示を送った瞬間に、現在の Git ブランチ名や未コミット変更、絶対に守るべき短い規約を**裏で自動的に添付して AI に渡す**パターンです。また、うっかり秘密鍵（API キーなど）をプロンプトに貼り付けてしまった場合は送信前にブロックします。ガイドの [02 の 5章](../../docs/02_hook-patterns.md#5-パターン④文脈の自動注入userpromptsubmit--sessionstart) に対応します。
+人間がチャット欄から指示を送った瞬間に、現在の Git ブランチ名や未コミット変更、絶対に守るべき短い規約を**裏で自動的に添付して AI に渡す**パターンです。また、うっかり秘密鍵（API キーなど）をプロンプトに貼り付けてしまった場合は送信前にブロックします。ガイドの [02 のパターン 4](../../docs/02_hook-patterns.md#パターン-4文脈の自動注入context-injector) に対応します。
+
+> ⚠️ **Copilot ではできることが限られます**：Copilot の `userPromptSubmitted` は command フックの出力を無視するため、**指示ごとの自動添付も、秘密鍵を含むプロンプトのブロックもできません**。そのため Copilot 用の設定（[copilot/.github/hooks/hooks.json](copilot/.github/hooks/hooks.json)）では `sessionStart` に登録し、**会話の開始時に1回だけ**ブランチ名などを添付します。
 
 ## 仕組み
 

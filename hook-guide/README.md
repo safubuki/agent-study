@@ -15,7 +15,9 @@
 |---|---|---|
 | A | **no-hooks**（お願いベース） | フックをすべて無効にし、プロンプトの「禁止事項・技術規約」の文章だけで AI に守らせる |
 | B | **with-hooks**（関所＋事後チェック） | `PreToolUse`（保存前の外部 CDN・保護ファイル遮断）と `PostToolUse`（保存直後の自動整形・インライン `style` 検査）を有効にする |
-| C | **stop-gate**（B＋完了ゲート） | B に加えて `Stop` フックを有効にし、**全7項目の技術規約に100%合格するまで完了させず自動で差し戻す** |
+| C | **stop-gate**（B＋完了ゲート） | B に加えて `Stop` フックを有効にし、AI が完了しようとした時点で**全7項目の技術規約を検査して、不合格なら自動で差し戻す**（無限ループ防止のため差し戻しは1回まで） |
+
+> 📌 ルートの [.claude/settings.json](.claude/settings.json) は、**この `hook-guide` フォルダで Claude Code を起動したとき**だけ読み込まれます（親の `agent-study` で起動した場合は効きません）。`run-experiment.ps1` は自動でこのフォルダに移動してから実行します。
 
 ---
 
@@ -55,7 +57,7 @@ cd C:\git_home\agent-study\hook-guide
 node scripts/test-hooks-locally.js
 ```
 
-実行すると、次の10ケースの模擬データが各フックに流し込まれ、結果が一覧表示されます。
+実行すると、次の11ケースの模擬データが各フックに流し込まれ、結果が一覧表示されます。
 
 1. `.env` を編集しようとしたとき → `PreToolUse` が **終了コード `2` で強制ブロック**するか
 2. `rm -rf` を実行しようとしたとき → `PreToolUse` が **終了コード `2` で強制ブロック**するか
@@ -63,10 +65,11 @@ node scripts/test-hooks-locally.js
 4. 安全な HTML 保存は **終了コード `0` で通過**するか
 5. インライン `style="..."` を含む HTML を保存した直後 → `PostToolUse` が **即座に指摘 JSON を返す**か
 6. 必須タグが欠けたまま完了しようとしたとき → `Stop` フックが **`decision: "block"` で差し戻す**か
-7. すでに1回差し戻した直後（`stop_hook_active: true`）→ **無限ループ防止で通過させる**か
+7. すでに1回差し戻した直後（`stop_hook_active: true`）→ **無限ループ防止で通過させる**か（＝差し戻しは1回まで）
 8. 全7項目の規約を満たした HTML → `Stop` フックを **一発で合格通過**するか
 9. プロンプトに API キー（`sk-...`）を貼ったとき → `UserPromptSubmit` が **送信前にブロック**するか
 10. 通常のプロンプト送信時 → `UserPromptSubmit` が **現在の Git ブランチ名を自動添付**するか
+11. GitHub Copilot 形式の入力（`toolName` / `toolArgs`）で `.env` を作ろうとしたとき → **同じスクリプトで Copilot でもブロック**できるか
 
 ---
 
@@ -102,7 +105,7 @@ flowchart LR
     P["prompts/お題.md"] --> S["run-experiment.ps1<br/>ストップウォッチ開始"]
     S -->|"no-hooks"| A["フック無効で実行<br/>（プロンプトのお願いのみ）"]
     S -->|"with-hooks"| B["PreToolUse ＋ PostToolUse<br/>で保存前後に自動検査"]
-    S -->|"stop-gate"| C["さらに Stop フックで<br/>7項目合格まで自動差し戻し"]
+    S -->|"stop-gate"| C["さらに Stop フックで<br/>7項目を検査し不合格なら差し戻し"]
     A & B & C --> V["完成した index.html を<br/>7項目で自動採点"]
     V --> O[("output/実行フォルダ<br/>report.md / summary.md<br/>hook-events.jsonl")]
 ```
@@ -119,7 +122,7 @@ flowchart LR
 
 | 順番 | ファイル | 内容 |
 |---|---|---|
-| 1 | [docs/00_hook-guide.md](docs/00_hook-guide.md) | **フック入門**（Claude Code 編）：プロンプトとの違い、10のイベント、設定ファイルの解剖図、`stdin` / `exit 2` / JSON 出力の仕組み、無限ループ防止などの落とし穴 |
+| 1 | [docs/00_hook-guide.md](docs/00_hook-guide.md) | **フック入門**（Claude Code 編）：プロンプトとの違い、主要10イベント、設定ファイルの解剖図、`stdin` / `exit 2` / JSON 出力の仕組み、無限ループ防止などの落とし穴 |
 | 2 | [docs/01_copilot-hook-guide.md](docs/01_copilot-hook-guide.md) | **GitHub Copilot / VS Code 編**：`.github/hooks/hooks.json` の書き方、Claude Code との対応表、Git Hooks（`pre-commit`）や VS Code 設定との組み合わせ方 |
 | 3 | [docs/02_hook-patterns.md](docs/02_hook-patterns.md) | **フックの定番パターン5選**：関所・自動整形・完了ゲート・文脈注入・監査通知の5つの型と、AI が進化してもフックに残すべき領域の境界線 |
 | 4 | [samples/README.md](samples/README.md) | **サンプル集**：自分のプロジェクトにそのままコピーして使える5パターンの設定＆スクリプト |

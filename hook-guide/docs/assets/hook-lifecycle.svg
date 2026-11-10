@@ -82,7 +82,7 @@
   <text x="256" y="346" class="b">・rm -rf 等の危険操作を</text>
   <text x="256" y="364" class="b">　実行される前に止める</text>
   <rect x="256" y="376" width="178" height="22" rx="4" fill="#ffffff" stroke="#fecaca"/>
-  <text x="345" y="391" text-anchor="middle" class="s" fill="#b91c1c">役割：危険操作の 100% 阻止</text>
+  <text x="345" y="391" text-anchor="middle" class="s" fill="#b91c1c">役割：危険操作の確実な阻止</text>
 
   <!-- Hook Card 3: PostToolUse -->
   <rect x="456" y="222" width="198" height="186" rx="10" fill="#ecfdf5" stroke="#10b981" stroke-width="1.8"/>

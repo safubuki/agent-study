@@ -27,7 +27,11 @@ function main() {
   fs.mkdirSync(logDir, { recursive: true });
 
   const toolName = data.tool_name || data.toolName || 'unknown';
-  const toolInput = data.tool_input || data.toolArgs || data.input || {};
+  let toolInput = data.tool_input || data.toolArgs || data.input || {};
+  if (typeof toolInput === 'string') {
+    // GitHub Copilot では引数が JSON 文字列で届く場合がある
+    try { toolInput = JSON.parse(toolInput); } catch { toolInput = {}; }
+  }
   const target =
     toolInput.file_path ||
     toolInput.filePath ||

@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 /**
  * パターン①：関所・ガードレール（PreToolUse）
- * - 機密ファイル（.env, 秘密鍵, package-lock.json 等）への書き込みをブロック
+ * - 機密ファイル（.env / .env.local 等, 秘密鍵, package-lock.json 等）への書き込みをブロック
+ *   （.env.example / .env.sample / .env.template のようなひな形ファイルは許可）
  * - 破壊的なシェルコマンド（rm -rf /, git push --force, git reset --hard 等）をブロック
  * - ブロック時は終了コード 2（exit 2）と stderr の理由メッセージで AI に別案を促す
  */
@@ -24,7 +25,11 @@ function main() {
   }
 
   const toolName = (data.tool_name || data.toolName || '').toLowerCase();
-  const toolInput = data.tool_input || data.toolArgs || data.input || {};
+  let toolInput = data.tool_input || data.toolArgs || data.input || {};
+  if (typeof toolInput === 'string') {
+    // GitHub Copilot では引数が JSON 文字列で届く場合がある
+    try { toolInput = JSON.parse(toolInput); } catch { toolInput = {}; }
+  }
 
   // 1. シェルコマンド（Bash / powershell / execute）の検査
   if (toolName === 'bash' || toolName === 'powershell' || toolName === 'execute') {
@@ -50,7 +55,7 @@ function main() {
     const normPath = rawPath.replace(/\\/g, '/').toLowerCase();
 
     const protectedFiles = [
-      { test: (p) => p === '.env' || p.endsWith('/.env') || p.includes('.env.'), msg: '.env（環境変数・秘密情報ファイル）の編集は禁止されています。.env.example を編集してください。' },
+      { test: (p) => /(^|\/)\.env(\.[^/]+)?$/.test(p) && !/\.env\.(example|sample|template)$/.test(p), msg: '.env（環境変数・秘密情報ファイル）の編集は禁止されています。.env.example を編集してください。' },
       { test: (p) => p.endsWith('package-lock.json') || p.endsWith('pnpm-lock.yaml'), msg: 'ロックファイルの手動編集は禁止されています。' },
       { test: (p) => p.includes('/.git/') || p.endsWith('.pem') || p.endsWith('.key'), msg: '.git 内部や秘密鍵ファイルの編集は禁止されています。' }
     ];

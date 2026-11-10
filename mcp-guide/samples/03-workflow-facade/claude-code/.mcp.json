@@ -2,7 +2,7 @@
   "mcpServers": {
     "catering-workflow": {
       "command": "node",
-      "args": ["../release-check-mcp.js"]
+      "args": ["../catering-plan-mcp.js"]
     }
   }
 }

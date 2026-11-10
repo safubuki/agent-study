@@ -186,6 +186,17 @@ function main() {
         r.json.hookSpecificOutput.additionalContext.includes('現在のブランチ'),
       explain: (r) =>
         `additionalContext: "${r.json && r.json.hookSpecificOutput.additionalContext.split('\n')[0]}"`
+    },
+    {
+      name: '⑪ Copilot 形式: toolName / toolArgs（JSON 文字列）で届いた .env 作成も同じスクリプトでブロックできるか',
+      script: 'hooks/guard-write.js',
+      input: {
+        sessionId: 'local-test',
+        toolName: 'create',
+        toolArgs: JSON.stringify({ path: '.env', file_text: 'API_KEY=secret' })
+      },
+      check: (r) => r.exitCode === 2 && r.stderr.includes('.env'),
+      explain: (r) => `終了コード ${r.exitCode} / stderr: "${r.stderr.split('\n')[0]}"`
     }
   ];
 

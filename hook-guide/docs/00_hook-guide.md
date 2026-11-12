@@ -1,8 +1,14 @@
 # フック（Hooks）入門 — どんな時に使い、どんなメリットがあるのか
 
-> **フック**（Hooks）は、あなたが使っている AI アプリ（Claude Code や VS Code）が作業する途中の決まった節目で、**自分の PC 上の小さなスクリプト（通知・チェック・自動整形など）を毎回必ず自動実行させる仕組み**です。
+> **フック**（Hooks）は、AI アプリの実行管理部分が、**設定した節目に一致する処理（通知・チェック・自動整形など）を自動実行する仕組み**です。処理は AI アプリが動いている環境で実行されます。
 >
-> 「必ず実行される」のはフックの起動までです。**何を見逃さずに検査できるかは、あなたが書くスクリプトの出来しだい**である点は最初に押さえておいてください（詳しくは 1章の末尾）。
+> 起動の判断を AI モデルに任せず、イベントと設定で処理を呼び出します。**検査の範囲・精度は実装次第**で、無効な設定や実行失敗もログで確認します。
+
+## まず、全体の接続関係を見る
+
+![AI アプリがモデル・ツール・フックを呼び分ける全体図](assets/hook-system-map.svg)
+
+**AI モデルが考え、AI アプリがツールとフックを呼び分けます。** フックは手元の処理だけでも使え、自分のアプリに状態を送る連携も作れます。[全体図と4つのシーケンス図](03_hook-flow-examples.md)では、アプリ通知・送信時の処理・操作前後の検査・終了時の差し戻しを、Claude Code と Copilot / VS Code の違いも含めて説明しています。
 
 ---
 
@@ -142,6 +148,7 @@ powershell -ExecutionPolicy Bypass -File scripts\run-experiment.ps1 -Prompt prom
 
 ## 関連ドキュメント
 
+- **全体のつながりと4つのシーケンス図** → [03_hook-flow-examples.md](03_hook-flow-examples.md)
 - **GitHub Copilot / VS Code での使い方** → [01_copilot-hook-guide.md](01_copilot-hook-guide.md)
 - **そのまま使える定番5パターン** → [02_hook-patterns.md](02_hook-patterns.md)
 - **コピペ用サンプル集（5種）** → [samples/README.md](../samples/README.md)

@@ -1,88 +1,123 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 580" font-family="Meiryo, 'Yu Gothic UI', 'Noto Sans JP', sans-serif">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 868" role="img" aria-labelledby="overview-title overview-desc" font-family="'Noto Sans JP', 'Yu Gothic UI', Meiryo, sans-serif">
+  <title id="overview-title">サブエージェント・フック・MCP の役割と使い分け</title>
+  <desc id="overview-desc">メインエージェントを支える3つの仕組み。サブエージェントは作業の分担、フックはイベントに応じた自動処理、MCP は外部ツールやデータへの接続に使う。</desc>
   <defs>
-    <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-      <path d="M0,0 L10,5 L0,10 z" fill="#6b7280"/>
+    <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#94a3b8"/>
     </marker>
     <style>
-      .h{font-size:15px;font-weight:700}
-      .b{font-size:12.5px;fill:#374151}
-      .s{font-size:11.5px;fill:#6b7280}
+      .card-title { font-size: 24px; font-weight: 700; }
+      .guide { font-size: 14px; fill: #64748b; }
+      .lead { font-size: 20px; font-weight: 700; }
+      .label { font-size: 14px; font-weight: 700; fill: #475569; }
+      .body { font-size: 17px; fill: #334155; }
+      .note { font-size: 15.5px; fill: #475569; }
+      .branch { font-size: 16px; fill: #475569; }
+      .choice { font-size: 18px; font-weight: 700; }
     </style>
   </defs>
-  <rect x="0.5" y="0.5" width="899" height="579" rx="14" fill="#ffffff" stroke="#e5e7eb"/>
-  <text x="30" y="42" font-size="20" font-weight="700" fill="#111827">サブエージェント・フック・MCP の役割と使い分け（全体像）</text>
-  <text x="30" y="64" class="s" font-size="13">AI コーディングエージェント（Claude Code / GitHub Copilot）を拡張する3つの仕組み</text>
+  <rect x="1" y="1" width="1198" height="866" rx="18" fill="#ffffff" stroke="#e2e8f0"/>
+  <text x="36" y="55" font-size="28" font-weight="700" fill="#0f172a">サブエージェント・フック・MCP の役割と使い分け</text>
+  <text x="36" y="88" font-size="17" fill="#64748b">AI コーディングエージェント（Claude Code / GitHub Copilot）を拡張する3つの仕組み</text>
 
-  <!-- Center Top: Main Agent -->
-  <rect x="270" y="84" width="360" height="56" rx="10" fill="#f8fafc" stroke="#64748b" stroke-width="1.8"/>
-  <text x="450" y="109" text-anchor="middle" class="h" fill="#0f172a">メインエージェント（AI 本人）</text>
-  <text x="450" y="129" text-anchor="middle" class="s">あなたと会話し、計画・判断・コード編集を行う中心</text>
+  <!-- Main agent -->
+  <rect x="360" y="116" width="480" height="84" rx="12" fill="#f8fafc" stroke="#94a3b8" stroke-width="1.8"/>
+  <text x="600" y="150" text-anchor="middle" font-size="23" font-weight="700" fill="#0f172a">メインエージェント</text>
+  <text x="600" y="178" text-anchor="middle" font-size="16" fill="#475569">あなたと会話し、計画・判断・コード編集を担う</text>
 
-  <!-- Arrows from Main Agent to 3 pillars -->
-  <g stroke="#6b7280" stroke-width="1.8" marker-end="url(#ah)">
-    <line x1="330" y1="140" x2="165" y2="188"/>
-    <line x1="450" y1="140" x2="450" y2="188"/>
-    <line x1="570" y1="140" x2="735" y2="188"/>
+  <!-- Branch labels share the same baseline and stay clear of the cards. -->
+  <g fill="none" stroke="#94a3b8" stroke-width="2" marker-end="url(#ah)">
+    <path d="M420 200 L216 270"/>
+    <path d="M600 200 V270"/>
+    <path d="M780 200 L984 270"/>
   </g>
-  <rect x="170" y="152" width="120" height="22" rx="11" fill="#ffffff" stroke="#cbd5e1"/>
-  <text x="230" y="167" text-anchor="middle" class="s">仕事を分担・委任</text>
-  <rect x="382" y="152" width="136" height="22" rx="11" fill="#ffffff" stroke="#cbd5e1"/>
-  <text x="450" y="167" text-anchor="middle" class="s">実行前後に自動介入</text>
-  <rect x="610" y="152" width="120" height="22" rx="11" fill="#ffffff" stroke="#cbd5e1"/>
-  <text x="670" y="167" text-anchor="middle" class="s">共通規格で外へ接続</text>
+  <rect x="222" y="220" width="180" height="36" rx="18" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="312" y="245" text-anchor="middle" class="branch">作業を分担・委任</text>
+  <rect x="505" y="220" width="190" height="36" rx="18" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="600" y="245" text-anchor="middle" class="branch">イベントで自動実行</text>
+  <rect x="798" y="220" width="180" height="36" rx="18" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="888" y="245" text-anchor="middle" class="branch">共通規格で接続</text>
 
-  <!-- Pillar 1: Subagents -->
-  <rect x="30" y="192" width="266" height="270" rx="12" fill="#f5f3ff" stroke="#8b5cf6" stroke-width="1.6"/>
-  <rect x="46" y="208" width="234" height="32" rx="6" fill="#ede9fe"/>
-  <text x="163" y="229" text-anchor="middle" class="h" fill="#5b21b6">① サブエージェント（agent-guide）</text>
-  <text x="46" y="262" class="h" fill="#4c1d95" font-size="13.5">例え：別室で調べる「専門の部下」</text>
-  <text x="46" y="286" class="b">・正体：別の記憶枠を持つ <tspan font-weight="700">AI モデル</tspan></text>
-  <text x="46" y="309" class="b">・誰が呼ぶ：AI が必要と判断したとき</text>
-  <rect x="46" y="324" width="234" height="72" rx="8" fill="#ffffff" stroke="#ddd6fe"/>
-  <text x="58" y="345" font-weight="700" font-size="12.5" fill="#5b21b6">いつ使う？</text>
-  <text x="58" y="365" class="b">・大量調査で親の文脈を汚したくない</text>
-  <text x="58" y="384" class="b">・まっさらな目でレビューさせたい</text>
-  <rect x="46" y="406" width="234" height="42" rx="8" fill="#fef2f2" stroke="#fecaca"/>
-  <text x="58" y="424" class="s" fill="#991b1b">注意：1体ごとにトークンが増える。</text>
-  <text x="58" y="440" class="s" fill="#991b1b">「書く作業」の並列分担は食い違いやすい</text>
+  <!-- Each card uses the same hierarchy, padding, and explicit line breaks. -->
+  <g id="subagents-card" data-card="subagents">
+    <rect x="36" y="282" width="360" height="430" rx="14" fill="#f5f3ff" stroke="#a78bfa" stroke-width="1.8"/>
+    <rect x="54" y="300" width="324" height="72" rx="9" fill="#ede9fe"/>
+    <circle cx="80" cy="327" r="16" fill="#7c3aed"/>
+    <text x="80" y="333" text-anchor="middle" font-size="17" font-weight="700" fill="#ffffff">1</text>
+    <text x="108" y="333" class="card-title" fill="#5b21b6">サブエージェント</text>
+    <text x="108" y="361" class="guide">agent-guide</text>
+    <text x="60" y="406" class="lead" fill="#5b21b6">調査・レビューを分担する</text>
+    <text x="60" y="442" class="label">仕組み・動くタイミング</text>
+    <text x="60" y="468" class="body">独立した文脈で動く AI に委任。</text>
+    <text x="60" y="496" class="body">親の判断やユーザーの指示で起動。</text>
+    <rect x="56" y="516" width="320" height="90" rx="9" fill="#ffffff" stroke="#ddd6fe"/>
+    <text x="72" y="539" font-size="15" font-weight="700" fill="#5b21b6">使う場面</text>
+    <text x="72" y="566" class="body">・大量の資料やコードを調べる</text>
+    <text x="72" y="594" class="body">・別の視点でレビューする</text>
+    <line x1="60" y1="624" x2="372" y2="624" stroke="#ddd6fe"/>
+    <text x="60" y="642" class="label">注意点</text>
+    <text x="60" y="668" class="note">依頼・報告にもトークンを使う。</text>
+    <text x="60" y="694" class="note">同じファイルの同時編集は競合に注意。</text>
+  </g>
 
-  <!-- Pillar 2: Hooks -->
-  <rect x="317" y="192" width="266" height="270" rx="12" fill="#ecfdf5" stroke="#10b981" stroke-width="1.6"/>
-  <rect x="333" y="208" width="234" height="32" rx="6" fill="#d1fae5"/>
-  <text x="450" y="229" text-anchor="middle" class="h" fill="#065f46">② フック（hook-guide）</text>
-  <text x="333" y="262" class="h" fill="#065f46" font-size="13.5">例え：駅の改札・工場の「自動検品機」</text>
-  <text x="333" y="286" class="b">・正体：決まった規則の <tspan font-weight="700">スクリプト</tspan></text>
-  <text x="333" y="309" class="b">・誰が呼ぶ：保存・完了時に <tspan font-weight="700">100%自動発火</tspan></text>
-  <rect x="333" y="324" width="234" height="72" rx="8" fill="#ffffff" stroke="#a7f3d0"/>
-  <text x="345" y="345" font-weight="700" font-size="12.5" fill="#065f46">いつ使う？</text>
-  <text x="345" y="365" class="b">・危険操作（.env編集等）を確実に阻止</text>
-  <text x="345" y="384" class="b">・保存後の自動整形・完了前の自動検査</text>
-  <rect x="333" y="406" width="234" height="42" rx="8" fill="#fef2f2" stroke="#fecaca"/>
-  <text x="345" y="424" class="s" fill="#991b1b">注意：重い処理を入れると毎回待たされる。</text>
-  <text x="345" y="440" class="s" fill="#991b1b">Stopフックは無限ループ防止が必須</text>
+  <g id="hooks-card" data-card="hooks">
+    <rect x="420" y="282" width="360" height="430" rx="14" fill="#ecfdf5" stroke="#34d399" stroke-width="1.8"/>
+    <rect x="438" y="300" width="324" height="72" rx="9" fill="#d1fae5"/>
+    <circle cx="464" cy="327" r="16" fill="#059669"/>
+    <text x="464" y="333" text-anchor="middle" font-size="17" font-weight="700" fill="#ffffff">2</text>
+    <text x="492" y="333" class="card-title" fill="#065f46">フック</text>
+    <text x="492" y="361" class="guide">hook-guide</text>
+    <text x="444" y="406" class="lead" fill="#065f46">決まった節目に処理を実行</text>
+    <text x="444" y="442" class="label">仕組み・動くタイミング</text>
+    <text x="444" y="468" class="body">ツール実行前後などのイベントで、</text>
+    <text x="444" y="496" class="body">設定した処理を自動で実行する。</text>
+    <rect x="440" y="516" width="320" height="90" rx="9" fill="#ffffff" stroke="#a7f3d0"/>
+    <text x="456" y="539" font-size="15" font-weight="700" fill="#065f46">使う場面</text>
+    <text x="456" y="566" class="body">・禁止操作を実行前に検査する</text>
+    <text x="456" y="594" class="body">・編集後の整形や完了前の検査</text>
+    <line x1="444" y1="624" x2="756" y2="624" stroke="#a7f3d0"/>
+    <text x="444" y="642" class="label">注意点</text>
+    <text x="444" y="668" class="note">検査の範囲と精度は実装次第。</text>
+    <text x="444" y="694" class="note">重い処理や繰り返し実行に注意。</text>
+  </g>
 
-  <!-- Pillar 3: MCP -->
-  <rect x="604" y="192" width="266" height="270" rx="12" fill="#eff6ff" stroke="#3b82f6" stroke-width="1.6"/>
-  <rect x="620" y="208" width="234" height="32" rx="6" fill="#dbeafe"/>
-  <text x="737" y="229" text-anchor="middle" class="h" fill="#1e40af">③ MCP（mcp-guide）</text>
-  <text x="620" y="262" class="h" fill="#1e3a8a" font-size="13.5">例え：外付け機器をつなぐ「USB-C 規格」</text>
-  <text x="620" y="286" class="b">・正体：外部とつなぐ <tspan font-weight="700">共通通信プロトコル</tspan></text>
-  <text x="620" y="309" class="b">・誰が呼ぶ：AI が外部道具を使いたいとき</text>
-  <rect x="620" y="324" width="234" height="72" rx="8" fill="#ffffff" stroke="#bfdbfe"/>
-  <text x="632" y="345" font-weight="700" font-size="12.5" fill="#1e40af">いつ使う？</text>
-  <text x="632" y="365" class="b">・Figma / Notion / Sentry 等の外部連携</text>
-  <text x="632" y="384" class="b">・ブラウザ自動操作や社内DBの安全検索</text>
-  <rect x="620" y="406" width="234" height="42" rx="8" fill="#fef2f2" stroke="#fecaca"/>
-  <text x="632" y="424" class="s" fill="#991b1b">注意：サーバーを入れすぎると道具の</text>
-  <text x="632" y="440" class="s" fill="#991b1b">説明書だけでコンテキストを圧迫する</text>
+  <g id="mcp-card" data-card="mcp">
+    <rect x="804" y="282" width="360" height="430" rx="14" fill="#eff6ff" stroke="#60a5fa" stroke-width="1.8"/>
+    <rect x="822" y="300" width="324" height="72" rx="9" fill="#dbeafe"/>
+    <circle cx="848" cy="327" r="16" fill="#2563eb"/>
+    <text x="848" y="333" text-anchor="middle" font-size="17" font-weight="700" fill="#ffffff">3</text>
+    <text x="876" y="333" class="card-title" fill="#1e40af">MCP</text>
+    <text x="876" y="361" class="guide">mcp-guide</text>
+    <text x="828" y="406" class="lead" fill="#1e40af">外部ツール・データと接続</text>
+    <text x="828" y="442" class="label">仕組み・動くタイミング</text>
+    <text x="828" y="468" class="body">共通規格でサーバーと通信し、</text>
+    <text x="828" y="496" class="body">ツールやデータを AI に提供する。</text>
+    <rect x="824" y="516" width="320" height="90" rx="9" fill="#ffffff" stroke="#bfdbfe"/>
+    <text x="840" y="539" font-size="15" font-weight="700" fill="#1e40af">使う場面</text>
+    <text x="840" y="566" class="body">・Figma / Notion の情報を参照</text>
+    <text x="840" y="594" class="body">・ブラウザ操作や社内 DB の検索</text>
+    <line x1="828" y1="624" x2="1140" y2="624" stroke="#bfdbfe"/>
+    <text x="828" y="642" class="label">注意点</text>
+    <text x="828" y="668" class="note">接続先の信頼性と権限を確認する。</text>
+    <text x="828" y="694" class="note">ツールの説明量にも気を配る。</text>
+  </g>
 
-  <!-- Bottom takeaway bar -->
-  <rect x="30" y="480" width="748" height="62" rx="10" fill="#fffbeb" stroke="#fde68a"/>
-  <text x="48" y="504" class="h" fill="#92400e" font-size="14">迷ったときの選び方（3秒判断）</text>
-  <text x="48" y="527" class="b">・「別室で調べさせたい」→ ① サブエージェント　／　「100%自動で強制したい」→ ② フック　／　「外部ツール・データに繋ぎたい」→ ③ MCP</text>
+  <!-- Three short choices replace the overflowing single-line summary. -->
+  <g id="selection-guide">
+    <rect x="36" y="736" width="1128" height="108" rx="12" fill="#fffbeb" stroke="#fcd34d"/>
+    <text x="60" y="765" font-size="18" font-weight="700" fill="#92400e">迷ったときは、目的で選ぶ</text>
+    <text x="60" y="794" font-size="16" fill="#475569">作業を分けたい</text>
+    <text x="60" y="823" class="choice" fill="#5b21b6">① サブエージェント</text>
+    <line x1="396" y1="783" x2="396" y2="827" stroke="#fde68a"/>
+    <text x="420" y="794" font-size="16" fill="#475569">節目で自動化したい</text>
+    <text x="420" y="823" class="choice" fill="#065f46">② フック</text>
+    <line x1="756" y1="783" x2="756" y2="827" stroke="#fde68a"/>
+    <text x="780" y="794" font-size="16" fill="#475569">外部とつなぎたい</text>
+    <text x="780" y="823" class="choice" fill="#1e40af">③ MCP</text>
+  </g>
 
   <!-- 作者サイン：右下から図を見上げる亀（横向き） -->
-  <g transform="translate(794 494) scale(0.78)">
+  <g transform="translate(1080 778) scale(0.58)" aria-hidden="true">
   <g id="kame-mark" opacity="0.94">
     <defs>
       <linearGradient id="kameShell" x1="0.3" y1="0" x2="0.6" y2="1">

@@ -2,6 +2,7 @@
 
 このフォルダ（`agent-study/hook-guide`）は、AI エージェントの**フック**（Hooks：動きの節目に自動で割り込むプログラム）を学ぶための作業場です。
 読み物は [docs/](docs/00_hook-guide.md)、パターン別の見本は [samples/](samples/README.md) にあります。
+「AI・フック・アプリはどうつながり、どの順で動く？」から知りたい場合は、[全体図と4つのシーケンス図](docs/03_hook-flow-examples.md)をご覧ください。アプリへの状態通知、チャット送信時の処理、操作前後の検査・整形、終了時の差し戻しを、Claude Code と Copilot / VS Code の違いとともに図解しています。
 フックの定番パターン5選と、AI の進化で変わる「プロンプトとフックの境界線」の整理は [docs/02_hook-patterns.md](docs/02_hook-patterns.md)（調査メモは [info/](info/README.md)）にあります。
 
 この README では、ルートに置いた**すぐ使える3つのフック**を使って、
@@ -37,10 +38,11 @@ hook-guide/
 │   └─ 02-cafe-strict.md           … 架空のカフェのホームページ（7つの必須規約つき）
 ├─ scripts/
 │   ├─ test-hooks-locally.js       ← ★Claude 不要！模擬 JSON を流し込んでフックの挙動を1秒で試すテスト
+│   ├─ generate-sequence-diagrams.js ← 4枚のシーケンス図を共通の列順・名称・配色で生成
 │   └─ run-experiment.ps1          ← A / B / C を実行し、時間・コスト・規約遵守スコア（7点満点）を記録
 ├─ output/                         ← 実験結果の置き場（実行するたびにフォルダが増える）
 │   └─ summary.md                  … 全実行の一覧表（自動で1行ずつ追記）
-├─ docs/                           ← 読み物（00: 入門、01: Copilot 編、02: 定番パターン5選＋SVG図解）
+├─ docs/                           ← 読み物（00: 入門、01: Copilot 編、02: 定番5選、03: 全体図・シーケンス図）
 ├─ info/                           ← docs/02 を書くために集めた一次情報の出典メモ（10件、鮮度つき）
 └─ samples/                        ← そのまま別プロジェクトにコピーして使える5パターンの見本集
 ```
@@ -122,6 +124,7 @@ flowchart LR
 
 | 順番 | ファイル | 内容 |
 |---|---|---|
+| 図から | [docs/03_hook-flow-examples.md](docs/03_hook-flow-examples.md) | **全体図と4つのシーケンス図**：誰がフックを起動するか、アプリへの状態通知、通知なしの自動処理、Claude / Copilot の相違点 |
 | 1 | [docs/00_hook-guide.md](docs/00_hook-guide.md) | **フック入門**（Claude Code 編）：プロンプトとの違い、主要10イベント、設定ファイルの解剖図、`stdin` / `exit 2` / JSON 出力の仕組み、無限ループ防止などの落とし穴 |
 | 2 | [docs/01_copilot-hook-guide.md](docs/01_copilot-hook-guide.md) | **GitHub Copilot / VS Code 編**：`.github/hooks/hooks.json` の書き方、Claude Code との対応表、Git Hooks（`pre-commit`）や VS Code 設定との組み合わせ方 |
 | 3 | [docs/02_hook-patterns.md](docs/02_hook-patterns.md) | **フックの定番パターン5選**：関所・自動整形・完了ゲート・文脈注入・監査通知の5つの型と、AI が進化してもフックに残すべき領域の境界線 |

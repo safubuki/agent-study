@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 822" role="img" aria-labelledby="title desc" font-family="'Noto Sans JP', 'Yu Gothic UI', Meiryo, sans-serif">
+<title id="title">フックを起動するのは、AI アプリの実行管理</title><desc id="desc">接続関係の図。AI モデル、作業ツール、フック、自作アプリの役割を分けて読む。</desc>
+<defs>
+<marker id="arrow-host" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" fill="#2563eb"/></marker>
+<marker id="arrow-model" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" fill="#7c3aed"/></marker>
+<marker id="arrow-hook" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" fill="#059669"/></marker>
+<marker id="arrow-tool" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" fill="#0e7490"/></marker>
+<marker id="arrow-app" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" fill="#b45309"/></marker>
+<marker id="arrow-user" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" fill="#475569"/></marker>
+<marker id="arrow-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" fill="#be123c"/></marker>
+</defs>
+<rect x="1" y="1" width="1198" height="820" rx="18" fill="#fff" stroke="#e2e8f0"/>
+<text x="32" y="49" font-size="28" font-weight="700" fill="#0f172a" text-anchor="start">フックを起動するのは、AI アプリの実行管理</text>
+<text x="32" y="84" font-size="17" font-weight="400" fill="#475569" text-anchor="start">接続関係の図。AI モデル、作業ツール、フック、自作アプリの役割を分けて読む。</text>
+<rect x="36" y="160" width="220" height="110" rx="12" fill="#f8fafc" stroke="#475569"/>
+<text x="146.0" y="194" font-size="22" font-weight="700" fill="#475569" text-anchor="middle">あなた</text>
+<text x="146.0" y="226" font-size="17" font-weight="400" fill="#475569" text-anchor="middle">チャットで依頼</text>
+<rect x="340" y="140" width="480" height="302" rx="14" fill="#eff6ff" stroke="#2563eb"/>
+<text x="580" y="179" font-size="25" font-weight="700" fill="#2563eb" text-anchor="middle">AI アプリ（実行管理）</text>
+<text x="580" y="213" font-size="18" font-weight="400" fill="#475569" text-anchor="middle">Claude Code / Copilot の実行環境</text>
+<text x="580" y="247" font-size="18" font-weight="400" fill="#475569" text-anchor="middle">モデル・ツール・フックを呼び分ける</text>
+<rect x="360" y="280" width="440" height="142" rx="10" fill="#fff" stroke="#bfdbfe"/>
+<text x="380" y="309" font-size="18" font-weight="700" fill="#2563eb" text-anchor="start">設定した節目でイベントが発生</text>
+<text x="380" y="341" font-size="17" font-weight="400" fill="#475569" text-anchor="start">① 指示の送信時　② ツール実行前</text>
+<text x="380" y="373" font-size="17" font-weight="400" fill="#475569" text-anchor="start">③ 実行の成功後　④ 返答の終了時</text>
+<text x="380" y="405" font-size="16" font-weight="400" fill="#475569" text-anchor="start">該当する設定・対象条件を確認して起動</text>
+<rect x="900" y="160" width="264" height="110" rx="12" fill="#f5f3ff" stroke="#7c3aed"/>
+<text x="1032.0" y="194" font-size="22" font-weight="700" fill="#7c3aed" text-anchor="middle">AI モデル</text>
+<text x="1032.0" y="226" font-size="17" font-weight="400" fill="#475569" text-anchor="middle">考える・行動を提案</text>
+<rect x="900" y="330" width="264" height="110" rx="12" fill="#ecfeff" stroke="#0e7490"/>
+<text x="1032.0" y="364" font-size="22" font-weight="700" fill="#0e7490" text-anchor="middle">作業ツール</text>
+<text x="1032.0" y="396" font-size="17" font-weight="400" fill="#475569" text-anchor="middle">編集・コマンド・検索</text>
+<line x1="256" y1="192" x2="340" y2="192" stroke="#2563eb" stroke-width="2" marker-end="url(#arrow-host)"/>
+<text x="298.0" y="180" font-size="14" font-weight="400" fill="#2563eb" text-anchor="middle">指示</text>
+<line x1="340" y1="246" x2="256" y2="246" stroke="#2563eb" stroke-width="2" marker-end="url(#arrow-host)"/>
+<text x="298.0" y="234" font-size="14" font-weight="400" fill="#2563eb" text-anchor="middle">返答</text>
+<line x1="820" y1="192" x2="900" y2="192" stroke="#7c3aed" stroke-width="2" marker-end="url(#arrow-model)"/>
+<text x="860.0" y="180" font-size="14" font-weight="400" fill="#7c3aed" text-anchor="middle">推論</text>
+<line x1="900" y1="246" x2="820" y2="246" stroke="#7c3aed" stroke-width="2" marker-end="url(#arrow-model)"/>
+<text x="860.0" y="234" font-size="14" font-weight="400" fill="#7c3aed" text-anchor="middle">提案</text>
+<line x1="820" y1="362" x2="900" y2="362" stroke="#0e7490" stroke-width="2" marker-end="url(#arrow-tool)"/>
+<text x="860.0" y="350" font-size="14" font-weight="400" fill="#0e7490" text-anchor="middle">実行</text>
+<line x1="900" y1="416" x2="820" y2="416" stroke="#0e7490" stroke-width="2" marker-end="url(#arrow-tool)"/>
+<text x="860.0" y="404" font-size="14" font-weight="400" fill="#0e7490" text-anchor="middle">結果</text>
+<rect x="340" y="526" width="480" height="112" rx="12" fill="#ecfdf5" stroke="#059669"/>
+<text x="580.0" y="560" font-size="22" font-weight="700" fill="#059669" text-anchor="middle">フックスクリプト</text>
+<text x="580.0" y="592" font-size="17" font-weight="400" fill="#475569" text-anchor="middle">イベント JSON を読み取る</text>
+<text x="580.0" y="619" font-size="17" font-weight="400" fill="#475569" text-anchor="middle">処理を実行し、必要なら判定を返す</text>
+<line x1="485" y1="442" x2="485" y2="526" stroke="#059669" stroke-width="2" marker-end="url(#arrow-hook)"/>
+<text x="475" y="480" font-size="16" font-weight="400" fill="#059669" text-anchor="end">イベント JSON</text>
+<line x1="675" y1="526" x2="675" y2="442" stroke="#059669" stroke-width="1.5" stroke-dasharray="5 5" marker-end="url(#arrow-hook)"/>
+<text x="687" y="504" font-size="16" font-weight="400" fill="#059669" text-anchor="start">結果・判定</text>
+<rect x="36" y="526" width="220" height="112" rx="12" fill="#f8fafc" stroke="#475569"/>
+<text x="146.0" y="560" font-size="22" font-weight="700" fill="#475569" text-anchor="middle">手元で自動処理</text>
+<text x="146.0" y="592" font-size="17" font-weight="400" fill="#475569" text-anchor="middle">整形・検査・ログ保存</text>
+<rect x="900" y="526" width="264" height="112" rx="12" fill="#fffbeb" stroke="#b45309"/>
+<text x="1032.0" y="560" font-size="22" font-weight="700" fill="#b45309" text-anchor="middle">あなたのアプリ</text>
+<text x="1032.0" y="592" font-size="17" font-weight="400" fill="#475569" text-anchor="middle">受信して表示・音・集計</text>
+<line x1="340" y1="576" x2="256" y2="576" stroke="#059669" stroke-width="2" marker-end="url(#arrow-hook)"/>
+<text x="298" y="562" font-size="14" font-weight="400" fill="#059669" text-anchor="middle">実行</text>
+<line x1="820" y1="576" x2="900" y2="576" stroke="#b45309" stroke-width="2" marker-end="url(#arrow-app)"/>
+<text x="860" y="562" font-size="14" font-weight="400" fill="#b45309" text-anchor="middle">通知</text>
+<text x="580" y="681" font-size="19" font-weight="700" fill="#059669" text-anchor="middle">通知先を持たず、手元の処理だけで終える使い方もできる。</text>
+<rect x="28" y="714" width="1144" height="88" rx="10" fill="#f8fafc" stroke="#e2e8f0"/>
+<text x="46" y="738" font-size="16" font-weight="400" fill="#475569" text-anchor="start">実線＝依頼・実行・通知。破線＝フックから返す結果。アプリへの通知は自分で実装する連携。</text>
+<text x="46" y="765" font-size="16" font-weight="400" fill="#475569" text-anchor="start">イベント名や出力形式は実行環境ごとに異なる。VS Code では選択中の実行環境を確認する。</text>
+</svg>

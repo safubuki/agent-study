@@ -1,128 +1,57 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 520" font-family="Meiryo, 'Yu Gothic UI', 'Noto Sans JP', sans-serif">
-  <defs>
-    <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-      <path d="M0,0 L10,5 L0,10 z" fill="#6b7280"/>
-    </marker>
-    <style>
-      .h{font-size:14.5px;font-weight:700}
-      .b{font-size:12.5px;fill:#374151}
-      .s{font-size:11.5px;fill:#6b7280}
-    </style>
-  </defs>
-  <rect x="0.5" y="0.5" width="899" height="519" rx="14" fill="#ffffff" stroke="#e5e7eb"/>
-  <text x="30" y="42" font-size="20" font-weight="700" fill="#111827">Claude Code と GitHub Copilot / VS Code のフック比較</text>
-  <text x="30" y="64" class="s" font-size="13">設定ファイルは2種類あるが、中身の Node.js スクリプト（hooks/*.js）は1本で両方そのまま動く</text>
-
-  <!-- Left: Claude Code -->
-  <rect x="30" y="88" width="270" height="220" rx="12" fill="#ede9fe" fill-opacity="0.6" stroke="#8b5cf6" stroke-width="1.6"/>
-  <text x="165" y="116" text-anchor="middle" class="h" fill="#5b21b6">Claude Code</text>
-  <rect x="46" y="130" width="238" height="32" rx="6" fill="#ffffff" stroke="#c4b5fd"/>
-  <text x="165" y="151" text-anchor="middle" class="b" font-weight="700">.claude/settings.json</text>
-  <text x="48" y="186" class="b">・イベント名：先頭大文字</text>
-  <text x="48" y="206" class="s">　PreToolUse / PostToolUse / Stop</text>
-  <text x="48" y="232" class="b">・絞り込み：matcher でツール指定</text>
-  <text x="48" y="252" class="s">　"matcher": "Edit|Write"</text>
-  <text x="48" y="278" class="b">・実行キー："command": "node ..."</text>
-
-  <!-- Right: Copilot / VS Code -->
-  <rect x="600" y="88" width="270" height="220" rx="12" fill="#dbeafe" fill-opacity="0.6" stroke="#3b82f6" stroke-width="1.6"/>
-  <text x="735" y="116" text-anchor="middle" class="h" fill="#1d4ed8">GitHub Copilot / VS Code</text>
-  <rect x="616" y="130" width="238" height="32" rx="6" fill="#ffffff" stroke="#93c5fd"/>
-  <text x="735" y="151" text-anchor="middle" class="b" font-weight="700">.github/hooks/hooks.json</text>
-  <text x="616" y="186" class="b">・イベント名：先頭小文字</text>
-  <text x="616" y="206" class="s">　preToolUse / postToolUse / agentStop</text>
-  <text x="616" y="232" class="b">・最上位に "version": 1 が必須</text>
-  <text x="616" y="252" class="s">　（VS Code は .claude 側も読める）</text>
-  <text x="616" y="278" class="b">・OS別キー："bash" と "powershell"</text>
-
-  <!-- Center: Shared Node.js script -->
-  <line x1="300" y1="198" x2="338" y2="198" stroke="#6b7280" stroke-width="1.8" marker-end="url(#ah)"/>
-  <line x1="600" y1="198" x2="562" y2="198" stroke="#6b7280" stroke-width="1.8" marker-end="url(#ah)"/>
-
-  <rect x="340" y="112" width="220" height="172" rx="12" fill="#ecfdf5" stroke="#10b981" stroke-width="2"/>
-  <text x="450" y="140" text-anchor="middle" class="h" fill="#065f46">共通の Node.js スクリプト</text>
-  <text x="450" y="162" text-anchor="middle" class="b" font-weight="700">hooks/guard-write.js 等</text>
-  <line x1="356" y1="174" x2="544" y2="174" stroke="#a7f3d0"/>
-  <text x="450" y="198" text-anchor="middle" class="b">・stdin から JSON を読む</text>
-  <text x="450" y="220" text-anchor="middle" class="b">・大文字/小文字の差を吸収</text>
-  <text x="450" y="242" text-anchor="middle" class="b">・Windows / Mac 両対応</text>
-  <text x="450" y="266" text-anchor="middle" class="s">二重管理が不要でバグが出ない</text>
-
-  <!-- Bottom: 3 layers in VS Code / GitHub -->
-  <text x="30" y="340" class="h" fill="#111827">実務での3段構え（すべてを AI フックでやらなくてよい）</text>
-
-  <rect x="30" y="354" width="250" height="84" rx="10" fill="#fef2f2" stroke="#fca5a5"/>
-  <text x="155" y="378" text-anchor="middle" class="h" fill="#b91c1c">① AI フック（Pre / Stop）</text>
-  <text x="155" y="400" text-anchor="middle" class="b">AI 固有の暴走阻止・完了検査</text>
-  <text x="155" y="420" text-anchor="middle" class="s">エラー理由を AI に返して自律修正</text>
-
-  <rect x="294" y="354" width="242" height="84" rx="10" fill="#eff6ff" stroke="#93c5fd"/>
-  <text x="415" y="378" text-anchor="middle" class="h" fill="#1d4ed8">② VS Code（formatOnSave）</text>
-  <text x="415" y="400" text-anchor="middle" class="b">人間が保存したときの Prettier</text>
-  <text x="415" y="420" text-anchor="middle" class="s">.vscode/settings.json で完結</text>
-
-  <rect x="550" y="354" width="234" height="84" rx="10" fill="#f0fdf4" stroke="#86efac"/>
-  <text x="667" y="378" text-anchor="middle" class="h" fill="#15803d">③ Git（pre-commit）</text>
-  <text x="667" y="400" text-anchor="middle" class="b">コミット直前の Lint・型検査</text>
-  <text x="667" y="420" text-anchor="middle" class="s">AI と人間の両方を最終関所で守る</text>
-
-  <text x="30" y="472" class="s">会社で Agent Hooks が無効な環境でも、② VS Code 設定と ③ Git pre-commit の組み合わせで代替できる</text>
-
-  <!-- 作者サイン：右下から図を見上げる亀（横向き） -->
-  <g transform="translate(794 454) scale(0.78)">
-  <g id="kame-mark" opacity="0.94">
-    <defs>
-      <linearGradient id="kameShell" x1="0.3" y1="0" x2="0.6" y2="1">
-        <stop offset="0" stop-color="#c9f1e0"/>
-        <stop offset="1" stop-color="#86d3b4"/>
-      </linearGradient>
-      <linearGradient id="kameScute" x1="0.3" y1="0" x2="0.6" y2="1">
-        <stop offset="0" stop-color="#ecfbf4"/>
-        <stop offset="1" stop-color="#b3e6d0"/>
-      </linearGradient>
-      <radialGradient id="kameSkin" cx="0.38" cy="0.32" r="0.8">
-        <stop offset="0" stop-color="#e6f7c2"/>
-        <stop offset="1" stop-color="#b3df86"/>
-      </radialGradient>
-      <linearGradient id="kameRim" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0" stop-color="#fff1cf"/>
-        <stop offset="1" stop-color="#fbd79b"/>
-      </linearGradient>
-      <filter id="kameSoft" x="-20%" y="-50%" width="140%" height="200%"><feGaussianBlur stdDeviation="2.2"/></filter>
-      <filter id="kameGlow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="1.6"/></filter>
-      <clipPath id="kameDome"><path d="M34 58 C34 31 51 17 71 17 C92 17 108 32 108 58 Z"/></clipPath>
-    </defs>
-    <ellipse cx="68" cy="73" rx="44" ry="3.6" fill="#5b8f7b" opacity="0.22" filter="url(#kameSoft)"/>
-    <ellipse cx="56" cy="66" rx="5.5" ry="6.5" fill="#a4d47a"/>
-    <ellipse cx="84" cy="66" rx="5.5" ry="6.5" fill="#a4d47a"/>
-    <path d="M106 57 C112 57 116 60 116 63 C112 64.5 107 63.5 104 61 Z" fill="url(#kameSkin)" stroke="#a2d27a" stroke-width="1.2" stroke-linejoin="round"/>
-    <path d="M42 60 C36 58 30 54 26 47" fill="none" stroke="url(#kameSkin)" stroke-width="13" stroke-linecap="round"/>
-    <rect x="37" y="57" width="13" height="15" rx="6.5" fill="url(#kameSkin)" stroke="#a2d27a" stroke-width="1.2"/>
-    <rect x="91" y="57" width="13" height="15" rx="6.5" fill="url(#kameSkin)" stroke="#a2d27a" stroke-width="1.2"/>
-    <path d="M34 58 C34 31 51 17 71 17 C92 17 108 32 108 58 Z" fill="url(#kameShell)" stroke="#7fcaa9" stroke-width="1.4"/>
-    <g clip-path="url(#kameDome)" fill="url(#kameScute)" stroke="#a9e0c8" stroke-width="5" stroke-linejoin="round">
-      <path d="M60 27 L82 27 L88 38 L82 48 L60 48 L54 38 Z"/>
-      <path d="M31 60 L38 40 L49 34 L54 38 L60 48 L56 60 Z"/>
-      <path d="M111 60 L104 40 L93 34 L88 38 L82 48 L86 60 Z"/>
-      <path d="M60 48 L82 48 L86 60 L56 60 Z"/>
-    </g>
-    <ellipse cx="54" cy="29" rx="10" ry="4.5" fill="#ffffff" opacity="0.7" transform="rotate(-28 54 29)" filter="url(#kameGlow)"/>
-    <rect x="30" y="54" width="82" height="9.5" rx="4.75" fill="url(#kameRim)" stroke="#f3c57e" stroke-width="1.2"/>
-    <g fill="#f6cf8f" opacity="0.8">
-      <circle cx="45" cy="58.8" r="1.2"/><circle cx="58" cy="58.8" r="1.2"/><circle cx="71" cy="58.8" r="1.2"/>
-      <circle cx="84" cy="58.8" r="1.2"/><circle cx="97" cy="58.8" r="1.2"/>
-    </g>
-    <circle cx="23" cy="40" r="15.5" fill="url(#kameSkin)" stroke="#a2d27a" stroke-width="1.2"/>
-    <ellipse cx="20" cy="31" rx="6" ry="3" fill="#ffffff" opacity="0.6" transform="rotate(-20 20 31)" filter="url(#kameGlow)"/>
-    <ellipse cx="16.2" cy="38.5" rx="2.9" ry="3.6" fill="#3d3a4a"/>
-    <circle cx="15.3" cy="37.2" r="1.25" fill="#ffffff"/>
-    <circle cx="17" cy="40" r="0.55" fill="#ffffff" opacity="0.9"/>
-    <ellipse cx="24" cy="46" rx="4" ry="2.6" fill="#ffb3c1" opacity="0.75" filter="url(#kameGlow)"/>
-    <path d="M9.5 44.5 Q12.5 47.8 16 46" fill="none" stroke="#6f8f56" stroke-width="1.4" stroke-linecap="round"/>
-    <g fill="#ffffff" opacity="0.65">
-      <circle cx="40.5" cy="69.6" r="1.1"/><circle cx="44" cy="70.2" r="1.1"/>
-      <circle cx="94.5" cy="69.6" r="1.1"/><circle cx="98" cy="70.2" r="1.1"/>
-    </g>
-  </g>
-  </g>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 788" role="img" aria-labelledby="title desc" font-family="'Noto Sans JP', 'Yu Gothic UI', Meiryo, sans-serif">
+<title id="title">Claude Code と Copilot：同じ節目でも、返せる結果が違う</title><desc id="desc">Copilot は VS Code で選ぶ実行環境と CLI が対象。図は設定ファイルの command フックを比較。</desc>
+<defs>
+<marker id="arrow-host" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" fill="#2563eb"/></marker>
+<marker id="arrow-model" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" fill="#7c3aed"/></marker>
+<marker id="arrow-hook" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" fill="#059669"/></marker>
+<marker id="arrow-tool" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" fill="#475569"/></marker>
+<marker id="arrow-app" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" fill="#b45309"/></marker>
+<marker id="arrow-user" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" fill="#475569"/></marker>
+<marker id="arrow-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" fill="#be123c"/></marker>
+</defs>
+<rect x="1" y="1" width="1198" height="786" rx="18" fill="#fff" stroke="#e2e8f0"/>
+<text x="32" y="49" font-size="28" font-weight="700" fill="#0f172a" text-anchor="start">Claude Code と Copilot：同じ節目でも、返せる結果が違う</text>
+<text x="32" y="84" font-size="17" font-weight="400" fill="#475569" text-anchor="start">Copilot は VS Code で選ぶ実行環境と CLI が対象。図は設定ファイルの command フックを比較。</text>
+<rect x="32" y="122" width="272" height="56" rx="8" fill="#f8fafc" stroke="#475569"/>
+<text x="50" y="158" font-size="21" font-weight="700" fill="#475569" text-anchor="start">目的 / 節目</text>
+<rect x="304" y="122" width="432" height="56" rx="8" fill="#f5f3ff" stroke="#7c3aed"/>
+<text x="322" y="158" font-size="21" font-weight="700" fill="#7c3aed" text-anchor="start">Claude Code</text>
+<rect x="736" y="122" width="432" height="56" rx="8" fill="#eff6ff" stroke="#2563eb"/>
+<text x="754" y="158" font-size="21" font-weight="700" fill="#2563eb" text-anchor="start">Copilot（VS Code / CLI）</text>
+<rect x="32" y="178" width="1136" height="80" rx="0" fill="#f8fafc" stroke="#e2e8f0"/>
+<text x="50" y="223" font-size="18" font-weight="700" fill="#0f172a" text-anchor="start">チャット送信時</text>
+<text x="322" y="207" font-size="18" font-weight="700" fill="#7c3aed" text-anchor="start">UserPromptSubmit</text>
+<text x="322" y="240" font-size="17" font-weight="400" fill="#475569" text-anchor="start">追加情報の添付・送信の拒否</text>
+<text x="754" y="207" font-size="18" font-weight="700" fill="#2563eb" text-anchor="start">userPromptSubmitted</text>
+<text x="754" y="240" font-size="17" font-weight="400" fill="#475569" text-anchor="start">手元の処理は可能。出力は不採用</text>
+<rect x="32" y="258" width="1136" height="80" rx="0" fill="#fff" stroke="#e2e8f0"/>
+<text x="50" y="303" font-size="18" font-weight="700" fill="#0f172a" text-anchor="start">ツール実行前</text>
+<text x="322" y="287" font-size="18" font-weight="700" fill="#7c3aed" text-anchor="start">PreToolUse</text>
+<text x="322" y="320" font-size="17" font-weight="400" fill="#475569" text-anchor="start">対象を検査し、許可 / 拒否</text>
+<text x="754" y="287" font-size="18" font-weight="700" fill="#2563eb" text-anchor="start">preToolUse</text>
+<text x="754" y="320" font-size="17" font-weight="400" fill="#475569" text-anchor="start">対象を検査し、許可 / 拒否</text>
+<rect x="32" y="338" width="1136" height="80" rx="0" fill="#f8fafc" stroke="#e2e8f0"/>
+<text x="50" y="383" font-size="18" font-weight="700" fill="#0f172a" text-anchor="start">ツール成功後</text>
+<text x="322" y="367" font-size="18" font-weight="700" fill="#7c3aed" text-anchor="start">PostToolUse</text>
+<text x="322" y="400" font-size="17" font-weight="400" fill="#475569" text-anchor="start">整形・検査・追加情報</text>
+<text x="754" y="367" font-size="18" font-weight="700" fill="#2563eb" text-anchor="start">postToolUse</text>
+<text x="754" y="400" font-size="17" font-weight="400" fill="#475569" text-anchor="start">整形・検査・追加情報</text>
+<rect x="32" y="418" width="1136" height="80" rx="0" fill="#fff" stroke="#e2e8f0"/>
+<text x="50" y="463" font-size="18" font-weight="700" fill="#0f172a" text-anchor="start">返答の終了時</text>
+<text x="322" y="447" font-size="18" font-weight="700" fill="#7c3aed" text-anchor="start">Stop</text>
+<text x="322" y="480" font-size="17" font-weight="400" fill="#475569" text-anchor="start">検査で block して続行可能</text>
+<text x="754" y="447" font-size="18" font-weight="700" fill="#2563eb" text-anchor="start">agentStop</text>
+<text x="754" y="480" font-size="17" font-weight="400" fill="#475569" text-anchor="start">検査で block して続行可能</text>
+<rect x="32" y="498" width="1136" height="80" rx="0" fill="#f8fafc" stroke="#e2e8f0"/>
+<text x="50" y="543" font-size="18" font-weight="700" fill="#0f172a" text-anchor="start">通知イベント</text>
+<text x="322" y="527" font-size="18" font-weight="700" fill="#7c3aed" text-anchor="start">Notification</text>
+<text x="322" y="560" font-size="17" font-weight="400" fill="#475569" text-anchor="start">確認待ち・アイドルなど</text>
+<text x="754" y="527" font-size="18" font-weight="700" fill="#2563eb" text-anchor="start">notification</text>
+<text x="754" y="560" font-size="17" font-weight="400" fill="#475569" text-anchor="start">CLI 限定として文書化</text>
+<rect x="32" y="602" width="1136" height="66" rx="10" fill="#fffbeb" stroke="#fcd34d"/>
+<text x="50" y="629" font-size="17" font-weight="700" fill="#0f172a" text-anchor="start">VS Code は画面の名前。選択中の実行環境が Claude なら Claude の仕様、Copilot なら Copilot の仕様。</text>
+<text x="50" y="656" font-size="16" font-weight="400" fill="#475569" text-anchor="start">入力 JSON のキー、出力の入れ子、ツール名、実行されるマシンを確認して移植する。</text>
+<rect x="28" y="680" width="1144" height="88" rx="10" fill="#f8fafc" stroke="#e2e8f0"/>
+<text x="46" y="704" font-size="16" font-weight="400" fill="#475569" text-anchor="start">共通化しやすいのは、ログ保存・整形・検査の本体。イベントの入力と判定の出力には環境別の変換を置く。</text>
+<text x="46" y="731" font-size="16" font-weight="400" fill="#475569" text-anchor="start">2026-11-12 に公式資料を確認。詳細な制約と対応表は 03_hook-flow-examples.md を参照。</text>
 </svg>

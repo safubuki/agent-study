@@ -1,10 +1,12 @@
 # GitHub Copilot / VS Code でフックはどう使うか
 
-2026年現在、**GitHub Copilot**（VS Code のエージェント・Copilot CLI・クラウド上の Coding Agent）にも、Claude Code とよく似た **Hooks**（フック）が搭載されています。**入力 JSON の違いを吸収する数行を書いておけば、Node.js スクリプト1本を Claude Code と Copilot の両方で使い回せます**。
+**GitHub Copilot** にも、Claude Code と同様にイベントに応じて処理を動かす **Hooks**（フック）があります。ログ保存や検査の処理本体は共有できますが、**入力 JSON と判定の出力は実行環境に合わせた変換が必要**です。
 
 ただし「ほぼ同じ」なのは考え方までで、**イベントごとにできること（止められるか・出力が使われるか）には差があります**。この章では、その差を中心に整理します。
 
-> ⚠️ VS Code のフック機能は 2026年11月時点で **Preview（プレビュー）** です。仕様が変わる可能性があるため、最新情報は [GitHub Docs: Hooks configuration](https://docs.github.com/en/copilot/reference/hooks-configuration) と [VS Code Docs: Agent hooks](https://code.visualstudio.com/docs/copilot/customization/hooks) を確認してください。
+> **2026-11-12 に公式資料を確認。** VS Code では選択中の実行環境を確認します。Copilot を選んだセッションは Copilot の仕様、Claude を選んだセッションは Claude の仕様です。旧 Local 実行環境とも区別してください。[GitHub のリファレンス](https://docs.github.com/en/copilot/reference/hooks-reference)、[VS Code の実行環境の選択](https://code.visualstudio.com/docs/agent-customization/hooks#choose-the-hook-implementation-for-your-session)
+
+接続関係や動く順序から知りたい場合は、[全体図と4つのシーケンス図](03_hook-flow-examples.md)をご覧ください。
 
 ---
 
@@ -12,34 +14,34 @@
 
 ![Claude Code と GitHub Copilot / VS Code のフック比較](assets/copilot-vs-claude-hooks.svg)
 
-| 比較項目 | Claude Code | GitHub Copilot（VS Code / CLI / Cloud） |
+| 比較項目 | Claude Code | Copilot（VS Code の Copilot 実行環境 / CLI） |
 | :--- | :--- | :--- |
-| **設定ファイル** | `.claude/settings.json` | **`.github/hooks/*.json`**（例：`hooks.json`）。VS Code は設定 `chat.useClaudeHooks` を有効にすると `.claude/settings.json` も読める |
+| **設定ファイル** | `.claude/settings.json` | **`.github/hooks/*.json`**（例：`hooks.json`）。Copilot の実行環境はプロジェクトの `.claude/settings.json` も読めるが、入出力の互換性は別に確認する |
 | **最上位の必須キー** | `"hooks": { ... }` | **`"version": 1`** と `"hooks": { ... }` |
-| **イベント名の表記** | 先頭大文字（`PreToolUse` / `PostToolUse` / `Stop`） | 先頭小文字（`preToolUse` / `postToolUse` / `agentStop`） |
+| **イベント名の表記** | 先頭大文字（`PreToolUse` / `PostToolUse` / `Stop`） | この章は `preToolUse` / `postToolUse` / `agentStop` を使用。互換の大文字名もあり、入力形式が変わる |
 | **コマンド指定** | `"command": "node ..."` | OS 別の **`"bash"` / `"powershell"`**。`"command"` だけ書くと両方に自動で使われる |
 | **入力 JSON のキー** | `tool_name` / `tool_input`（snake_case） | `toolName` / `toolArgs`（camelCase）。ツール名も `bash` / `edit` / `create` / `view` など小文字 |
-| **ツールの絞り込み** | `"matcher": "Edit\|Write"` | CLI は `"matcher"` 対応（ツール名全体に一致する正規表現）。**VS Code は matcher を無視**する |
-| **実行前に止める方法** | **終了コード `2`**、または JSON の `permissionDecision: "deny"` | **終了コード `2`**、または JSON の `permissionDecision: "deny"`（`permissionDecisionReason` 必須） |
-| **スクリプトがエラー落ちしたとき（実行前フック）** | 警告のみで**ツールは実行される** | **ツールは拒否される**（安全側に倒す） |
+| **ツールの絞り込み** | `"matcher": "Edit\|Write"` | Copilot の実行環境は対象イベントで `matcher` に対応。小文字名と互換名のツール名・一致規則を確認する |
+| **実行前に止める方法** | **終了コード `2`**、または `hookSpecificOutput` 内の `permissionDecision: "deny"` | **終了コード `2`**、またはトップレベルの `permissionDecision: "deny"`（`permissionDecisionReason` を添える） |
+| **スクリプトがエラー落ちしたとき（実行前フック）** | 通常の失敗では許可フローへ進む。失敗時にブロックする `onFailure` 設定もある | 非タイムアウトの異常終了は拒否。**タイムアウトは通常の許可フローへ進む** |
 
 ### イベントの対応表と「できること」の差
 
 | Claude Code | Copilot | Copilot 側の注意点 |
 | :--- | :--- | :--- |
 | `SessionStart` | `sessionStart` | 出力 JSON の `additionalContext` が AI に渡る |
-| `UserPromptSubmit` | `userPromptSubmitted` | ⚠️ **command フックの出力は無視される**。文脈の自動添付もプロンプトのブロックもできない（→ `sessionStart` で代用） |
+| `UserPromptSubmit` | `userPromptSubmitted` | **設定ファイルの command フックの出力は採用されない**。ローカル処理は可能。開始時の文脈は `sessionStart` で追加できるが、送信ごとの添付の代用にはならない |
 | `PreToolUse` | `preToolUse` | Claude Code とほぼ同じ（`exit 2` か `permissionDecision: "deny"` で拒否） |
 | `PostToolUse` | `postToolUse` | ⚠️ **`decision: "block"` は使えない**。AI に伝えたいことは `additionalContext` で返す |
 | `Stop` | `agentStop` | `decision: "block"` と `reason` で差し戻せる。入力に `stop_hook_active` もある。連続8回で強制終了 |
 | `SubagentStop` | `subagentStop` | 子エージェントの完了時 |
-| `Notification` | `notification` | Copilot CLI のみ |
+| `Notification` | `notification` | CLI 限定として文書化。VS Code やクラウドでも同じ通知があると仮定しない |
 
 ---
 
 ## 2. `.github/hooks/hooks.json` の書き方（Copilot 用）
 
-リポジトリの `.github/hooks/hooks.json` に以下の設定を置くと、VS Code の Copilot エージェント・Copilot CLI・GitHub 上の Coding Agent でフックが動きます（クラウドの Coding Agent では、このファイルが**デフォルトブランチ**に入っている必要があります）。
+リポジトリの `.github/hooks/hooks.json` に以下の設定を置き、VS Code の Copilot 実行環境または Copilot CLI で読み込みを確認します。クラウドでは実行環境・使えるイベント・ネットワーク条件が異なるため、ローカルと同じ動作を前提にしません。[クラウドでの実行条件](https://docs.github.com/en/copilot/reference/hooks-reference#cloud-agent-execution-environment)
 
 ```json
 {
@@ -76,13 +78,13 @@
 - `bash` は Mac / Linux 用、`powershell` は Windows 用のコマンドです。同じコマンドで済むなら、代わりに `"command": "node ./hooks/guard-write.js"` を1行書くだけでも両方に使われます。
 - `timeoutSec` を省略すると 30 秒です。**`preToolUse` がタイムアウトした場合は「拒否」ではなく通常の許可確認に進む**ので、重い処理は入れないでください。
 
-> 💡 **ポイント**：VS Code は `matcher` を無視するため、どのツールでもフックが呼ばれます。**対象ツールの絞り込みは Node.js スクリプト側の `if` 文で行う**と、Claude Code・Copilot CLI・VS Code のどれでも同じように動きます。
+> **対象ツールを確認する**：Copilot の実行環境では `matcher` を使えますが、小文字名・互換名・旧 Local 実行環境でツール名や一致規則が異なります。スクリプト側でも対象を確認し、利用中の環境で実際のイベントを検証してください。[Matcher の仕様](https://docs.github.com/en/copilot/reference/hooks-reference#matcher-filtering)
 
 ---
 
 ## 3. Claude Code と Copilot の両方で動くスクリプトの書き方
 
-渡される JSON のキー名（`tool_name` と `toolName`、`tool_input` と `toolArgs`）の違いを吸収するヘルパーを先頭に数行書くだけで、1本のスクリプトを両方で共用できます（本ガイドの `hooks/*.js` と `samples/` はこの両対応方式です）。
+渡される JSON のキー名（`tool_name` と `toolName`、`tool_input` と `toolArgs`）の違いを吸収すると、検査処理を共用できます。**JSON で判定や追加情報を返す場合は、出力形式も変換します。** 下の例は、両方で使える終了コード `2` による実行前の拒否です。
 
 ```javascript
 const fs = require('fs');
@@ -128,6 +130,7 @@ VS Code で開発する場合、すべてを AI フックで作る必要はあ�
 
 ## 関連ドキュメント
 
+- **全体のつながり・状態通知・環境差のシーケンス図** → [03_hook-flow-examples.md](03_hook-flow-examples.md)
 - **フックの基本とライフサイクル** → [00_hook-guide.md](00_hook-guide.md)
 - **そのまま使える定番5パターン** → [02_hook-patterns.md](02_hook-patterns.md)
 - **コピペ用サンプル集（5種）** → [samples/README.md](../samples/README.md)

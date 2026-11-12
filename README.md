@@ -4,6 +4,10 @@ AI コーディングエージェント（Claude Code や GitHub Copilot）を�
 
 ![3つの仕組みの全体像](assets/three-pillars-overview.svg)
 
+フックの接続関係と具体的な動きは、[全体図と4つのシーケンス図（Claude Code / Copilot・VS Code 比較）](hook-guide/docs/03_hook-flow-examples.md)で確認できます。
+
+Copilot の新しい実行管理とモデル協調は、[Copilot Fusion とハーネスの図解ガイド](copilot-fusion/README.md)にまとめています。Local / Copilot の違い、MCP の移行、Fusion の3方式を2本の解説と12枚の図で確認できます。
+
 ---
 
 ## 1. どこから読むか（3つのガイド一覧）

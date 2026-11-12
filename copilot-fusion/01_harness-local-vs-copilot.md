@@ -2,7 +2,7 @@
 
 AI に作業を頼むときは、**考える AI、実際に操作する道具、その間をつなぐプログラム**が協力します。この資料では、先にその役割を図で見て、Local / Copilot の構成、依頼から返答までの動き、MCP の移行へと進みます。
 
-本稿は **2026-11-12 に確認した公式資料**に基づきます。公式資料では旧 Local を非推奨とし、**2027年2月までに削除予定**と案内しています。これは予定として扱います。[Local の現在の扱い](https://code.visualstudio.com/docs/agents/run/agent-harnesses)
+本稿は **2026-11-12 に確認した公式資料**に基づき、第4節の MCP 転送条件と環境変数への移行手順は **2026-11-13 に再確認**しています。公式資料では旧 Local を非推奨とし、**2027年2月までに削除予定**と案内しています。これは予定として扱います。[Local の現在の扱い](https://code.visualstudio.com/docs/agents/run/agent-harnesses)
 
 | 読む順 | 分かること |
 |---|---|
@@ -147,17 +147,19 @@ Copilot を選ぶ利点は、まず **エディタの一つの窓に閉じない
 
 ### Local で動いていたのに、切り替えると見えない具体例
 
-API キーを入力ダイアログから渡していた MCP サーバーを例にします。Local では VS Code が入力を解決して接続していました。Copilot へ切り替えると、その入力機能に依存する定義は転送の対象にならず、道具の一覧に現れないことがあります。
+社内文書を検索する HTTP MCP サーバー **`teamDocs`** を例に、Local で使えていた時点から復旧までを追います。**図は上から下へ時間が進みます。** 青は Local での動作、橙は切り替え時に止まる箇所、緑は対処後です。
 
-![Local では入力を解決して MCP 接続できたが、Copilot では入力付き定義が転送対象外となり、認証とネイティブ設定を整えて回復する前後比較](assets/harness-mcp-before-after.svg)
+![上から下へ、旧設定の読込み、Local の入力と接続、Copilot への切り替え、入力解決前の転送除外、設定と認証の整備、実際の検索による復旧確認を追う時系列図](assets/harness-mcp-before-after.svg)
 
-**同じ MCP サーバーでも、そこへ接続する側の仕組みが変わる**ためです。この例の②ではサーバーへの接続以前に定義が届かず、③では設定形式と認証の渡し方を整えて利用できるようにしています。すべての旧設定が使えなくなるわけではなく、条件を満たす定義を転送する経路もあります。[入力付き定義の制限](https://code.visualstudio.com/docs/agents/reference/mcp-configuration#editor-forwarding-to-copilot)
+ポイントは図の **④「転送チェック」**です。Local では `${input:docs-key}` を VS Code が解決していましたが、Copilot への転送では、その変数を必要とする定義が**値を解決する前に除外**されます。Local でキーを入力済みでも、この条件は変わりません。定義が届かないので、この経路では接続に進めず、ツールが一覧に現れません。[入力付き定義の制限](https://code.visualstudio.com/docs/agents/reference/mcp-configuration#editor-forwarding-to-copilot)
 
-### 設定を届ける2つの経路
+この例は、**サーバーへの接続前に止まるケース**です。一覧に表示されるが認証に失敗するケースは、その先の段階として切り分けます。すべての旧設定が使えなくなるわけではなく、条件を満たす定義を転送する経路もあります。
 
-原因が分かったら、既存定義の転送を使うか、Copilot が直接読む設定へ移すかを確認します。
+### 対処を選ぶ：設定を届ける → 認証を整える → 実際に呼ぶ
 
-![既存定義をエディタが転送する経路と、ネイティブ設定へ移行する経路を分けた図](assets/harness-mcp-migration.svg)
+次の図も**上から下へ**進みます。②では、転送条件を満たす定義は **A**、この例の `teamDocs` は **B** を選びます。③でサーバーが要求する認証方式を選び、④で動作を確かめます。**設定の届け方と認証方式は、別々に選ぶ項目です。**
+
+![対象と旧設定の確認、転送かネイティブ設定への変換の選択、OAuth か固定トークン認証の選択、発見・接続認証・実行の確認、旧設定の整理までを上から下へ進める対処手順図](assets/harness-mcp-migration.svg)
 
 | 経路 | 何が起きるか | 主な確認点 |
 |---|---|---|
@@ -176,9 +178,9 @@ API キーを入力ダイアログから渡していた MCP サーバーを例�
 
 Windows での `~` は、**実際にハーネスを動かすユーザーのホーム**として読み替えます。リモートや Dev Container では実行先のホームです。[設定の保存場所と形式](https://code.visualstudio.com/docs/agents/reference/mcp-configuration#configure-mcp-for-copilot)
 
-### 入力済みの API キーがあっても転送されないケース
+### 認証方法を選ぶ
 
-`${input:api-key}` や `${command:...}` が必要な定義は、値を解決する前に転送対象から外れます。したがって、Local で一度入力してキャッシュしておいても解決しません。単に同じ JSON を `.mcp.json` にコピーしても、入力ダイアログの機能は追加されません。[公式 FAQ：入力付きサーバーが見えない理由](https://code.visualstudio.com/docs/agent-customization/migrate-customizations#why-are-mcp-servers-with-input-prompts-missing)
+入力値を求める機能は、JSON を `.mcp.json` にコピーしても使えるようになりません。また、**`password: true` の入力は自動移行の対象外**なので、下の `teamDocs` の例では認証ヘッダーを手作業で変換します。非秘密の入力には自動変換できるものもあるため、移行画面の手動確認項目を確かめます。[入力付き定義の制約](https://code.visualstudio.com/docs/agent-customization/migrate-customizations#why-are-mcp-servers-with-input-prompts-missing)、[自動移行できる項目](https://code.visualstudio.com/docs/agent-customization/migrate-customizations#check-mcp-values-before-migration)
 
 対処はサーバーが要求する認証方法で選びます。
 
@@ -214,7 +216,7 @@ Windows での `~` は、**実際にハーネスを動かすユーザーのホ�
 }
 ```
 
-Copilot 用 `.mcp.json` の例：
+Copilot 用の、**ワークスペース直下の `.mcp.json`** の例：
 
 ```json
 {
@@ -231,7 +233,23 @@ Copilot 用 `.mcp.json` の例：
 
 `DOCS_API_KEY` は、サーバーへ接続する **Agent Host の実行環境**で利用可能にします。別のターミナルで環境変数を設定しても、起動済み Agent Host の環境は変わりません。起動環境を変えたら、該当クライアントまたは Agent Host を再起動して受け継がせます。`tools: ["*"]` は説明用に全ツールを対象とする例なので、実運用では必要なツールの範囲を確認します。[環境変数への移行例](https://code.visualstudio.com/docs/agent-customization/migrate-customizations#replace-input-prompts-with-environment-variables)
 
-環境変数は秘密情報の保管庫ではありません。個人用ファイルも含め、設定への秘密値の直接記載で入力機能の代用をしないようにします。接続後に、対象の Copilot セッションで実際のツール呼び出しまで試します。
+### 具体例を実行する：キーを用意 → Host を再起動 → 検索
+
+左から **操作する人 → 設定・起動環境 → Copilot ハーネス → teamDocs** の4列です。実行先を囲む枠の中に、設定・起動環境とハーネスを並べています。上から下へ読み、特に **② キーを用意してから、③ 対象のクライアント / Agent Host を再起動する**順序を確認してください。[実行環境への反映](https://code.visualstudio.com/docs/agent-customization/migrate-customizations#replace-input-prompts-with-environment-variables)
+
+![操作する人・設定と起動環境・Copilot ハーネス・teamDocs の4列で、設定変更、キーの用意、再起動、接続と認証、検索と結果の受け渡しを上から下へ追う図](assets/harness-mcp-env-sequence.svg)
+
+例えば **Dev Container で実行する場合**、`DOCS_API_KEY` はコンテナ内で Agent Host が受け継げる起動環境へ用意します。PC 側だけに設定して完了にせず、コンテナ側の該当プロセスへ反映してから、新しい Copilot セッションで試します。
+
+確認用の依頼例は「**teamDocs の検索ツールで、開発環境のセットアップ手順を探して**」です。`teamDocs` はこの資料で付けたサーバー名であり、実際のツール名はサーバーの公開内容に依存します。ツールの呼び出しと返された文書の内容を確認し、失敗したら次のように戻ります。
+
+| 止まった段階 | この例で戻って確認すること |
+|---|---|
+| サーバーが一覧にない | **① 設定・④ セッション**へ。実行先のワークスペース直下の `.mcp.json`、最上位キー `mcpServers`、対象が Copilot かを確認 |
+| 表示されるが認証できない | **② 起動環境・③ 再起動**へ。接続する Host への `DOCS_API_KEY` の継承と、キーの有効性を確認 |
+| 接続できるが検索できない | **⑤ ツール呼出し**へ。公開ツールと `tools` の指定、有効化、承認・組織ポリシー、呼び出し結果を確認 |
+
+環境変数は秘密情報の保管庫ではありません。個人用ファイルも含め、設定には秘密値を直接書かず、参照だけを残します。
 
 ワークスペース用の設定フォームで `${...}` が拒否されても、Copilot のランタイムが環境変数参照に非対応という意味ではありません。**Other Properties から元の `.mcp.json` を開き、参照を書きます。** 設定フォームの制限と、実行時の対応範囲を分けて確認してください。[フォームと環境変数参照の制約](https://code.visualstudio.com/docs/agents/reference/mcp-configuration#environment-variable-references)
 
@@ -294,7 +312,7 @@ Copilot が MCP の tools しか扱えない、と一括りにするのも正確
 
 ## 参照した公式資料
 
-以下は随時更新される公式ドキュメントです。**確認日はいずれも 2026-11-12**。ページ末尾の更新表示と、本稿で実際に確認した日は区別しています。
+以下は随時更新される公式ドキュメントです。**初回確認日は 2026-11-12**。第4節の転送条件と環境変数への移行手順は **2026-11-13 に再確認**しています。ページ末尾の更新表示と、本稿で実際に確認した日は区別しています。
 
 | 資料 | 本稿で使った内容 |
 |---|---|

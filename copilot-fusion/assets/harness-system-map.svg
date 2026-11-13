@@ -46,10 +46,10 @@
 <text x="932" y="615" font-size="17" font-weight="400" fill="#475569" text-anchor="middle">外部サービスの操作を共通形式で公開</text>
 <text x="932" y="642" font-size="17" font-weight="400" fill="#475569" text-anchor="middle">MCP は、この接続のための共通ルール</text>
 <path d="M500 382 V444 H268 V524" fill="none" stroke="#059669" stroke-width="2" marker-end="url(#arrow-harness)"/>
-<rect x="42" y="456" width="452" height="42" rx="4" fill="#fff" stroke="none"/>
+<text x="268" y="484" font-size="17" font-weight="700" text-anchor="middle" fill="none" stroke="#ffffff" stroke-width="7" stroke-linejoin="round" stroke-linecap="round">MCP を使わない道具もある</text>
 <text x="268" y="484" font-size="17" font-weight="700" fill="#0e7490" text-anchor="middle">MCP を使わない道具もある</text>
 <path d="M700 382 V418 H932 V524" fill="none" stroke="#059669" stroke-width="2" marker-end="url(#arrow-harness)"/>
-<rect x="706" y="456" width="452" height="42" rx="4" fill="#fff" stroke="none"/>
+<text x="932" y="484" font-size="17" font-weight="700" text-anchor="middle" fill="none" stroke="#ffffff" stroke-width="7" stroke-linejoin="round" stroke-linecap="round">MCP のルールで呼び出す</text>
 <text x="932" y="484" font-size="17" font-weight="700" fill="#0e7490" text-anchor="middle">MCP のルールで呼び出す</text>
 <rect x="28" y="740" width="1144" height="82" rx="9" fill="#f8fafc" stroke="#e2e8f0"/>
 <text x="44" y="768" font-size="16" font-weight="400" fill="#475569" text-anchor="start">AI モデルは推論の担当、ツールは操作の入口。MCP はモデルや道具そのものの名前ではない。</text>

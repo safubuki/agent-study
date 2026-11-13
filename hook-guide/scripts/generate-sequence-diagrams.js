@@ -16,53 +16,68 @@ const actors = [
 ];
 const actor = Object.fromEntries(actors.map(a => [a.id, a]));
 const esc = value => String(value).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&apos;' })[c]);
+const estWidth = (str, size) => {
+  let w = 0;
+  for (const ch of str) w += /[\x00-\x7f]/.test(ch) ? size * 0.56 : size * 1.02;
+  return w;
+};
 
 class Sequence {
   constructor(filename, title, subtitle) {
     this.filename = filename;
     this.title = title;
     this.subtitle = subtitle;
+    this.bgParts = [];
     this.parts = [];
     this.regions = [];
     this.y = 224;
   }
-  rect(x, y, w, h, fill, stroke = 'none', rx = 8) {
-    this.parts.push(`<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${rx}" fill="${fill}" stroke="${stroke}"/>`);
+  rect(x, y, w, h, fill, stroke = 'none', rx = 8, target = this.parts) {
+    target.push(`<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${rx}" fill="${fill}" stroke="${stroke}"/>`);
   }
-  text(x, y, value, size = 17, color = '#475569', weight = 400, anchor = 'start', bounds = [24, 8, 1152, 3000]) {
+  text(x, y, value, size = 17, color = '#475569', weight = 400, anchor = 'start', bounds = [24, 8, 1152, 3000], halo = null) {
+    if (halo) {
+      this.parts.push(`<text x="${x}" y="${y}" font-size="${size}" font-weight="${weight}" text-anchor="${anchor}" fill="none" stroke="${halo}" stroke-width="6.5" stroke-linejoin="round" stroke-linecap="round">${esc(value)}</text>`);
+    }
     this.parts.push(`<text x="${x}" y="${y}" font-size="${size}" font-weight="${weight}" fill="${color}" text-anchor="${anchor}">${esc(value)}</text>`);
     this.regions.push(bounds);
   }
   phase(label) {
-    this.rect(24, this.y, 1152, 36, '#f8fafc', '#e2e8f0', 6);
-    this.text(40, this.y + 25, label, 17, '#334155', 700, 'start', [32, this.y + 2, 1136, 32]);
-    this.y += 62;
+    // 背景帯は bgParts（ライフラインの裏）へ描画し、縦のカラム線が消えないようにする。
+    this.rect(24, this.y, 1152, 36, '#f8fafc', '#e2e8f0', 6, this.bgParts);
+    this.text(40, this.y + 24, label, 16.5, '#334155', 700, 'start', [32, this.y + 2, 1136, 32], '#f8fafc');
+    this.y += 60;
     if (label.startsWith('③')) {
       for (const a of actors) {
-        this.rect(a.x - 90, this.y - 10, 180, 34, a.fill, a.color, 6);
-        this.text(a.x, this.y + 14, a.name, 15, a.color, 700, 'middle', [a.x - 84, this.y - 8, 168, 30]);
+        this.rect(a.x - 90, this.y - 10, 180, 32, a.fill, a.color, 6);
+        this.text(a.x, this.y + 12, a.name, 14.5, a.color, 700, 'middle', [a.x - 84, this.y - 8, 168, 28]);
       }
-      this.y += 48;
+      this.y += 46;
     }
     return this;
   }
   message(from, to, labels, reply = false) {
     labels = Array.isArray(labels) ? labels : [labels];
     const a = actor[from], b = actor[to];
-    const left = Math.min(a.x, b.x), span = Math.abs(a.x - b.x);
+    const center = (a.x + b.x) / 2;
     const top = this.y;
-    const arrowY = top + labels.length * 27 + 14;
-    this.rect(left + 8, top - 1, span - 16, labels.length * 27 + 4, '#fff', 'none', 4);
-    labels.forEach((line, i) => this.text((a.x + b.x) / 2, top + 22 + i * 27, line, 17, a.color, 500, 'middle', [left + 10, top - 1, span - 20, labels.length * 27 + 4]));
+    const arrowY = top + labels.length * 26 + 12;
+    const maxW = Math.max(...labels.map(l => estWidth(l, 16.5)));
+    const textLeft = center - maxW / 2 - 4;
+    const textRight = center + maxW / 2 + 4;
+    // 文字が中間の縦線に重なるときだけ文字自体の輪郭を白抜き(halo)にし、白い横帯は描かない。
+    const crossesLine = actors.some(act => textLeft < act.x && act.x < textRight);
+    const halo = crossesLine ? '#ffffff' : null;
+    labels.forEach((line, i) => this.text(center, top + 22 + i * 26, line, 16.5, a.color, 600, 'middle', [center - 260, top - 1, 520, 28], halo));
     this.parts.push(`<line x1="${a.x}" y1="${arrowY}" x2="${b.x}" y2="${arrowY}" stroke="${a.color}" stroke-width="${reply ? 1.5 : 2}"${reply ? ' stroke-dasharray="5 5"' : ''} marker-end="url(#arrow-${a.id})"/>`);
     this.y = arrowY + 24;
     return this;
   }
   action(id, lines) {
     lines = Array.isArray(lines) ? lines : [lines];
-    const a = actor[id], h = lines.length * 27 + 20;
+    const a = actor[id], h = lines.length * 26 + 20;
     this.rect(a.x - 88, this.y, 176, h, a.fill, a.color, 8);
-    lines.forEach((line, i) => this.text(a.x, this.y + 28 + i * 27, line, 16, a.color, 500, 'middle', [a.x - 82, this.y + 2, 164, h - 4]));
+    lines.forEach((line, i) => this.text(a.x, this.y + 27 + i * 26, line, 15.5, a.color, 500, 'middle', [a.x - 82, this.y + 2, 164, h - 4]));
     this.y += h + 22;
     return this;
   }
@@ -75,9 +90,10 @@ class Sequence {
     return this;
   }
   finish(notes) {
-    const body = this.parts, bodyRegions = this.regions;
+    const bg = this.bgParts, body = this.parts, bodyRegions = this.regions;
     const bodyEnd = this.y;
-    const height = bodyEnd + notes.length * 27 + 42;
+    const height = bodyEnd + 36 + notes.length * 27 + 44;
+    this.bgParts = [];
     this.parts = [];
     this.regions = [];
     this.parts.push(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${width} ${height}" role="img" aria-labelledby="title desc" font-family="'Noto Sans JP', 'Yu Gothic UI', Meiryo, sans-serif">`);
@@ -90,17 +106,23 @@ class Sequence {
     this.text(28, 47, this.title, 27, '#0f172a', 700, 'start', [24, 8, 1152, 54]);
     this.text(28, 80, this.subtitle, 16, '#475569', 400, 'start', [24, 58, 1152, 34]);
     this.text(28, 107, '全シーケンス図で列順と色を固定　上→下が時間　矢印の色＝送り手　実線＝依頼・通知　横破線＝結果・応答', 13, '#475569', 400, 'start', [24, 88, 1152, 30]);
+    // フェーズ帯を先に配置し、その上にライフラインを重ねて縦線が途切れないようにする。
+    this.parts.push(...bg);
     for (const a of actors) {
       this.parts.push(`<g data-participant="${a.id}">`);
-      this.parts.push(`<line x1="${a.x}" y1="194" x2="${a.x}" y2="${bodyEnd - 8}" stroke="${a.color}" stroke-width="1.3" stroke-dasharray="4 6" opacity="0.7"/>`);
+      this.parts.push(`<line x1="${a.x}" y1="194" x2="${a.x}" y2="${bodyEnd - 6}" stroke="${a.color}" stroke-width="1.4" stroke-dasharray="4 6" opacity="0.65"/>`);
       this.rect(a.x - 90, 124, 180, 70, a.fill, a.color, 9);
       this.text(a.x, 153, a.name, 18, a.color, 700, 'middle', [a.x - 84, 130, 168, 36]);
       this.text(a.x, 180, a.sub, 13, '#475569', 400, 'middle', [a.x - 84, 160, 168, 30]);
       this.parts.push('</g>');
     }
+    for (const a of actors) {
+      this.rect(a.x - 90, bodyEnd - 6, 180, 32, a.fill, a.color, 6);
+      this.text(a.x, bodyEnd + 16, a.name, 14.5, a.color, 700, 'middle', [a.x - 84, bodyEnd - 4, 168, 28]);
+    }
     this.parts.push(...body);
     this.regions.push(...bodyRegions);
-    this.y = bodyEnd + 6;
+    this.y = bodyEnd + 38;
     this.note(notes);
     this.parts.push('</svg>');
     const result = this.parts.join('\n') + '\n';

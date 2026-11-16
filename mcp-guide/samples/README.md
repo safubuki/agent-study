@@ -18,7 +18,7 @@
 
 ## フォルダの見方
 
-各サンプルには、サーバー本体（`.js`）に加えて Claude Code 用と GitHub Copilot（VS Code）用の設定ファイルを並べて入れてあります。
+各サンプルには、サーバー本体（`.js`）に加えて Claude Code 用と GitHub Copilot（VS Code）用の設定ファイルを並べて入れてあります。`copilot/` 配下には、新しい **Copilot ハーネス用の `.mcp.json`**（推奨）と **旧 Local ハーネス用の `.vscode/mcp.json`** の両方を用意しています。
 
 ```text
 samples/<サンプル名>/
@@ -27,10 +27,12 @@ samples/<サンプル名>/
 ├─ claude-code/
 │  └─ .mcp.json              ← Claude Code 用の設定（ルートキー：mcpServers）
 └─ copilot/
-   └─ .vscode/mcp.json       ← VS Code / Copilot 用の設定（ルートキー：servers）
+   ├─ .mcp.json              ← Copilot ハーネス用の設定（推奨・ルートキー：mcpServers）
+   └─ .vscode/mcp.json       ← VS Code 旧 Local ハーネス用の設定（ルートキー：servers）
 ```
 
-> 📌 **設定ファイル内の相対パスについて**：各サンプルの設定（例：`"args": ["../server.js"]`）は、**`claude-code/` フォルダで Claude Code を起動したとき**、または **`copilot/` フォルダを VS Code のワークスペースとして開いたとき**に動くように書いてあります。自分のプロジェクトにコピーするときは、サーバー（`.js`）を置いた場所に合わせてパスを書き換えてください。
+> [!NOTE]
+> **設定ファイル内の相対パスについて**：各サンプルの設定（例：`"args": ["../server.js"]`、04 は `"../../../servers/cafe-catalog-mcp.js"`）は、**`claude-code/` フォルダで Claude Code を起動したとき**、または **`copilot/` フォルダを VS Code のワークスペースとして開いたとき**に動くように書いてあります。自分のプロジェクトにコピーするときは、サーバー（`.js`）を置いた場所に合わせてパスを書き換えてください。
 >
 > ※ サンプル 04 の Claude Code 版だけは、サブエージェント定義の中にサーバーを書く方式なので `.mcp.json` がありません（理由は [04 の README](04-subagent-scoped/README.md)）。
 
@@ -42,7 +44,8 @@ samples/<サンプル名>/
 | **一番外側のキー** | `"mcpServers": { ... }` | `"mcpServers": { ... }` | `"servers": { ... }` |
 | **サブエージェントでの指定** | `.claude/agents/*.md` の `mcpServers:` にサーバーをインライン定義（名前だけだと親と共有になる） | `.github/agents/*.agent.md` に `tools: ['名前/*']` | `.github/agents/*.agent.md` に `tools: ['名前/*']` |
 
-> 📌 **Copilot ハーネスへの移行注意**：各サンプルの `copilot/` フォルダには旧 Local 向けの `.vscode/mcp.json` を置いていますが、VS Code で新しい **Copilot ハーネス** を使う場合は `.mcp.json`（`mcpServers`）がネイティブ設定になります（`inputs` を使わない単純な定義は `.vscode/mcp.json` からも自動転送されます）。詳細は [Local と Copilot ハーネス](../../copilot-fusion/01_harness-local-vs-copilot.md#3-なぜ-mcp-が見えなくなるのか原因と移行) を参照してください。
+> [!TIP]
+> **Copilot ハーネス・旧 Local ハーネスどちらでもそのまま試せます**：各サンプルの `copilot/` フォルダには、Copilot ハーネス用の `.mcp.json`（`mcpServers` 形式）と旧 Local ハーネス用の `.vscode/mcp.json`（`servers` 形式）の両方を用意しています。VS Code の `Session Target` を Copilot に切り替えた場合でも、`copilot/` を開けば `.mcp.json` をそのまま参照できます（移行の詳細は [Local と Copilot ハーネス](../../copilot-fusion/01_harness-local-vs-copilot.md#3-なぜ-mcp-が見えなくなるのか原因と移行) を参照）。
 
 ## 動作テストのしかた（Claude なしで1秒で確認）
 

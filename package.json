@@ -1,0 +1,11 @@
+{
+  "name": "agent-study",
+  "version": "1.0.0",
+  "private": true,
+  "description": "サブエージェント・フック・MCP を図解・パターン・実験で学ぶ学習リポジトリ",
+  "scripts": {
+    "test": "node scripts/verify-repo.js",
+    "test:hooks": "node hook-guide/scripts/test-hooks-locally.js",
+    "test:mcp": "node mcp-guide/scripts/test-mcp-server.js"
+  }
+}

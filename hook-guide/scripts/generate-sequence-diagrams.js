@@ -1,135 +1,62 @@
 #!/usr/bin/env node
 // 列順・名前・配色を一か所で管理し、4枚のシーケンス図を生成する。
 // 実行: node hook-guide/scripts/generate-sequence-diagrams.js
-const fs = require('node:fs');
 const path = require('node:path');
+const {
+  createDiagramKit,
+  defineActors,
+  writeQaReport,
+} = require('../../scripts/svg-diagram-kit');
 
 const outputDir = path.resolve(__dirname, '../docs/assets');
-const width = 1200;
-const actors = [
-  { id: 'user', name: 'ユーザー', sub: 'チャットで依頼', x: 110, color: '#475569', fill: '#f8fafc' },
-  { id: 'host', name: 'AI アプリ', sub: '会話と実行を管理', x: 306, color: '#2563eb', fill: '#eff6ff' },
-  { id: 'model', name: 'AI モデル', sub: '解釈・推論・返答', x: 502, color: '#7c3aed', fill: '#f5f3ff' },
-  { id: 'hook', name: 'フック', sub: '登録した処理を実行', x: 698, color: '#059669', fill: '#ecfdf5' },
-  { id: 'tool', name: '作業・検査ツール', sub: '編集・検索・テスト', x: 894, color: '#0e7490', fill: '#ecfeff' },
-  { id: 'app', name: '通知先アプリ', sub: '状態の受信・表示', x: 1090, color: '#b45309', fill: '#fffbeb' },
-];
-const actor = Object.fromEntries(actors.map(a => [a.id, a]));
-const esc = value => String(value).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&apos;' })[c]);
-const estWidth = (str, size) => {
-  let w = 0;
-  for (const ch of str) w += /[\x00-\x7f]/.test(ch) ? size * 0.56 : size * 1.02;
-  return w;
-};
+const actors = defineActors([
+  { id: 'user', name: 'ユーザー', sub: 'チャットで依頼', role: 'slate' },
+  { id: 'host', name: 'AI アプリ', sub: '会話と実行を管理', role: 'blue' },
+  { id: 'model', name: 'AI モデル', sub: '解釈・推論・返答', role: 'violet' },
+  { id: 'hook', name: 'フック', sub: '登録した処理を実行', role: 'emerald' },
+  { id: 'tool', name: '作業・検査ツール', sub: '編集・検索・テスト', role: 'cyan' },
+  { id: 'app', name: '通知先アプリ', sub: '状態の受信・表示', role: 'amber' },
+]);
 
-class Sequence {
-  constructor(filename, title, subtitle) {
-    this.filename = filename;
-    this.title = title;
-    this.subtitle = subtitle;
-    this.bgParts = [];
-    this.parts = [];
-    this.regions = [];
-    this.y = 224;
-  }
-  rect(x, y, w, h, fill, stroke = 'none', rx = 8, target = this.parts) {
-    target.push(`<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${rx}" fill="${fill}" stroke="${stroke}"/>`);
-  }
-  text(x, y, value, size = 17, color = '#475569', weight = 400, anchor = 'start', bounds = [24, 8, 1152, 3000], halo = null) {
-    if (halo) {
-      this.parts.push(`<text x="${x}" y="${y}" font-size="${size}" font-weight="${weight}" text-anchor="${anchor}" fill="none" stroke="${halo}" stroke-width="6.5" stroke-linejoin="round" stroke-linecap="round">${esc(value)}</text>`);
-    }
-    this.parts.push(`<text x="${x}" y="${y}" font-size="${size}" font-weight="${weight}" fill="${color}" text-anchor="${anchor}">${esc(value)}</text>`);
-    this.regions.push(bounds);
-  }
-  phase(label) {
-    // 背景帯は bgParts（ライフラインの裏）へ描画し、縦のカラム線が消えないようにする。
-    this.rect(24, this.y, 1152, 36, '#f8fafc', '#e2e8f0', 6, this.bgParts);
-    this.text(40, this.y + 24, label, 16.5, '#334155', 700, 'start', [32, this.y + 2, 1136, 32], '#f8fafc');
-    this.y += 60;
-    if (label.startsWith('③')) {
-      for (const a of actors) {
-        this.rect(a.x - 90, this.y - 10, 180, 32, a.fill, a.color, 6);
-        this.text(a.x, this.y + 12, a.name, 14.5, a.color, 700, 'middle', [a.x - 84, this.y - 8, 168, 28]);
-      }
-      this.y += 46;
-    }
-    return this;
-  }
-  message(from, to, labels, reply = false) {
-    labels = Array.isArray(labels) ? labels : [labels];
-    const a = actor[from], b = actor[to];
-    const center = (a.x + b.x) / 2;
-    const top = this.y;
-    const arrowY = top + labels.length * 26 + 12;
-    const maxW = Math.max(...labels.map(l => estWidth(l, 16.5)));
-    const textLeft = center - maxW / 2 - 4;
-    const textRight = center + maxW / 2 + 4;
-    // 文字が中間の縦線に重なるときだけ文字自体の輪郭を白抜き(halo)にし、白い横帯は描かない。
-    const crossesLine = actors.some(act => textLeft < act.x && act.x < textRight);
-    const halo = crossesLine ? '#ffffff' : null;
-    labels.forEach((line, i) => this.text(center, top + 22 + i * 26, line, 16.5, a.color, 600, 'middle', [center - 260, top - 1, 520, 28], halo));
-    this.parts.push(`<line x1="${a.x}" y1="${arrowY}" x2="${b.x}" y2="${arrowY}" stroke="${a.color}" stroke-width="${reply ? 1.5 : 2}"${reply ? ' stroke-dasharray="5 5"' : ''} marker-end="url(#arrow-${a.id})"/>`);
-    this.y = arrowY + 24;
-    return this;
-  }
-  action(id, lines) {
-    lines = Array.isArray(lines) ? lines : [lines];
-    const a = actor[id], h = lines.length * 26 + 20;
-    this.rect(a.x - 88, this.y, 176, h, a.fill, a.color, 8);
-    lines.forEach((line, i) => this.text(a.x, this.y + 27 + i * 26, line, 15.5, a.color, 500, 'middle', [a.x - 82, this.y + 2, 164, h - 4]));
-    this.y += h + 22;
-    return this;
-  }
-  note(lines) {
-    lines = Array.isArray(lines) ? lines : [lines];
-    const h = lines.length * 27 + 18;
-    this.rect(34, this.y, 1132, h, '#f8fafc', '#e2e8f0', 8);
-    lines.forEach((line, i) => this.text(48, this.y + 27 + i * 27, line, 16, '#475569', 400, 'start', [42, this.y + 2, 1116, h - 4]));
-    this.y += h + 24;
-    return this;
-  }
-  finish(notes) {
-    const bg = this.bgParts, body = this.parts, bodyRegions = this.regions;
-    const bodyEnd = this.y;
-    const height = bodyEnd + 36 + notes.length * 27 + 44;
-    this.bgParts = [];
-    this.parts = [];
-    this.regions = [];
-    this.parts.push(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${width} ${height}" role="img" aria-labelledby="title desc" font-family="'Noto Sans JP', 'Yu Gothic UI', Meiryo, sans-serif">`);
-    this.parts.push('<!-- Generated by ../../scripts/generate-sequence-diagrams.js. -->');
-    this.parts.push(`<title id="title">${esc(this.title)}</title><desc id="desc">${esc(this.subtitle)} 列順はユーザー、AI アプリ、AI モデル、フック、作業・検査ツール、通知先アプリ。上から下へ時間が進む。</desc>`);
-    this.parts.push('<defs>');
-    for (const a of actors) this.parts.push(`<marker id="arrow-${a.id}" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="${a.color}"/></marker>`);
-    this.parts.push('</defs>');
-    this.rect(1, 1, width - 2, height - 2, '#fff', '#e2e8f0', 18);
-    this.text(28, 47, this.title, 27, '#0f172a', 700, 'start', [24, 8, 1152, 54]);
-    this.text(28, 80, this.subtitle, 16, '#475569', 400, 'start', [24, 58, 1152, 34]);
-    this.text(28, 107, '全シーケンス図で列順と色を固定　上→下が時間　矢印の色＝送り手　実線＝依頼・通知　横破線＝結果・応答', 13, '#475569', 400, 'start', [24, 88, 1152, 30]);
-    // フェーズ帯を先に配置し、その上にライフラインを重ねて縦線が途切れないようにする。
-    this.parts.push(...bg);
-    for (const a of actors) {
-      this.parts.push(`<g data-participant="${a.id}">`);
-      this.parts.push(`<line x1="${a.x}" y1="194" x2="${a.x}" y2="${bodyEnd - 6}" stroke="${a.color}" stroke-width="1.4" stroke-dasharray="4 6" opacity="0.65"/>`);
-      this.rect(a.x - 90, 124, 180, 70, a.fill, a.color, 9);
-      this.text(a.x, 153, a.name, 18, a.color, 700, 'middle', [a.x - 84, 130, 168, 36]);
-      this.text(a.x, 180, a.sub, 13, '#475569', 400, 'middle', [a.x - 84, 160, 168, 30]);
-      this.parts.push('</g>');
-    }
-    for (const a of actors) {
-      this.rect(a.x - 90, bodyEnd - 6, 180, 32, a.fill, a.color, 6);
-      this.text(a.x, bodyEnd + 16, a.name, 14.5, a.color, 700, 'middle', [a.x - 84, bodyEnd - 4, 168, 28]);
-    }
-    this.parts.push(...body);
-    this.regions.push(...bodyRegions);
-    this.y = bodyEnd + 38;
-    this.note(notes);
-    this.parts.push('</svg>');
-    const result = this.parts.join('\n') + '\n';
-    fs.writeFileSync(path.join(outputDir, this.filename), result, 'utf8');
-    return { filename: this.filename, height, regions: this.regions };
-  }
-}
+// 共通キットへ既存フック図の余白・ヘッダー微調整値を渡して出力互換を保つ。
+const { Sequence } = createDiagramKit({
+  outputDir,
+  actors,
+  markerEntries: actors,
+  generatorComment: '<!-- Generated by ../../scripts/generate-sequence-diagrams.js. -->',
+  descSuffix: ' 列順はユーザー、AI アプリ、AI モデル、フック、作業・検査ツール、通知先アプリ。上から下へ時間が進む。',
+  defsInline: false,
+  layout: {
+    titleY: 47,
+    subtitleY: 80,
+    subtitleBoundsY: 58,
+    footerBoxH: 32,
+    footerTextOffsetY: 16,
+    footerTextSize: 14.5,
+    footerBoundsH: 28,
+    sequenceLegend: {
+      y: 107,
+      size: 13,
+      boundsY: 88,
+      text: '全シーケンス図で列順と色を固定　上→下が時間　矢印の色＝送り手　実線＝依頼・通知　横破線＝結果・応答',
+    },
+  },
+  noteStyle: {
+    x: 34,
+    w: 1132,
+    padH: 18,
+    rx: 8,
+    textX: 48,
+    textOffsetY: 27,
+    boundsX: 42,
+    boundsOffsetY: 2,
+    boundsW: 1116,
+    boundsPadH: 14,
+    gapAfter: 24,
+    footerTopGap: 38,
+    footerBottomMargin: 24,
+  },
+});
 
 function beginRequest(s, request) {
   s.phase('① ユーザーがチャットで依頼する');
@@ -158,7 +85,7 @@ beginRequest(s, ['チャットで依頼', '「コードを直して」']);
 s.phase('② AI が作業し、ユーザーへの返答を作る');
 beginModelWork(s);
 runWork(s);
-s.phase('③ 返答終了のイベントで、フックから通知先アプリへ送る');
+s.phase('③ 返答終了のイベントで、フックから通知先アプリへ送る', true);
 s.message('host', 'hook', ['Claude: Stop', 'Copilot: agentStop']);
 s.action('hook', ['イベントを読む', '通知形式に変換']);
 s.message('hook', 'app', ['HTTP POST などで送信', 'state = turn_ended']);
@@ -184,7 +111,7 @@ s.message('host', 'model', ['許可された場合', '指示＋追加情報を�
 s.phase('分岐 B：Copilot の設定ファイルの command フックの場合');
 s.message('hook', 'host', ['処理を終了する', '返した本文は採用されない'], true);
 s.message('host', 'model', '元の指示を渡す');
-s.phase('③ ここからは A・B 共通：AI が処理し、ユーザーに返答する');
+s.phase('③ ここからは A・B 共通：AI が処理し、ユーザーに返答する', true);
 s.action('model', ['依頼を解釈する', '必要な内容を考える']);
 s.message('model', 'host', '返答内容を返す', true);
 s.message('host', 'user', '調査結果を表示する', true);
@@ -199,7 +126,7 @@ s = new Sequence('hook-tool-sequence.svg', '例3：ユーザーの依頼から�
 beginRequest(s, ['チャットで依頼', '「この箇所を直して」']);
 s.phase('② AI が依頼を読み、編集ツールの利用を提案する');
 beginModelWork(s);
-s.phase('③ ツールを実行する前に、フックで対象を検査する');
+s.phase('③ ツールを実行する前に、フックで対象を検査する', true);
 s.message('host', 'hook', ['Claude: PreToolUse', 'Copilot: preToolUse']);
 s.action('hook', ['禁止条件を検査']);
 s.message('hook', 'host', ['許可・拒否を返す', '禁止対象なら deny'], true);
@@ -227,7 +154,7 @@ beginRequest(s, ['チャットで依頼', '「この機能を作って」']);
 s.phase('② AI が作業し、その結果から返答を作る');
 beginModelWork(s);
 runWork(s);
-s.phase('③ このターンを終える節目で、検査フックを呼び出す');
+s.phase('③ このターンを終える節目で、検査フックを呼び出す', true);
 s.message('host', 'hook', ['Claude: Stop', 'Copilot: agentStop']);
 s.message('hook', 'tool', 'テストを実行');
 s.message('tool', 'hook', '合否と詳細を返す', true);
@@ -248,7 +175,6 @@ diagrams.push(s.finish([
 
 if (process.argv.includes('--qa')) {
   const qaPath = path.resolve(__dirname, '../../output/playwright/sequence-regions.json');
-  fs.mkdirSync(path.dirname(qaPath), { recursive: true });
-  fs.writeFileSync(qaPath, JSON.stringify({ actors, diagrams }, null, 2), 'utf8');
+  writeQaReport(qaPath, { actors, diagrams });
 }
 console.log(`Generated ${diagrams.length} sequence diagrams with the same ${actors.length} participants.`);

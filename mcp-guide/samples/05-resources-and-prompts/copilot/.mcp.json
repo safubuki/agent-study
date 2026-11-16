@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "full-feature-demo": {
+      "command": "node",
+      "args": ["../full-feature-mcp.js"]
+    }
+  }
+}

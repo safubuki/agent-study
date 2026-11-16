@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "company-glossary": {
+      "command": "node",
+      "args": ["../glossary-mcp.js"]
+    }
+  }
+}

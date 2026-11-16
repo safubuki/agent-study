@@ -10,6 +10,7 @@
  *    - <img> タグの alt 属性抜け
  */
 const fs = require('fs');
+const path = require('path');
 
 function appendHookLog(entry) {
   const logFile = process.env.HOOK_LOG_FILE;
@@ -46,8 +47,13 @@ function main() {
     // GitHub Copilot では引数が JSON 文字列で届く場合がある
     try { toolInput = JSON.parse(toolInput); } catch { toolInput = {}; }
   }
-  const filePath = String(toolInput.file_path || toolInput.filePath || toolInput.path || '');
-  if (!filePath || !fs.existsSync(filePath)) process.exit(0);
+  const rawFilePath = String(toolInput.file_path || toolInput.filePath || toolInput.path || '').trim();
+  if (!rawFilePath) process.exit(0);
+  // 相対パスが渡された場合は、入力 JSON の cwd（未指定時は現在の作業ディレクトリ）基準で解決する
+  const filePath = path.isAbsolute(rawFilePath)
+    ? rawFilePath
+    : path.resolve(data.cwd || process.cwd(), rawFilePath);
+  if (!fs.existsSync(filePath) || !fs.statSync(filePath).isFile()) process.exit(0);
 
   if (!/\.(html|css|js)$/i.test(filePath)) process.exit(0);
 

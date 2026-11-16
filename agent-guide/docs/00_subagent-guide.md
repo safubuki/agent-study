@@ -33,19 +33,7 @@
 | **結果だけを返す** | 途中で読んだ大量のファイルや試行錯誤はサブエージェントの中に閉じ、メインには最終報告だけが戻ります。 |
 | **並列で動ける** | 複数のサブエージェントを同時に走らせられます。 |
 
-```mermaid
-flowchart TB
-    U(["ユーザー"]) <-->|"会話"| M["メインエージェント<br/>全体の計画・判断・統合"]
-    M -->|"依頼文を渡す"| S1["サブエージェント A<br/>独立したコンテキスト"]
-    M -->|"依頼文を渡す"| S2["サブエージェント B<br/>独立したコンテキスト"]
-    M -->|"依頼文を渡す"| S3["サブエージェント C<br/>独立したコンテキスト"]
-    S1 -->|"最終報告のみ"| M
-    S2 -->|"最終報告のみ"| M
-    S3 -->|"最終報告のみ"| M
-    S1 -.->|"読む・書く"| FS[("ファイル / ツール")]
-    S2 -.-> FS
-    S3 -.-> FS
-```
+![メインエージェントとサブエージェントの基本構造](assets/subagent-00-01-basic-structure.svg)
 
 ### なぜわざわざ分けるのか
 
@@ -71,17 +59,7 @@ flowchart TB
 - 自動判断は「よくある場面」向けのデフォルトです。特定の役割・モデル・権限で動かしたい場合は、次章のカスタマイズが必要です。
 - ユーザーが「サブエージェントを使って」「並列で調べて」と明示すると、それに従います。
 
-```mermaid
-flowchart TB
-    T["タスクが来た"] --> Q{"小さい？<br/>すぐ終わる？"}
-    Q -->|"はい"| Self["メインが自分で処理"]
-    Q -->|"いいえ"| Q2{"大量の読み込みや<br/>独立した作業がある？"}
-    Q2 -->|"いいえ"| Self
-    Q2 -->|"はい"| Sub["サブエージェントに委任"]
-    Sub --> Q3{"合致するカスタム<br/>エージェントがある？"}
-    Q3 -->|"はい"| Custom["カスタムエージェントを使う"]
-    Q3 -->|"いいえ"| Builtin["組み込みエージェントを使う"]
-```
+![サブエージェントが自動で使われるまでの判断の流れ](assets/subagent-00-02-auto-delegation-flow.svg)
 
 ---
 
@@ -128,19 +106,7 @@ flowchart TB
 
 ### 3.4 「指定したタスクだけやらせる」の現実的な強さ
 
-```mermaid
-flowchart TB
-    subgraph strong["強い制約（仕組みで縛る）"]
-        A["tools で道具を絞る<br/>例：Write を与えなければ書けない"]
-        B["権限設定で特定コマンドを禁止"]
-    end
-    subgraph weak["弱い制約（お願いベース）"]
-        C["本文に『〇〇だけやれ』と書く<br/>AI は概ね従うが完璧ではない"]
-    end
-    A --> R["確実性が高い"]
-    B --> R
-    C --> R2["柔軟だが確実性は中程度"]
-```
+![「指定したタスクだけやらせる」制約の強さと確実性](assets/subagent-00-03-constraint-strength.svg)
 
 - **「やってはいけないこと」は道具を取り上げるのが一番確実**です。読み取り専用にしたいなら `tools: Read, Grep, Glob` のように書き込み系を外します。
 - 本文の指示は強力ですが、あくまで「指示」です。重要な禁止事項は `tools` と併用しましょう。
@@ -176,13 +142,7 @@ flowchart TB
 
 ※ `model` 欄に指定できる値は公式ドキュメントによります。②〜⑤は筆者の整理で、Claude Code が公式に保証している使い方ではありません。難易度の★も筆者の主観です。
 
-```mermaid
-flowchart LR
-    M["メインエージェント<br/>Claude"] --> S1["サブ：Claude Haiku<br/>① モデル使い分け"]
-    M --> S2["サブ：Claude Sonnet"]
-    S2 -->|"② Bash で CLI 実行"| G["他社 AI の CLI"]
-    S2 -->|"③ MCP ツール呼び出し"| X["他社 AI の MCP サーバー"]
-```
+![Claude Code から別の AI（他社モデル）を使うルート](assets/subagent-00-04-external-ai-routes.svg)
 
 > **おすすめ**：比較実験（このワークスペース名 *agent-compare* にぴったり）をするなら、まず①で Claude のモデル間を比較し、次に②か③で「同じお題を他社 AI にも解かせて、Claude に比較させる」構成が手軽です。
 
@@ -234,19 +194,7 @@ flowchart LR
 
 ### 5.3 体数の決め方
 
-```mermaid
-flowchart TB
-    S["タスク"] --> A{"部品同士は<br/>独立している？"}
-    A -->|"いいえ（順番に依存）"| One["1体 or 直列で実行<br/>並列化しても待つだけ"]
-    A -->|"はい"| B{"独立した部品は<br/>いくつ？"}
-    B -->|"2〜5個"| P1["部品の数だけ並列"]
-    B -->|"6個以上"| C["似た部品をまとめて<br/>3〜5グループにする"]
-    C --> P1
-    P1 --> D{"同じファイルを<br/>触る？"}
-    D -->|"はい"| W["担当ファイルを分ける<br/>or worktree で隔離"]
-    D -->|"いいえ"| Go["実行"]
-    W --> Go
-```
+![並列にする体数の決め方（判断フロー）](assets/subagent-00-05-parallel-count-decision.svg)
 
 **判断の物差しは「独立した部品がいくつあるか」です。** 体数を先に決めるのではなく、タスクを分解してみて、本当に独立している塊の数を数える、が正しい順番です。
 
@@ -261,27 +209,7 @@ flowchart TB
 - **オーケストレーター（指揮者）** ＝ 親エージェント：設計・分担・統合を担当
 - **ワーカー（作業員）** ＝ サブエージェント：部品を1つずつ担当
 
-```mermaid
-flowchart TB
-    subgraph P1["① 設計（直列・親）"]
-        D["全体設計"] --> I["接続仕様・共通ルールを<br/>ファイルに書き出す"]
-    end
-    subgraph P2["② 製作（並列・子）"]
-        A["部品A"]
-        B["部品B"]
-        C["部品C"]
-    end
-    subgraph P3["③ 統合（直列・親）"]
-        J["結合"] --> V["検証"] --> O["成果物"]
-    end
-    I --> A
-    I --> B
-    I --> C
-    A --> J
-    B --> J
-    C --> J
-    V -.->|"不合格の部品だけ差し戻し"| P2
-```
+![部品を分担して作り、最後に組み立てるオーケストレーター・ワーカーパターン](assets/subagent-00-06-orchestrator-worker.svg)
 
 **設計と統合は直列、製作だけを並列**にするのがコツです。
 
@@ -427,85 +355,17 @@ markup-builder と script-builder も同じ形で、担当ファイルと注意�
 
 全体の流れを時系列で見るとこうなります。
 
-```mermaid
-sequenceDiagram
-    autonumber
-    actor U as ユーザー
-    participant P as page-director（親）
-    participant M as markup-builder
-    participant S as style-builder
-    participant J as script-builder
-    participant F as work フォルダ
-
-    U->>P: 自己紹介ページを作って
-    P->>F: spec.md を書く（構成・id/class 名・配色）
-    Note over P: 1回の返答で Agent を3回呼ぶ → 3体が同時に動く
-    par HTML担当
-        P->>M: Agent（markup-builder、依頼文）
-        M->>F: spec.md を読み parts/body.html を書く
-        M-->>P: 報告（作ったファイル・使った名前）
-    and CSS担当
-        P->>S: Agent（style-builder、依頼文）
-        S->>F: spec.md を読み parts/style.css を書く
-        S-->>P: 報告
-    and JS担当
-        P->>J: Agent（script-builder、依頼文）
-        J->>F: spec.md を読み parts/script.js を書く
-        J-->>P: 報告
-    end
-    P->>F: 3部品を読み、名前の食い違いを検品
-    opt 食い違いがあった場合
-        P->>S: 修正の依頼（該当の担当にだけ）
-        S-->>P: 修正の報告
-    end
-    P->>F: output/index.html に1ファイルへ統合
-    P-->>U: 完成報告
-```
+![親（page-director）と子3体の並列制作シーケンス図](assets/subagent-00-07-role-split-sequence.svg)
 
 ### 7.6 子の中で何が起きているか
 
 子から見ると、自分のファイルと親の依頼文が次のように組み合わさります。
 
-```mermaid
-flowchart LR
-    subgraph file["style-builder.md（ファイル）"]
-        FM["設定部分<br/>tools・model"]
-        BODY["本文<br/>役割・手順・禁止事項"]
-    end
-    REQ["親からの依頼文<br/>prompt"]
-    subgraph child["style-builder の実行"]
-        SYS["システムプロンプト<br/>＝本文"]
-        MSG["最初のメッセージ<br/>＝依頼文"]
-        WORK["作業<br/>使える道具は tools のものだけ"]
-        LAST["最後の返答"]
-    end
-    BODY --> SYS
-    REQ --> MSG
-    FM --> WORK
-    SYS --> WORK
-    MSG --> WORK
-    WORK --> LAST
-    LAST -->|"これだけが親に返る"| PARENT["page-director"]
-```
+![子エージェント（style-builder）の実行時に何が起きているか](assets/subagent-00-08-child-execution-anatomy.svg)
 
 ### 7.7 親を起動する方法は2通り
 
-```mermaid
-flowchart TB
-    subgraph B["方法B：いつもの会話から呼ぶ"]
-        UB["ユーザー"] --> MB["いつものメイン"]
-        MB --> PB["page-director<br/>＝サブエージェント"]
-        PB --> B1["markup-builder"]
-        PB --> B2["style-builder"]
-        PB --> B3["script-builder"]
-    end
-    subgraph A["方法A：親をメインとして起動（おすすめ）"]
-        UA["ユーザー"] --> PA["page-director<br/>＝メインそのもの"]
-        PA --> A1["markup-builder"]
-        PA --> A2["style-builder"]
-        PA --> A3["script-builder"]
-    end
-```
+![親（page-director）を起動する2通りの方法の比較](assets/subagent-00-09-launch-methods.svg)
 
 #### 方法A：ターミナルで親をメインとして起動する（おすすめ）
 
@@ -570,19 +430,7 @@ claude --agent page-director
 | バッティング | 同じファイルを触る程度 | ファイル＋**空間の干渉**＋**道具の取り合い** |
 | 検品のしかた | 名前の照合、表示の確認 | **数値の検査**（めり込みの体積、寸法、全体サイズ）＋画像での確認 |
 
-```mermaid
-flowchart LR
-    subgraph role["役割で分ける（7章）"]
-        P1["親"] --> R1["HTML 担当"]
-        P1 --> R2["CSS 担当"]
-        P1 --> R3["JS 担当"]
-    end
-    subgraph same["部品で分ける（この章）"]
-        P2["親"] --> W1["部品職人<br/>パーツ1"]
-        P2 --> W2["部品職人<br/>パーツ2"]
-        P2 --> W3["部品職人<br/>パーツ3"]
-    end
-```
+![役割で分ける（7章）と部品で分ける（8章）の構造の違い](assets/subagent-00-10-role-vs-part-split.svg)
 
 右側の3体は、**同じ定義ファイル（同じ人格）から生まれた別々の作業員**です。違うのは親から渡される依頼文（どのパーツを作るか）だけです。
 
@@ -635,23 +483,7 @@ model: sonnet
 
 おすすめの流れは、**子は「コードを書く → 自分で実行して形状ファイル（STEP など）を書き出す」まで、組み立てと CAD への読み込みは親だけ**、という分担です。
 
-```mermaid
-flowchart LR
-    subgraph par["並列（子）：各自の別プロセス"]
-        A1["パーツ1のコード"] --> B1["p1.step"]
-        A2["パーツ2のコード"] --> B2["p2.step"]
-        A3["パーツ3のコード"] --> B3["p3.step"]
-    end
-    subgraph ser["直列（親）：共有の道具はここだけ"]
-        ASM["組み立てスクリプト<br/>決められた座標に配置"]
-        CHK["数値検品<br/>干渉・寸法"]
-        CAD["CAD ツールで開く<br/>最終確認・書き出し"]
-        ASM --> CHK --> CAD
-    end
-    B1 --> ASM
-    B2 --> ASM
-    B3 --> ASM
-```
+![道具の奪い合いを避ける「並列（子）」と「直列（親）」の役割分担](assets/subagent-00-11-tool-contention-avoidance.svg)
 
 ### 8.6 約束事は「インターフェース表」にする
 
@@ -709,18 +541,7 @@ flowchart LR
 
 ②の階層化は、Claude Code の入れ子機能（既定でメインから3階層下まで）で実現できます（3.6）。
 
-```mermaid
-flowchart TB
-    TOP["親：cad-director<br/>全体設計・最終組み立て"]
-    TOP --> U1["中間の親：上側ユニット担当"]
-    TOP --> U2["中間の親：下側ユニット担当"]
-    U1 --> W1["部品職人 p1"]
-    U1 --> W2["部品職人 p2"]
-    U1 --> W3["部品職人 p3"]
-    U2 --> W4["部品職人 p4"]
-    U2 --> W5["部品職人 p5"]
-    U2 --> W6["部品職人 p6"]
-```
+![パーツが増えたときの3段階層化（サブアセンブリ単位の分担）](assets/subagent-00-12-hierarchical-subassembly.svg)
 
 中間の親は「自分のユニット内の合わせ面」だけを検品し、最上位の親は「ユニット同士の合わせ面」だけを検品します。こうすると、1体が抱える検品の量を一定に保てます。
 
@@ -730,26 +551,7 @@ flowchart TB
 
 親の仕事は、次の流れになります。
 
-```mermaid
-sequenceDiagram
-    autonumber
-    participant P as 親（cad-director）
-    participant W as 部品職人 ×N
-    participant F as work フォルダ
-    participant T as CAD ツール
-
-    P->>F: spec.md（座標系・占有範囲・合わせ面）を書く
-    P->>W: パーツ番号ごとに依頼（同時に最大5体程度）
-    W->>F: コードと STEP を書き出し、自分で寸法を照合
-    W-->>P: 報告（外形寸法・照合結果）
-    P->>F: 組み立てスクリプトで全パーツを配置
-    P->>F: 干渉・すき間・全体寸法を数値で検査
-    alt 問題あり
-        P->>W: 該当パーツの担当にだけ差し戻し
-        W-->>P: 修正の報告
-    end
-    P->>T: 組み立て済みの形状を読み込み、最終確認・書き出し
-```
+![CAD 部品の並列作成から数値検品・最終確認までのシーケンス図](assets/subagent-00-13-cad-assembly-sequence.svg)
 
 検品は、**目で見るより数値で行う**のが基本です。
 
@@ -764,20 +566,7 @@ AI は文章やコードに比べて、空間の位置関係を頭の中だけ�
 
 ### 8.9 並列にするかどうかの判断
 
-```mermaid
-flowchart TB
-    S["製品を作る"] --> Q1{"パーツ同士の合わせ面は<br/>少なく、寸法で決めきれる？"}
-    Q1 -->|"いいえ"| ONE["深く噛み合う部分は<br/>1体にまとめて作る"]
-    Q1 -->|"はい"| Q2{"使う道具は<br/>別プロセスで動く？"}
-    Q2 -->|"いいえ（共有の GUI など）"| SER["子はファイル作成まで<br/>道具は親が最後に1回"]
-    Q2 -->|"はい"| Q3{"パーツは何個？"}
-    SER --> Q3
-    Q3 -->|"〜5個"| PAR["全部を並列"]
-    Q3 -->|"6個以上"| WAVE["波に分ける<br/>or ユニットごとに階層化"]
-    PAR --> CHK["親が数値で検品"]
-    WAVE --> CHK
-    ONE --> CHK
-```
+![CAD・3D 部品製作を並列にするかどうかの判断フロー](assets/subagent-00-14-parallel-cad-decision.svg)
 
 ---
 

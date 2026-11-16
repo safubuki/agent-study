@@ -7,6 +7,7 @@
  *     ツールは実行済みなので取り消しではなく「直して」という指摘になる）
  */
 const fs = require('fs');
+const path = require('path');
 
 function main() {
   let raw = '';
@@ -29,8 +30,13 @@ function main() {
     // GitHub Copilot では引数が JSON 文字列で届く場合がある
     try { toolInput = JSON.parse(toolInput); } catch { toolInput = {}; }
   }
-  const filePath = String(toolInput.file_path || toolInput.filePath || toolInput.path || '');
-  if (!filePath || !fs.existsSync(filePath)) process.exit(0);
+  const rawFilePath = String(toolInput.file_path || toolInput.filePath || toolInput.path || '').trim();
+  if (!rawFilePath) process.exit(0);
+  // 相対パスが渡された場合は、入力 JSON の cwd（未指定時は現在の作業ディレクトリ）基準で解決する
+  const filePath = path.isAbsolute(rawFilePath)
+    ? rawFilePath
+    : path.resolve(data.cwd || process.cwd(), rawFilePath);
+  if (!fs.existsSync(filePath) || !fs.statSync(filePath).isFile()) process.exit(0);
 
   // 対象拡張子のみ処理
   if (!/\.(html|css|js|ts|json|md)$/i.test(filePath)) process.exit(0);

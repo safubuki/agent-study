@@ -32,11 +32,17 @@ function main() {
     process.exit(0);
   }
 
-  const eventName = data.hook_event_name || (data.sessionId ? 'agentStop' : 'Notification');
+  // Copilot（camelCase 形式）は terminalSequence を解釈しないため標準出力を出さずに終了する
+  const isCopilot =
+    data.hook_event_name === undefined &&
+    (data.sessionId !== undefined || data.hookEventName !== undefined);
+  const eventName = data.hook_event_name || data.hookEventName || (isCopilot ? 'agentStop' : 'Notification');
   const rawMsg =
     data.message ||
     data.title ||
-    (eventName === 'Notification' ? 'AI エージェントが確認・入力を待っています。' : 'AI エージェントが作業を終えました。');
+    (/^notification$/i.test(eventName)
+      ? 'AI エージェントが確認・入力を待っています。'
+      : 'AI エージェントが作業を終えました。');
   // 通知本文に制御文字が混ざると制御シーケンスが壊れるため取り除く
   const msg = String(rawMsg).replace(/[\u0000-\u001f\u007f]/g, ' ').slice(0, 200);
 
@@ -47,6 +53,10 @@ function main() {
     fs.appendFileSync(path.join(logDir, 'notifications.log'), `${new Date().toISOString()} [${eventName}] ${msg}\n`, 'utf8');
   } catch {
     // ログが書けなくても通知は続ける
+  }
+
+  if (isCopilot) {
+    process.exit(0);
   }
 
   // Claude Code に「ベル音＋デスクトップ通知」を代わりに出してもらう

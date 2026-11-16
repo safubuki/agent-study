@@ -59,7 +59,7 @@ cd C:\git_home\agent-study\hook-guide
 node scripts/test-hooks-locally.js
 ```
 
-実行すると、次の19ケースの模擬データが各フックに流し込まれ、結果が一覧表示されます。
+実行すると、次の35ケースの模擬データが各フックに流し込まれ、結果が一覧表示されます。
 
 1. `.env` を編集しようとしたとき → `PreToolUse` が **終了コード `2` で強制ブロック**するか
 2. `rm -rf` を実行しようとしたとき → `PreToolUse` が **終了コード `2` で強制ブロック**するか
@@ -80,6 +80,22 @@ node scripts/test-hooks-locally.js
 17. Copilot 形式（`stopHookActive: true`）の `Stop` → **無限ループ防止で通過させる**か
 18. 安全な HTML の `MultiEdit` → **誤ブロックせず終了コード `0` で通過**するか
 19. `-Recurse` なしの単発 `Remove-Item` → **誤ブロックせず終了コード `0` で通過**するか
+20. 相対パス＋`data.cwd` で違反あり HTML を `PostToolUse`（`post-check.js`）に渡したとき → **相対パスを解決し、自動整形後に指摘 JSON を返す**か
+21. Copilot 形式の相対パス＋`data.cwd` を `post-check.js` に渡したとき → **`additionalContext` で指摘を返す**か
+22. `data.cwd` 未指定で相対パスを `post-check.js` に渡したとき → **プロセスの作業ディレクトリ基準フォールバックで解決できる**か
+23. `samples/01`（`block-dangerous.js`）に危険コマンド（`git reset --hard`）を渡したとき → **終了コード `2` でブロック**するか
+24. `samples/01`（`block-dangerous.js`）に `package-lock.json` 編集（Copilot 形式）を渡したとき → **終了コード `2` でブロック**するか
+25. `samples/01`（`block-dangerous.js`）にひな形ファイル（`.env.example`）を渡したとき → **終了コード `0` で許可**するか
+26. `samples/02`（`post-format-check.js`）に相対パス＋`data.cwd` の違反あり HTML を渡したとき → **自動整形後に `decision: "block"` を返す**か
+27. `samples/02`（`post-format-check.js`）に Copilot 形式の相対パス＋`data.cwd` を渡したとき → **`additionalContext` を返す**か
+28. `samples/02`（`post-format-check.js`）に正常な `.md` ファイルを渡したとき → **自動整形のみ行い出力なしで通過**するか
+29. `samples/03`（`verify-completion.js`）に `cwd` 配下の基準未達 `index.html` を渡したとき → **`decision: "block"` で差し戻す**か
+30. `samples/03`（`verify-completion.js`）に Copilot 形式（`stopHookActive: true`）を渡したとき → **無限ループ防止で通過**するか
+31. `samples/03`（`verify-completion.js`）に基準を満たす `index.html` を渡したとき → **出力なしで合格通過**するか
+32. `samples/05`（`audit-log.js`）に Claude Code 形式のツール実行を渡したとき → **`logs/audit.jsonl` に記録**できるか
+33. `samples/05`（`audit-log.js`）に Copilot 形式（`sessionId` / `hookEventName` / `toolArgs.script`）を渡したとき → **`logs/audit.jsonl` に正しく記録**できるか
+34. `samples/05`（`notify-done.js`）に Claude Code 形式のイベントを渡したとき → **`terminalSequence` JSON を出力し `logs/notifications.log` に記録**するか
+35. `samples/05`（`notify-done.js`）に Copilot 形式（`sessionId` あり・`hook_event_name` なし）を渡したとき → **`terminalSequence` を出さずログ記録のみで終了**するか
 
 ---
 

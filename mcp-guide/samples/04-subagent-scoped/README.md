@@ -11,7 +11,7 @@ flowchart LR
     C -->|"tools/call"| S["cafe-catalog-mcp.js"]
 ```
 
-- `catalog-specialist` は、**カフェのメニュー検索・アレルゲン照合・セット価格計算の MCP ツールだけ**を持ち、ファイルを書き換える権限（`Write` / `Edit`）もコマンド実行権限（`Bash`）も持ちません。
+- `catalog-specialist` は、**カフェのメニュー検索・アレルゲン照合・セット価格計算の MCP ツールだけ**を持ちます。生ファイルを読む権限（`Read` / `read`）も、書き換える権限（`Write` / `Edit` / `edit`）やコマンド実行権限（`Bash` / `execute`）も外してあるため、技術的にも `data/menu-catalog.json` を直接読めない隔離構成になっています。
 - メインエージェントは、細かいカタログ検索や価格計算をすべてこのサブエージェントに任せ、返ってきた確定数値だけを使って Web ページや企画書を仕上げます。
 
 ## 2つの形式の違い
@@ -19,8 +19,8 @@ flowchart LR
 | 項目 | Claude Code（`claude-code/`） | GitHub Copilot（`copilot/`） |
 |---|---|---|
 | エージェント定義 | [.claude/agents/catalog-specialist.md](claude-code/.claude/agents/catalog-specialist.md) | [.github/agents/catalog-specialist.agent.md](copilot/.github/agents/catalog-specialist.agent.md) |
-| MCP 設定 | **`.mcp.json` は置かない**（エージェント定義の中にインラインで書く） | [.vscode/mcp.json](copilot/.vscode/mcp.json) |
-| MCP の割り当て方 | `mcpServers:` にサーバー定義をインラインで書く ＋ `tools:` に `mcp__cafe-catalog__...` | `tools: ['read', 'cafe-catalog/*']` |
+| MCP 設定 | **`.mcp.json` は置かない**（エージェント定義の中にインラインで書く） | [.mcp.json](copilot/.mcp.json)（Copilot ハーネス用・推奨）／ [.vscode/mcp.json](copilot/.vscode/mcp.json)（旧 Local 用） |
+| MCP の割り当て方 | `mcpServers:` にサーバー定義をインラインで書く ＋ `tools:` に `mcp__cafe-catalog__...` のみ（`Read` を外す） | `tools: ['cafe-catalog/*']`（`read` を外す） |
 | 親エージェントから見えるか | **見えない**（サブエージェントの起動中だけ接続される） | 見える（メイン側のツール選択で外す） |
 
 ## なぜ Claude Code 版は `.mcp.json` を置かないのか

@@ -17,10 +17,11 @@ const os = require('os');
 
 const rootDir = path.resolve(__dirname, '..');
 
-function runHook(scriptRelPath, stdinObj, envOverrides = {}) {
+function runHook(scriptRelPath, stdinObj, options = {}) {
   const scriptPath = path.join(rootDir, scriptRelPath);
+  const { cwd = rootDir, env: envOverrides = {} } = options;
   const res = spawnSync(process.execPath, [scriptPath], {
-    cwd: rootDir,
+    cwd,
     input: JSON.stringify(stdinObj),
     encoding: 'utf8',
     env: { ...process.env, HOOK_EXPERIMENT_MODE: 'stop-gate', ...envOverrides }
@@ -42,41 +43,68 @@ function runHook(scriptRelPath, stdinObj, envOverrides = {}) {
 }
 
 function main() {
+  const hadGuideLogs = fs.existsSync(path.join(rootDir, 'logs'));
   const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'hook-guide-test-'));
   const badHtmlPath = path.join(tmpDir, 'bad.html');
   const badHtmlCopilotPath = path.join(tmpDir, 'bad-copilot.html');
   const goodHtmlPath = path.join(tmpDir, 'good.html');
 
+  const relSubDir = path.join(tmpDir, 'sub');
+  const relBadHtmlPath = path.join(relSubDir, 'rel-bad.html');
+  const relBadCopilotHtmlPath = path.join(relSubDir, 'rel-bad-copilot.html');
+  const relFallbackHtmlPath = path.join(relSubDir, 'rel-fallback.html');
+  const relFormatBadHtmlPath = path.join(relSubDir, 'format-bad.html');
+  const relFormatCopilotHtmlPath = path.join(relSubDir, 'format-copilot.html');
+  const relMarkdownPath = path.join(relSubDir, 'note.md');
+
+  const verifyBadDir = path.join(tmpDir, 'verify-bad');
+  const verifyGoodDir = path.join(tmpDir, 'verify-good');
+  const auditTmpDir = path.join(tmpDir, 'audit-logs');
+  const notifyTmpDir = path.join(tmpDir, 'notify-logs');
+
+  fs.mkdirSync(relSubDir, { recursive: true });
+  fs.mkdirSync(verifyBadDir, { recursive: true });
+  fs.mkdirSync(verifyGoodDir, { recursive: true });
+  fs.mkdirSync(auditTmpDir, { recursive: true });
+  fs.mkdirSync(notifyTmpDir, { recursive: true });
+
   // 違反のある HTML（インライン style あり、必須要素・viewport・CSS変数・aria-label なし、末尾空白あり）
   const badHtmlSample =
     '<!DOCTYPE html><html><body><h1 style="color:red">テスト</h1>   \n<img src="data:image/gif;base64,R0lGODlhAQABAAAAACw="></body></html>';
+  const badHtmlCrlfSample =
+    '<!DOCTYPE html><html><body><h1 style="color:red">テスト</h1>   \r\n<img src="data:image/gif;base64,R0lGODlhAQABAAAAACw="></body></html>  ';
   fs.writeFileSync(badHtmlPath, badHtmlSample, 'utf8');
   fs.writeFileSync(badHtmlCopilotPath, badHtmlSample, 'utf8');
+  fs.writeFileSync(relBadHtmlPath, badHtmlCrlfSample, 'utf8');
+  fs.writeFileSync(relBadCopilotHtmlPath, badHtmlSample, 'utf8');
+  fs.writeFileSync(relFallbackHtmlPath, badHtmlSample, 'utf8');
+  fs.writeFileSync(relFormatBadHtmlPath, badHtmlCrlfSample, 'utf8');
+  fs.writeFileSync(relFormatCopilotHtmlPath, badHtmlSample, 'utf8');
+  fs.writeFileSync(relMarkdownPath, '# Title   \r\n本文  ', 'utf8');
+  fs.writeFileSync(path.join(verifyBadDir, 'index.html'), '<html><body><p>未完成</p></body></html>', 'utf8');
 
   // 全基準を満たす HTML
-  fs.writeFileSync(
-    goodHtmlPath,
-    [
-      '<!DOCTYPE html>',
-      '<html lang="ja">',
-      '<head>',
-      '  <meta charset="UTF-8">',
-      '  <meta name="viewport" content="width=device-width, initial-scale=1.0">',
-      '  <style>:root { --primary: #2d5a27; } @media (max-width: 480px) { body { padding: 8px; } }</style>',
-      '</head>',
-      '<body>',
-      '  <header><button aria-label="テーマ切り替え">切替</button></header>',
-      '  <main><h1>山田 太郎</h1></main>',
-      '  <footer><p>&copy; 2026</p></footer>',
-      '</body>',
-      '</html>'
-    ].join('\n'),
-    'utf8'
-  );
+  const goodHtmlSample = [
+    '<!DOCTYPE html>',
+    '<html lang="ja">',
+    '<head>',
+    '  <meta charset="UTF-8">',
+    '  <meta name="viewport" content="width=device-width, initial-scale=1.0">',
+    '  <style>:root { --primary: #2d5a27; } @media (max-width: 480px) { body { padding: 8px; } }</style>',
+    '</head>',
+    '<body>',
+    '  <header><button aria-label="テーマ切り替え">切替</button></header>',
+    '  <main><h1>山田 太郎</h1></main>',
+    '  <footer><p>&copy; 2026</p></footer>',
+    '</body>',
+    '</html>'
+  ].join('\n');
+  fs.writeFileSync(goodHtmlPath, goodHtmlSample, 'utf8');
+  fs.writeFileSync(path.join(verifyGoodDir, 'index.html'), goodHtmlSample, 'utf8');
 
   const tests = [
     {
-      name: '① PreToolUse: .env ファイルの編集を強制ブロックできるか',
+      name: '01. PreToolUse: .env ファイルの編集を強制ブロックできるか',
       script: 'hooks/guard-write.js',
       input: {
         tool_name: 'Write',
@@ -86,7 +114,7 @@ function main() {
       explain: (r) => `終了コード ${r.exitCode} / stderr: "${r.stderr.split('\n')[0]}"`
     },
     {
-      name: '② PreToolUse: 破壊的コマンド（rm -rf /）を強制ブロックできるか',
+      name: '02. PreToolUse: 破壊的コマンド（rm -rf /）を強制ブロックできるか',
       script: 'hooks/guard-write.js',
       input: {
         tool_name: 'Bash',
@@ -96,7 +124,7 @@ function main() {
       explain: (r) => `終了コード ${r.exitCode} / stderr: "${r.stderr.split('\n')[0]}"`
     },
     {
-      name: '③ PreToolUse: 外部 CDN（https://...）を含む HTML 保存を事前にブロックできるか',
+      name: '03. PreToolUse: 外部 CDN（https://...）を含む HTML 保存を事前にブロックできるか',
       script: 'hooks/guard-write.js',
       input: {
         tool_name: 'Write',
@@ -109,7 +137,7 @@ function main() {
       explain: (r) => `終了コード ${r.exitCode} / stderr: "${r.stderr.split('\n')[0]}"`
     },
     {
-      name: '④ PreToolUse: 規約を守った通常の HTML 保存は許可（exit 0）されるか',
+      name: '04. PreToolUse: 規約を守った通常の HTML 保存は許可（exit 0）されるか',
       script: 'hooks/guard-write.js',
       input: {
         tool_name: 'Write',
@@ -122,7 +150,7 @@ function main() {
       explain: (r) => `終了コード ${r.exitCode}（正常通過）`
     },
     {
-      name: '⑤ PostToolUse: 保存後にインライン style と alt 抜けを検知して即座に指摘できるか',
+      name: '05. PostToolUse: 保存後にインライン style と alt 抜けを検知して即座に指摘できるか',
       script: 'hooks/post-check.js',
       input: {
         tool_name: 'Write',
@@ -132,7 +160,7 @@ function main() {
       explain: (r) => `decision="${r.json && r.json.decision}" / 指摘: "${r.json && r.json.reason.split('\n')[1]}"`
     },
     {
-      name: '⑥ Stop（完了ゲート）: 必須要素が足りない HTML のまま完了しようとしたら差し戻すか',
+      name: '06. Stop（完了ゲート）: 必須要素が足りない HTML のまま完了しようとしたら差し戻すか',
       script: 'hooks/stop-verify.js',
       input: {
         hook_event_name: 'Stop',
@@ -143,7 +171,7 @@ function main() {
       explain: (r) => `decision="${r.json && r.json.decision}"（完了を阻止して修正を指示）`
     },
     {
-      name: '⑦ Stop（無限ループ防止）: stop_hook_active=true のときはブロックせず通過させるか',
+      name: '07. Stop（無限ループ防止）: stop_hook_active=true のときはブロックせず通過させるか',
       script: 'hooks/stop-verify.js',
       input: {
         hook_event_name: 'Stop',
@@ -154,7 +182,7 @@ function main() {
       explain: (r) => `終了コード ${r.exitCode} / 出力なし（無限ループ防止ガード作動）`
     },
     {
-      name: '⑧ Stop（完了ゲート）: 全基準を満たす HTML なら合格（exit 0・出力なし）になるか',
+      name: '08. Stop（完了ゲート）: 全基準を満たす HTML なら合格（exit 0・出力なし）になるか',
       script: 'hooks/stop-verify.js',
       input: {
         hook_event_name: 'Stop',
@@ -165,7 +193,7 @@ function main() {
       explain: (r) => `終了コード ${r.exitCode} / 全7項目の完了基準クリア！`
     },
     {
-      name: '⑨ Samples(04): UserPromptSubmit で秘密鍵（sk-...）の誤送信をブロックできるか',
+      name: '09. Samples(04): UserPromptSubmit で秘密鍵（sk-...）の誤送信をブロックできるか',
       script: 'samples/04-context-injection/hooks/inject-context.js',
       input: {
         prompt: 'APIキー sk-proj-1234567890abcdefghijklmnop を使って接続して'
@@ -174,7 +202,7 @@ function main() {
       explain: (r) => `終了コード ${r.exitCode} / stderr: "${r.stderr.split('\n')[0]}"`
     },
     {
-      name: '⑩ Samples(04): UserPromptSubmit で通常の指示に Git ブランチ文脈を自動注入できるか',
+      name: '10. Samples(04): UserPromptSubmit で通常の指示に Git ブランチ文脈を自動注入できるか',
       script: 'samples/04-context-injection/hooks/inject-context.js',
       input: {
         prompt: 'ヘッダーのデザインを整えて'
@@ -188,7 +216,7 @@ function main() {
         `additionalContext: "${r.json && r.json.hookSpecificOutput.additionalContext.split('\n')[0]}"`
     },
     {
-      name: '⑪ Copilot 形式: toolName / toolArgs（JSON 文字列）で届いた .env 作成も同じスクリプトでブロックできるか',
+      name: '11. Copilot 形式: toolName / toolArgs（JSON 文字列）で届いた .env 作成も同じスクリプトでブロックできるか',
       script: 'hooks/guard-write.js',
       input: {
         sessionId: 'local-test',
@@ -199,7 +227,7 @@ function main() {
       explain: (r) => `終了コード ${r.exitCode} / stderr: "${r.stderr.split('\n')[0]}"`
     },
     {
-      name: '⑫ PreToolUse (MultiEdit): edits 配列内の外部 CDN（https://...）も事前にブロックできるか',
+      name: '12. PreToolUse (MultiEdit): edits 配列内の外部 CDN（https://...）も事前にブロックできるか',
       script: 'hooks/guard-write.js',
       input: {
         tool_name: 'MultiEdit',
@@ -215,7 +243,7 @@ function main() {
       explain: (r) => `終了コード ${r.exitCode} / stderr: "${r.stderr.split('\n')[0]}"`
     },
     {
-      name: '⑬ PreToolUse (PowerShell): Remove-Item -Recurse -Force による再帰削除をブロックできるか',
+      name: '13. PreToolUse (PowerShell): Remove-Item -Recurse -Force による再帰削除をブロックできるか',
       script: 'hooks/guard-write.js',
       input: {
         tool_name: 'PowerShell',
@@ -225,7 +253,7 @@ function main() {
       explain: (r) => `終了コード ${r.exitCode} / stderr: "${r.stderr.split('\n')[0]}"`
     },
     {
-      name: '⑭ PreToolUse (保護設定): .claude/settings.local.json の書き換えをブロックできるか',
+      name: '14. PreToolUse (保護設定): .claude/settings.local.json の書き換えをブロックできるか',
       script: 'hooks/guard-write.js',
       input: {
         tool_name: 'Edit',
@@ -235,7 +263,7 @@ function main() {
       explain: (r) => `終了コード ${r.exitCode} / stderr: "${r.stderr.split('\n')[0]}"`
     },
     {
-      name: '⑮ PreToolUse (保護設定): .mcp.json の書き換えをブロックできるか',
+      name: '15. PreToolUse (保護設定): .mcp.json の書き換えをブロックできるか',
       script: 'hooks/guard-write.js',
       input: {
         tool_name: 'Write',
@@ -245,7 +273,7 @@ function main() {
       explain: (r) => `終了コード ${r.exitCode} / stderr: "${r.stderr.split('\n')[0]}"`
     },
     {
-      name: '⑯ PostToolUse (Copilot 形式): decision ではなく additionalContext で違反を指摘できるか',
+      name: '16. PostToolUse (Copilot 形式): decision ではなく additionalContext で違反を指摘できるか',
       script: 'hooks/post-check.js',
       input: {
         sessionId: 'local-test',
@@ -261,7 +289,7 @@ function main() {
       explain: (r) => `additionalContext="${r.json && r.json.additionalContext ? r.json.additionalContext.split('\n')[1] : ''}"`
     },
     {
-      name: '⑰ Stop (Copilot 形式): stopHookActive=true のときはブロックせず通過させるか',
+      name: '17. Stop (Copilot 形式): stopHookActive=true のときはブロックせず通過させるか',
       script: 'hooks/stop-verify.js',
       input: {
         sessionId: 'local-test',
@@ -273,7 +301,7 @@ function main() {
       explain: (r) => `終了コード ${r.exitCode} / 出力なし（Copilot 無限ループ防止ガード作動）`
     },
     {
-      name: '⑱ PreToolUse (MultiEdit 正常系): 外部 URL を含まない HTML の MultiEdit は許可されるか',
+      name: '18. PreToolUse (MultiEdit 正常系): 外部 URL を含まない HTML の MultiEdit は許可されるか',
       script: 'hooks/guard-write.js',
       input: {
         tool_name: 'MultiEdit',
@@ -289,7 +317,7 @@ function main() {
       explain: (r) => `終了コード ${r.exitCode}（正常通過）`
     },
     {
-      name: '⑲ PreToolUse (PowerShell 正常系): -Recurse なしの単一ファイル削除 Remove-Item は許可されるか',
+      name: '19. PreToolUse (PowerShell 正常系): -Recurse なしの単一ファイル削除 Remove-Item は許可されるか',
       script: 'hooks/guard-write.js',
       input: {
         tool_name: 'PowerShell',
@@ -297,6 +325,234 @@ function main() {
       },
       check: (r) => r.exitCode === 0,
       explain: (r) => `終了コード ${r.exitCode}（正常通過）`
+    },
+    {
+      name: '20. PostToolUse (相対パス + data.cwd): 相対パス解決と自動整形（LF・末尾空白除去）後に違反指摘できるか',
+      script: 'hooks/post-check.js',
+      input: {
+        cwd: tmpDir,
+        tool_name: 'Write',
+        tool_input: { file_path: 'sub/rel-bad.html' }
+      },
+      check: (r) => {
+        if (r.exitCode !== 0 || !r.json || r.json.decision !== 'block' || !r.json.reason.includes('style=')) {
+          return false;
+        }
+        const saved = fs.readFileSync(relBadHtmlPath, 'utf8');
+        return !saved.includes('\r\n') && !/[ \t]+\n/.test(saved) && saved.endsWith('\n');
+      },
+      explain: (r) => `decision="${r.json && r.json.decision}" / 相対パス解決・LF統一・末尾空白除去を確認`
+    },
+    {
+      name: '21. PostToolUse (Copilot 相対パス + data.cwd): additionalContext で相対パスの違反を指摘できるか',
+      script: 'hooks/post-check.js',
+      input: {
+        sessionId: 'local-test',
+        cwd: tmpDir,
+        toolName: 'edit',
+        toolArgs: JSON.stringify({ path: 'sub/rel-bad-copilot.html' })
+      },
+      check: (r) =>
+        r.exitCode === 0 &&
+        r.json &&
+        r.json.decision === undefined &&
+        typeof r.json.additionalContext === 'string' &&
+        r.json.additionalContext.includes('style='),
+      explain: (r) => `additionalContext で相対パス対象の違反指摘を確認`
+    },
+    {
+      name: '22. PostToolUse (data.cwd 未指定フォールバック): プロセス cwd 基準で相対パス解決できるか',
+      script: 'hooks/post-check.js',
+      options: { cwd: tmpDir },
+      input: {
+        tool_name: 'Write',
+        tool_input: { file_path: 'sub/rel-fallback.html' }
+      },
+      check: (r) => r.exitCode === 0 && r.json && r.json.decision === 'block' && r.json.reason.includes('style='),
+      explain: (r) => `decision="${r.json && r.json.decision}"（data.cwd なしフォールバック動作）`
+    },
+    {
+      name: '23. Samples(01): block-dangerous.js が危険コマンド（git reset --hard）をブロックできるか',
+      script: 'samples/01-block-dangerous-cmd/hooks/block-dangerous.js',
+      input: {
+        tool_name: 'Bash',
+        tool_input: { command: 'git reset --hard HEAD' }
+      },
+      check: (r) => r.exitCode === 2 && r.stderr.includes('git reset --hard'),
+      explain: (r) => `終了コード ${r.exitCode} / stderr: "${r.stderr.split('\n')[0]}"`
+    },
+    {
+      name: '24. Samples(01): block-dangerous.js がロックファイル（package-lock.json）の編集をブロックできるか',
+      script: 'samples/01-block-dangerous-cmd/hooks/block-dangerous.js',
+      input: {
+        sessionId: 'local-test',
+        toolName: 'edit',
+        toolArgs: JSON.stringify({ path: 'package-lock.json' })
+      },
+      check: (r) => r.exitCode === 2 && r.stderr.includes('ロックファイル'),
+      explain: (r) => `終了コード ${r.exitCode} / stderr: "${r.stderr.split('\n')[0]}"`
+    },
+    {
+      name: '25. Samples(01): block-dangerous.js がひな形ファイル（.env.example）の編集を許可（exit 0）するか',
+      script: 'samples/01-block-dangerous-cmd/hooks/block-dangerous.js',
+      input: {
+        tool_name: 'Write',
+        tool_input: { file_path: '.env.example', content: 'API_KEY=' }
+      },
+      check: (r) => r.exitCode === 0 && !r.stderr,
+      explain: (r) => `終了コード ${r.exitCode}（ひな形ファイルは許可）`
+    },
+    {
+      name: '26. Samples(02): post-format-check.js が相対パス + data.cwd で自動整形と HTML 検査ができるか',
+      script: 'samples/02-auto-format-lint/hooks/post-format-check.js',
+      input: {
+        cwd: tmpDir,
+        tool_name: 'Write',
+        tool_input: { file_path: 'sub/format-bad.html' }
+      },
+      check: (r) => {
+        if (r.exitCode !== 0 || !r.json || r.json.decision !== 'block' || !r.json.reason.includes('style=')) {
+          return false;
+        }
+        const saved = fs.readFileSync(relFormatBadHtmlPath, 'utf8');
+        return !saved.includes('\r\n') && !/[ \t]+\n/.test(saved) && saved.endsWith('\n');
+      },
+      explain: (r) => `decision="${r.json && r.json.decision}" / 相対パス解決＋自動整形を確認`
+    },
+    {
+      name: '27. Samples(02): post-format-check.js が Copilot 相対パス + data.cwd で additionalContext を返すか',
+      script: 'samples/02-auto-format-lint/hooks/post-format-check.js',
+      input: {
+        sessionId: 'local-test',
+        cwd: tmpDir,
+        toolName: 'create',
+        toolArgs: JSON.stringify({ path: 'sub/format-copilot.html' })
+      },
+      check: (r) =>
+        r.exitCode === 0 &&
+        r.json &&
+        r.json.decision === undefined &&
+        typeof r.json.additionalContext === 'string' &&
+        r.json.additionalContext.includes('style='),
+      explain: (r) => `additionalContext で Copilot 形式の指摘を確認`
+    },
+    {
+      name: '28. Samples(02): post-format-check.js が正常な .md を自動整形のみ行い出力なしで通過させるか',
+      script: 'samples/02-auto-format-lint/hooks/post-format-check.js',
+      input: {
+        cwd: tmpDir,
+        tool_name: 'Write',
+        tool_input: { file_path: 'sub/note.md' }
+      },
+      check: (r) => r.exitCode === 0 && r.stdout === '' && fs.readFileSync(relMarkdownPath, 'utf8') === '# Title\n本文\n',
+      explain: (r) => `終了コード ${r.exitCode} / 出力なし（LF・末尾空白・最終改行を自動整形）`
+    },
+    {
+      name: '29. Samples(03): verify-completion.js が cwd 配下の基準未達 index.html を差し戻すか',
+      script: 'samples/03-stop-until-pass/hooks/verify-completion.js',
+      input: {
+        hook_event_name: 'Stop',
+        stop_hook_active: false,
+        cwd: verifyBadDir
+      },
+      check: (r) => r.exitCode === 0 && r.json && r.json.decision === 'block' && r.json.reason.includes('<html lang="ja">'),
+      explain: (r) => `decision="${r.json && r.json.decision}"（要件不足を検知して差し戻し）`
+    },
+    {
+      name: '30. Samples(03): verify-completion.js が Copilot 形式（stopHookActive=true）で無限ループを防止するか',
+      script: 'samples/03-stop-until-pass/hooks/verify-completion.js',
+      input: {
+        sessionId: 'local-test',
+        hookEventName: 'agentStop',
+        stopHookActive: true,
+        cwd: verifyBadDir
+      },
+      check: (r) => r.exitCode === 0 && !r.json && r.stdout === '',
+      explain: (r) => `終了コード ${r.exitCode} / 出力なし（Copilot 無限ループ防止ガード作動）`
+    },
+    {
+      name: '31. Samples(03): verify-completion.js が基準を満たす index.html を合格通過させるか',
+      script: 'samples/03-stop-until-pass/hooks/verify-completion.js',
+      input: {
+        hook_event_name: 'Stop',
+        stop_hook_active: false,
+        cwd: verifyGoodDir
+      },
+      check: (r) => r.exitCode === 0 && !r.json && r.stdout === '',
+      explain: (r) => `終了コード ${r.exitCode} / 全要件クリアで合格通過`
+    },
+    {
+      name: '32. Samples(05): audit-log.js が Claude Code 形式のツール実行を logs/audit.jsonl に記録できるか',
+      script: 'samples/05-audit-and-notify/hooks/audit-log.js',
+      input: {
+        session_id: 'cc-sess-01',
+        hook_event_name: 'PostToolUse',
+        tool_name: 'Write',
+        tool_input: { file_path: 'output/index.html' },
+        cwd: auditTmpDir
+      },
+      check: (r) => {
+        if (r.exitCode !== 0) return false;
+        const logPath = path.join(auditTmpDir, 'logs', 'audit.jsonl');
+        if (!fs.existsSync(logPath)) return false;
+        const lines = fs.readFileSync(logPath, 'utf8').trim().split('\n').map((l) => JSON.parse(l));
+        const last = lines[lines.length - 1];
+        return last.session_id === 'cc-sess-01' && last.event === 'PostToolUse' && last.tool === 'Write' && last.target === 'output/index.html';
+      },
+      explain: (r) => `終了コード ${r.exitCode} / 一時 logs/audit.jsonl に Claude Code 形式を記録`
+    },
+    {
+      name: '33. Samples(05): audit-log.js が Copilot 形式（sessionId / hookEventName / toolArgs.script）を記録できるか',
+      script: 'samples/05-audit-and-notify/hooks/audit-log.js',
+      input: {
+        sessionId: 'cp-sess-02',
+        hookEventName: 'postToolUse',
+        toolName: 'powershell',
+        toolArgs: JSON.stringify({ script: 'Get-ChildItem -Name' }),
+        cwd: auditTmpDir
+      },
+      check: (r) => {
+        if (r.exitCode !== 0) return false;
+        const logPath = path.join(auditTmpDir, 'logs', 'audit.jsonl');
+        if (!fs.existsSync(logPath)) return false;
+        const lines = fs.readFileSync(logPath, 'utf8').trim().split('\n').map((l) => JSON.parse(l));
+        const last = lines[lines.length - 1];
+        return last.session_id === 'cp-sess-02' && last.event === 'postToolUse' && last.tool === 'powershell' && last.target === 'Get-ChildItem -Name';
+      },
+      explain: (r) => `終了コード ${r.exitCode} / sessionId・hookEventName・script の記録を確認`
+    },
+    {
+      name: '34. Samples(05): notify-done.js が Claude Code 形式で terminalSequence JSON を出力しログ記録するか',
+      script: 'samples/05-audit-and-notify/hooks/notify-done.js',
+      input: {
+        session_id: 'cc-sess-01',
+        hook_event_name: 'Stop',
+        message: 'ビルドが完了しました',
+        cwd: notifyTmpDir
+      },
+      check: (r) => {
+        if (r.exitCode !== 0 || !r.json || typeof r.json.terminalSequence !== 'string') return false;
+        if (!r.json.terminalSequence.includes('ビルドが完了しました')) return false;
+        const logPath = path.join(notifyTmpDir, 'logs', 'notifications.log');
+        return fs.existsSync(logPath) && fs.readFileSync(logPath, 'utf8').includes('[Stop] ビルドが完了しました');
+      },
+      explain: (r) => `terminalSequence JSON 出力＋一時 logs/notifications.log 記録を確認`
+    },
+    {
+      name: '35. Samples(05): notify-done.js が Copilot 形式で terminalSequence を出さずログのみ記録するか',
+      script: 'samples/05-audit-and-notify/hooks/notify-done.js',
+      input: {
+        sessionId: 'cp-sess-02',
+        hookEventName: 'agentStop',
+        message: 'Copilot 完了',
+        cwd: notifyTmpDir
+      },
+      check: (r) => {
+        if (r.exitCode !== 0 || r.stdout !== '' || r.json !== null) return false;
+        const logPath = path.join(notifyTmpDir, 'logs', 'notifications.log');
+        return fs.existsSync(logPath) && fs.readFileSync(logPath, 'utf8').includes('[agentStop] Copilot 完了');
+      },
+      explain: (r) => `終了コード ${r.exitCode} / stdout 出力なし＋[agentStop] ログ記録のみを確認`
     }
   ];
 
@@ -305,24 +561,31 @@ function main() {
   console.log('======================================================================\n');
 
   let passed = 0;
-  for (const t of tests) {
-    const res = runHook(t.script, t.input);
-    const ok = t.check(res);
-    if (ok) passed++;
-    const mark = ok ? '[PASS]' : '[FAIL]';
-    console.log(`${mark} ${t.name}`);
-    console.log(`       → ${t.explain(res)}\n`);
+  let polluted = false;
+  try {
+    for (const t of tests) {
+      const res = runHook(t.script, t.input, t.options);
+      const ok = t.check(res);
+      if (ok) passed++;
+      const mark = ok ? '[PASS]' : '[FAIL]';
+      console.log(`${mark} ${t.name}`);
+      console.log(`       → ${t.explain(res)}\n`);
+    }
+    if (!hadGuideLogs && fs.existsSync(path.join(rootDir, 'logs'))) {
+      polluted = true;
+      console.log('[FAIL] リポジトリ内に一時ファイル（hook-guide/logs/）が残っています。\n');
+    }
+  } finally {
+    // 一時ファイルの掃除
+    fs.rmSync(tmpDir, { recursive: true, force: true });
   }
 
-  // 一時ファイルの掃除
-  fs.rmSync(tmpDir, { recursive: true, force: true });
-
   console.log('----------------------------------------------------------------------');
-  const summary = passed === tests.length ? 'すべて合格' : `${tests.length - passed} 件失敗`;
+  const summary = passed === tests.length && !polluted ? 'すべて合格' : `${tests.length - passed} 件失敗`;
   console.log(` 結果: ${passed} / ${tests.length} 件（${summary}）`);
   console.log('----------------------------------------------------------------------');
 
-  if (passed !== tests.length) {
+  if (passed !== tests.length || polluted) {
     process.exit(1);
   }
 }

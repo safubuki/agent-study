@@ -1,15 +1,36 @@
 # agent-guide — サブエージェントを「使う／使わない」で Web ページを作り比べる
 
-このフォルダ（`agent-study/agent-guide`）は、サブエージェント（AI に仕事を分担させる仕組み）を学ぶための作業場です。
-読み物は [docs/](docs/)、構成パターンの見本は [samples/](samples/README.md) にあります。
-親子エージェントの定番パターン5つと、AI の進化で古くなる部分の整理は [docs/02_agent-patterns.md](docs/02_agent-patterns.md)（調査メモは [info/](info/README.md)）にあります。
+このフォルダ（`agent-study/agent-guide`）は、サブエージェント（AI に仕事を分担させる仕組み）を基礎から実践・実験まで学ぶための作業場です。
 
-この README では、ルートに置いた**すぐ使えるエージェント**を使って、
+> [!TIP]
+> **まず実測結果を見たい方へ（自己紹介ページの比較実験ダイジェスト）**
+> 「1人（A）」と「分担（B）」と「分担＋スクリプト統合（C）」を Claude Code（Opus 5.5）で各1回ずつ実測したところ、**「C（分担＋スクリプト統合）」が最速・最安**で、B の遅さの原因（統合に 129 秒＝全体の 34%）を 1.1 秒へ短縮できました（詳しくは [output/report_01-profile.md](output/report_01-profile.md)）。
+>
+> | 方式 | 実測時間 | 出力トークン（合計） | API 換算コスト | 特徴（[report_01-profile.md](output/report_01-profile.md)） |
+> |---|---:|---:|---:|---|
+> | **A：solo**（1人・opus） | 321.5秒（5分21秒） | 36,654 | 1.15 USD | 設計書・部品は残らない |
+> | **B：agents**（分担・統合も AI） | 380.8秒（6分20秒） | 78,795 | 1.68 USD | 統合工程だけで **129秒** 消費 |
+> | **C：agents-merge**（分担＋スクリプト統合） | **258.2秒（4分18秒）** | 54,460（opus は 12,242） | **1.05 USD** | 統合が **1.1秒**（初回のみ作成費 0.43 USD・99.1秒） |
 
-- **自己紹介ページ**
-- **ちょっとオシャレで動きのあるホームページ**（架空のカフェ）
+## どこから読むか（読み物・見本マップ）
 
-を実際に作り、次の3通りで**出来栄え・時間・コストを比べる**手順を説明します。
+| 順番 | ファイル | 内容 |
+|---|---|---|
+| 1 | [docs/00_subagent-guide.md](docs/00_subagent-guide.md) | **サブエージェント入門（Claude Code 編）**：仕組み、自動起動の条件、カスタマイズ、他社 CLI 呼び出し、並列数の目安、親1＋子3の作り方 |
+| 2 | [docs/01_copilot-subagent-guide.md](docs/01_copilot-subagent-guide.md) | **GitHub Copilot 編**：VS Code（旧 Local／Copilot ハーネス）と CLI の違い、子ごとの他社モデル割当、料金ランクの落とし穴、`/fleet` |
+| 3 | [docs/02_agent-patterns.md](docs/02_agent-patterns.md) | **定番パターン5選**：調査係・オーケストレーター・作り手＋チェック・相談役・受付と、AI の進化で古くなる部分 |
+| 見本 | [samples/README.md](samples/README.md) | **定義ファイルの見本集（01〜05）**：単体・役割分担・ファンアウト・階層化・他社 CLI を Claude Code / Copilot 対比で収録 |
+| 実測 | [output/report_01-profile.md](output/report_01-profile.md) | **実験レポート**：自己紹介ページでの A/B/C 比較（スクリーンショット、工程別時間、モデル別トークン、損益分岐点） |
+| 出典 | [info/README.md](info/README.md) | **一次情報の出典メモ**：21件の論文・公式ブログ・公式ドキュメントの要点と鮮度ラベル |
+
+---
+
+この README の以降では、ルートに置いた**すぐ使えるエージェント**を使って、
+
+- **自己紹介ページ**（[prompts/01-profile.md](prompts/01-profile.md)）
+- **ちょっとオシャレで動きのあるホームページ**（架空のカフェ：[prompts/02-homepage.md](prompts/02-homepage.md)）
+
+を実際に作り、次の3通りで**出来栄え・時間・コストを比べる**実験手順を説明します。
 
 | 方式 | モード名 | やり方 |
 |---|---|---|
@@ -31,7 +52,7 @@ agent-guide/
 │   ├─ style-builder.md     … CSS 担当（sonnet）
 │   └─ script-builder.md    … JS 担当（haiku）
 ├─ .github/agents/          ← GitHub Copilot 用の同じ構成（*.agent.md）
-├─ prompts/                 ← お題（A・B で同じ文面を渡す）
+├─ prompts/                 ← お題（A・B・C で同じ文面を渡す）
 │   ├─ 01-profile.md        … 自己紹介ページ
 │   ├─ 02-homepage.md       … カフェのホームページ
 │   └─ tools/make-merge-script.md … 統合スクリプトを AI に作らせるお題（C の準備）
@@ -39,10 +60,11 @@ agent-guide/
 │   ├─ run-experiment.ps1   ← 実行して時間・ターン数・トークン・コストを記録するスクリプト
 │   └─ merge-parts.js       ← C で使う統合スクリプト（AI が作成。作成コストも計測済み）
 ├─ output/                  ← ★成果物の置き場（実行するたびにフォルダが増える）
+│   ├─ report_01-profile.md … 自己紹介ページ A/B/C 実測レポート
 │   └─ summary.md           … 全実行の一覧表（自動で1行ずつ追記）
-├─ docs/                    ← 読み物
-├─ info/                    ← docs/02 を書くために集めた出典メモ（1ファイル＝1出典、鮮度つき）
-└─ samples/                 ← 構成パターンの見本
+├─ docs/                    ← 読み物（00 / 01 / 02）＋ SVG ベクター図解（assets/）
+├─ info/                    ← docs/02 を書くために集めた出典メモ（21件、鮮度つき）
+└─ samples/                 ← 構成パターンの見本（01〜05）
 ```
 
 方式 B・C の親は作業中に `work/`（設計書 `spec.md`・部品 `parts/`）を使います。
@@ -73,7 +95,7 @@ output/20261106-101500_01-profile_agents/
 2. ターミナルで**このフォルダ（`agent-guide`）**に移動する（`.claude/agents/` を読み込ませるため）。
 
    ```powershell
-   cd C:\git_home\agent-study\agent-guide
+   cd agent-guide
    ```
 
 3. お題を自分用に書き換えたいときは、`prompts/01-profile.md` の名前や趣味を編集する。
@@ -131,7 +153,7 @@ powershell -ExecutionPolicy Bypass -File scripts\run-experiment.ps1 -Prompt prom
 
 ```text
 完了：312.4 秒（5 分 12 秒） / ターン 18 / 1.2345 USD / 完成品 ○
-記録：C:\git_home\agent-study\agent-guide\output\20261106-101500_01-profile_agents\report.md
+記録：<リポジトリ>\agent-guide\output\20261106-101500_01-profile_agents\report.md
 ```
 
 ### スクリプトが内部でやっていること
@@ -155,11 +177,13 @@ flowchart LR
 - 時間は2種類記録します。
   - **実測時間**：スクリプトが `claude` の起動から終了までをストップウォッチで測った値（いちばん信頼できる）
   - **duration_ms / duration_api_ms**：Claude Code 自身が報告する処理時間と、そのうち AI の応答待ちの時間
-- コスト（`total_cost_usd`）・ターン数・モデル別トークン数も、Claude Code の JSON 出力から取ります。B では子エージェント（sonnet / haiku）の分もモデル別に並ぶので、**どのモデルにどれだけ働かせたか**が分かります。
+- コスト（`total_cost_usd`）・ターン数・モデル別トークン数も、Claude Code の JSON 出力から取ります。B・C では子エージェント（sonnet / haiku）の分もモデル別に並ぶので、**どのモデルにどれだけ働かせたか**が分かります。
 
+> [!WARNING]
 > **料金について**：スクリプトは API を直接呼ばず、ふだん使っている `claude` コマンドを起動するだけです。サブスクリプション（Pro / Max など）でログインしていれば、その使用枠の中で動きます。`report.md` のコストは「API で払ったらいくらか」の**換算値（目安）**で、実際に請求される額ではありません。作業量の比較に使ってください。
 > ただし環境変数 `ANTHROPIC_API_KEY` が設定されていると API キーが使われ、API 料金がかかるので注意してください。
 
+> [!NOTE]
 > **AI に時間を測らせないのはなぜ？** AI は時計を持っておらず、ツールで時刻を取らない限り経過時間を正確には言えません。また方式 B の `page-director` はシェルを使う権限がないので、自分で時刻を取れません。そこで「外側（スクリプト）で測る」方式にしています。
 
 ---
@@ -174,15 +198,15 @@ flowchart LR
 
 | 実行名 | お題 | 方式 | 実測時間(秒) | ターン数 | 出力トークン | 換算コスト(USD) | 完成 |
 |---|---|---|---|---|---|---|---|
-| （例）…_01-profile_solo | 01-profile | solo | … | … | … | … | ○ |
-| （例）…_01-profile_agents | 01-profile | agents | … | … | … | … | ○ |
-| （例）…_01-profile_agents-merge | 01-profile | agents-merge | … | … | … | … | ○ |
+| （例）…_01-profile_solo | 01-profile | solo | 321.5 | 5 | 36654 | 1.1494 | ○ |
+| （例）…_01-profile_agents | 01-profile | agents | 380.8 | 3 | 78795 | 1.6797 | ○ |
+| （例）…_01-profile_agents-merge | 01-profile | agents-merge | 258.2 | 3 | 54460 | 1.0537 | ○ |
 
 見どころ：
 
-- **時間**：B は3体が並列に動く一方、設計書づくり・検品・統合の手間が増えます。どちらが速いかは、お題の大きさで変わります（[docs の 5章](docs/00_subagent-guide.md#5-何体並列にすると効率的か)）。
-- **コスト（API 換算）**：B は子に安いモデル（sonnet / haiku）を使うぶん安くなることもあれば、やり取りが増えて高くなることもあります。`report.md` のモデル別の表で内訳を確認します。
-- **ターン数**：B は差し戻し（検品で食い違いが見つかり、職人に修正を頼む）が起きると増えます。
+- **時間**：B は3体が並列に動く一方、設計書づくり・検品・統合の手間が増えます。どちらが速いかは、お題の大きさや統合の自動化（C）で変わります（[docs の 5章](docs/00_subagent-guide.md#5-何体並列にすると効率的か)）。
+- **コスト（API 換算）**：B・C は子に安いモデル（sonnet / haiku）を使うぶん安くなることもあれば、やり取りが増えて高くなることもあります。`report.md` のモデル別の表で内訳を確認します。
+- **ターン数**：B・C は差し戻し（検品で食い違いが見つかり、職人に修正を頼む）が起きると増えます。
 
 ### 4.2 出来栄えで比べる
 
@@ -195,16 +219,16 @@ flowchart LR
 | スマホ幅で崩れないか | F12 → デバイスツールバー（Ctrl+Shift+M）で幅 375px 前後にする |
 | コンソールエラーがないか | F12 → Console に赤いエラーが出ていないか |
 | 指示の守り具合 | セクションの数・順番・内容がお題どおりか |
-| コードの読みやすさ | B は `work/parts/` の部品と `work/spec.md` の設計書も見る |
+| コードの読みやすさ | B・C は `work/parts/` の部品と `work/spec.md` の設計書も見る |
 
-B 特有の確認ポイント：
+B・C 特有の確認ポイント：
 
 - `work/spec.md` に書かれた **id / class 名の約束**を、HTML・CSS・JS の3部品が守れているか（守れていないと、見た目が当たらない・ボタンが動かない、が起きる）
 - `report.md` の「AI の最終報告」に、差し戻しがあったかどうかが書かれているか
 
 ### 4.3 ばらつきに注意
 
-AI の出力は毎回変わります。**1回ずつの比較では偶然の差が大きい**ので、余裕があれば A・B を2〜3回ずつ実行して、`summary.md` の平均で比べてください。
+AI の出力は毎回変わります。**1回ずつの比較では偶然の差が大きい**ので、余裕があれば A・B・C を2〜3回ずつ実行して、`summary.md` の平均で比べてください。
 
 ---
 
@@ -218,6 +242,7 @@ AI の出力は毎回変わります。**1回ずつの比較では偶然の差�
 | B（分担） | `claude --agent page-director` で起動 → 同じ内容を貼り付ける。完成後、`work/` を `output/manual_01-profile_agents/` に移動する。時間はターミナルの開始・終了時刻から自分で記録する（page-director はシェルを使えないため） |
 | C（分担＋統合スクリプト） | `claude --agent page-director-merge` で起動 → 同じ内容を貼り付ける。統合のときに `node scripts/merge-parts.js …` の実行許可を求められるので許可する。あとは B と同じ |
 
+> [!NOTE]
 > メインの Claude に「page-director を使って」と頼む方法では動きません。サブエージェントはさらに子を呼べないため、page-director は `claude --agent page-director` で**親として**起動する必要があります（[docs の 7章](docs/00_subagent-guide.md#7-実践親エージェント1体サブエージェント3体を作る)）。
 
 ### GitHub Copilot（VS Code）で試す場合
@@ -228,6 +253,7 @@ AI の出力は毎回変わります。**1回ずつの比較では偶然の差�
 - B：エージェント選択で **page-director** を選び、同じお題を貼り付ける
 - Copilot には計測スクリプトがないので、開始・終了時刻を手で記録し、結果を `output/manual_<お題>_<方式>-copilot/` に置いてください
 - `model:` の値は使える環境に合わせて書き換えてください（[docs/01](docs/01_copilot-subagent-guide.md)）
+- ハーネス（推奨の Copilot ハーネス vs 旧 Local ハーネス）の違いは [Local と Copilot ハーネス](../copilot-fusion/01_harness-local-vs-copilot.md) も参照してください
 
 ---
 
@@ -235,7 +261,7 @@ AI の出力は毎回変わります。**1回ずつの比較では偶然の差�
 
 | 症状 | 対処 |
 |---|---|
-| `work\ フォルダが残っています` と止まる | 前回の B が途中で止まった跡です。中身を確認し、必要なら `output/` に移してから `work/` を消して再実行 |
+| `work\ フォルダが残っています` と止まる | 前回の B・C が途中で止まった跡です。中身を確認し、必要なら `output/` に移してから `work/` を消して再実行 |
 | 完成品が × になる | `report.md` の「AI の最終報告」と `result.json` を見る。保存場所を間違えている場合は、ルート付近に `index.html` ができていないか確認 |
 | 日本語が文字化けする | `report.md` を UTF-8 で開く（VS Code なら問題なし） |
 | スクリプトが実行できない | `powershell -ExecutionPolicy Bypass -File …` の形で実行する |

@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "cafe-catalog": {
+      "command": "node",
+      "args": ["../../../servers/cafe-catalog-mcp.js"]
+    }
+  }
+}

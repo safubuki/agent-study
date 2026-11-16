@@ -43,23 +43,7 @@
 
 Copilot には動かし方がいくつかあり、VS Code の中でも「どのエンジン（ハーネス）で動かすか」を選べます。まずここを押さえると、後の違いが分かりやすくなります。
 
-```mermaid
-flowchart TB
-    subgraph vscode["VS Code のチャット"]
-        L["Local ハーネス<br/>VS Code 自身のエージェント"]
-        C["Copilot ハーネス<br/>Copilot CLI と同じ中身"]
-        CL["Claude ハーネス"]
-        CX["Codex ハーネス"]
-    end
-    CLI["Copilot CLI<br/>ターミナルで copilot コマンド"]
-    CLOUD["Copilot クラウドエージェント<br/>GitHub 上で動く"]
-    C ---|"同じ実行エンジン"| CLI
-    FILES[(".github/agents/*.agent.md")]
-    FILES -.-> L
-    FILES -.-> C
-    FILES -.-> CLI
-    FILES -.-> CLOUD
-```
+![GitHub Copilot の実行先とハーネス（旧 Local・推奨 Copilot・CLI・クラウド）の関係図](assets/subagent-01-harnesses.svg)
 
 | 動かし方 | 中身 | この文書での呼び方 |
 |---|---|---|
@@ -136,12 +120,7 @@ Claude Code の子エージェントに指定できるのは Claude のモデル
 
 ### 4.2 子ごとに違う会社のモデルを使う例
 
-```mermaid
-flowchart LR
-    P["親：page-director<br/>Claude Opus 5.5"] --> M["子：markup-builder<br/>Claude Sonnet 5.5"]
-    P --> S["子：style-builder<br/>Gemini 4 Argon"]
-    P --> J["子：script-builder<br/>GPT-5.3-Codex"]
-```
+![親 page-director から異なる 3 社のモデル（Anthropic・Google・OpenAI）の子へ発注する構成図](assets/subagent-01-multi-model.svg)
 
 「設計と統合は強いモデル、部品作りは得意分野が合いそうなモデル」という分け方ができます。**どのモデルがどの作業に強いかは公式の保証ではないので、ここでのモデルの割り当ては筆者が例として選んだものです。** 実際に比べてみるのがこのワークスペースの目的にも合っています。
 
@@ -242,30 +221,7 @@ user-invocable: false
 
 流れは Claude Code と同じです。親の AI が `agent` ツールで「誰に」「何を」を指定して子を呼び、子は自分のファイルの本文をルールとして作業し、最後の報告だけを親に返します。子は親の会話を見られず、親が子に追加で話しかけることもできません。
 
-```mermaid
-sequenceDiagram
-    autonumber
-    actor U as ユーザー
-    participant P as page-director（親）
-    participant M as markup-builder
-    participant S as style-builder
-    participant J as script-builder
-    participant F as work フォルダ
-
-    U->>P: エージェント一覧で page-director を選んで依頼
-    P->>F: spec.md を書く
-    P->>M: agent ツールで呼ぶ（依頼文）
-    M->>F: parts/body.html を書く
-    M-->>P: 報告
-    P->>S: agent ツールで呼ぶ（依頼文）
-    S->>F: parts/style.css を書く
-    S-->>P: 報告
-    P->>J: agent ツールで呼ぶ（依頼文）
-    J->>F: parts/script.js を書く
-    J-->>P: 報告
-    P->>F: 検品して output/index.html に統合
-    P-->>U: 完成報告
-```
+![ユーザーから page-director、3 体の子エージェント、work フォルダへの処理と報告を追うシーケンス図](assets/subagent-01-sequence.svg)
 
 ※ VS Code 版で3体が同時に動くかどうかは公式ページに明記がないため、図では順番に呼ぶ形で描いています（7章）。
 

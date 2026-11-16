@@ -2,11 +2,24 @@
 
 このフォルダ（`agent-study/mcp-guide`）は、隣の [agent-guide](../agent-guide/) と同じ構成で、**MCP**（Model Context Protocol：AI に専用の道具やデータ窓口をつなぐ共通規格）を基礎から実践・設計パターンまで学ぶための作業場です。
 
-- **基礎からの読み物**：[docs/00_mcp-guide.md](docs/00_mcp-guide.md)（Claude Code 編）、[docs/01_copilot-mcp-guide.md](docs/01_copilot-mcp-guide.md)（GitHub Copilot / VS Code 編）
-- **定番パターン5選と CLI・スキルとの使い分け**：[docs/02_mcp-patterns.md](docs/02_mcp-patterns.md)（一次情報の出典メモ10件は [info/](info/README.md)）
-- **そのままコピーして使えるサンプル集**：[samples/](samples/README.md)（最小約60行のサーバーから、ファサード型、サブエージェント限定、Resources / Prompts 実装まで）
+> [!TIP]
+> **AI の契約や外部パッケージなし・0.1 秒で体験**
+> `mcp-guide` フォルダで `node scripts/test-mcp-server.js` を実行すると、Claude Code や VS Code を起動せずに JSON-RPC 2.0 通信（`initialize` → `tools/list` → `tools/call`）の中身をそのまま確認できます（[手順へ](#2-まずは1秒体験mcp-サーバーと直接会話してみるclaude-不要)）。
 
-そしてこの README では、ルートに置いた**架空カフェ「Kame Cafe」のメニュー・アレルギー・原価計算 MCP サーバー**（[servers/cafe-catalog-mcp.js](servers/cafe-catalog-mcp.js)）を使って、
+## どこから読むか（読み物・見本マップ）
+
+| 順番 | ファイル | 内容 |
+|---|---|---|
+| 1 | [docs/00_mcp-guide.md](docs/00_mcp-guide.md) | **MCP 入門（Claude Code 編）**：Web API との違い、ローカル／クラウドの3使い方、JSON-RPC 3ステップ、CLI・Skills との使い分け |
+| 2 | [docs/01_copilot-mcp-guide.md](docs/01_copilot-mcp-guide.md) | **GitHub Copilot / VS Code 編**：`.mcp.json` と `.vscode/mcp.json` の対比、サブエージェント単位のツール絞り込み、企業環境での注意点 |
+| 3 | [docs/02_mcp-patterns.md](docs/02_mcp-patterns.md) | **定番パターン5選**：知識・DB ゲートウェイ、外部 SaaS、業務ファサード、サブエージェント隔離、Tool Search / Code Mode と鮮度整理 |
+| 見本 | [samples/README.md](samples/README.md) | **設定＆サーバー実装サンプル集（01〜05）**：最小約60行のサーバーからファサード型・隔離型・Resources / Prompts 実装まで |
+| 移行 | [copilot-fusion/01_harness-local-vs-copilot.md](../copilot-fusion/01_harness-local-vs-copilot.md) | **Copilot ハーネス移行ガイド**：旧 Local から Copilot ハーネスへ切り替えたときに MCP が見えなくなる原因と環境変数への移行手順 |
+| 出典 | [info/README.md](info/README.md) | **一次情報の出典メモ**：公式仕様・論文・記事 10 件の要約と鮮度ラベル |
+
+---
+
+そしてこの README の以降では、ルートに置いた**架空カフェ「Kame Cafe」のメニュー・アレルギー・原価計算 MCP サーバー**（[servers/cafe-catalog-mcp.js](servers/cafe-catalog-mcp.js)）を使って、
 
 1. **Claude なしでも1秒で体験**：MCP の裏側で流れる JSON-RPC メッセージを自分の目で確かめる
 2. **方式 A（`no-mcp`）と方式 B（`with-mcp`）の比較実験**：同じお題の Web ページを作らせ、**数値（アレルギー判定・セット割引・税計算・原価率）の正確さ・時間・トークン消費**を比べる
@@ -25,8 +38,8 @@
 ```text
 mcp-guide/
 ├─ README.md                  ← この手順書
-├─ .mcp.json                  ← Claude Code 用の MCP 設定ファイル（方式 B で使用）
-├─ .vscode/mcp.json           ← VS Code（GitHub Copilot）用の MCP 設定ファイル
+├─ .mcp.json                  ← Claude Code・Copilot ハーネス用の MCP 設定（ルートキー：mcpServers）
+├─ .vscode/mcp.json           ← VS Code 旧 Local ハーネス用の MCP 設定（ルートキー：servers）
 ├─ servers/
 │   └─ cafe-catalog-mcp.js    ← ★実験用 MCP サーバー（Node.js 標準機能のみで動作・外部パッケージ不要）
 ├─ data/
@@ -51,7 +64,7 @@ mcp-guide/
 Claude Code や VS Code を起動する前に、「MCP サーバーって結局何をしているの？」を一番手っ取り早く理解する方法があります。Node.js だけで動くテストスクリプト [scripts/test-mcp-server.js](scripts/test-mcp-server.js) を実行してみてください。
 
 ```powershell
-cd C:\git_home\agent-study\mcp-guide
+cd mcp-guide
 node scripts\test-mcp-server.js
 ```
 
@@ -135,7 +148,8 @@ flowchart LR
 | コース2 | `FD-004` + `DR-007` | 1,520円 | 1,672円 | 625 kcal | 525円 | **34.5%** | **合格（○）** |
 | コース3 | `SW-004` + `DR-001` | 1,510円 | 1,661円 | 592 kcal | 505円 | **33.4%** | **合格（○）** |
 
-※ お題2のプロンプトには「コース3が超えるかも？」という引っ掛けが書いてありますが、実際に150円引き後の税抜価格に対して計算すると、実は**基準（35.0%）をわずかに超えるのはコース1**（35.6%）です。AI の思い込みではなく MCP ツールの計算結果を信じられるかが試されます。
+> [!IMPORTANT]
+> **お題2の引っ掛けポイント**：プロンプトには「コース3が超えるかも？」という誘導が書いてありますが、セット割引 150 円引き後の税抜価格に対して計算すると、実際に**基準（35.0%）を超えるのはコース1**（35.6%）です。AI の思い込みではなく MCP ツールの計算結果を信じられるかが試されます。
 
 ### 4.2 トークンとターン数の違い
 
@@ -149,3 +163,6 @@ flowchart LR
 
 - **Claude Code**（対話モード）：**この `mcp-guide` フォルダで** `claude` を起動します（`.mcp.json` は起動したフォルダのものが読まれ、`servers/...` の相対パスもこのフォルダが基準です）。初回は「このプロジェクトの MCP サーバーを使ってよいか」の確認が出るので承認してください。`/mcp` と打つと `cafe-catalog` が認識されていることを確認できます。そのまま「小麦・卵・乳（コンタミ含む）が入っていないメニューを MCP で調べて教えて」と話しかけてみてください。
 - **VS Code**（GitHub Copilot Agent Mode）：VS Code でこのフォルダを開くと、Copilot ハーネス（Session Target → Copilot）では `.mcp.json`、旧 Local ハーネスでは `.vscode/mcp.json` が認識されます（このフォルダには両方を置いています）。Copilot Chat を **Agent** モードにして同じように質問してみてください（詳しい手順は [docs/01_copilot-mcp-guide.md](docs/01_copilot-mcp-guide.md)、ハーネス移行の解説は [copilot-fusion/01_harness-local-vs-copilot.md](../copilot-fusion/01_harness-local-vs-copilot.md)）。
+
+> [!NOTE]
+> `samples/01`〜`05` の各 `copilot/` フォルダにも、Copilot ハーネス用の `.mcp.json` と旧 Local ハーネス用の `.vscode/mcp.json` の両方を用意しています（詳細は [samples/README.md](samples/README.md)）。

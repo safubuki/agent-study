@@ -1,7 +1,7 @@
 ---
 name: catalog-specialist
 description: カフェのメニュー検索、アレルゲン除外チェック、セット割引・原価率の計算を専門に行う調査サブエージェント。
-tools: ['read', 'cafe-catalog/*']
+tools: ['cafe-catalog/*']
 user-invocable: false
 ---
 

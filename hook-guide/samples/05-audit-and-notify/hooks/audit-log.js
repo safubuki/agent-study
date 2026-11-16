@@ -26,23 +26,35 @@ function main() {
   const logDir = path.join(cwd, 'logs');
   fs.mkdirSync(logDir, { recursive: true });
 
+  const isCopilot =
+    data.hook_event_name === undefined &&
+    (data.sessionId !== undefined ||
+      data.hookEventName !== undefined ||
+      data.toolName !== undefined ||
+      data.toolArgs !== undefined);
+
   const toolName = data.tool_name || data.toolName || 'unknown';
   let toolInput = data.tool_input || data.toolArgs || data.input || {};
   if (typeof toolInput === 'string') {
     // GitHub Copilot では引数が JSON 文字列で届く場合がある
     try { toolInput = JSON.parse(toolInput); } catch { toolInput = {}; }
   }
+  if (!toolInput || typeof toolInput !== 'object') {
+    toolInput = {};
+  }
   const target =
     toolInput.file_path ||
     toolInput.filePath ||
     toolInput.path ||
     toolInput.command ||
+    toolInput.script ||
+    toolInput.url ||
     '';
 
   const record = {
     timestamp: new Date().toISOString(),
-    session_id: data.session_id || 'local',
-    event: data.hook_event_name || 'PostToolUse',
+    session_id: data.session_id || data.sessionId || 'local',
+    event: data.hook_event_name || data.hookEventName || (isCopilot ? 'postToolUse' : 'PostToolUse'),
     tool: toolName,
     target: String(target).slice(0, 200)
   };

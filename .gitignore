@@ -3,3 +3,6 @@
 
 # merge-parts.js を作るときの動作確認用（make-merge-script.md の指示で作られる）
 /tmp-merge-test/
+
+# 図解生成スクリプトの --qa 実行時などに作られる Playwright 検証用の一時出力（各ガイド配下の output/ は対象外）
+/output/

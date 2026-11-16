@@ -44,14 +44,14 @@ function runHook(scriptRelPath, stdinObj, envOverrides = {}) {
 function main() {
   const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'hook-guide-test-'));
   const badHtmlPath = path.join(tmpDir, 'bad.html');
+  const badHtmlCopilotPath = path.join(tmpDir, 'bad-copilot.html');
   const goodHtmlPath = path.join(tmpDir, 'good.html');
 
   // 違反のある HTML（インライン style あり、必須要素・viewport・CSS変数・aria-label なし、末尾空白あり）
-  fs.writeFileSync(
-    badHtmlPath,
-    '<!DOCTYPE html><html><body><h1 style="color:red">テスト</h1>   \n<img src="data:image/gif;base64,R0lGODlhAQABAAAAACw="></body></html>',
-    'utf8'
-  );
+  const badHtmlSample =
+    '<!DOCTYPE html><html><body><h1 style="color:red">テスト</h1>   \n<img src="data:image/gif;base64,R0lGODlhAQABAAAAACw="></body></html>';
+  fs.writeFileSync(badHtmlPath, badHtmlSample, 'utf8');
+  fs.writeFileSync(badHtmlCopilotPath, badHtmlSample, 'utf8');
 
   // 全基準を満たす HTML
   fs.writeFileSync(
@@ -197,6 +197,106 @@ function main() {
       },
       check: (r) => r.exitCode === 2 && r.stderr.includes('.env'),
       explain: (r) => `終了コード ${r.exitCode} / stderr: "${r.stderr.split('\n')[0]}"`
+    },
+    {
+      name: '⑫ PreToolUse (MultiEdit): edits 配列内の外部 CDN（https://...）も事前にブロックできるか',
+      script: 'hooks/guard-write.js',
+      input: {
+        tool_name: 'MultiEdit',
+        tool_input: {
+          file_path: 'output/test/index.html',
+          edits: [
+            { old_string: '<title>旧</title>', new_string: '<title>新</title>' },
+            { old_string: '</head>', new_string: '<script src="https://cdn.example.com/app.js"></script></head>' }
+          ]
+        }
+      },
+      check: (r) => r.exitCode === 2 && r.stderr.includes('外部 URL'),
+      explain: (r) => `終了コード ${r.exitCode} / stderr: "${r.stderr.split('\n')[0]}"`
+    },
+    {
+      name: '⑬ PreToolUse (PowerShell): Remove-Item -Recurse -Force による再帰削除をブロックできるか',
+      script: 'hooks/guard-write.js',
+      input: {
+        tool_name: 'PowerShell',
+        tool_input: { command: 'Remove-Item -Path ./output/tmp -Recurse -Force' }
+      },
+      check: (r) => r.exitCode === 2 && r.stderr.includes('Remove-Item'),
+      explain: (r) => `終了コード ${r.exitCode} / stderr: "${r.stderr.split('\n')[0]}"`
+    },
+    {
+      name: '⑭ PreToolUse (保護設定): .claude/settings.local.json の書き換えをブロックできるか',
+      script: 'hooks/guard-write.js',
+      input: {
+        tool_name: 'Edit',
+        tool_input: { file_path: '.claude/settings.local.json', new_string: '{}' }
+      },
+      check: (r) => r.exitCode === 2 && r.stderr.includes('settings*.json'),
+      explain: (r) => `終了コード ${r.exitCode} / stderr: "${r.stderr.split('\n')[0]}"`
+    },
+    {
+      name: '⑮ PreToolUse (保護設定): .mcp.json の書き換えをブロックできるか',
+      script: 'hooks/guard-write.js',
+      input: {
+        tool_name: 'Write',
+        tool_input: { file_path: '.mcp.json', content: '{}' }
+      },
+      check: (r) => r.exitCode === 2 && r.stderr.includes('mcp.json'),
+      explain: (r) => `終了コード ${r.exitCode} / stderr: "${r.stderr.split('\n')[0]}"`
+    },
+    {
+      name: '⑯ PostToolUse (Copilot 形式): decision ではなく additionalContext で違反を指摘できるか',
+      script: 'hooks/post-check.js',
+      input: {
+        sessionId: 'local-test',
+        toolName: 'create',
+        toolArgs: JSON.stringify({ path: badHtmlCopilotPath })
+      },
+      check: (r) =>
+        r.exitCode === 0 &&
+        r.json &&
+        r.json.decision === undefined &&
+        typeof r.json.additionalContext === 'string' &&
+        r.json.additionalContext.includes('style='),
+      explain: (r) => `additionalContext="${r.json && r.json.additionalContext ? r.json.additionalContext.split('\n')[1] : ''}"`
+    },
+    {
+      name: '⑰ Stop (Copilot 形式): stopHookActive=true のときはブロックせず通過させるか',
+      script: 'hooks/stop-verify.js',
+      input: {
+        sessionId: 'local-test',
+        hookEventName: 'agentStop',
+        stopHookActive: true,
+        target_file: badHtmlPath
+      },
+      check: (r) => r.exitCode === 0 && !r.json,
+      explain: (r) => `終了コード ${r.exitCode} / 出力なし（Copilot 無限ループ防止ガード作動）`
+    },
+    {
+      name: '⑱ PreToolUse (MultiEdit 正常系): 外部 URL を含まない HTML の MultiEdit は許可されるか',
+      script: 'hooks/guard-write.js',
+      input: {
+        tool_name: 'MultiEdit',
+        tool_input: {
+          file_path: 'output/test/index.html',
+          edits: [
+            { old_string: '<title>旧</title>', new_string: '<title>新</title>' },
+            { old_string: '<h1>旧</h1>', new_string: '<h1>新</h1>' }
+          ]
+        }
+      },
+      check: (r) => r.exitCode === 0,
+      explain: (r) => `終了コード ${r.exitCode}（正常通過）`
+    },
+    {
+      name: '⑲ PreToolUse (PowerShell 正常系): -Recurse なしの単一ファイル削除 Remove-Item は許可されるか',
+      script: 'hooks/guard-write.js',
+      input: {
+        tool_name: 'PowerShell',
+        tool_input: { command: 'Remove-Item ./output/tmp/old.html' }
+      },
+      check: (r) => r.exitCode === 0,
+      explain: (r) => `終了コード ${r.exitCode}（正常通過）`
     }
   ];
 
@@ -218,7 +318,8 @@ function main() {
   fs.rmSync(tmpDir, { recursive: true, force: true });
 
   console.log('----------------------------------------------------------------------');
-  console.log(` 結果: ${passed} / ${tests.length} 件すべて合格`);
+  const summary = passed === tests.length ? 'すべて合格' : `${tests.length - passed} 件失敗`;
+  console.log(` 結果: ${passed} / ${tests.length} 件（${summary}）`);
   console.log('----------------------------------------------------------------------');
 
   if (passed !== tests.length) {

@@ -25,4 +25,4 @@
 
 ## 注意点
 
-- 「MCP を捨てる」のではなく、「**MCP の上にコード実行とオンデマンド検索を載せる**」というアプローチ。直後に Anthropic も同様の手法（[05](05_anthropic_code-execution-with-mcp.md)）を発表し、現在の定番パターン⑤（[docs/02 の 6章](../docs/02_mcp-patterns.md#6-パターン⑤コード実行オンデマンド読み込みtool-search--code-mode)）として定着している。
+- 「MCP を捨てる」のではなく、「**MCP の上にコード実行とオンデマンド検索を載せる**」というアプローチ。直後に Anthropic も同様の手法（[05](05_anthropic_code-execution-with-mcp.md)）を発表し、現在の定番パターン⑤（[docs/02 の 6章](../docs/02_mcp-patterns.md#6-パターン⑤オンデマンド検索コード実行tool-search--code-mode)）として定着している。

@@ -1,6 +1,6 @@
 # agent-guide — サブエージェントを「使う／使わない」で Web ページを作り比べる
 
-このフォルダ（`ai-study/agent-guide`）は、サブエージェント（AI に仕事を分担させる仕組み）を学ぶための作業場です。
+このフォルダ（`agent-study/agent-guide`）は、サブエージェント（AI に仕事を分担させる仕組み）を学ぶための作業場です。
 読み物は [docs/](docs/)、構成パターンの見本は [samples/](samples/README.md) にあります。
 親子エージェントの定番パターン5つと、AI の進化で古くなる部分の整理は [docs/02_agent-patterns.md](docs/02_agent-patterns.md)（調査メモは [info/](info/README.md)）にあります。
 
@@ -73,7 +73,7 @@ output/20261106-101500_01-profile_agents/
 2. ターミナルで**このフォルダ（`agent-guide`）**に移動する（`.claude/agents/` を読み込ませるため）。
 
    ```powershell
-   cd C:\git_home\ai-study\agent-guide
+   cd C:\git_home\agent-study\agent-guide
    ```
 
 3. お題を自分用に書き換えたいときは、`prompts/01-profile.md` の名前や趣味を編集する。
@@ -131,7 +131,7 @@ powershell -ExecutionPolicy Bypass -File scripts\run-experiment.ps1 -Prompt prom
 
 ```text
 完了：312.4 秒（5 分 12 秒） / ターン 18 / 1.2345 USD / 完成品 ○
-記録：C:\git_home\ai-study\agent-guide\output\20261106-101500_01-profile_agents\report.md
+記録：C:\git_home\agent-study\agent-guide\output\20261106-101500_01-profile_agents\report.md
 ```
 
 ### スクリプトが内部でやっていること

@@ -59,7 +59,7 @@ cd C:\git_home\agent-study\hook-guide
 node scripts/test-hooks-locally.js
 ```
 
-実行すると、次の11ケースの模擬データが各フックに流し込まれ、結果が一覧表示されます。
+実行すると、次の19ケースの模擬データが各フックに流し込まれ、結果が一覧表示されます。
 
 1. `.env` を編集しようとしたとき → `PreToolUse` が **終了コード `2` で強制ブロック**するか
 2. `rm -rf` を実行しようとしたとき → `PreToolUse` が **終了コード `2` で強制ブロック**するか
@@ -72,6 +72,14 @@ node scripts/test-hooks-locally.js
 9. プロンプトに API キー（`sk-...`）を貼ったとき → `UserPromptSubmit` が **送信前にブロック**するか
 10. 通常のプロンプト送信時 → `UserPromptSubmit` が **現在の Git ブランチ名を自動添付**するか
 11. GitHub Copilot 形式の入力（`toolName` / `toolArgs`）で `.env` を作ろうとしたとき → **同じスクリプトで Copilot でもブロック**できるか
+12. `MultiEdit` の `edits` 配列内に外部 CDN（`https://...`）を含めたとき → **保存前にブロック**するか
+13. PowerShell で `Remove-Item -Recurse -Force` を実行しようとしたとき → **実行前にブロック**するか
+14. `.claude/settings.local.json` を書き換えようとしたとき → **保存前にブロック**するか
+15. `.mcp.json` を書き換えようとしたとき → **保存前にブロック**するか
+16. Copilot 形式で違反あり HTML を `PostToolUse` に渡したとき → **`decision` ではなく `additionalContext` を返す**か
+17. Copilot 形式（`stopHookActive: true`）の `Stop` → **無限ループ防止で通過させる**か
+18. 安全な HTML の `MultiEdit` → **誤ブロックせず終了コード `0` で通過**するか
+19. `-Recurse` なしの単発 `Remove-Item` → **誤ブロックせず終了コード `0` で通過**するか
 
 ---
 

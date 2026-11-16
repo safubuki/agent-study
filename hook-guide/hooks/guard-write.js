@@ -3,11 +3,55 @@
  * hooks/guard-write.js — PreToolUse 関所フック
  *
  * 役割：
- * 1. 保護対象ファイル（.env, hooks/*, scripts/*, settings.json）の書き換えを exit 2 でブロック
- * 2. 破壊的なシェルコマンド（rm -rf, git reset --hard 等）を exit 2 でブロック
- * 3. HTML ファイルへの書き込み時、禁止されている「外部 CDN（http:// / https:// の script・link・img）」が含まれていたら保存前に exit 2 でブロック
+ * 1. 保護対象ファイル（.env, hooks/*, scripts/*, settings*.json, hooks.json, *mcp.json）の書き換えを exit 2 でブロック
+ * 2. 破壊的なシェルコマンド（rm -rf, Remove-Item -Recurse, git reset --hard 等）を exit 2 でブロック
+ * 3. HTML ファイルへの書き込み（Write / Edit / MultiEdit）時、禁止されている「外部 CDN（http:// / https:// の script・link・img）」が含まれていたら保存前に exit 2 でブロック
  */
 const fs = require('fs');
+
+const DANGEROUS_COMMAND_RULES = [
+  {
+    re: /\brm\s+(-[a-zA-Z]*(?:r[a-zA-Z]*f|f[a-zA-Z]*r)[a-zA-Z]*|--recursive)\b/i,
+    reason: 'rm -rf による強制削除は禁止されています。必要なファイルのみ個別に扱ってください。',
+  },
+  {
+    re: /\b(?:remove-item|ri)\b(?=.*\s-(?:r|re|rec|recu|recur|recurs|recurse)\b)/i,
+    reason: 'Remove-Item -Recurse による再帰削除は禁止されています。必要なファイルのみ個別に扱ってください。',
+  },
+  {
+    re: /\b(?:rmdir|rd|del|erase)\b(?=.*\s\/s\b)/i,
+    reason: 'rmdir /s や del /s による一括削除は禁止されています。必要なファイルのみ個別に扱ってください。',
+  },
+  {
+    re: /\bgit\s+(reset\s+--hard|push\s+.*(--force|-f))\b/i,
+    reason: 'git reset --hard や git push --force は禁止されています。',
+  },
+];
+
+const EXTERNAL_TAG_RE = /<(script|link|img)\b[^>]*(src|href)\s*=\s*["']https?:\/\/[^"']+["'][^>]*>/i;
+
+/**
+ * Write / Edit / MultiEdit / Copilot 各種ツール引数から書き込まれる文字列一覧を取り出す。
+ */
+function extractWrittenContents(toolInput) {
+  const contents = [];
+  for (const key of ['content', 'new_string', 'file_text', 'new_str']) {
+    if (typeof toolInput[key] === 'string' && toolInput[key]) {
+      contents.push(toolInput[key]);
+    }
+  }
+  if (Array.isArray(toolInput.edits)) {
+    for (const edit of toolInput.edits) {
+      if (!edit || typeof edit !== 'object') continue;
+      for (const key of ['new_string', 'content', 'new_str']) {
+        if (typeof edit[key] === 'string' && edit[key]) {
+          contents.push(edit[key]);
+        }
+      }
+    }
+  }
+  return contents;
+}
 
 function appendHookLog(entry) {
   const logFile = process.env.HOOK_LOG_FILE;
@@ -53,20 +97,19 @@ function main() {
     try { toolInput = JSON.parse(toolInput); } catch { toolInput = {}; }
   }
 
-  // 1. Bash / コマンド実行の検査
+  // 1. Bash / PowerShell / コマンド実行の検査
   if (toolName === 'bash' || toolName === 'powershell' || toolName === 'execute') {
     const cmd = String(toolInput.command || toolInput.script || '');
-    if (/\brm\s+(-[a-zA-Z]*r[a-zA-Z]*f|--recursive)\b/i.test(cmd)) {
-      block('rm -rf による強制削除は禁止されています。必要なファイルのみ個別に扱ってください。', cmd);
-    }
-    if (/\bgit\s+(reset\s+--hard|push\s+.*(--force|-f))\b/i.test(cmd)) {
-      block('git reset --hard や git push --force は禁止されています。', cmd);
+    for (const rule of DANGEROUS_COMMAND_RULES) {
+      if (rule.re.test(cmd)) {
+        block(rule.reason, cmd);
+      }
     }
     appendHookLog({ action: 'ALLOW', tool: toolName, target: cmd.slice(0, 120) });
     process.exit(0);
   }
 
-  // 2. ファイル書き込み（Write / Edit / MultiEdit）の検査
+  // 2. ファイル書き込み（Write / Edit / MultiEdit / create）の検査
   if (toolName === 'write' || toolName === 'edit' || toolName === 'multiedit' || toolName === 'create') {
     const rawPath = String(toolInput.file_path || toolInput.filePath || toolInput.path || '');
     const normPath = rawPath.replace(/\\/g, '/');
@@ -75,20 +118,23 @@ function main() {
     if (/(^|\/)\.env(\.|$)/i.test(normPath)) {
       block('.env ファイルの作成・編集は禁止されています。', rawPath);
     }
-    if (/(^|\/)(hooks|scripts)\//i.test(normPath) || normPath.endsWith('settings.json')) {
-      block('フックや実験スクリプト自身（hooks/, scripts/, settings.json）を書き換えることは禁止されています。', rawPath);
+    if (
+      /(^|\/)(hooks|scripts)\//i.test(normPath) ||
+      /(^|\/)(settings(\.local)?\.json|hooks\.json|\.mcp\.json|mcp\.json)$/i.test(normPath)
+    ) {
+      block('フック・設定・実験スクリプト（hooks/, scripts/, settings*.json, hooks.json, mcp.json）を書き換えることは禁止されています。', rawPath);
     }
 
-    // (b) HTML ファイルの中身の事前検査（外部リソースの禁止）
+    // (b) HTML ファイルの中身の事前検査（外部リソースの禁止：MultiEdit の edits 配列にも対応）
     if (/\.html$/i.test(normPath)) {
-      // Claude Code: content / new_string、Copilot: file_text / new_str
-      const content = String(toolInput.content || toolInput.new_string || toolInput.file_text || toolInput.new_str || '');
-      const externalTag = content.match(/<(script|link|img)\b[^>]*(src|href)\s*=\s*["']https?:\/\/[^"']+["'][^>]*>/i);
-      if (externalTag) {
-        block(
-          '外部 URL（http:// または https://）の script / link / img タグは禁止されています。外部フォント・CDN・外部画像は使わず、CSS や SVG で1ファイル内に自作してください。',
-          externalTag[0]
-        );
+      for (const content of extractWrittenContents(toolInput)) {
+        const externalTag = content.match(EXTERNAL_TAG_RE);
+        if (externalTag) {
+          block(
+            '外部 URL（http:// または https://）の script / link / img タグは禁止されています。外部フォント・CDN・外部画像は使わず、CSS や SVG で1ファイル内に自作してください。',
+            externalTag[0]
+          );
+        }
       }
     }
 

@@ -131,6 +131,7 @@ VS Code で開発する場合、すべてを AI フックで作る必要はあ�
 ## 関連ドキュメント
 
 - **全体のつながり・状態通知・環境差のシーケンス図** → [03_hook-flow-examples.md](03_hook-flow-examples.md)
+- **ハーネス切り替え・資産移行の整理** → [Local と Copilot ハーネス](../../copilot-fusion/01_harness-local-vs-copilot.md)
 - **フックの基本とライフサイクル** → [00_hook-guide.md](00_hook-guide.md)
 - **そのまま使える定番5パターン** → [02_hook-patterns.md](02_hook-patterns.md)
 - **コピペ用サンプル集（5種）** → [samples/README.md](../samples/README.md)

@@ -148,4 +148,4 @@ flowchart LR
 ## 5. 対話モードや VS Code（GitHub Copilot）で試す場合
 
 - **Claude Code**（対話モード）：**この `mcp-guide` フォルダで** `claude` を起動します（`.mcp.json` は起動したフォルダのものが読まれ、`servers/...` の相対パスもこのフォルダが基準です）。初回は「このプロジェクトの MCP サーバーを使ってよいか」の確認が出るので承認してください。`/mcp` と打つと `cafe-catalog` が認識されていることを確認できます。そのまま「小麦・卵・乳（コンタミ含む）が入っていないメニューを MCP で調べて教えて」と話しかけてみてください。
-- **VS Code**（GitHub Copilot Agent Mode）：VS Code でこのフォルダを開くと `.vscode/mcp.json` が自動で認識されます。Copilot Chat を **Agent** モードにして同じように質問してみてください（詳しい手順は [docs/01_copilot-mcp-guide.md](docs/01_copilot-mcp-guide.md)）。
+- **VS Code**（GitHub Copilot Agent Mode）：VS Code でこのフォルダを開くと、Copilot ハーネス（Session Target → Copilot）では `.mcp.json`、旧 Local ハーネスでは `.vscode/mcp.json` が認識されます（このフォルダには両方を置いています）。Copilot Chat を **Agent** モードにして同じように質問してみてください（詳しい手順は [docs/01_copilot-mcp-guide.md](docs/01_copilot-mcp-guide.md)、ハーネス移行の解説は [copilot-fusion/01_harness-local-vs-copilot.md](../copilot-fusion/01_harness-local-vs-copilot.md)）。

@@ -2,6 +2,9 @@
 
 > [サブエージェント入門（Claude Code 編）](00_subagent-guide.md)の続編です。Claude Code でできた「親1体が子3体に部品を作らせて最後に統合する」構成を、**GitHub Copilot**（VS Code のチャットと Copilot CLI）で実現できるかをまとめます。
 > 内容は 2026-11-05 時点の公式ドキュメントにもとづきます。Copilot のエージェント機能は更新が非常に速く、プレビュー段階の機能も多いので、使う前に[参考文献](#参考文献)のページで最新を確認してください。
+>
+> **📌 2026-11-12 更新の重要補足（ハーネス移行）**：その後、VS Code の **旧 Local ハーネスは非推奨（2027 年 2 月までに削除予定）** となり、後継の **Copilot ハーネス（Session Target → Copilot）** が推奨されています。本書では 2026-11-05 時点の整理として旧 Local ハーネスを「**VS Code 版**」、Copilot ハーネスと共通の実行エンジンを「**CLI 版**」と呼んで対比していますが、Copilot ハーネスではサブエージェント呼び出しツールが `runSubagent` ではなく **`task`** になるなどの違いがあります。ハーネスの違いや移行時の注意点は [Local と Copilot ハーネス](../../copilot-fusion/01_harness-local-vs-copilot.md) および [Copilot Fusion](../../copilot-fusion/02_copilot-fusion.md) をあわせて確認してください。
+>
 > 根拠が必要な記述には出典を付けています。出典の「検索語」は、そのページ内をブラウザの検索（Ctrl+F）で探すとすぐ見つかる語です。公式ページで確認できなかった点は「**未確認**」と書いています。
 > Copilot 形式の定義ファイルは、Claude Code 形式と並べて [samples/](../samples/README.md) にパターン別にまとめてあります（階層化・ファンアウトなど、この文書にない構成も含む）。
 
@@ -60,14 +63,16 @@ flowchart TB
 
 | 動かし方 | 中身 | この文書での呼び方 |
 |---|---|---|
-| VS Code チャット（Local ハーネス） | VS Code 自身が動かすエージェント | **VS Code 版** |
-| VS Code チャット（Copilot ハーネス） | Copilot CLI と同じ実行エンジンを VS Code から使う | CLI 版と同じ扱い |
+| VS Code チャット（旧 Local ハーネス） | VS Code 自身が動かす従来のエージェント（2027 年 2 月までに削除予定） | **VS Code 版** |
+| VS Code チャット（Copilot ハーネス） | Copilot CLI と同じ実行ランタイムを VS Code から使う（後継・推奨） | CLI 版と同じ扱い |
 | Copilot CLI | ターミナルで `copilot` コマンドを使う | **CLI 版** |
 | クラウドエージェント | GitHub 上で動く（Issue から依頼するなど） | 本書では扱わない |
 
 出典：[VS Code Docs「Understand agent harnesses」](https://code.visualstudio.com/docs/agents/concepts/agent-harnesses)（検索語：`Copilot SDK`、`extension host`）
 
-> **補足**：Claude ハーネスと Codex ハーネスは、企業向けの管理設定が適用されている環境では無効になります（同ページ、検索語：`enterprise-managed`）。会社の環境では使えない可能性が高いので、本書では Local と Copilot（CLI）を中心に扱います。
+> **補足 1（企業の管理設定）**：Claude ハーネスと Codex ハーネスは、企業向けの管理設定が適用されている環境では無効になります（同ページ、検索語：`enterprise-managed`）。
+>
+> **補足 2（Local から Copilot ハーネスへの移行）**：旧 Local ハーネスは非推奨になったため、新しく試す場合は VS Code の **Session Target → Copilot** を選ぶのが推奨です。なお、Copilot ハーネスではサブエージェントの委任ツールが Local の `runSubagent` ではなく **`task`** になる点に注意してください（詳細は [Local と Copilot ハーネス](../../copilot-fusion/01_harness-local-vs-copilot.md#2-旧-local-と-copilot-ハーネスの違い切り替え方)）。
 
 ---
 
@@ -325,7 +330,7 @@ CLI でエージェントを新しく置いたときは、CLI の再起動が必
 | 注意点 | 内容 | 出典 |
 |---|---|---|
 | **使えるモデルは管理者次第** | 組織・企業の管理者が有効にしたモデルしか使えない。サンプルのモデルが選べなければ、補完候補に出るモデルに書き換える | [Supported AI models](https://docs.github.com/en/copilot/reference/ai-models/supported-models)（検索語：`administrator must`） |
-| **Claude / Codex ハーネスは無効の可能性** | 企業の管理設定が適用されていると無効になる。Local と Copilot ハーネスは使える | [Understand agent harnesses](https://code.visualstudio.com/docs/agents/concepts/agent-harnesses)（検索語：`enterprise-managed`） |
+| **Claude / Codex ハーネスは無効の可能性** | 企業の管理設定が適用されていると無効になる。旧 Local ハーネスは 2027 年 2 月までに削除予定のため、Copilot ハーネスへの移行を進める | [Understand agent harnesses](https://code.visualstudio.com/docs/agents/concepts/agent-harnesses)（検索語：`enterprise-managed`） |
 | **料金ランクの制限** | VS Code 版では、子のモデルがメインより高いランクだと子が動かない | [Subagents](https://code.visualstudio.com/docs/agents/run/subagents)（検索語：`cost tier`） |
 | **AI クレジットの消費** | 子が増えるほど AI とのやり取りが増え、クレジットの消費も増える | [/fleet](https://docs.github.com/en/copilot/concepts/agents/copilot-cli/fleet)（検索語：`AI Credits`） |
 | **組織共通のエージェント** | 組織が配布したエージェントは自動で見えるようになる。名前が重なった場合の扱いに注意 | [Custom agent file reference](https://code.visualstudio.com/docs/agents/reference/custom-agent-file-reference)（検索語：`organizationCustomAgents`） |
@@ -360,6 +365,7 @@ CLI でエージェントを新しく置いたときは、CLI の再起動が必
 2. VS Code で各ファイルの `model:` を開き、**補完候補に出るモデル名**に合わせて書き換える
 3. チャット欄で `page-director` を選んで実行し、子ごとのモデルの違い（品質・速さ）を比べる
 4. 同じお題を Copilot CLI の `/fleet` でも実行し、VS Code 版との違いを比べる
+5. 最新の **Copilot ハーネス** への切り替えや **Copilot Fusion**（モデル協調）との違いは、[Local と Copilot ハーネス](../../copilot-fusion/01_harness-local-vs-copilot.md) と [Copilot Fusion](../../copilot-fusion/02_copilot-fusion.md) で確認する
 
 ---
 

@@ -80,7 +80,7 @@ tools: ['read', 'edit', 'execute']                                   # Copilot
 
 | | Claude Code | Copilot（VS Code） | Copilot（CLI） |
 |---|---|---|---|
-| 入れ子（子が孫を呼ぶ） | 既定で可（メインから3階層下まで） | **既定で不可**。`.vscode/settings.json` の `chat.subagents.allowInvocationsFromSubagents` を `true` にする（最大5階層） | 公式ページで未確認 |
+| 入れ子（子が孫を呼ぶ） | 既定で可（メインから3階層下まで） | **既定で不可**。旧 Local ハーネスでは `.vscode/settings.json` の `chat.subagents.allowInvocationsFromSubagents` を `true` にする（最大5階層）。※Copilot ハーネスへの移行時は [01_harness-local-vs-copilot.md](../../../copilot-fusion/01_harness-local-vs-copilot.md) を参照 | 公式ページで未確認 |
 | 中間層の「呼べる相手の限定」 | unit-lead はサブエージェントとして動くので、`Agent(part-modeler)` のカッコ内は**無視される**。本文の禁止事項で縛る | `agents: ['part-modeler']` で限定 | 未確認 |
 
 階層の数え方（Claude Code）：

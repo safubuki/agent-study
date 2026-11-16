@@ -1,6 +1,8 @@
 # GitHub Copilot / VS Code で MCP はどう使うか
 
-> [MCP 入門（Claude Code 編）](00_mcp-guide.md)の続編です。Claude Code 用に作った MCP サーバーを **VS Code（GitHub Copilot Agent Mode）** でそのまま動かす方法と、設定ファイルの違いを図解でまとめます（2026-11-10 時点、出典は [info/08](../info/08_vscode-copilot_mcp-docs.md)）。
+> [MCP 入門（Claude Code 編）](00_mcp-guide.md)の続編です。Claude Code 用に作った MCP サーバーを **VS Code（GitHub Copilot Agent Mode）** でそのまま動かす方法と、設定ファイルの違いを図解でまとめます（初回確認：2026-11-10、出典は [info/08](../info/08_vscode-copilot_mcp-docs.md)）。
+>
+> **📌 2026-11-12〜13 更新の重要補足（Copilot ハーネスへの移行）**：VS Code の **旧 Local ハーネスは非推奨（2027 年 2 月までに削除予定）** となり、後継の **Copilot ハーネス（Session Target → Copilot）** ではワークスペース直下の **`.mcp.json`（`mcpServers`・`${VAR}`）** を直接読み込む方式へ移っています。旧 `.vscode/mcp.json` も単純な定義は自動転送されますが、**`${input:...}` 付き定義は転送から除外されてサーバーが見えなくなります**。移行・復旧の詳しい手順は [Local と Copilot ハーネス（第 3 節）](../../copilot-fusion/01_harness-local-vs-copilot.md#3-なぜ-mcp-が見えなくなるのか原因と移行) を参照してください。
 
 ---
 
@@ -21,13 +23,13 @@
 ![Claude Code と VS Code の設定ファイル対比](assets/copilot-vs-claude-mcp.svg)
 
 - **サーバーのコード変更はゼロ**：`servers/cafe-catalog-mcp.js` のような自作サーバーも、公式のクラウド MCP も、**1行も書き換えずに両方のツールでそのまま動きます**。
-- **変えるのは主に設定ファイルの「場所」と「一番外側のキー名」**（細かい書き方の差は次章の表）：リポジトリに `.mcp.json` と `.vscode/mcp.json` の**両方を同居させておけば**、チームの誰がどちらのエディタを使っても即座に動きます。
+- **変えるのは設定ファイルの置き方**：旧 Local ハーネス向け（`.vscode/mcp.json`）と Claude Code 向け（`.mcp.json`）の両方を同居させておけば、どちらのツールでも動きます。なお **新しい Copilot ハーネスでは Claude Code と同じ `.mcp.json` を直接読み込める** ため、これから新規に揃える場合は `.mcp.json` を基準にする方が管理しやすくなります。
 
 ---
 
 ## 2. 設定ファイル（`.mcp.json` vs `.vscode/mcp.json`）の比較
 
-このワークスペースのルート直下（`mcp-guide/`）に置いてある2つのファイルを見比べてみましょう。
+このワークスペースのルート直下（`mcp-guide/`）に置いてある2つのファイルを見比べてみましょう。下の表の「VS Code（旧 Local ハーネス）」は従来のエディタ管理形式です。**Copilot ハーネス（Session Target → Copilot）** を使う場合は、**Claude Code と同じ `.mcp.json`（`"mcpServers"` と `${VAR}`）** がネイティブ設定になります。
 
 #### Claude Code 用（`.mcp.json`）
 ```json
@@ -54,14 +56,14 @@
 }
 ```
 
-| 比較項目 | Claude Code | VS Code（GitHub Copilot） |
+| 比較項目 | Claude Code / Copilot ハーネス（ネイティブ） | VS Code（旧 Local ハーネス） |
 |---|---|---|
 | **プロジェクト設定ファイル** | **`.mcp.json`** | **`.vscode/mcp.json`** |
 | **一番外側のキー名** | **`"mcpServers"`** | **`"servers"`** |
-| **`type` の書き方** | ローカルなら省略可（省略時は stdio） | **`"type": "stdio"`** を書く |
-| **パス指定のコツ** | 相対パスは「Claude Code を起動したフォルダ」基準 | **`${workspaceFolder}/servers/...`** が確実 |
-| **環境変数の参照** | `${VAR}` / `${VAR:-既定値}` | `${env:VAR}`（秘密情報は次章の `${input:...}`） |
-| **稼働状態の確認** | チャット欄で **`/mcp`** | ファイル内の **`Start / Restart`** ボタン |
+| **`type` の書き方** | Claude Code は省略可 / Copilot ハーネスでも利用可 | **`"type": "stdio"`** を書く |
+| **パス指定のコツ** | 相対パスは起動・実行フォルダ基準 | **`${workspaceFolder}/servers/...`** が確実 |
+| **環境変数の参照** | `${VAR}` / `${VAR:-既定値}` | `${env:VAR}`（秘密情報は旧仕様の `${input:...}`） |
+| **稼働状態の確認** | Claude：`/mcp` ／ Copilot：Customizations | ファイル内の **`Start / Restart`** ボタン |
 
 環境変数をサーバーに渡したいときは、どちらも `env` 欄に書きます（下は書き方の例です。この実験用サーバーは環境変数を使いません）。
 
@@ -77,7 +79,10 @@
 
 ## 3. VS Code ならではの安全機能：`inputs`（パスワード入力欄）
 
-`.vscode/mcp.json` では **`inputs`** を使うことで、API キーをファイルに一切書かずに安全に受け取れます（[VS Code Docs](https://code.visualstudio.com/docs/copilot/customization/mcp-servers)）。
+> ⚠️ **旧 Local ハーネス専用の機能です**：`inputs`（`${input:...}`）は **新しい Copilot ハーネスでは非対応** です。`.vscode/mcp.json` に `${input:...}` が含まれていると **Copilot ハーネスへの自動転送対象から除外されてサーバーが見えなくなります**（`.mcp.json` にそのままコピーしても動きません）。
+> Copilot ハーネスでは **OAuth 認証** を使うか、環境変数参照（`${NAME}`）＋実行先環境へのキー設定（その後 **Agent Host を再起動**）に切り替えてください。詳しい手順は [認証方式の選択と環境変数への書き換え例](../../copilot-fusion/01_harness-local-vs-copilot.md#認証方式の選択と環境変数への書き換え例) を参照してください。
+
+旧 Local ハーネス向けの `.vscode/mcp.json` では、**`inputs`** を使うことで API キーをファイルに一切書かずに受け取れます（[VS Code Docs](https://code.visualstudio.com/docs/copilot/customization/mcp-servers)）。
 
 ```json
 {
@@ -105,7 +110,7 @@
 
 ## 4. VS Code の Agent Mode で動かす4ステップ
 
-1. **起動確認**：VS Code で `.vscode/mcp.json` を開き、`"cafe-catalog"` の上に表示される **`Start`**（または `Running`）をクリックする。
+1. **起動確認**：旧 Local ハーネスでは `.vscode/mcp.json` を開き、`"cafe-catalog"` の上に表示される **`Start`**（または `Running`）をクリックする。Copilot ハーネスでは `.mcp.json` が読まれるため、`Chat: Open Customizations` 等で一覧表示を確認する。
 2. **Agent モード選択**：Copilot Chat パネルを開き、モードを **Agent** に切り替える。
 3. **ツールの有効化**：入力欄のツールアイコン（🔧）を押し、`cafe-catalog` の3つのツールにチェックが入っていることを確認する。
 4. **依頼する**：`prompts/01-allergen-menu.md` の内容を貼って実行する。
@@ -144,7 +149,7 @@ user-invocable: false
 ```
 
 - `tools: ['cafe-catalog/*']` で、このエージェントが使えるツールを `cafe-catalog` サーバーのものに絞れます。`user-invocable: false` は「人がエージェント選択欄から直接選べないようにし、サブエージェントとしてだけ使う」設定です。
-- ただし Copilot では `.vscode/mcp.json` に登録したサーバーは**メインのエージェントからも使える**状態です。メイン側で使わせたくない場合は、チャット入力欄のツール選択（🔧）で `cafe-catalog` のチェックを外してください。
+- ただし Copilot では `.vscode/mcp.json`（旧 Local）や `.mcp.json`（Copilot ハーネス）に登録したサーバーは**メインのエージェントからも使える**状態です。メイン側で使わせたくない場合は、チャット入力欄のツール選択（🔧）で `cafe-catalog` のチェックを外してください。
 
 ---
 
@@ -160,10 +165,11 @@ user-invocable: false
 
 ## 7. 参考文献
 
-すべて 2026-11-10 閲覧（詳細は [info/08_vscode-copilot_mcp-docs.md](../info/08_vscode-copilot_mcp-docs.md)）。
+すべて 2026-11-10 閲覧（詳細は [info/08_vscode-copilot_mcp-docs.md](../info/08_vscode-copilot_mcp-docs.md)）。ハーネス移行（2026-11-12〜13 確認）の詳細は [Local と Copilot ハーネス](../../copilot-fusion/01_harness-local-vs-copilot.md) も参照してください。
 
 | # | 出典 | 内容 |
 |---|---|---|
-| 1 | VS Code Docs「[Use MCP servers in VS Code](https://code.visualstudio.com/docs/copilot/customization/mcp-servers)」 | `.vscode/mcp.json` の `servers`・`inputs`、Agent Mode の操作 |
+| 1 | VS Code Docs「[Use MCP servers in VS Code](https://code.visualstudio.com/docs/copilot/customization/mcp-servers)」 | `.vscode/mcp.json` の `servers`・`inputs`、Agent Mode の操作（旧 Local ハーネス中心） |
 | 2 | GitHub Docs「[Extending GitHub Copilot Chat with MCP](https://docs.github.com/en/copilot/customizing-copilot/extending-copilot-chat-with-mcp)」 | 組織ポリシー設定と注意点 |
 | 3 | VS Code Docs「[Custom agents in VS Code](https://code.visualstudio.com/docs/copilot/customization/custom-agents)」 | `.agent.md` の `tools:` での `'サーバー名/*'` 指定 |
+| 4 | 内部ガイド「[Local と Copilot ハーネス](../../copilot-fusion/01_harness-local-vs-copilot.md)」 | 2026-11-12〜13 確認の Copilot ハーネス用 `.mcp.json`・環境変数移行・転送除外条件 |

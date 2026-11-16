@@ -36,11 +36,13 @@ samples/<サンプル名>/
 
 ## Claude Code と VS Code（Copilot）の設定ファイルの違い（3点）
 
-| 項目 | Claude Code（`claude-code/.mcp.json`） | VS Code / Copilot（`copilot/.vscode/mcp.json`） |
-|---|---|---|
-| **置き場所** | プロジェクト直下の `.mcp.json` | プロジェクト内の `.vscode/mcp.json` |
-| **一番外側のキー** | `"mcpServers": { ... }` | `"servers": { ... }` |
-| **サブエージェントでの指定** | `.claude/agents/*.md` の `mcpServers:` にサーバーをインライン定義（名前だけだと親と共有になる） | `.github/agents/*.agent.md` に `tools: ['名前/*']` |
+| 項目 | Claude Code | Copilot ハーネス（後継・推奨） | VS Code 旧 Local ハーネス |
+|---|---|---|---|
+| **置き場所** | プロジェクト直下の `.mcp.json` | プロジェクト直下の `.mcp.json` | プロジェクト内の `.vscode/mcp.json` |
+| **一番外側のキー** | `"mcpServers": { ... }` | `"mcpServers": { ... }` | `"servers": { ... }` |
+| **サブエージェントでの指定** | `.claude/agents/*.md` の `mcpServers:` にサーバーをインライン定義（名前だけだと親と共有になる） | `.github/agents/*.agent.md` に `tools: ['名前/*']` | `.github/agents/*.agent.md` に `tools: ['名前/*']` |
+
+> 📌 **Copilot ハーネスへの移行注意**：各サンプルの `copilot/` フォルダには旧 Local 向けの `.vscode/mcp.json` を置いていますが、VS Code で新しい **Copilot ハーネス** を使う場合は `.mcp.json`（`mcpServers`）がネイティブ設定になります（`inputs` を使わない単純な定義は `.vscode/mcp.json` からも自動転送されます）。詳細は [Local と Copilot ハーネス](../../copilot-fusion/01_harness-local-vs-copilot.md#3-なぜ-mcp-が見えなくなるのか原因と移行) を参照してください。
 
 ## 動作テストのしかた（Claude なしで1秒で確認）
 

@@ -34,3 +34,4 @@
 ## 注意点
 
 - VS Code には互換機能があり、設定次第で Claude Code 用の設定を読み込める場合もあるが、チームで VS Code を使うなら正式な `.vscode/mcp.json`（ルートキー `"servers"`）を用意しておくのが最も確実。
+- **2026-11-12〜13 追記（Copilot ハーネス移行）**：その後、VS Code の旧 Local ハーネスは非推奨（2027年2月までに削除予定）となり、後継の **Copilot ハーネス** では `.mcp.json`（`"mcpServers"`・`${NAME}`）がネイティブ形式になっています。`.vscode/mcp.json` 内の `${input:...}` 付き定義は Copilot ハーネスへ自動転送されないため、移行手順は [copilot-fusion/01_harness-local-vs-copilot.md](../../copilot-fusion/01_harness-local-vs-copilot.md) を参照してください。

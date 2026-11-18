@@ -10,6 +10,7 @@
 
 | 目的 | 入口 |
 |---|---|
+| **ルールの階層の組み方を、図だけでつかみたい** | [copilot/03 図で読む：ルールの階層の組み方](copilot/03_layered-visual-guide.md)（早見表・1 枚の回路図で読む・作る順番） |
 | スキルを人に説明したい | [00 基本](00_agent-skill-basics.md) |
 | GitHub Copilot で実際に組みたい | [copilot/01 GitHub Copilot での組み方](copilot/01_copilot-setup.md) → [copilot のサンプル](copilot/samples/README.md) |
 | 「絶対ルール → 部署・カテゴリ → 係・顧客」の階層の具体例を見たい（組織 × 部品 × 案件の複合も） | [copilot/02 階層の組み方の事例 3 つ](copilot/02_layered-examples.md) |
@@ -48,9 +49,9 @@
 | [shared/](shared/README.md) | 利用ログのスクリプト、棚卸し（skill-catalog）、評価ファイルの例、大容量データの目録と照合・混入チェック |
 | [info/README.md](info/README.md) | 根拠にした公式ドキュメント・公式ブログ・変更履歴・標準仕様・論文と、確かさのラベル |
 
-## 図の一覧（48 枚）
+## 図の一覧（55 枚）
 
-> ※ 番号のうち `sk-09`・`sk-17`・`sk-18`・`sk-20` が飛んでいますが、これらは製品ごとの図（[cc-01〜04](claude/README.md#図4-枚)・[cp-01〜04](copilot/README.md#図19-枚)）へ分離したため欠番になっています（図の抜けはありません）。
+> ※ 番号のうち `sk-09`・`sk-17`・`sk-18`・`sk-20` が飛んでいますが、これらは製品ごとの図（[cc-01〜04](claude/README.md#図4-枚)・[cp-01〜04](copilot/README.md#図26-枚)）へ分離したため欠番になっています（図の抜けはありません）。
 
 | 図 | 内容 | 章 |
 |---|---|---|
@@ -79,7 +80,7 @@
 | [lf-01](assets/lf-01-git-and-box.svg) | 仕組みは GitHub、実データは Box | 5 |
 | [lf-02](assets/lf-02-how-agents-reach-box.svg) | AI から Box の実データに届く 4 経路 | 5 |
 | [lf-03](assets/lf-03-keep-big-files-out.svg) | 大容量データの混入を止める関所 | 5 |
-| [cp-01〜19](copilot/README.md#図19-枚) | Copilot：3 層・重なり方・画面ごとの対応・サンプル・GitHub の関所・階層の事例（原則・事例 1〜3・ファイル構成図・階層 × 仕組み・育て方・強制） | copilot |
+| [cp-01〜26](copilot/README.md#図26-枚) | Copilot：3 層・重なり方・画面ごとの対応・サンプル・GitHub の関所・階層の事例（原則・事例 1〜3・ファイル構成図・階層 × 仕組み・育て方・強制）・図で読む（早見表・1 枚の回路図で読む①〜⑤・作る 6 ステップ） | copilot |
 | [cc-01〜04](claude/README.md#図4-枚) | Claude Code：会話の中のスキル・3 層・重なり方・サンプル | claude |
 
 ## 図の色分けルール
@@ -101,7 +102,7 @@ agent-skill/
 ├─ README.md                        ← この案内
 ├─ 00〜05 *.md                      ← 共通の考え方
 ├─ assets/                          ← 共通の図 25 枚
-├─ copilot/                         ← GitHub Copilot 編（ガイド 2 本・図 19 枚・サンプル 5 つ・which-rules.js）
+├─ copilot/                         ← GitHub Copilot 編（ガイド 3 本・図 26 枚・サンプル 5 つ・which-rules.js）
 ├─ claude/                          ← Claude Code 編（ガイド・図 4 枚・サンプル）
 ├─ shared/                          ← 共通の道具（利用ログ・棚卸し・大容量データの目録）
 ├─ info/README.md                   ← 一次情報の出典メモ

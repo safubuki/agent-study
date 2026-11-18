@@ -2429,6 +2429,356 @@ function layerMechTable(d, y0, cols, rows, o = {}) {
   ]);
 }
 
+// =====================================================================
+// 図で読む（copilot/03_layered-visual-guide.md）用のヘルパー
+// =====================================================================
+/** 小さなチップ（ファイル名など）を左から並べ、幅を超えたら折り返す。最後の y を返す。 */
+function chips(d, x, y, maxW, items, tone, o = {}) {
+  const size = o.size ?? 12.5; const h = o.h ?? 26; const g = 6;
+  let cx = x; let cy = y;
+  items.forEach((t) => {
+    const w = Math.ceil(estWidth(t, size) * 1.1 + 18); // 太字の英大文字は推定より広いので 1 割増し
+    if (cx + w > x + maxW && cx > x) { cx = x; cy += h + g; }
+    rc(d, cx, cy, w, h, { fill: tone.f, stroke: tone.c, rx: 7, sw: 1.2 });
+    tx(d, cx + 9, cy + h / 2 + size * 0.36, t, { size, color: tone.t, weight: 700 });
+    cx += w + g;
+  });
+  return cy + h;
+}
+
+/** ルールファイルの「中身の抜粋」を見せるカード。file は上の帯、lines は本文。 */
+function ruleCard(d, x, y, w, h, lv, title, file, lines, o = {}) {
+  const tone = LAYER_TONE(lv);
+  rc(d, x, y, w, h, { fill: '#fff', stroke: tone.c, rx: 12, sw: o.sw ?? 1.8, dash: o.dash });
+  rc(d, x, y, w, 52, { fill: tone.f, rx: 12 });
+  pth(d, `M${x} ${y + 52} H${x + w}`, { stroke: tone.s, sw: 1.2 });
+  const tw = tag(d, x + 12, y + 18, lv, tone, { size: 12, h: 22 });
+  tx(d, x + 20 + tw, y + 23, title, { size: 14.5, color: tone.t, weight: 700, maxW: w - tw - 30 });
+  tx(d, x + 12, y + 44, file, { size: 11.5, color: MUTED, maxW: w - 24 });
+  lines.forEach((raw, i) => {
+    const ln = typeof raw === 'string' ? { t: raw } : raw;
+    tx(d, x + 14, y + 76 + i * 22, ln.t, { size: ln.size ?? 12.5, color: ln.color ?? INK, weight: ln.weight ?? 400, maxW: w - 26 });
+  });
+}
+
+/** 番号つきの手順の箱（左に番号の丸）。 */
+function stepBox(d, x, y, w, h, n, tone, title, lines) {
+  rc(d, x, y, w, h, { fill: tone.f, stroke: tone.c, rx: 12, sw: 1.6 });
+  badge(d, x + 26, y + 28, String(n), tone.c, 15, 14);
+  tx(d, x + 50, y + 33, title, { size: 15, color: tone.t, weight: 700, maxW: w - 62 });
+  lines.forEach((ln, i) => tx(d, x + 18, y + 62 + i * 22, ln, { size: 12.5, maxW: w - 30 }));
+}
+
+// =====================================================================
+// cp-20. ケース別早見表：こんなときは、このファイルを作る
+// =====================================================================
+{
+  const d = start('copilot:cp-20-which-files-for-which-case.svg', 'こんなときは、このファイルを作る（GitHub Copilot の早見表）', '左の「こんなとき」に当てはまる行を探し、右のファイルを作る。例は事例 3（制御ユニット開発）から。全部を最初から作る必要はない。');
+  const y0 = 124;
+  const X = { sit: 28, lv: 432, files: 548, how: 958 };
+  rc(d, 28, y0, 1144, 40, { fill: T.slate.c, rx: 10 });
+  [['こんなとき（例）', X.sit + 16], ['階層', X.lv], ['作るファイル', X.files], ['どう効くか', X.how]].forEach(([s, x]) => tx(d, x, y0 + 26, s, { size: 14, color: '#fff', weight: 700 }));
+  const rows = [
+    { lv: 'L1', sit: 'どこでも必ず守らせたい', ex: '安全停止を直さない・社外秘を扱わない', files: ['AGENTS.md', 'copilot-instructions.md', 'policies/l1-*.json', 'hooks/'], mech: 'always', how: ['毎回読む', '＋書き込みを止める'] },
+    { lv: 'L2 ドメイン', sit: '部署ごとに書き方・道具が違う', ex: '電気設計部は回路図を表で書く', files: ['l2-domain-*.instructions.md', 'skills/<部署のスキル>/'], mech: 'path', how: ['担当フォルダの', 'ファイルで自動'] },
+    { lv: 'L2 部品', sit: '製品・部品ごとに仕様値が違う', ex: '電源ユニットの入力は 24 V', files: ['parts/<部品>/part.json', 'l2-part-*.instructions.md', 'product-rules.json'], mech: 'value', how: ['値はファイルから', 'スクリプトで検査'] },
+    { lv: 'L3', sit: '部署 × 部品の交わりだけの手順', ex: '電源係は部品を選ぶたび 70% を確認', files: ['l3-team-*.instructions.md', 'skills/power-derating-check/'], mech: 'path', how: ['交わりのフォルダ', 'で自動'] },
+    { lv: 'L4', sit: '顧客・案件ごとの一時的な対応', ex: 'ACME 社向けに 48 V（期限つき）', files: ['cases/<番号>/CASE.md', 'case.json', 'skills/case-context/'], mech: 'manual', how: ['人が案件を', '指定したときだけ'] },
+    { lv: '各階層', sit: '書き換えられたくない資料がある', ex: 'リリース済み図面・認証書類・契約書', files: ['policies/l*-*.json の protect'], mech: 'guard', how: ['書き込みのたびに', 'フックが止める'] },
+    { lv: '共通', sit: 'ルールを変えてよい人を決めたい', ex: '電源の値は部品の責任者がレビュー', files: ['CODEOWNERS', 'ルールセット（レビュー必須）'], mech: 'gate', how: ['PR を出したとき'] },
+  ];
+  const rh = 78; const g = 6;
+  rows.forEach((r, i) => {
+    const y = y0 + 48 + i * (rh + g);
+    if (i % 2 === 0) rc(d, 28, y, 1144, rh, { fill: '#f8fafc', rx: 8 });
+    tx(d, X.sit + 16, y + 32, r.sit, { size: 15, weight: 700, maxW: X.lv - X.sit - 28 });
+    tx(d, X.sit + 16, y + 56, `例：${r.ex}`, { size: 12.5, color: MUTED, maxW: X.lv - X.sit - 28 });
+    tag(d, X.lv, y + rh / 2, r.lv, LAYER_TONE(r.lv), { size: 12, h: 24 });
+    const m = MECH[r.mech];
+    const ch = chips(d, X.files, y + 12, X.how - X.files - 14, r.files, m.tone);
+    void ch;
+    r.how.forEach((s, k) => tx(d, X.how, y + 32 + k * 22, s, { size: 13, color: m.tone.t, weight: k === 0 ? 700 : 400 }));
+  });
+  done(d, y0 + 48 + rows.length * (rh + g) - g, [
+    '上から順に増やしていけばよい。まず L1 と「守る場所」、次に違いが出てきた所だけ L2 → L3 を足す。案件（L4）は必要になってから。',
+    'チップの色は仕組みの種類：黄＝常に読む指示、青＝パス別の指示、緑＝値、紫＝手動で読む、赤＝強制、灰＝変更の関所。',
+  ]);
+}
+
+// =====================================================================
+// cp-21. 事例 3 を 1 枚の回路図で読む ①：パスを分解すると、効くルールが分かる
+// =====================================================================
+{
+  const d = start('copilot:cp-21-read-the-path.svg', '事例 3 を 1 枚の回路図で読む ①　ファイルの場所（パス）を分解する', 'parts/power-unit/electrical/schematic.md の「power-unit」と「electrical」がそれぞれルールを呼び、2 つがそろうと係のルールも加わる。');
+  const y0 = 128;
+  // パスの部品
+  const segs = [
+    { t: 'parts/', x: 170, w: 120, tone: T.slate },
+    { t: 'power-unit/', x: 296, w: 200, tone: T_PART },
+    { t: 'electrical/', x: 502, w: 190, tone: T.dept },
+    { t: 'schematic.md', x: 698, w: 200, tone: T.slate },
+  ];
+  tx(d, 28, y0 + 36, '編集する', { size: 14, color: MUTED, weight: 700 });
+  tx(d, 28, y0 + 56, 'ファイル', { size: 14, color: MUTED, weight: 700 });
+  segs.forEach((s) => {
+    rc(d, s.x, y0 + 14, s.w, 54, { fill: s.tone.f, stroke: s.tone.c, rx: 10, sw: 2 });
+    tx(d, s.x + s.w / 2, y0 + 48, s.t, { size: 18, color: s.tone.t, weight: 700, anchor: 'middle' });
+  });
+  tx(d, 916, y0 + 36, '電源ユニットの', { size: 13, color: MUTED });
+  tx(d, 916, y0 + 56, '回路図（電気設計の成果物）', { size: 13, color: MUTED });
+  // 交わりの括弧
+  pth(d, `M296 ${y0 + 78} V${y0 + 90} H692 V${y0 + 78}`, { stroke: T.self.c, sw: 2.2 });
+  tx(d, 494, y0 + 108, 'この 2 つがそろう ＝ 電源係の範囲', { size: 13, color: T.self.t, weight: 700, anchor: 'middle' });
+  const cy = y0 + 160; const ch = 178;
+  const cards = [
+    { x: 28, lv: 'L1', title: 'ワークスペース全体', file: 'AGENTS.md（どの場所でも）', lines: ['安全停止は common/safety を使い', '編集しない', '変更には試験を付ける', 'released/ は直さず新しい版を作る'] },
+    { x: 318, lv: 'L2 部品', title: '電源ユニット', file: 'l2-part-power-unit.instructions.md', lines: ['仕様値は part.json を見る', { t: '（いまは入力 24 V）', color: T_PART.t, weight: 700 }, '案件で上書きされていれば', 'そちらに従う'] },
+    { x: 608, lv: 'L2 ドメイン', title: '電気設計部', file: 'l2-domain-electrical.instructions.md', lines: ['回路図は部品番号・定格・', '使用値・率を表で書く', 'released/ は直さない', 'レビュー観点は専用スキル'] },
+    { x: 898, lv: 'L3', title: '電源係', file: 'l3-team-power.instructions.md', lines: ['部品を選ぶたびに', { t: '使用値が定格の 70% 以下か', color: T.self.t, weight: 700 }, 'を確かめる（専用スキル）', '入力電圧は自分で決めない'] },
+  ];
+  cards.forEach((c) => ruleCard(d, c.x, cy, 274, ch, c.lv, c.title, c.file, c.lines));
+  // 矢印：パス → カード
+  arrow(d, [[396, y0 + 70], [396, y0 + 80]], T_PART.c, { head: false });
+  arrow(d, [[396, y0 + 116], [396, cy - 4]], T_PART.c, { sw: 2 });
+  arrow(d, [[597, y0 + 116], [700, cy - 4]], T.dept.c, { sw: 2 });
+  arrow(d, [[640, y0 + 116], [1035, cy - 4]], T.self.c, { sw: 2 });
+  tx(d, 165, cy - 14, 'パスに関係なく常に', { size: 12.5, color: T.base.t, weight: 700, anchor: 'middle' });
+  const ly = cy + ch + 24;
+  rc(d, 28, ly, 1144, 86, { fill: T_CASE.f, stroke: T_CASE.c, rx: 12, sw: 1.8, dash: '8 6' });
+  tag(d, 44, ly + 26, 'L4 案件', T_CASE, { size: 12.5, h: 24 });
+  tx(d, 130, ly + 31, 'パスには出てこない。同じ回路図を、通常品の作業でも ACME 社の案件でも使うため。', { size: 14, color: T_CASE.t, weight: 700, maxW: 1020 });
+  tx(d, 44, ly + 62, '→ 人が「この案件の作業です」と /case-context C-2026-031 で指定したときだけ、5 つ目のルールとして加わる（次の図 ③）。', { size: 13, maxW: 1110 });
+  done(d, ly + 86, [
+    'つまり、この 1 枚には自動で 4 つのルールが重なる：L1 全体＋L2 部品（値）＋L2 ドメイン（書き方）＋L3 電源係（手順）。',
+    'カードの文章は、実際のサンプルのファイルの中身の要約。ファイルを開かなくても、何が書いてあるかが分かるようにしてある。',
+  ]);
+}
+
+// =====================================================================
+// cp-22. ② 通常の作業：4 つのルールがどう使われるか
+// =====================================================================
+{
+  const d = start('copilot:cp-22-normal-work.svg', '事例 3 を 1 枚の回路図で読む ②　通常の作業（案件なし）', '依頼「C1 は今の入力電圧で大丈夫？」。AI は値を推測せず、どのルールのどの情報を使ったかが追える形で答える。');
+  const y0 = 128;
+  box(d, 28, y0, 1144, 56, T.ai, ['依頼：「電源ユニットの回路図の C1 は、今の入力電圧で大丈夫？　電源係の手順で確認して」'], { fill: T.ai.f, ts: 15.5 });
+  const w = 270; const g = 21; const sy = y0 + 92; const sh = 196;
+  const steps = [
+    { lv: 'L2 部品', tone: T_PART, t: '入力電圧を調べる', l: ['part.json を読む', { t: 'power.inputVoltage = 24', b: true }, '自分では決めない', '（L3 に書いてある）'] },
+    { lv: 'L3', tone: T.self, t: '判定の基準を使う', l: ['電源係の手順', { t: '使用値 ÷ 定格 ≦ 70%', b: true }, 'power-derating-check', 'スキルで確かめる'] },
+    { lv: '業務', tone: T.slate, t: '回路図の表を見る', l: ['schematic.md の表', { t: 'C1：定格 63 V', b: true }, '（部品番号・定格・', '使用値・率の表）'] },
+    { lv: 'L2 ドメイン', tone: T.dept, t: '書き方をそろえる', l: ['電気設計部の様式で', { t: '表に 1 行で書く', b: true }, '部品番号・定格・', '使用値・率'] },
+  ];
+  steps.forEach((s, i) => {
+    const x = 28 + i * (w + g);
+    rc(d, x, sy, w, sh, { fill: s.tone.f, stroke: s.tone.c, rx: 12, sw: 1.6 });
+    badge(d, x + 24, sy + 26, String(i + 1), s.tone.c, 14, 13.5);
+    tx(d, x + 46, sy + 31, s.t, { size: 15, color: s.tone.t, weight: 700, maxW: w - 56 });
+    tag(d, x + 16, sy + 62, s.lv, LAYER_TONE(s.lv), { size: 11.5, h: 22 });
+    s.l.forEach((ln, k) => {
+      const o = typeof ln === 'string' ? { t: ln } : ln;
+      tx(d, x + 16, sy + 100 + k * 23, o.t, { size: o.b ? 14.5 : 12.5, color: o.b ? s.tone.t : INK, weight: o.b ? 700 : 400, maxW: w - 28 });
+    });
+    if (i < 3) arrow(d, [[x + w + 2, sy + sh / 2], [x + w + g - 2, sy + sh / 2]], '#94a3b8', { sw: 2, headSize: 9 });
+  });
+  const ry = sy + sh + 28;
+  rc(d, 28, ry, 1144, 120, { fill: T.script.f, stroke: T.script.c, rx: 14, sw: 2 });
+  tx(d, 52, ry + 38, '答え', { size: 16, color: T.script.t, weight: 700 });
+  tx(d, 130, ry + 38, 'C1 の使用率は 24 ÷ 63 ＝ 約 38%。基準の 70% 以下なので、このままで大丈夫。', { size: 16, weight: 700, maxW: 1010 });
+  chips(d, 130, ry + 62, 1020, ['入力 24 V ← part.json（L2 部品）', '基準 70% ← 電源係（L3）', '定格 63 V ← 回路図', '表の形 ← 電気設計部（L2 ドメイン）'], T.slate, { size: 12.5 });
+  done(d, ry + 120, [
+    'ポイント：数値（24 V）・判定基準（70%）・書き方（表）がそれぞれ別の階層から来ている。だから、どれか 1 つが変わっても他はそのまま使える。',
+    'L1 の「試験を付ける」「released/ は直さない」も同時に効いている（書き込みの関所は図 ④）。',
+  ]);
+}
+
+// =====================================================================
+// cp-23. ③ 案件を指定すると：変わるのは値だけ
+// =====================================================================
+{
+  const d = start('copilot:cp-23-with-a-case.svg', '事例 3 を 1 枚の回路図で読む ③　案件を指定すると、変わるのは「値」だけ', '同じ回路図・同じ手順でも、人が案件 C-2026-031（ACME 社・48 V）を指定すると入力電圧が上書きされ、C1 の判定が変わる。');
+  const y0 = 128;
+  const lx = 28; const lw = 420; const rx = 472; const rw = 700;
+  card(d, lx, y0, lw, 470, T.slate, '通常（案件なし）', [], { hh: 44, ts: 16 });
+  const nrm = [
+    ['L2 部品', 'part.json', '入力 24 V'],
+    ['L3', '電源係の手順', '≦ 70%'],
+    ['業務', '回路図の C1', '定格 63 V'],
+  ];
+  nrm.forEach(([lv, a, b], i) => {
+    const y = y0 + 64 + i * 66;
+    const tone = LAYER_TONE(lv);
+    rc(d, lx + 18, y, lw - 36, 54, { fill: tone.f, stroke: tone.s, rx: 9 });
+    tag(d, lx + 30, y + 27, lv, tone, { size: 11.5, h: 22 });
+    tx(d, lx + 130, y + 33, a, { size: 13.5 });
+    tx(d, lx + lw - 32, y + 33, b, { size: 15, color: tone.t, weight: 700, anchor: 'end' });
+  });
+  rc(d, lx + 18, y0 + 272, lw - 36, 92, { fill: T.script.f, stroke: T.script.c, rx: 10, sw: 2 });
+  tx(d, lx + lw / 2, y0 + 308, '24 ÷ 63 ＝ 約 38%', { size: 20, color: T.script.t, weight: 700, anchor: 'middle' });
+  tx(d, lx + lw / 2, y0 + 340, '70% 以下 → このまま使える', { size: 14, color: T.script.t, weight: 700, anchor: 'middle' });
+  tx(d, lx + 18, y0 + 404, '通常品の作業では、案件のルールは', { size: 13, color: MUTED });
+  tx(d, lx + 18, y0 + 428, '読み込まれない（混ざらない）', { size: 13, color: MUTED });
+  card(d, rx, y0, rw, 470, T_CASE, '案件 C-2026-031 を指定して作業する', [], { hh: 44, ts: 16 });
+  const cs = [
+    { n: 1, t: '人が案件を指定する', l: '/case-context C-2026-031', tone: T_CASE },
+    { n: 2, t: 'スクリプトが案件を確かめる', l: '期限 2027-03-31 まで OK・対象に電源ユニットを含む', tone: T_CASE },
+    { n: 3, t: '値が上書きされる', l: 'L1 既定 24 → L2 部品 24 → L4 案件 48 V', tone: T_CASE },
+    { n: 4, t: '同じ手順で計算し直す', l: '48 ÷ 63 ＝ 約 76%　→ 70% を超える', tone: T.must },
+    { n: 5, t: '新しい版に結論を書く', l: 'rev-c031-a.md に「C1 を再選定」と理由を表で', tone: T.script },
+  ];
+  cs.forEach((c, i) => {
+    const y = y0 + 60 + i * 80;
+    rc(d, rx + 18, y, rw - 36, 68, { fill: c.tone.f, stroke: c.tone.s, rx: 10 });
+    badge(d, rx + 44, y + 34, String(c.n), c.tone.c, 15, 14);
+    tx(d, rx + 72, y + 28, c.t, { size: 15, color: c.tone.t, weight: 700 });
+    tx(d, rx + 72, y + 52, c.l, { size: 13.5, maxW: rw - 110 });
+    if (i < 4) arrow(d, [[rx + 44, y + 50], [rx + 44, y + 78]], '#94a3b8', { sw: 1.6, headSize: 7 });
+  });
+  const by = y0 + 494;
+  rc(d, 28, by, 1144, 78, { fill: T.slate.f, stroke: T.slate.s, rx: 12 });
+  tx(d, 48, by + 32, '変わったのは「入力電圧の値」だけ。', { size: 16, weight: 700 });
+  tx(d, 48, by + 58, '判定の手順（L3 電源係）・書き方（L2 電気設計部）・全体の約束（L1）はそのまま。だから次の通常品の依頼では、また 24 V で正しく判定できる。', { size: 13.5, maxW: 1110 });
+  done(d, by + 78, [
+    '48 V の出どころは案件の case.json（期限つき）、24 V は部品の part.json。値の「経緯」は resolve-case.js が表で出す。',
+    '期限を過ぎた案件を指定すると、スクリプトが NG にして作業を始めない（古い顧客条件を使い続ける事故を防ぐ）。',
+  ]);
+}
+
+// =====================================================================
+// cp-24. ④ 書き込みの関所
+// =====================================================================
+{
+  const d = start('copilot:cp-24-write-guard.svg', '事例 3 を 1 枚の回路図で読む ④　直してはいけない所を、AI が直そうとすると', 'どの書き込みも、フック layered-guard.js が全階層の「守る場所」を見てから通す。止めるときは理由を AI に返す。');
+  const y0 = 128;
+  const rows = [
+    { ok: false, act: 'released/rev-a.md（リリース済み図面）を直す', pol: 'L2 ドメイン　l2-domain-electrical.json', why: 'リリース済みの図面は直さず、新しい版を作る' },
+    { ok: true, act: 'rev-c031-a.md（案件用の新しい版）を作る', pol: '一致するポリシーなし', why: '書き込める' },
+    { ok: false, act: 'certification/（認証書類）を書き換える', pol: 'L2 部品　l2-part-power-unit.json', why: '認証書類は変更しない' },
+    { ok: false, act: 'customer-spec/requirements.md（顧客の要求書）を直す', pol: 'L4 案件　l4-case-c-2026-031.json', why: '顧客から受け取った資料は読むだけ' },
+    { ok: false, act: 'common/safety/stop.c（安全停止）を変える', pol: 'L1　l1-workspace.json', why: '安全停止の共通ライブラリは変更しない' },
+  ];
+  const rh = 76; const g = 10;
+  tx(d, 48, y0 + 18, 'AI がしようとしたこと', { size: 14, color: MUTED, weight: 700 });
+  tx(d, 560, y0 + 18, '判定したポリシー（階層）', { size: 14, color: MUTED, weight: 700 });
+  tx(d, 940, y0 + 18, '結果', { size: 14, color: MUTED, weight: 700 });
+  rows.forEach((r, i) => {
+    const y = y0 + 34 + i * (rh + g);
+    const tone = r.ok ? T.script : T.must;
+    rc(d, 28, y, 500, rh, { fill: T.ai.f, stroke: T.ai.s, rx: 10 });
+    tx(d, 46, y + 44, r.act, { size: 13.5, weight: 700, maxW: 470 });
+    arrow(d, [[530, y + rh / 2], [552, y + rh / 2]], '#94a3b8', { sw: 1.8, headSize: 8 });
+    rc(d, 556, y, 360, rh, { fill: '#fff', stroke: r.ok ? T.slate.s : tone.c, rx: 10, sw: r.ok ? 1.2 : 1.8 });
+    tx(d, 574, y + 32, r.pol, { size: 13, weight: 700, color: r.ok ? MUTED : INK, maxW: 330 });
+    tx(d, 574, y + 56, r.why, { size: 12.5, color: r.ok ? MUTED : tone.t, maxW: 330 });
+    arrow(d, [[918, y + rh / 2], [938, y + rh / 2]], '#94a3b8', { sw: 1.8, headSize: 8 });
+    rc(d, 942, y, 230, rh, { fill: tone.f, stroke: tone.c, rx: 10, sw: 2 });
+    tx(d, 1057, y + 33, r.ok ? '✓ 通す' : '✗ 止める', { size: 17, color: tone.t, weight: 700, anchor: 'middle' });
+    tx(d, 1057, y + 57, r.ok ? '（終了コード 0）' : '（終了コード 2）', { size: 12.5, color: tone.t, anchor: 'middle' });
+  });
+  const my = y0 + 34 + rows.length * (rh + g) + 6;
+  rc(d, 28, my, 1144, 96, { fill: '#0f172a', rx: 12 });
+  tx(d, 48, my + 28, 'AI に返るメッセージ（1 行目の例）', { size: 12.5, color: '#94a3b8', weight: 700 });
+  tx(d, 48, my + 56, '[layered-guard] parts/power-unit/electrical/released/rev-a.md は L2「電気設計部（ドメイン）」の書き込み禁止の場所です。', { size: 13, color: '#e2e8f0', maxW: 1110 });
+  tx(d, 48, my + 80, 'リリース済みの図面は直さず、新しい版を作る（l2-domain-electrical.json）回避せず、人に依頼してください。', { size: 13, color: '#e2e8f0', maxW: 1110 });
+  done(d, my + 96, [
+    'ポリシーには「許可」を書く欄が無い。だから下の階層（L2〜L4）は守る場所を足せるが、上の階層（L1）の守りは外せない。',
+    'このフックは「書き込みの瞬間」の関所。読むのは自由なので、AI は図面や要求書を参照して新しい版を作れる。',
+  ]);
+}
+
+// =====================================================================
+// cp-25. ⑤ PR の関所：変えたファイルごとに、レビューする人が決まる
+// =====================================================================
+{
+  const d = start('copilot:cp-25-pull-request-gate.svg', '事例 3 を 1 枚の回路図で読む ⑤　PR を出すと、レビューする人が決まる', 'CODEOWNERS の「後に書いた行が優先」の決まりで、交わり（電源係）・案件・部品の責任者が自動でレビューに入る。');
+  const y0 = 128;
+  card(d, 28, y0, 330, 420, T.ai, 'PR「ACME 48 V 対応」', [], { hh: 44, ts: 15.5 });
+  tx(d, 46, y0 + 72, '変えたファイル', { size: 13, color: MUTED, weight: 700 });
+  const files = [
+    ['parts/power-unit/electrical/', 'rev-c031-a.md'],
+    ['cases/C-2026-031/', 'case.json'],
+    ['cases/C-2026-031/deliverables/', 'change-plan.md'],
+  ];
+  files.forEach(([dir, f], i) => {
+    const y = y0 + 88 + i * 92;
+    rc(d, 46, y, 294, 76, { fill: '#fff', stroke: T.ai.s, rx: 9 });
+    tx(d, 60, y + 30, dir, { size: 12, color: MUTED, maxW: 270 });
+    tx(d, 60, y + 56, f, { size: 15, weight: 700, maxW: 270 });
+  });
+  const mx = 400; const mw = 420;
+  card(d, mx, y0, mw, 420, T.slate, 'CODEOWNERS で一致した行', [], { hh: 44, ts: 15.5 });
+  const lines = [
+    ['/parts/power-unit/electrical/', '@power-team @electrical-dept'],
+    ['/cases/C-2026-031/case.json', '@acme-case-team @power-unit-owner @enclosure-owner'],
+    ['/cases/C-2026-031/', '@acme-case-team'],
+  ];
+  lines.forEach(([p, o], i) => {
+    const y = y0 + 88 + i * 92;
+    rc(d, mx + 18, y, mw - 36, 76, { fill: '#f8fafc', stroke: T.slate.s, rx: 9 });
+    tx(d, mx + 32, y + 30, p, { size: 13, weight: 700, maxW: mw - 60 });
+    tx(d, mx + 32, y + 56, o, { size: 12, color: MUTED, maxW: mw - 60 });
+    arrow(d, [[342, y + 38], [mx + 16, y + 38]], '#94a3b8', { sw: 1.8, headSize: 8 });
+  });
+  const rx = 862; const rw = 310;
+  card(d, rx, y0, rw, 420, T.script, 'レビューする人', [], { hh: 44, ts: 15.5 });
+  const revs = [
+    [['L3', '電源係'], ['L2 ドメイン', '電気設計部']],
+    [['L4', '案件の担当'], ['L2 部品', '電源・筐体の責任者']],
+    [['L4', '案件の担当']],
+  ];
+  revs.forEach((rs, i) => {
+    const y = y0 + 88 + i * 92;
+    rs.forEach(([lv, n], k) => {
+      const yy = y + 4 + k * 36;
+      tag(d, rx + 18, yy + 14, lv, LAYER_TONE(lv), { size: 11.5, h: 22 });
+      tx(d, rx + 110, yy + 19, n, { size: 13.5, weight: 700, maxW: rw - 124 });
+    });
+    arrow(d, [[mx + mw - 16, y + 38], [rx - 2, y + 38]], '#94a3b8', { sw: 1.8, headSize: 8 });
+  });
+  const cy = y0 + 444;
+  rc(d, 28, cy, 1144, 88, { fill: T.must.f, stroke: T.must.c, rx: 12 });
+  tx(d, 48, cy + 32, '必須チェック（CI）も通らないとマージできない', { size: 15, color: T.must.t, weight: 700 });
+  chips(d, 48, cy + 46, 1100, ['skill-catalog.js --strict（壊れたスキル）', 'check-large-files.js（CAD・動画の混入）', 'resolve-case.js（案件の期限と値）'], T.must);
+  done(d, cy + 88, [
+    'ルールセットで「コードオーナーのレビュー必須」「必須チェック」を有効にすると、全員の承認と CI の合格まで main に入らない。',
+    '案件の値（case.json）を変える PR には、値を上書きされる部品の責任者が必ず入る。顧客の都合だけで部品の値が変わるのを防ぐ。',
+  ]);
+}
+
+// =====================================================================
+// cp-26. ゼロから作る 6 ステップ
+// =====================================================================
+{
+  const d = start('copilot:cp-26-build-in-six-steps.svg', 'ゼロから作る 6 ステップ：どの順番で、どのファイルを足すか', '上から順に足していく。各ステップで「確かめる」をしてから次へ。ステップ 3 以降は、違いが出てきたときだけでよい。');
+  const y0 = 124;
+  const steps = [
+    { tone: T.base, t: '全体の約束を決める（L1）', l: ['作るもの・絶対ルール・変えてよい点', 'の表を 1 か所に書く'], f: ['AGENTS.md', 'copilot-instructions.md', 'product-rules.json'] },
+    { tone: T.must, t: '守る場所と関所を決める', l: ['書き換え禁止の場所と、', 'ルールを変えてよい人'], f: ['policies/l1-*.json', 'hooks/', 'CODEOWNERS'] },
+    { tone: T.dept, t: '部署の書き方を足す（L2 ドメイン）', l: ['成果物の種類のフォルダごとに', '書き方・道具・レビュー観点'], f: ['l2-domain-*.instructions.md', 'skills/<レビュー>/'] },
+    { tone: T_PART, t: '部品の値を足す（L2 部品）', l: ['部品ごとの仕様値と取り決め', '（値は JSON、指示は参照先だけ）'], f: ['parts/<部品>/part.json', 'l2-part-*.instructions.md'] },
+    { tone: T.self, t: '交わりの手順を足す（L3）', l: ['特定の部署 × 部品でだけ', '要る細かい手順'], f: ['l3-team-*.instructions.md', 'skills/<係の手順>/'] },
+    { tone: T_CASE, t: '案件の入口を作る（L4）', l: ['場所で決まらない一時的な対応', '（人が指定・期限つき）'], f: ['cases/<番号>/CASE.md', 'case.json', 'skills/case-context/'] },
+  ];
+  const w = 370; const g = 17; const h = 212;
+  steps.forEach((s, i) => {
+    const col = i % 3; const row = Math.floor(i / 3);
+    const x = 28 + col * (w + g); const y = y0 + row * (h + 46);
+    stepBox(d, x, y, w, h, i + 1, s.tone, s.t, s.l);
+    tx(d, x + 18, y + 128, '作るファイル', { size: 12, color: s.tone.t, weight: 700 });
+    chips(d, x + 18, y + 140, w - 36, s.f, s.tone, { size: 12 });
+    if (col < 2) arrow(d, [[x + w + 2, y + h / 2], [x + w + g - 2, y + h / 2]], '#94a3b8', { sw: 2, headSize: 9 });
+  });
+  pth(d, `M${28 + 2 * (w + g) + w / 2} ${y0 + h + 2} V${y0 + h + 22} H${28 + w / 2} V${y0 + h + 42}`, { stroke: '#94a3b8', sw: 2 });
+  head(d, [28 + w / 2, y0 + h + 30], [28 + w / 2, y0 + h + 44], '#94a3b8', 9);
+  const cy = y0 + 2 * h + 46 + 22;
+  rc(d, 28, cy, 1144, 92, { fill: T.slate.f, stroke: T.slate.s, rx: 12 });
+  tx(d, 48, cy + 32, '各ステップのあとに確かめる', { size: 15, weight: 700 });
+  chips(d, 48, cy + 46, 1100, ['which-rules.js：このファイルに何が効くか', 'resolve-case.js：値の経緯と期限', 'layered-guard.js：守る場所が止まるか', 'npm test：全部まとめて'], T.slate);
+  done(d, cy + 92, [
+    '案件の記録（L4）で何度も使った知識を、部品（L2）・ドメイン（L2）・係（L3）へ移していく育て方もある（図 sk-23）。',
+    '各ステップのファイルの実物は samples/05-composite-workspace にある。このページの図だけで、作るものと順番が分かるようにしてある。',
+  ]);
+}
+
 if (warnings.length) {
   console.warn('[幅チェック] 枠からはみ出す可能性のある文字列:');
   warnings.forEach((w) => console.warn('  - ' + w));

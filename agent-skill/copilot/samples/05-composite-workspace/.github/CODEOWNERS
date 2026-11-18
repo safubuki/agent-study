@@ -28,6 +28,13 @@
 /.github/instructions/l3-team-drive-control.instructions.md @example-corp/drive-control-team @example-corp/motor-driver-owner
 /.github/policies/l3-team-drive-control.json                @example-corp/drive-control-team
 
+# 成果物のフォルダ：ドメインの担当（交わりは係＋ドメイン）
+/parts/*/electrical/                      @example-corp/electrical-dept
+/parts/*/mechanical/                      @example-corp/mechanical-dept
+/parts/*/software/                        @example-corp/software-dept
+/parts/power-unit/electrical/             @example-corp/power-team @example-corp/electrical-dept
+/parts/motor-driver/software/             @example-corp/drive-control-team @example-corp/software-dept
+
 # L4 案件：案件の担当＋値を上書きされる部品の責任者
 /cases/C-2026-031/                        @example-corp/acme-case-team
 /cases/C-2026-031/case.json               @example-corp/acme-case-team @example-corp/power-unit-owner @example-corp/enclosure-owner

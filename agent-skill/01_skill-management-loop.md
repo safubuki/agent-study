@@ -36,11 +36,11 @@ Anthropic の Claude Code チームは「強いスキルの多くは数行と 1 
 | 保管庫 | 置き場所 | 中身 | 答える問い |
 |---|---|---|---|
 | ① スキル本体（正本） | Git リポジトリ | SKILL.md・資料・スクリプト | 何が正しい手順か |
-| ② 利用ログ | JSONL / SQLite / OpenTelemetry | いつ・どのスキルが・AI か人か | 実際どう使われているか（呼ばれないスキルは？） |
+| ② 利用ログ | JSONL（1 行 1 件の追記ログ） / SQLite / OpenTelemetry（外部の監視基盤へ送る標準計測） | いつ・どのスキルが・AI か人か | 実際どう使われているか（呼ばれないスキルは？） |
 | ③ 評価結果 | `evals/`・`iteration-N/` | 試験ケース・合否・差分・人の感想 | 直したら本当に良くなったか |
 
 - **① を RDB などに入れる必要はありません**。スキルはテキストとファイルなので、Git の差分・レビュー・タグ・巻き戻しがそのまま管理機能になります。Anthropic 社内もリポジトリとマーケットプレイス（＝Git）で管理しています。
-- **② は自動で集める**。Anthropic は `PreToolUse` フックでスキル利用を記録し、「人気のスキル」と「期待より呼ばれていないスキル（undertriggering）」を見つけています。Claude Code なら OpenTelemetry イベントや Enterprise の Analytics API も使えます。Copilot のフック資料にはスキル専用のツール名が無いため、SKILL.md の読み取りで推定します（[Copilot 編 7 章](copilot/01_copilot-setup.md#7-利用ログと評価)）。
+- **② は自動で集める**。Anthropic は `PreToolUse` フックでスキル利用を記録し、「人気のスキル」と「期待より呼ばれていないスキル（undertriggering＝発火不足）」を見つけています。Claude Code なら OpenTelemetry イベントや Enterprise の Analytics API も使えます。Copilot のフック資料にはスキル専用のツール名が無いため、SKILL.md の読み取りで推定します（[Copilot 編 7 章](copilot/01_copilot-setup.md#7-利用ログと評価)）。
 - スキル自身に**状態を持たせる**こともできます（前回の記録をログや JSON、SQLite に残し、次回は差分だけを見る）。これは「スキルの利用者データ」で、①〜③ とは別物として扱います。
 - **依頼文そのものはログに残さない**のがおすすめです。個人情報や機密が混ざるうえ、改善に必要なのは「どのスキルが・いつ・どう呼ばれたか」で足ります（[shared/hooks](shared/hooks/log-skill-usage.js) のフックもそうしています）。
 
@@ -50,7 +50,14 @@ Anthropic の Claude Code チームは「強いスキルの多くは数行と 1 
 
 ![evals.json → スキルあり/なしで実行 → 採点 → 集計 → 人のレビュー → 改善案 → 再実行 のループ](assets/sk-13-eval-loop.svg)
 
-agentskills.io（Agent Skills 標準のサイト）と Anthropic の skill-creator が示す手順です。
+agentskills.io（Agent Skills 標準のサイト）と Anthropic の skill-creator が示す手順です。評価で使う主なファイルは 4 つあり、順に使っていきます（書き方の実例：[evals.json サンプル](shared/skill-catalog/demo-skills/meeting-minutes/evals/evals.json)）。
+
+| ファイル | 役割 |
+|---|---|
+| `evals.json` | 試す依頼と期待する合格条件のリスト |
+| `grading.json` | 条件ごとの合否と根拠の採点結果 |
+| `benchmark.json` | 「あり／なし」の合格率・時間・トークンの集計表 |
+| `feedback.json` | 出力を見た人の具体的な改善コメント |
 
 1. **試験ケースを 2〜3 件**、`evals/evals.json` に書く（`prompt`・`expected_output`・`files`）。言い回しやくだけ具合を変え、境界の例も 1 つ入れる。
 2. 各ケースを**スキルあり**と**スキルなし（改善時は旧版のコピー）**で、**まっさらな文脈**から実行する（サブエージェントや別セッション）。スキルを作った会話の続きで試すと、会話に残った前提が穴を隠してしまう。
@@ -100,7 +107,7 @@ agentskills.io（Agent Skills 標準のサイト）と Anthropic の skill-creat
 | **A：公式（運用実績つき）** | Anthropic の公式ブログ・ドキュメント（How we use skills、skill-creator、Claude Code Docs） | 利用ログで発火不足を見つける／評価で「あり・なし」を比べる／試験置き場から昇格。**改善は人のレビューを通す前提** |
 | **A：標準仕様** | agentskills.io | 評価ファイルの形式と反復手順。人のレビュー（feedback.json）が手順に組み込まれている |
 | **B：論文（査読前を含む）** | SkillsBench（arXiv 2602.12670, 2026） | 人が整えたスキル：平均 **+16.2 ポイント**（領域で +4.5〜+51.9）。**AI が自分で書いたスキル：平均では効果なし**。84 課題中 16 課題で逆効果。焦点を絞った 2〜3 部品のスキルが網羅的な文書より良い |
-| **B：論文** | ACE（arXiv 2510.04618, 2025） | 文脈を丸ごと書き直し続けると短さに偏って細部が消える（context collapse）。**項目単位の差分追加と、整理役（curator）による統合**で改善 |
+| **B：論文** | ACE（arXiv 2510.04618, 2025） | 文脈を丸ごと書き直し続けると短さに偏って細部が消える（**context collapse**：毎回「全文を整理し直して」と頼むうちに、大事な例外や細かい条件が要約されて削られてしまう現象）。**項目単位の差分追加と、整理役（curator）による統合**で改善 |
 | **B：論文（古典）** | Voyager（arXiv 2305.16291, 2023） | 技能を「実行できるコード」の図書館として貯め、**自己検証を通ったものだけ**追加・検索して再利用 |
 | C：個人ブログ・まとめ記事 | 多数 | 「ループを回せばよい」とだけ書き、評価方法や失敗例が無いものが多い。**このガイドでは根拠に使っていない** |
 
@@ -119,7 +126,7 @@ agentskills.io（Agent Skills 標準のサイト）と Anthropic の skill-creat
 
 ![turtle-skills-neo の 4 つのメタスキルをライフサイクルに重ね、空いている段階を示した図](assets/sk-15-your-meta-skills-on-loop.svg)
 
-`turtle-skills-neo` には既に、**作る**（skills-generator・scripted-skill-generator）、**直す**（skills-generator の改善・診断）、**集める・同期する**（skill-update・skills-sync-guard）がそろっていて、正本（`.agents/skills`）とミラー（`.claude/skills`・`.github/skills`）の分け方も決まっています。役割ごとにスキルが分かれているので、段階を足しても責任が混ざりません。
+自作スキル集 `turtle-skills-neo`（[03 章](03_request-and-results.md)）を例にすると、既に **作る**（skills-generator・scripted-skill-generator）、**直す**（skills-generator の改善・診断）、**集める・同期する**（skill-update・skills-sync-guard）がそろっていて、正本（`.agents/skills`）とミラー（`.claude/skills`・`.github/skills`）の分け方も決まっています。役割ごとにスキルが分かれているので、段階を足しても責任が混ざりません。
 
 足すと効くのは次の 3 つです（どれも [shared/](shared/README.md) にスクリプトを用意しました。Claude Code・Copilot 共通）。
 

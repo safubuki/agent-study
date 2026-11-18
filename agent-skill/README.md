@@ -2,7 +2,7 @@
 
 エージェントスキル（Agent Skills）を、**人に説明できる基本**から、**増えたスキルの管理・改善・共有**、**「全社で絶対」「部署だけ」「個人だけ」の階層をどう表すか（スキル以外の方法も含めて）**、**指示ファイルの制約と新旧の見分け方**、**大容量データを Git の外に置く運用**まで、ベクター図（SVG）中心に整理したガイドです。
 
-**共通の考え方**（00〜05）と、**製品ごとの具体的な置き場所・設定・サンプル**（[copilot/](copilot/README.md)・[claude/](claude/README.md)）を分けています。
+**共通の考え方**（00〜05）と、**製品ごとの具体的な置き場所・設定・サンプル**（[copilot/](copilot/README.md)・[claude/](claude/README.md)）を分けています。初めて読むときは、まず **00〜02 で全体の考え方**をつかんでから、自分が使う製品（GitHub Copilot 編 または Claude Code 編）へ進むと迷いません。
 
 ![強制力のはしご：フック・必須チェック → 常時の指示 → パス限定 → スキル（自動）→ スキル（手動）](assets/sk-16-enforcement-ladder.svg)
 
@@ -49,6 +49,8 @@
 | [info/README.md](info/README.md) | 根拠にした公式ドキュメント・公式ブログ・変更履歴・標準仕様・論文と、確かさのラベル |
 
 ## 図の一覧（47 枚）
+
+> ※ 番号のうち `sk-09`・`sk-17`・`sk-18`・`sk-20` が飛んでいますが、これらは製品ごとの図（[cc-01〜04](claude/README.md#図4-枚)・[cp-01〜04](copilot/README.md#図19-枚)）へ分離したため欠番になっています（図の抜けはありません）。
 
 | 図 | 内容 | 章 |
 |---|---|---|
@@ -108,8 +110,9 @@ agent-skill/
 ```
 
 ```powershell
+npm run test:skills                              # リポジトリ直下からサンプル一式をテスト
+node agent-skill/scripts/test-samples.js        # 同上（直接実行・82項目）
 node agent-skill/scripts/generate-diagrams.js   # 図を再生成（文字のはみ出しは [幅チェック] で警告）
-node agent-skill/scripts/test-samples.js        # サンプルの動作確認（npm test にも含まれる）
 ```
 
 - **確認時点**：仕様・数値は 2026-11-18 に公式ドキュメント・変更履歴で確認しています。Copilot・Claude Code の仕様は更新が速いので、運用前に最新版を確認してください（[04](04_instruction-limits-and-timeline.md) の年表も参考に）。

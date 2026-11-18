@@ -18,7 +18,7 @@
 | 製品の常時の指示 | `./CLAUDE.md` または `./.claude/CLAUDE.md`（`@AGENTS.md` で共通化） | 毎回 |
 | 部署の常時の指示 | `firmware/CLAUDE.md` など担当フォルダの CLAUDE.md | そのフォルダのファイルを触ったとき |
 | パス限定の約束 | `.claude/rules/*.md`（frontmatter の `paths:`） | 一致するファイルを触ったとき |
-| 個人の常時の指示 | `~/.claude/CLAUDE.md`、`~/.claude/rules/`、`./CLAUDE.local.md`（Git に入れない） | 毎回 |
+| 個人の常時の指示 | `~/.claude/CLAUDE.md`、`~/.claude/rules/`、`./CLAUDE.local.md`（Git に入れない。`~` は自分のホームフォルダ、Windows なら `C:\Users\<ユーザー名>`） | 毎回 |
 | スキル | 管理・`~/.claude/skills/`・`.claude/skills/`・入れ子の `<dir>/.claude/skills/`・プラグイン | 説明文は毎回、本文は呼ばれたとき |
 | エージェント | `.claude/agents/*.md`（`skills:` で事前読み込み） | 呼ばれたとき |
 | フック・権限 | `.claude/settings.json`・`~/.claude/settings.json`・管理設定（`managed-settings.json`） | イベントごとに必ず |
@@ -32,7 +32,7 @@
 
 | 層 | 常に知らせる | 必ず止める | 手順を渡す | 配る |
 |---|---|---|---|---|
-| **ベース** | 管理 CLAUDE.md、製品の CLAUDE.md / AGENTS.md | `permissions.deny`・管理フック・リポジトリの保護フック | 管理スキル、手動専用の必須手順、必須プラグイン | MDM・管理設定（`enabledPlugins` で必須化） |
+| **ベース** | 管理 CLAUDE.md、製品の CLAUDE.md / AGENTS.md | `permissions.deny`・管理フック・リポジトリの保護フック | 管理スキル、手動専用の必須手順、必須プラグイン | MDM（企業の端末一括管理システム）・管理設定（`enabledPlugins` で必須化） |
 | **部署** | 担当フォルダの CLAUDE.md、`.claude/rules`（`paths`） | リポジトリの `.claude/settings.json` のフック | `paths` 付きスキル、部署プラグイン（`/fw-team:review`）、専用エージェント | 部署のマーケットプレイス、リポジトリ設定 |
 | **個人** | `~/.claude/CLAUDE.md`、`CLAUDE.local.md` | `~/.claude/settings.json` | `~/.claude/skills/` | 自分で置く |
 
@@ -70,7 +70,7 @@
 
 ## 5. 「必ず」を守らせる
 
-- **フック**：`.claude/settings.json` の `hooks`。`PreToolUse` で終了コード 2 を返すと、その操作を止められ、stderr の文章が AI に伝わる。サンプルの [guard-protected-paths.js](samples/01-layered-rules/product-repo/.claude/hooks/guard-protected-paths.js) は校正値と `.env` への書き込みを止める。
+- **フック**：`.claude/settings.json` の `hooks`。`PreToolUse` で終了コード 2 を返すと、その操作を止められ、stderr（エラー出力）に書いた理由が AI に伝わります（AI はその理由を読んでルールに沿った別案を考えられます）。サンプルの [guard-protected-paths.js](samples/01-layered-rules/product-repo/.claude/hooks/guard-protected-paths.js) は校正値と `.env` への書き込みを止めます。
 - **権限**：`permissions.deny`（例：`Read(**/.env)`）。管理設定に書けば利用者は上書きできない。
 - **スキルのフック**：スキルの `hooks` 欄に書いたフックは、そのスキルが呼ばれてから会話の終わりまで有効（Anthropic 社内の `/careful`・`/freeze` の例）。「呼ばれたら厳しくする」には使えるが、「必ず」には使えない。
 - 公式の言い方：「CLAUDE.md は強制ではなく文脈」「必ず守るべきことはフックへ」。
@@ -87,13 +87,13 @@
 | 出どころを限定する | 管理設定の `strictKnownMarketplaces`（許可リスト）・`blockedMarketplaces`・`disableSideloadFlags` |
 | 安定版と先行版を出し分ける | マーケットプレイスを 2 つ用意し、利用者グループごとに見せる方を変える |
 | claude.ai（Team / Enterprise）で配る | 管理者が組織に配布（既定で有効、各自がオフにできる） |
-| 監査する | OpenTelemetry の `claude_code.plugin_installed`・`plugin_loaded`、Enterprise の Analytics API |
+| 監査する | OpenTelemetry（外部の監視基盤へ送る標準計測）の `claude_code.plugin_installed`・`plugin_loaded`、Enterprise の Analytics API |
 
 ---
 
 ## 7. 利用ログと評価
 
-- **利用ログ**：[samples/02-skill-usage-log](samples/02-skill-usage-log/README.md)。`PreToolUse`（matcher: `Skill`）と `UserPromptSubmit` で、共通スクリプト [shared/hooks/log-skill-usage.js](../shared/hooks/log-skill-usage.js) を呼ぶ。
+- **利用ログ**：[samples/02-skill-usage-log](samples/02-skill-usage-log/README.md)。`PreToolUse`（`matcher: "Skill"`＝`Skill` ツール実行時だけ動かす条件指定）と `UserPromptSubmit` で、共通スクリプト [shared/hooks/log-skill-usage.js](../shared/hooks/log-skill-usage.js) を呼ぶ。
 - **未使用の発見**：`/skill-doctor`（使われていないスキルと文脈のコスト）、`/doctor`（一覧の大きさ）、`/context`。
 - **評価**：skill-creator プラグイン（`evals/evals.json`、あり／なし比較、説明文の発火調整）。プラグインとして配るスキルは `claude plugin eval` で CI に組み込める。
 - **棚卸し**：[shared/skill-catalog](../shared/README.md)（Claude Code・Copilot 共通）。

@@ -21,7 +21,7 @@
 | 製品の常時の指示 | `AGENTS.md`、`.github/copilot-instructions.md` | 毎回（対応は画面による。[3 章の表](#3-重なり方と画面ごとの違い)） |
 | パス限定の約束 | `.github/instructions/*.instructions.md`（frontmatter の `applyTo:`） | 一致するファイルを扱うとき |
 | 入れ子の AGENTS.md | `firmware/AGENTS.md` など | cloud agent は対応（2025-08）。VS Code・CLI は環境で確認 |
-| 個人の常時の指示 | `~/.copilot/copilot-instructions.md`、`~/.copilot/instructions/*.instructions.md`（CLI）、GitHub.com の個人設定 | 毎回 |
+| 個人の常時の指示 | `~/.copilot/copilot-instructions.md`、`~/.copilot/instructions/*.instructions.md`（CLI）、GitHub.com の個人設定（`~` は自分のホームフォルダ。Windows なら `C:\Users\<ユーザー名>`） | 毎回 |
 | スキル | `.github/skills/<名前>/SKILL.md`（推奨）、個人 `~/.copilot/skills/` | 説明文は毎回、本文は呼ばれたとき |
 | エージェント | `.github/agents/*.agent.md`、個人 `~/.copilot/agents/`、組織 `.github-private/agents/` | 人がエージェントを選んだとき |
 | フック | `.github/hooks/*.json`、個人 `~/.copilot/hooks/`、各 PC のポリシー（`C:\ProgramData\GitHub\Copilot\policy.d\`） | イベントごとに必ず |
@@ -61,11 +61,11 @@
 | スキル | CLI は**先に見つかった方**：プロジェクト ＞ 個人 ＞ プラグイン（プラグインは上書きできない） | Claude Code と逆。共有スキルと個人スキルの名前を重ねない |
 | エージェント | 同名なら「個人 ＞ リポジトリ ＞ 組織 ＞ エンタープライズ」（CLI の資料。資料間で記述に揺れあり） | 人が選んで使うので、名前を分けておけば問題になりにくい |
 | フック | **全部動く**（ポリシー・リポジトリ・個人・プラグイン） | GitHub 上の cloud agent で使われるのは `.github/hooks` だけ |
-| リポジトリ設定 | 既定 → MDM 管理設定 → `~/.copilot/settings.json` → `.github/copilot/settings.json` → `settings.local.json` → 環境変数 → コマンド引数（後ろが勝つ） | CLI の設定の順序 |
+| リポジトリ設定 | 既定 → MDM（企業の端末一括管理システム）の管理設定 → `~/.copilot/settings.json` → `.github/copilot/settings.json` → `settings.local.json` → 環境変数 → コマンド引数（後ろが勝つ） | CLI の設定の順序 |
 
 ![Copilot のどの画面で、どの仕組みが使われるか](assets/cp-03-where-it-works.svg)
 
-「書いたのに効かない」の多くはこの表の差です。特に、**組織の指示はローカルで使われない**、**VS Code 内の code review はパス別の指示を使わない**、**Visual Studio は AGENTS.md を読まない**、**フックは VS Code ではプレビュー**、の 4 点は押さえておきます。
+Copilot は動かす画面（自分の PC 上の VS Code／CLI、GitHub クラウド上の cloud agent、PR 上の code review など）によって動く環境が異なるため、読み込める設定も変わります。「書いたのに効かない」の多くはこの表の差です。特に、**組織の指示はローカルで使われない**、**VS Code 内の code review はパス別の指示を使わない**、**Visual Studio は AGENTS.md を読まない**、**フックは VS Code ではプレビュー**、の 4 点は押さえておきます。
 
 ---
 
@@ -88,7 +88,7 @@
 ![GitHub で仕組みを守る関所](assets/cp-05-github-governance.svg)
 
 - **フック**：`.github/hooks/hooks.json`（`"version": 1`、イベント名は `preToolUse` など小文字始まり、`bash`／`powershell` でコマンド指定）。止めるときは終了コード 2、またはトップレベルの `permissionDecision: "deny"`。サンプルの [hooks.json](samples/01-layered-rules/product-repo/.github/hooks/hooks.json) と [guard-protected-paths.js](samples/01-layered-rules/product-repo/.github/hooks/scripts/guard-protected-paths.js)（Claude Code 版と同じスクリプト）。
-- **注意**：`preToolUse` が**タイムアウト（既定 30 秒）すると拒否ではなく許可の流れ**に進みます。重い処理は入れない。matcher を使わない場合は、スクリプト側でツール名（`edit`・`create` など）を確認します。フックの詳細は [hook-guide の Copilot 編](../../hook-guide/docs/01_copilot-hook-guide.md)。
+- **注意**：`preToolUse` が**タイムアウト（既定 30 秒）すると拒否ではなく許可の流れ**に進みます。重い処理は入れない。`matcher`（フックをどのツール実行時だけ動かすかの条件指定）を使わない場合は、スクリプト側でツール名（`edit`・`create` など）を確認します。フックの詳細は [hook-guide の Copilot 編](../../hook-guide/docs/01_copilot-hook-guide.md)。
 - **ポリシーフック**：管理者が各 PC の `policy.d` に置く全マシン共通のフック（ローカルのセッション用。cloud agent では動かない）。
 - **GitHub の関所**：`.github/CODEOWNERS` で「AI 向けの仕組み」のファイルに層ごとのオーナーを付け、ルールセットで**コードオーナーのレビュー必須**・**必須ステータスチェック**（[skill-catalog --strict](../shared/README.md)、[check-large-files](../shared/external-assets/README.md)）にする。サンプル：[CODEOWNERS](samples/01-layered-rules/product-repo/.github/CODEOWNERS)。
 

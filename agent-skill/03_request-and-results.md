@@ -61,7 +61,7 @@
 | R5 | 公式・実績のある事例はすべて「**AI が提案 → 評価で確認 → 人が採用**」。保管は Git（本体）・ログ（利用）・evals（効果）の 3 つに分ける。共有は「試験置き場 → 使われたら PR でマーケットへ」（Anthropic 社内）。研究では**AI が自分で書いたスキルは平均で効果なし**（SkillsBench）、**全文書き直しは詳細が消える**（ACE）。根拠に使った情報源は確かさで A／B に分け、個人ブログは根拠にしていない | [01](01_skill-management-loop.md)（図 sk-10〜15）、[info](info/README.md) |
 | R6 | **「毎回必ず」はスキルでは保証できない** → 権限・フックで強制し、理由を AGENTS.md に 1 行。層は置き場所で表す（ベース＝管理設定・製品直下、部署＝担当フォルダ・`paths`・部署プラグイン、個人＝`~/.claude/`）。競合は 5 つの方法（置き場所・名前空間・手動専用・入口の一本化・測定）で防ぐ。スキル以外の選択肢 10 種を比較 | [02](02_layered-rules.md)（図 sk-16・19・21・22）、製品ごとの設定は [Copilot 編](copilot/01_copilot-setup.md)・[Claude Code 編](claude/01_claude-code-setup.md) |
 | R7 | このページ | — |
-| C3 | 動くサンプル：製品リポジトリの 3 層構成を **Copilot 版・Claude Code 版**で 1 つずつ、利用ログの設定を各 1 つ、共通の道具（利用ログのスクリプト・棚卸し・評価ファイル例・大容量データの目録）。`npm test` で 42 項目を自動確認 | [copilot/samples](copilot/samples/README.md)・[claude/samples](claude/samples/README.md)・[shared](shared/README.md) |
+| C3 | 動くサンプル：製品リポジトリの 3 層構成を **Copilot 版・Claude Code 版**で 1 つずつ、利用ログの設定を各 1 つ、共通の道具（利用ログのスクリプト・棚卸し・評価ファイル例・大容量データの目録）。初回は `npm test` で 42 項目を自動確認（追加依頼 7・8 章を経て、最終的には 82 項目に拡張） | [copilot/samples](copilot/samples/README.md)・[claude/samples](claude/samples/README.md)・[shared](shared/README.md) |
 
 **一番大事な結論を 3 行で**：
 
@@ -105,7 +105,7 @@ node agent-skill/shared/skill-catalog/skill-catalog.js C:\git_home\turtle-skills
 ## 5. このガイドの作り方（再現用メモ）
 
 - 一次情報は 2026-11-18 に取得・確認（[info/README.md](info/README.md)）。個人ブログ・まとめ記事は根拠に使わず、公式ドキュメント・公式ブログ・標準仕様・論文に限定。
-- 図 33 枚（共通 24・Claude Code 4・Copilot 5）は [scripts/generate-diagrams.js](scripts/generate-diagrams.js) で生成（共通キット使用、文字のはみ出しを自動チェック）。
+- 図（初回作成時は 33 枚、7・8 章の追加依頼で 47 枚に拡張：共通 24・Claude Code 4・Copilot 19）は [scripts/generate-diagrams.js](scripts/generate-diagrams.js) で生成（共通キット使用、文字のはみ出しを自動チェック）。
 - サンプルの動作は [scripts/test-samples.js](scripts/test-samples.js)（リポジトリ全体の `npm test` にも組み込み済み）で確認。
 
 ---

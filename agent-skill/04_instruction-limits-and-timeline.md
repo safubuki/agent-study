@@ -11,6 +11,8 @@
 
 ## 1. 登場時期：どれが古く、どれが新しいか
 
+> **表に出てくる 4 つの用語**：**cloud agent**（GitHub.com 上のクラウド環境で自律実行する Copilot）、**code review**（GitHub の PR 上や VS Code 内で動く自動レビュー）、**Codex**（OpenAI のコーディングエージェント）、**ハーネス**（VS Code 内で AI と道具をつなぐ実行基盤）。
+
 ![GitHub Copilot・共通の標準・Claude の仕組みの登場時期](assets/tl-01-timeline.svg)
 
 | 時期 | GitHub Copilot | 共通の標準 | Claude（Anthropic） |
@@ -40,7 +42,7 @@
 | `AGENTS.md` | 形式としての上限は無い。**Codex は合計 32 KiB まで**（`project_doc_max_bytes` の既定値、変更可） | Codex は**超えた分を警告なく落とす**。Visual Studio は読まない。Claude Code は CLAUDE.md があると既定で直接は読まない | 入れ子のフォルダに分けて小さく。Claude Code では CLAUDE.md から `@AGENTS.md` |
 | `CLAUDE.md` | 1 ファイル **200 行以内が目安**（公式）。大きすぎるサブフォルダの CLAUDE.md は先頭だけ | 長いほど・矛盾するほど守られにくい。長い会話で漏れる | `.claude/rules`（`paths`）へ分ける。手順はスキル、必須はフックへ |
 | 組織の指示（GitHub の設定） | **GitHub.com 上だけ**（Chat・cloud agent・code review） | **VS Code・CLI では使われない** | ローカルにも効かせたい約束は、リポジトリの AGENTS.md にも書く |
-| スキル（SKILL.md） | name 64 文字・説明文 1,024 文字（標準）。Claude Code は一覧で 1 件 1,536 文字、一覧全体で文脈の約 1% | **発火は確率的**。数が多いと説明文が削られる（Claude Code）。本文は呼ばれた時点の内容のまま | 手動専用・常時の指示に索引・棚卸しで減らす。必須ならフックへ |
+| スキル（SKILL.md） | name 64 文字・説明文 1,024 文字（標準）。Claude Code は一覧で 1 件 1,536 文字、一覧全体で文脈の約 1% | **発火は確率的**。数が多いと説明文が削られ（＝AI の一覧から溢れて見つけてもらえなくなる・Claude Code）、本文は呼ばれた時点の内容のまま | 手動専用・常時の指示に索引・棚卸しで減らす。必須ならフックへ |
 | フック | Copilot の `preToolUse` は既定 30 秒で**タイムアウトすると許可の流れ**へ進む。VS Code のフックはプレビュー | cloud agent は `.github/hooks` だけを読む | 処理は軽く。PR の必須チェックでも同じ検査を二重に |
 
 > [!IMPORTANT]

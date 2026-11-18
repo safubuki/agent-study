@@ -8,6 +8,8 @@
 | **2. 製品づくり** | 製品共通の絶対の作り方 → 製品カテゴリ（家庭用・産業用）→ 顧客（ACME 社・Borealis 社） | [samples/04-product-lines](samples/04-product-lines/README.md) |
 | **3. 複合ワークスペース** | 全体 → **組織ドメイン × 部品**（2 軸）→ 交わりの係 → 案件（期限つき・手動で読み込む） | [samples/05-composite-workspace](samples/05-composite-workspace/README.md) |
 
+> **表の読み方（2 つのルールの役割）**：各事例では、**指示（`*.instructions.md`）**が AI へ伝える文章の「お願い」、**強制（`.github/policies/*.json`）**がフックで読み取って書き込みを止める機械的な「禁止ルール」を表します。社内業務・文書中心なら **事例 1**、製品カテゴリ・顧客別の仕様値管理なら **事例 2**、両方が交差し案件対応もあるなら **事例 3** が参考になります。
+
 > **30 秒でわかる要点**
 > 1. **範囲はフォルダで表す**。L1 はリポジトリ全体（`AGENTS.md`）、L2・L3 は `.github/instructions/*.instructions.md` の `applyTo` でフォルダを指す。深いフォルダのファイルには **L1＋L2＋L3 が重なって**使われる。
 > 2. **L1 に「変えてよい点」を書き、下の階層はそれだけを決める**。絶対ルールは下で緩めない。下は「足す・狭める」だけ。
@@ -112,7 +114,11 @@
 | ログ保存日数 `log.retentionDays` | 30（L2） | **730（L3・契約）** | 365（L2） |
 | 筐体の色 `case.color` | **white（L3）** | gray（L2） | gray（L2） |
 
-`variant.json` に「変えてよい点」に無い項目（例：`safety.stopTimeMs`）を書くと、スクリプトが **NG** にします。選べる値の外（例：`comm.protocol: "can"`）や範囲の外（保存 1,000 日）も NG です。
+`variant.json` に「変えてよい点」に無い項目（例：`safety.stopTimeMs`）を書くと、スクリプトが **NG** にします。選べる値の外（例：`comm.protocol: "can"`）や範囲の外（保存 1,000 日）も NG です。手元で上の表を出力して確かめるには次を実行します。
+
+```powershell
+node agent-skill/copilot/samples/04-product-lines/.github/skills/product-variant-check/scripts/check-variants.js --root agent-skill/copilot/samples/04-product-lines
+```
 
 ### ファイル構成図と、階層ごとの仕組み
 

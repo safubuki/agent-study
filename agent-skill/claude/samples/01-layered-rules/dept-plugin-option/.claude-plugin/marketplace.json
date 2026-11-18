@@ -1,0 +1,14 @@
+{
+  "name": "example-corp-dept-tools",
+  "description": "サンプル：部署ごとのスキルをプラグインとして配るための社内マーケットプレイス",
+  "owner": {
+    "name": "Example Corp 開発基盤チーム"
+  },
+  "plugins": [
+    {
+      "name": "fw-team",
+      "source": "./plugins/fw-team",
+      "description": "制御ソフト課のレビュー手順（/fw-team:review）"
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "level": "L2",
+  "name": "営業部",
+  "scope": ["departments/sales/**"],
+  "protect": ["departments/sales/price-master/**"],
+  "denyExtensions": [],
+  "reason": "価格表は営業企画課だけが変更する"
+}

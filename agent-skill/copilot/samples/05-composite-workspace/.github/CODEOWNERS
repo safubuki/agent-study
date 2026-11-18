@@ -1,0 +1,34 @@
+# サンプル：軸ごとに「ルールを変えてよい人」を決める（後に書いた行ほど優先）。
+
+# L1 ワークスペース：開発基盤チーム
+*                                         @example-corp/platform
+/AGENTS.md                                @example-corp/platform
+/.github/                                 @example-corp/platform
+/common/safety/                           @example-corp/platform @example-corp/safety-officers
+
+# L2 ドメイン軸：各部（書き方・道具のルール）
+/.github/instructions/l2-domain-electrical.instructions.md @example-corp/electrical-dept
+/.github/policies/l2-domain-electrical.json                @example-corp/electrical-dept
+/.github/skills/elec-schematic-review/                     @example-corp/electrical-dept
+/.github/instructions/l2-domain-mechanical.instructions.md @example-corp/mechanical-dept
+/.github/instructions/l2-domain-software.instructions.md   @example-corp/software-dept
+
+# L2 部品軸：部品の責任者（仕様値・外との取り決め）
+/.github/instructions/l2-part-power-unit.instructions.md   @example-corp/power-unit-owner
+/.github/policies/l2-part-power-unit.json                  @example-corp/power-unit-owner
+/parts/power-unit/part.json                                @example-corp/power-unit-owner
+/.github/instructions/l2-part-motor-driver.instructions.md @example-corp/motor-driver-owner
+/parts/motor-driver/part.json                              @example-corp/motor-driver-owner
+/.github/instructions/l2-part-enclosure.instructions.md    @example-corp/enclosure-owner
+/parts/enclosure/part.json                                 @example-corp/enclosure-owner
+
+# L3 係（交わり）：係の担当＋その部品の責任者
+/.github/instructions/l3-team-power.instructions.md         @example-corp/power-team @example-corp/power-unit-owner
+/.github/skills/power-derating-check/                       @example-corp/power-team
+/.github/instructions/l3-team-drive-control.instructions.md @example-corp/drive-control-team @example-corp/motor-driver-owner
+/.github/policies/l3-team-drive-control.json                @example-corp/drive-control-team
+
+# L4 案件：案件の担当＋値を上書きされる部品の責任者
+/cases/C-2026-031/                        @example-corp/acme-case-team
+/cases/C-2026-031/case.json               @example-corp/acme-case-team @example-corp/power-unit-owner @example-corp/enclosure-owner
+/.github/policies/l4-case-c-2026-031.json @example-corp/acme-case-team

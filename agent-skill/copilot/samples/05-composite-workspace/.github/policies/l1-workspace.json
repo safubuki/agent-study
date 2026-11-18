@@ -1,0 +1,8 @@
+{
+  "level": "L1",
+  "name": "ワークスペース全体",
+  "scope": ["**"],
+  "protect": ["confidential/**", "common/safety/**", ".github/product-rules.json", "**/.env"],
+  "denyExtensions": [],
+  "reason": "社外秘・安全停止の共通ライブラリ・値の正本は変更しない"
+}

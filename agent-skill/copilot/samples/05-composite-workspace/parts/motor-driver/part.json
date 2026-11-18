@@ -1,0 +1,8 @@
+{
+  "part": "motor-driver",
+  "name": "モータドライバ",
+  "set": {
+    "motor.maxRpm": 3000,
+    "comm.protocol": "modbus-tcp"
+  }
+}

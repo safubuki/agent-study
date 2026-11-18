@@ -1,0 +1,26 @@
+{
+  "permissions": {
+    "deny": [
+      "Read(**/.env)",
+      "Read(**/.env.*)",
+      "Edit(**/.env)",
+      "Edit(**/.env.*)",
+      "Read(**/*.pem)",
+      "Read(**/id_rsa*)"
+    ]
+  },
+  "extraKnownMarketplaces": {
+    "example-corp-tools": {
+      "source": { "source": "github", "repo": "example-corp/claude-marketplace" },
+      "autoUpdate": true
+    }
+  },
+  "enabledPlugins": {
+    "base-quality@example-corp-tools": true
+  },
+  "strictKnownMarketplaces": [
+    { "source": "github", "repo": "anthropics/claude-plugins-official" },
+    { "source": "github", "repo": "example-corp/*" },
+    { "source": "skills-dir" }
+  ]
+}

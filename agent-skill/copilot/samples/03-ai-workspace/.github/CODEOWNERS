@@ -1,0 +1,27 @@
+# サンプル：階層ごとに「ルールを変えてよい人」を決める。ルールセットで「コードオーナーのレビュー必須」にすると効く。
+# 後に書いた行ほど優先される（GitHub の CODEOWNERS の決まり）。
+
+# L1 全社：ワークスペース管理チーム
+*                                        @example-corp/ai-workspace-admins
+/AGENTS.md                               @example-corp/ai-workspace-admins
+/.github/                                @example-corp/ai-workspace-admins
+
+# L2 部署：各部署のリーダー（自部署の指示・ポリシー・スキルだけ）
+/.github/instructions/l2-dept-sales.instructions.md @example-corp/sales-leads
+/.github/policies/l2-sales.json                     @example-corp/sales-leads
+/.github/skills/sales-proposal/                     @example-corp/sales-leads
+/.github/agents/sales-assistant.agent.md            @example-corp/sales-leads
+/.github/instructions/l2-dept-qa.instructions.md    @example-corp/qa-leads
+/.github/policies/l2-qa.json                        @example-corp/qa-leads
+/.github/skills/qa-defect-report/                   @example-corp/qa-leads
+/.github/agents/qa-assistant.agent.md               @example-corp/qa-leads
+
+# L3 係：各係の担当（自係の指示・ポリシー・スキルだけ）
+/.github/instructions/l3-team-sales-overseas.instructions.md @example-corp/sales-overseas
+/.github/instructions/l3-team-qa-inspection.instructions.md  @example-corp/qa-inspection
+/.github/policies/l3-qa-inspection.json                      @example-corp/qa-inspection
+/.github/skills/qa-inspection-record/                        @example-corp/qa-inspection
+
+# 業務フォルダ
+/departments/sales/          @example-corp/sales-leads
+/departments/qa/             @example-corp/qa-leads

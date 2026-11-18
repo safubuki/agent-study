@@ -1,0 +1,8 @@
+{
+  "level": "L3",
+  "name": "ACME 社",
+  "scope": ["products/industrial/customer-acme/**"],
+  "protect": ["products/industrial/customer-acme/contract/**"],
+  "denyExtensions": [],
+  "reason": "契約書は営業と法務だけが扱う"
+}

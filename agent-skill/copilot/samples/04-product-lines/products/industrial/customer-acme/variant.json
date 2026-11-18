@@ -1,0 +1,9 @@
+{
+  "level": "L3",
+  "name": "ACME 社向け",
+  "model": "X-I-ACM-03",
+  "set": {
+    "log.format": "csv",
+    "log.retentionDays": 730
+  }
+}

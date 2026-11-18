@@ -1,0 +1,8 @@
+{
+  "level": "L4",
+  "name": "案件 C-2026-031",
+  "scope": ["cases/C-2026-031/**"],
+  "protect": ["cases/C-2026-031/customer-spec/**"],
+  "denyExtensions": [],
+  "reason": "顧客から受け取った資料は読むだけ"
+}

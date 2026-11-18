@@ -6,6 +6,7 @@
   "scripts": {
     "test": "node scripts/verify-repo.js",
     "test:hooks": "node hook-guide/scripts/test-hooks-locally.js",
-    "test:mcp": "node mcp-guide/scripts/test-mcp-server.js"
+    "test:mcp": "node mcp-guide/scripts/test-mcp-server.js",
+    "test:skills": "node agent-skill/scripts/test-samples.js"
   }
 }

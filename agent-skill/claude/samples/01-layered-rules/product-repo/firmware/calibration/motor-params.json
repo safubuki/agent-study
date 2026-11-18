@@ -1,0 +1,5 @@
+{
+  "max_current_ma": 2500,
+  "period_us": 1000,
+  "reviewed_by": "制御ソフト課 品質担当"
+}

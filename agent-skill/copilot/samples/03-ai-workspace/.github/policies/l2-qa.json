@@ -1,0 +1,8 @@
+{
+  "level": "L2",
+  "name": "品質保証部",
+  "scope": ["departments/qa/**"],
+  "protect": ["departments/qa/standards/**"],
+  "denyExtensions": [],
+  "reason": "規格書は品質保証部の承認なしに変更しない"
+}

@@ -1,0 +1,18 @@
+# サンプル：大容量データがリポジトリに入っていないか、目録が壊れていないかを PR ごとに確かめる。
+# 実際に使うときは、リポジトリのルートの .github/workflows/ に置き、スクリプトのパスを合わせる。
+# ルールセットでこのチェックを「必須ステータスチェック」にすると、通らない PR はマージできなくなる。
+name: check-large-files
+on:
+  pull_request:
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: 大容量データの混入チェック
+        run: node scripts/check-large-files.js --tracked --max-mb 5
+      - name: 目録の構文チェック
+        run: node -e "JSON.parse(require('fs').readFileSync('assets.manifest.json','utf8'))"

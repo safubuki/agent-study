@@ -1,0 +1,8 @@
+{
+  "level": "L2",
+  "name": "産業用",
+  "scope": ["products/industrial/**"],
+  "protect": ["products/industrial/certification/**"],
+  "denyExtensions": [],
+  "reason": "認証取得済みの書類は変更しない"
+}

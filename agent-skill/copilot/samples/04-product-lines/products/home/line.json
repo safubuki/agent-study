@@ -1,0 +1,9 @@
+{
+  "level": "L2",
+  "name": "家庭用",
+  "set": {
+    "comm.protocol": "ble",
+    "ui.language": "ja",
+    "log.retentionDays": 30
+  }
+}

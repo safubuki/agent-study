@@ -1,0 +1,8 @@
+{
+  "level": "L2",
+  "name": "電気設計部（ドメイン）",
+  "scope": ["parts/*/electrical/**"],
+  "protect": ["parts/*/electrical/released/**"],
+  "denyExtensions": [],
+  "reason": "リリース済みの図面は直さず、新しい版を作る"
+}

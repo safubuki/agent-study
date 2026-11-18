@@ -1,0 +1,12 @@
+# サンプル：AI 向けの仕組み（指示・スキル・フック・エージェント）の変更は、ベース層の担当チームのレビューを必須にする。
+# ブランチ保護（またはルールセット）で「コードオーナーのレビュー必須」を有効にすると効く。
+/AGENTS.md                      @example-corp/product-x-base
+/.github/copilot-instructions.md @example-corp/product-x-base
+/.github/hooks/                 @example-corp/product-x-base
+/.github/skills/release-check/  @example-corp/product-x-base
+
+# 部署層は各部署がオーナー
+/.github/instructions/firmware.instructions.md @example-corp/fw-team
+/.github/skills/fw-timing-review/              @example-corp/fw-team
+/.github/agents/fw-reviewer.agent.md           @example-corp/fw-team
+/.github/instructions/app-ui.instructions.md   @example-corp/app-team

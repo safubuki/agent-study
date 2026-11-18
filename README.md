@@ -20,6 +20,7 @@ AI コーディングエージェント（Claude Code や GitHub Copilot）を�
 | **③ 1分で動く最小サンプルを試す** | [hook-guide/README.md](hook-guide/README.md#2-すぐ試せるclaude-code-なしでフックの動きを1秒で体験する) ／ [mcp-guide/README.md](mcp-guide/README.md#2-まずは1秒体験mcp-サーバーと直接会話してみるclaude-不要) | 外部パッケージ不要の Node.js スクリプトで、フックと MCP の仕組みを手元で即体験 |
 | **④ 自分のリポジトリへコピーする** | [agent-guide/samples/](agent-guide/samples/README.md) ／ [hook-guide/samples/](hook-guide/samples/README.md) ／ [mcp-guide/samples/](mcp-guide/samples/README.md) | 定番5パターン別の定義・設定ファイルを Claude Code 用と GitHub Copilot 用で並べて収録 |
 | **⑤ 自分の環境で比較実験する** | [agent-guide](agent-guide/README.md) ／ [hook-guide](hook-guide/README.md) ／ [mcp-guide](mcp-guide/README.md) の `run-experiment.ps1` | 「使う／使わない」の差を時間・ターン数・トークン・規約遵守スコア・計算精度で記録 |
+| **⑥ スキルの運用と階層化を考える** | [agent-skill/](agent-skill/README.md) ／ [強制力のはしご](agent-skill/assets/sk-16-enforcement-ladder.svg) | スキルの基本、増えたスキルの管理・改善・共有（公式事例と研究の精査）、「全社で絶対・部署だけ・個人だけ」をスキルとそれ以外の仕組みでどう分けるか |
 
 > [!NOTE]
 > **このリポジトリの設計方針**
@@ -37,6 +38,7 @@ AI コーディングエージェント（Claude Code や GitHub Copilot）を�
 | **[hook-guide/](hook-guide/README.md)** | **フック（Hooks）**<br/>（関所・自動整形・完了ゲート） | [00 入門](hook-guide/docs/00_hook-guide.md) | [01 Copilot編](hook-guide/docs/01_copilot-hook-guide.md) | [02 パターン5選](hook-guide/docs/02_hook-patterns.md) | [samples/](hook-guide/samples/README.md) | [README](hook-guide/README.md) |
 | **[mcp-guide/](mcp-guide/README.md)** | **MCP**<br/>（外部ツール・データ接続規格） | [00 入門](mcp-guide/docs/00_mcp-guide.md) | [01 Copilot編](mcp-guide/docs/01_copilot-mcp-guide.md) | [02 パターン5選](mcp-guide/docs/02_mcp-patterns.md) | [samples/](mcp-guide/samples/README.md) | [README](mcp-guide/README.md) |
 | **[copilot-fusion/](copilot-fusion/README.md)** | **Copilot Fusion とハーネス**<br/>（実行管理・MCP移行・モデル協調） | [01 ハーネス移行](copilot-fusion/01_harness-local-vs-copilot.md) | [02 Fusion解説](copilot-fusion/02_copilot-fusion.md) | — | — | [README](copilot-fusion/README.md) |
+| **[agent-skill/](agent-skill/README.md)** | **エージェントスキル**<br/>（基本・管理と改善ループ・階層化・制約と年表・大容量データ） | [00 基本](agent-skill/00_agent-skill-basics.md) ／ [01 管理と改善ループ](agent-skill/01_skill-management-loop.md) ／ [02 階層化と別の方法](agent-skill/02_layered-rules.md) ／ [04 制約と年表](agent-skill/04_instruction-limits-and-timeline.md) ／ [05 大容量データ](agent-skill/05_large-files-outside-git.md) | [Copilot 編](agent-skill/copilot/README.md) ／ [Claude Code 編](agent-skill/claude/README.md) | — | [copilot](agent-skill/copilot/samples/README.md) ／ [claude](agent-skill/claude/samples/README.md) ／ [shared](agent-skill/shared/README.md) | [03 依頼と結果](agent-skill/03_request-and-results.md) |
 | **[uml-guide/req/](uml-guide/req/README.md)** | **UML・SysML と要求図**<br/>（要望 → 要求 → 要件 → 仕様 → 設計） | [00 言葉の定義](uml-guide/req/00_what-is-a-requirement.md) ／ [01 UML と SysML](uml-guide/req/01_uml-vs-sysml.md) ／ [02 要求図の書き方](uml-guide/req/02_requirement-diagram.md) | — | — | — | [03 要求から設計図まで](uml-guide/req/03_requirements-to-design.md) |
 
 ---
@@ -70,6 +72,13 @@ agent-study/
 │   ├─ 02_copilot-fusion.md           … Fusion の3方式・Auto 等との比較
 │   ├─ assets/                        … SVGベクター図解（13枚）
 │   └─ scripts/                       … 図の再生成スクリプト
+│
+├─ agent-skill/              ← エージェントスキル（基本・管理と改善ループ・階層化・制約と年表・大容量データ）
+│   ├─ 00〜05 *.md                     … 共通の考え方（依頼と結果の記録を含む）
+│   ├─ copilot/ claude/               … 製品ごとの組み方ガイド・図・動くサンプル（同じ形）
+│   ├─ shared/                        … 共通の道具（利用ログ・棚卸し・大容量データの目録）
+│   ├─ assets/ info/                  … SVGベクター図解（全33枚のうち共通24枚）／出典メモ
+│   └─ scripts/                       … 図の再生成・サンプルの動作確認
 │
 ├─ uml-guide/req/            ← ⑤ UML・SysML と要求図（図解ガイド）
 │   ├─ 00〜03 *.md                     … 言葉の定義・UML と SysML の比較・要求図の書き方・設計図への落とし込み

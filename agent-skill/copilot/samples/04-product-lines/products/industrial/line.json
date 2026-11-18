@@ -1,0 +1,9 @@
+{
+  "level": "L2",
+  "name": "産業用",
+  "set": {
+    "comm.protocol": "modbus-tcp",
+    "log.retentionDays": 365,
+    "case.color": "gray"
+  }
+}

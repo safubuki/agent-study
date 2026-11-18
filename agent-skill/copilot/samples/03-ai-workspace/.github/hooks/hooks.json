@@ -1,0 +1,14 @@
+{
+  "version": 1,
+  "hooks": {
+    "preToolUse": [
+      {
+        "type": "command",
+        "bash": "node .github/hooks/scripts/layered-guard.js",
+        "powershell": "node .github/hooks/scripts/layered-guard.js",
+        "cwd": ".",
+        "timeoutSec": 10
+      }
+    ]
+  }
+}

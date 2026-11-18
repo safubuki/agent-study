@@ -1,0 +1,19 @@
+{
+  "level": "L1",
+  "locked": {
+    "safety.stopTimeMs": 100,
+    "power.maxCurrentA": 10
+  },
+  "defaults": {
+    "power.inputVoltage": 24,
+    "comm.protocol": "modbus-tcp",
+    "enclosure.ipRating": "IP54",
+    "motor.maxRpm": 3000
+  },
+  "variationPoints": {
+    "power.inputVoltage": { "levels": ["part", "case"], "allowed": [24, 48] },
+    "comm.protocol": { "levels": ["part", "case"], "allowed": ["modbus-tcp", "opc-ua"] },
+    "enclosure.ipRating": { "levels": ["part", "case"], "allowed": ["IP54", "IP65"] },
+    "motor.maxRpm": { "levels": ["part"], "min": 1000, "max": 6000 }
+  }
+}

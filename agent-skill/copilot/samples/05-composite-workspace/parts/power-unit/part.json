@@ -1,0 +1,7 @@
+{
+  "part": "power-unit",
+  "name": "電源ユニット",
+  "set": {
+    "power.inputVoltage": 24
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "level": "L3",
+  "name": "検査係",
+  "scope": ["departments/qa/inspection/**"],
+  "protect": ["departments/qa/inspection/signed/**"],
+  "denyExtensions": [".xlsx", ".xls"],
+  "reason": "署名済みの検査記録は編集しない。検査記録は Markdown で作る"
+}

@@ -1,0 +1,42 @@
+{
+  "version": 1,
+  "storage": {
+    "type": "box",
+    "description": "製品 X の大容量データ（3D CAD・画像・動画）。実体は Box の「製品X/技術データ」フォルダに置き、Git にはこの目録だけを入れる。",
+    "localRootEnv": "ASSET_ROOT",
+    "localRootHint": "Box Drive を使う場合の例：C:/Users/<you>/Box/製品X/技術データ"
+  },
+  "assets": [
+    {
+      "id": "cad-motor-housing",
+      "path": "product-x/cad/motor-housing.step",
+      "kind": "3d-cad",
+      "bytes": 116,
+      "sha256": "5d264283741232130e12ed653090a44f2a9550af39c5fbb5b073ad4b538cb461",
+      "box": { "fileId": "000000000001", "url": "https://example.app.box.com/file/000000000001" },
+      "owner": "機構設計課",
+      "updated": "2026-11-10",
+      "note": "モーター筐体。寸法の正は図面番号 MX-1203 の PDF（Box 側）"
+    },
+    {
+      "id": "img-board-top",
+      "path": "product-x/images/board-top.png",
+      "kind": "image",
+      "bytes": 96,
+      "sha256": "9c81ab870b2982a62a64a21b09edc6da8b25d7b5cd3ff16e953ca8a64f8bfe39",
+      "box": { "fileId": "000000000002", "url": "https://example.app.box.com/file/000000000002" },
+      "owner": "制御ソフト課",
+      "updated": "2026-11-12"
+    },
+    {
+      "id": "video-assembly",
+      "path": "product-x/video/assembly.mp4",
+      "kind": "video",
+      "bytes": 95,
+      "sha256": "d4f5f23ef9eac7d60b53d248de8e1f16940a6b14de52a583efe132ff60b175b9",
+      "box": { "fileId": "000000000003", "url": "https://example.app.box.com/file/000000000003" },
+      "owner": "製造技術課",
+      "updated": "2026-11-14"
+    }
+  ]
+}

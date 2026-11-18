@@ -1,0 +1,8 @@
+{
+  "level": "L1",
+  "name": "製品共通",
+  "scope": ["**"],
+  "protect": ["common/safety/**", ".github/product-rules.json", "**/.env"],
+  "denyExtensions": [],
+  "reason": "安全停止の共通ライブラリと、変えてよい点の正本は、製品共通チームだけが変更する"
+}

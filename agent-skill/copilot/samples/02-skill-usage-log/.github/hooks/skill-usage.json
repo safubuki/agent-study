@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "hooks": {
+    "preToolUse": [
+      {
+        "type": "command",
+        "bash": "node hooks/log-skill-usage.js",
+        "powershell": "node hooks/log-skill-usage.js",
+        "cwd": ".",
+        "timeoutSec": 5
+      }
+    ],
+    "userPromptSubmitted": [
+      {
+        "type": "command",
+        "bash": "node hooks/log-skill-usage.js",
+        "powershell": "node hooks/log-skill-usage.js",
+        "cwd": ".",
+        "timeoutSec": 5
+      }
+    ]
+  }
+}

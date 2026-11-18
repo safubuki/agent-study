@@ -1,0 +1,7 @@
+{
+  "part": "enclosure",
+  "name": "筐体",
+  "set": {
+    "enclosure.ipRating": "IP54"
+  }
+}

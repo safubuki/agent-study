@@ -1,0 +1,9 @@
+# 個人のこのリポジトリ用メモ（CLAUDE.local.md の例）
+
+> ファイル名を `CLAUDE.local.md` にして使う。`.gitignore` に入れて共有しない。
+> 同じフォルダの CLAUDE.md の「後」に読まれるので、自分用の補足に向く。
+> 注意：CLAUDE.local.md を置くと、Claude Code は既定で AGENTS.md を直接は読まなくなる。
+> このサンプルは CLAUDE.md が `@AGENTS.md` で取り込んでいるので影響しない。
+
+- 自分の検証用ボードは COM5 につながっている。
+- テストデータは `C:\work\x-testdata\` を使う。

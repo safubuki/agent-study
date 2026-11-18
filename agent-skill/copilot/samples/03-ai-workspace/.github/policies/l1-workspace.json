@@ -1,0 +1,8 @@
+{
+  "level": "L1",
+  "name": "全社ワークスペース",
+  "scope": ["**"],
+  "protect": ["confidential/**", "**/.env", "**/.env.*"],
+  "denyExtensions": [],
+  "reason": "社外秘・秘密情報は編集しない（AGENTS.md の絶対ルール 1）"
+}

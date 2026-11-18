@@ -9,6 +9,7 @@
  *   3. 全 Markdown（output/ 配下を除く）のローカルリンク・画像リンク・見出しアンカー整合性チェック
  *   4. 全 JSON / JSONC（.vscode/settings.json 等の VS Code 設定は JSONC として区別）の構文チェック
  *   5. 全 .svg ファイルの最低限の XML 整形式・viewBox 存在チェック
+ *   6. agent-skill/scripts/test-samples.js の実行（保護フック・出荷前チェック・利用ログ・棚卸し）
  */
 const fs = require('node:fs');
 const path = require('node:path');
@@ -719,6 +720,31 @@ function verifySvgFiles(allFiles) {
 }
 
 // =====================================================================
+// 6. agent-skill サンプルの動作確認（保護フック・出荷前チェック・利用ログ・棚卸し）
+// =====================================================================
+function verifyAgentSkillSamples() {
+  const scriptPath = path.join(repoRoot, 'agent-skill/scripts/test-samples.js');
+  const res = spawnSync(process.execPath, [scriptPath], {
+    cwd: repoRoot,
+    encoding: 'utf8',
+    timeout: 60000
+  });
+  const resultLine = (res.stdout || '').split(/\r?\n/).find((line) => line.includes('結果:'));
+  if (res.status !== 0) {
+    return {
+      ok: false,
+      summary: `agent-skill サンプルテスト失敗（exit=${res.status}）`,
+      errors: [
+        res.error ? res.error.message : '',
+        (res.stdout || '').split(/\r?\n/).filter((l) => l.includes('[NG]')).join('\n'),
+        res.stderr ? res.stderr.trim() : ''
+      ].filter(Boolean)
+    };
+  }
+  return { ok: true, summary: resultLine ? resultLine.trim() : 'agent-skill サンプルテスト合格', errors: [] };
+}
+
+// =====================================================================
 // メイン実行
 // =====================================================================
 function main() {
@@ -729,7 +755,8 @@ function main() {
     { label: '2. MCP サーバー通信テスト (本体 + samples/01,02,03,05)', run: () => verifyMcpServers() },
     { label: '3. Markdown リンク・画像・アンカー整合チェック', run: () => verifyMarkdownFiles(allFiles) },
     { label: '4. JSON / JSONC 構文チェック', run: () => verifyJsonFiles(allFiles) },
-    { label: '5. SVG XML 整形式・viewBox チェック', run: () => verifySvgFiles(allFiles) }
+    { label: '5. SVG XML 整形式・viewBox チェック', run: () => verifySvgFiles(allFiles) },
+    { label: '6. agent-skill サンプルテスト (test-samples.js)', run: () => verifyAgentSkillSamples() }
   ];
 
   console.log('======================================================================');

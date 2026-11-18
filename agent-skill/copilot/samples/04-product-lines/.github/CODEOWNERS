@@ -1,0 +1,24 @@
+# サンプル：階層ごとに「ルールを変えてよい人」を決める（後に書いた行ほど優先）。
+
+# L1 製品共通：製品共通チーム（安全・型番・変えてよい点の正本）
+*                                   @example-corp/product-core
+/AGENTS.md                          @example-corp/product-core
+/.github/                           @example-corp/product-core
+/common/safety/                     @example-corp/product-core @example-corp/safety-officers
+
+# L2 製品カテゴリ：各カテゴリの責任者
+/.github/instructions/l2-line-home.instructions.md       @example-corp/home-line
+/.github/skills/home-ux-review/                         @example-corp/home-line
+/products/home/                                         @example-corp/home-line
+/.github/instructions/l2-line-industrial.instructions.md @example-corp/industrial-line
+/.github/policies/l2-industrial.json                    @example-corp/industrial-line
+/.github/skills/industrial-env-review/                  @example-corp/industrial-line
+/products/industrial/                                   @example-corp/industrial-line
+
+# L3 顧客：顧客担当（カテゴリ責任者もレビューに入る）
+/.github/instructions/l3-customer-acme.instructions.md     @example-corp/acme-team @example-corp/industrial-line
+/.github/policies/l3-acme.json                             @example-corp/acme-team @example-corp/industrial-line
+/.github/skills/acme-protocol-check/                       @example-corp/acme-team
+/products/industrial/customer-acme/                        @example-corp/acme-team @example-corp/industrial-line
+/.github/instructions/l3-customer-borealis.instructions.md @example-corp/borealis-team @example-corp/industrial-line
+/products/industrial/customer-borealis/                    @example-corp/borealis-team @example-corp/industrial-line

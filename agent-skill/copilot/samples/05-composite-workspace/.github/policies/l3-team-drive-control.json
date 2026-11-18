@@ -1,0 +1,8 @@
+{
+  "level": "L3",
+  "name": "駆動制御係",
+  "scope": ["parts/motor-driver/software/**"],
+  "protect": [],
+  "denyExtensions": [".hex", ".bin"],
+  "reason": "ビルド成果物は CI だけが作る"
+}

@@ -1,0 +1,10 @@
+{
+  "level": "L3",
+  "name": "Borealis 社向け",
+  "model": "X-I-BOR-01",
+  "set": {
+    "comm.protocol": "opc-ua",
+    "ui.language": "en",
+    "log.format": "json"
+  }
+}

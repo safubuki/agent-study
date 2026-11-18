@@ -1,0 +1,21 @@
+# 大容量データはリポジトリに入れない（実体は Box。目録 assets.manifest.json だけを Git で管理する）
+*.step
+*.stp
+*.iges
+*.igs
+*.sldprt
+*.sldasm
+*.x_t
+*.3dm
+*.stl
+*.mp4
+*.mov
+*.avi
+*.psd
+*.zip
+
+# 作業用にダウンロードした実体の置き場
+/.asset-cache/
+
+# スキルの利用ログ（共有しない）
+/.skill-usage/

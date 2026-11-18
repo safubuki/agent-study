@@ -1,0 +1,22 @@
+{
+  "level": "L1",
+  "locked": {
+    "safety.stopTimeMs": 100,
+    "rated.maxCurrentA": 10,
+    "test.required": true
+  },
+  "defaults": {
+    "comm.protocol": "ble",
+    "ui.language": "ja",
+    "log.format": "csv",
+    "log.retentionDays": 90,
+    "case.color": "white"
+  },
+  "variationPoints": {
+    "comm.protocol": { "levels": ["L2", "L3"], "allowed": ["ble", "modbus-tcp", "modbus-rtu", "opc-ua"] },
+    "ui.language": { "levels": ["L2", "L3"], "allowed": ["ja", "en"] },
+    "log.format": { "levels": ["L2", "L3"], "allowed": ["csv", "json"] },
+    "log.retentionDays": { "levels": ["L2", "L3"], "min": 30, "max": 730 },
+    "case.color": { "levels": ["L2", "L3"] }
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "level": "L2",
+  "name": "電源ユニット（部品）",
+  "scope": ["parts/power-unit/**"],
+  "protect": ["parts/power-unit/certification/**"],
+  "denyExtensions": [],
+  "reason": "認証書類は変更しない"
+}

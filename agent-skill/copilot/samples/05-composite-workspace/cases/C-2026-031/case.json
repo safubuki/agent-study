@@ -1,0 +1,15 @@
+{
+  "id": "C-2026-031",
+  "title": "ACME 社向け 48 V 入力・防水対応",
+  "customer": "ACME 社",
+  "expires": "2027-03-31",
+  "targets": [
+    "parts/power-unit/**",
+    "parts/enclosure/**",
+    "cases/C-2026-031/**"
+  ],
+  "set": {
+    "power-unit": { "power.inputVoltage": 48 },
+    "enclosure": { "enclosure.ipRating": "IP65" }
+  }
+}

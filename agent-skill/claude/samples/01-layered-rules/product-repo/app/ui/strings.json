@@ -1,0 +1,5 @@
+{
+  "save": "保存する",
+  "current_label": "モーター電流（A）",
+  "warn_overcurrent": "電流が上限を超えました。運転を停止します。"
+}

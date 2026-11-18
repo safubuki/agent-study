@@ -48,7 +48,7 @@
 | [shared/](shared/README.md) | 利用ログのスクリプト、棚卸し（skill-catalog）、評価ファイルの例、大容量データの目録と照合・混入チェック |
 | [info/README.md](info/README.md) | 根拠にした公式ドキュメント・公式ブログ・変更履歴・標準仕様・論文と、確かさのラベル |
 
-## 図の一覧（47 枚）
+## 図の一覧（48 枚）
 
 > ※ 番号のうち `sk-09`・`sk-17`・`sk-18`・`sk-20` が飛んでいますが、これらは製品ごとの図（[cc-01〜04](claude/README.md#図4-枚)・[cp-01〜04](copilot/README.md#図19-枚)）へ分離したため欠番になっています（図の抜けはありません）。
 
@@ -72,6 +72,7 @@
 | [sk-19](assets/sk-19-trigger-conflicts.svg) | 説明文どうしの競合と 5 つの対策 | 2 |
 | [sk-21](assets/sk-21-where-to-write.svg) | どこに書くかの判断フロー | 2 |
 | [sk-22](assets/sk-22-claude-copilot-mapping.svg) | Claude Code と Copilot の対応表 | 2 |
+| [sk-23](assets/sk-23-from-case-to-shared-rules.svg) | 案件の経験と既存資料を、部品・ドメイン・係で共有して次の案件に生かす | 2 |
 | [tl-01](assets/tl-01-timeline.svg) | 仕組みの登場時期 | 4 |
 | [tl-02](assets/tl-02-limits-and-drops.svg) | 各仕組みの制約と取りこぼしの起き方 | 4 |
 | [tl-03](assets/tl-03-how-they-work-together.svg) | 常時の指示・スキル・フックを重ねて使う | 4 |
@@ -99,7 +100,7 @@
 agent-skill/
 ├─ README.md                        ← この案内
 ├─ 00〜05 *.md                      ← 共通の考え方
-├─ assets/                          ← 共通の図 24 枚
+├─ assets/                          ← 共通の図 25 枚
 ├─ copilot/                         ← GitHub Copilot 編（ガイド 2 本・図 19 枚・サンプル 5 つ・which-rules.js）
 ├─ claude/                          ← Claude Code 編（ガイド・図 4 枚・サンプル）
 ├─ shared/                          ← 共通の道具（利用ログ・棚卸し・大容量データの目録）

@@ -2779,6 +2779,214 @@ function stepBox(d, x, y, w, h, n, tone, title, lines) {
   ]);
 }
 
+// =====================================================================
+// イメージでつかむ（cp-27〜30）用のヘルパー
+// =====================================================================
+/** 半透明の多角形。pts = [[x,y], ...] */
+function poly(d, pts, fill, stroke, o = {}) {
+  const dstr = 'M' + pts.map((p) => `${r1(p[0])} ${r1(p[1])}`).join(' L') + ' Z';
+  d.parts.push(`<path d="${dstr}" fill="${fill}" fill-opacity="${o.op ?? 0.55}" stroke="${stroke}" stroke-width="${o.sw ?? 1.6}"${o.dash ? ` stroke-dasharray="${o.dash}"` : ''} stroke-linejoin="round"/>`);
+}
+
+// =====================================================================
+// cp-27. イメージ：ルールの階層は、地図に重ねる透明シート
+// =====================================================================
+{
+  const d = start('copilot:cp-27-transparent-sheets.svg', 'イメージ：ルールの階層は「地図に重ねる透明シート」', 'リポジトリを地図、ルールを透明シートと考える。ファイルにピンを立てると、真上のシートが全部重なって見える＝そのファイルに効くルール。');
+  const y0 = 128;
+  // 斜めから見た平面の座標変換：平面 (px, py) と高さ z → 画面
+  const OX = 70; const OY = y0 + 330;
+  const P = (px, py, z) => [OX + px + py * 0.62, OY - py * 0.48 - z];
+  const rect = (x, y, w, h, z) => [P(x, y, z), P(x + w, y, z), P(x + w, y + h, z), P(x, y + h, z)];
+  const W = 420; const H = 230;
+  // 地図（リポジトリ）
+  poly(d, rect(0, 0, W, H, 0), '#f1f5f9', '#94a3b8', { op: 1, sw: 1.4 });
+  poly(d, rect(16, 16, 180, H - 32, 0), '#ffffff', '#cbd5e1', { op: 1, sw: 1.2 });
+  poly(d, rect(222, 16, 182, H - 32, 0), '#ffffff', '#cbd5e1', { op: 1, sw: 1.2 });
+  poly(d, rect(300, 30, 96, 110, 0), '#ffffff', '#cbd5e1', { op: 1, sw: 1.2, dash: '4 3' });
+  const lab = (px, py, z, s, o = {}) => { const [x, y] = P(px, py, z); tx(d, x, y, s, { size: o.size ?? 11.5, color: o.color ?? T.slate.t, weight: o.weight ?? 700, anchor: o.anchor ?? 'start', halo: '#ffffff' }); };
+  // シート（下から L1・L2・L3）
+  const zL1 = 70; const zL2 = 140; const zL3 = 210;
+  poly(d, rect(0, 0, W, H, zL1), T.base.f, T.base.c, { op: 0.6 });
+  poly(d, rect(16, 16, 180, H - 32, zL2), T.dept.f, T.dept.c, { op: 0.55 });
+  poly(d, rect(222, 16, 182, H - 32, zL2), T.dept.f, T.dept.c, { op: 0.55 });
+  poly(d, rect(300, 30, 96, 110, zL3), T.self.f, T.self.c, { op: 0.6 });
+  // シートの名札（左側）
+  const nameTag = (z, lv, s) => { const [x, y] = P(0, 0, z); tag(d, x - 58, y - 8, lv, LAYER_TONE(lv), { size: 12, h: 22 }); tx(d, x - 58, y + 20, s, { size: 11.5, color: LAYER_TONE(lv).t, weight: 700 }); };
+  nameTag(zL1, 'L1', '全面シート');
+  nameTag(zL2, 'L2', '部署のシート');
+  nameTag(zL3, 'L3', '係のシート');
+  // ピン（検査係のファイル lot-002.md）
+  const pin = [350, 70];
+  const [bx, by] = P(pin[0], pin[1], 0);
+  const [tx2, ty2] = P(pin[0], pin[1], zL3 + 60);
+  pth(d, `M${bx} ${by} L${tx2} ${ty2}`, { stroke: T.must.c, sw: 2.6 });
+  circle(d, tx2, ty2, 9, T.must.c);
+  [0, zL1, zL2, zL3].forEach((z) => { const [x, y] = P(pin[0], pin[1], z); circle(d, x, y, 5, '#fff', T.must.c, 2.2); });
+  tx(d, tx2 + 16, ty2 + 5, 'ピン＝編集する lot-002.md', { size: 13, color: T.must.t, weight: 700 });
+  // 地図の名前（シートの上から見えるように最後に書く）
+  lab(24, 120, 0, 'departments/sales/（営業部）');
+  lab(230, 176, 0, 'departments/qa/（品質保証部）');
+  lab(304, 46, 0, 'inspection/（検査係）', { size: 11 });
+  // 付箋（L4）：地図の右下の空いた所に置く
+  const sx = 500; const sy = 484;
+  rc(d, sx, sy - 10, 150, 54, { fill: T_CASE.f, stroke: T_CASE.c, rx: 4, sw: 1.6, dash: '5 4' });
+  tx(d, sx + 10, sy + 12, 'L4 付箋（案件）', { size: 12.5, color: T_CASE.t, weight: 700 });
+  tx(d, sx + 10, sy + 34, '人が貼ったときだけ', { size: 11.5, color: T_CASE.t });
+  // 右のパネル
+  const rx = 700; const rw = 472;
+  card(d, rx, y0, rw, 250, T.must, 'ピンの真上にあるシート＝効くルール', [
+    { t: '● L1 全面シート（AGENTS.md）', color: T.base.t, weight: 700 },
+    { t: '● L2 品質保証部のシート（applyTo: departments/qa/**）', color: T.dept.t, weight: 700 },
+    { t: '● L3 検査係のシート（applyTo: …/inspection/**）', color: T.self.t, weight: 700 },
+    { t: '○ L2 営業部のシートは真上に無い → 効かない', color: MUTED },
+    { t: '○ L4 付箋は、人が案件を指定したときだけ', color: MUTED },
+  ], { hh: 44, top: 28, ls: 13.5, lh: 30, ts: 15 });
+  card(d, rx, y0 + 270, rw, 200, T.slate, 'たとえと実物の対応', [
+    '地図　　　＝ リポジトリのフォルダ',
+    'シート　　＝ 指示ファイル（大きさ＝applyTo の範囲）',
+    '全面シート ＝ AGENTS.md・copilot-instructions.md',
+    '付箋　　　＝ 案件の CASE.md（/case-context で貼る）',
+    'ピン　　　＝ AI が今扱っているファイル',
+  ], { hh: 44, top: 28, ls: 13.5, lh: 28, ts: 15 });
+  done(d, y0 + 470, [
+    'シートは重なるだけで他を消さない（一致した指示は全部つながって読まれる）。だから下のシートには上と矛盾しないことを書く。',
+    '例は事例 1（全社 AI ワークスペース）。事例 2・3 も同じで、部署の代わりに製品カテゴリ・部品・成果物の種類のシートを重ねる。',
+  ]);
+}
+
+// =====================================================================
+// cp-28. たとえ：会社の書類と道具に置き換えると
+// =====================================================================
+{
+  const d = start('copilot:cp-28-office-analogy.svg', 'たとえ：Copilot の仕組みを、会社の書類と道具に置き換えると', '指示ファイルは「読むもの」、フックは「物理的に止めるもの」。同じ「ルール」でも、効き方がまったく違う 7 種類に分かれる。');
+  const y0 = 124;
+  const X = { mech: 28, ana: 236, file: 640, when: 958 };
+  rc(d, 28, y0, 1144, 40, { fill: T.slate.c, rx: 10 });
+  [['仕組み', X.mech + 16], ['会社でたとえると', X.ana], ['Copilot のファイル', X.file], ['いつ効くか', X.when]].forEach(([s, x]) => tx(d, x, y0 + 26, s, { size: 14, color: '#fff', weight: 700 }));
+  const rows = [
+    ['always', '就業規則・全社通達', '誰でも毎回目を通す。短く大事なことだけ', 'AGENTS.md', 'copilot-instructions.md', '毎回'],
+    ['path', '部署の業務マニュアル', 'その部署の書類を扱うときだけ開く', '.github/instructions/', '*.instructions.md（applyTo）', 'その場所のファイルを扱うとき'],
+    ['skill', '手順書・チェックリスト', '必要な作業のときだけ棚から出す', '.github/skills/', '<名前>/SKILL.md', '説明文が合うとき・/名前'],
+    ['manual', '案件ごとの指示書', '担当者が「この案件です」と手渡す', 'cases/<番号>/CASE.md', '/case-context <番号>', '人が渡したときだけ'],
+    ['agent', '担当の役割', '「今日は検査担当」と役を決めて始める', '.github/agents/', '<名前>.agent.md', '人が役を選んだとき'],
+    ['guard', '鍵のかかった棚', '注意書きではなく、物理的に開かない', '.github/hooks/', '＋ policies/*.json', '書き込みのたびに必ず'],
+    ['gate', '承認印', '決まった人の判子がないと通らない', 'CODEOWNERS', '＋ ルールセット', 'PR を出したとき'],
+  ];
+  const rh = 70; const g = 6;
+  rows.forEach(([k, a, a2, f1, f2, w], i) => {
+    const y = y0 + 48 + i * (rh + g);
+    const m = MECH[k];
+    rc(d, 28, y, 1144, rh, { fill: i % 2 ? '#fff' : '#f8fafc', rx: 8 });
+    rc(d, 40, y + 18, 180, 34, { fill: m.tone.c, rx: 8 });
+    tx(d, 130, y + 40, m.label, { size: 14, color: '#fff', weight: 700, anchor: 'middle' });
+    tx(d, X.ana, y + 30, a, { size: 15.5, weight: 700, color: m.tone.t });
+    tx(d, X.ana, y + 54, a2, { size: 12.5, color: MUTED, maxW: X.file - X.ana - 16 });
+    tx(d, X.file, y + 30, f1, { size: 13, weight: 700, maxW: X.when - X.file - 12 });
+    tx(d, X.file, y + 52, f2, { size: 12.5, color: MUTED, maxW: X.when - X.file - 12 });
+    tx(d, X.when, y + 42, w, { size: 13, color: m.tone.t, weight: 700, maxW: 1160 - X.when });
+  });
+  const by = y0 + 48 + rows.length * (rh + g) + 4;
+  rc(d, 28, by, 1144, 70, { fill: T.must.f, stroke: T.must.c, rx: 12 });
+  tx(d, 48, by + 30, '上の 5 つ（読むもの）は「守られやすいが保証はない」、下の 2 つ（止めるもの）は「必ず効く」。', { size: 14.5, color: T.must.t, weight: 700 });
+  tx(d, 48, by + 54, '絶対に守らせたいことは、マニュアルに書いたうえで鍵（フック）か承認印（必須チェック）でも止める。', { size: 13.5, maxW: 1110 });
+  done(d, by + 70, [
+    'ルールの階層（L1〜L4）は、このうち「マニュアル（パス別の指示）」の重なりで作るのが基本。鍵と承認印は、どの階層でも同じ仕組みで使う。',
+    '色は、ほかの図の「仕組み」の色と同じ。早見表（cp-20）やファイル構成図（cp-11・13・18）のチップの色と対応している。',
+  ]);
+}
+
+// =====================================================================
+// cp-29. applyTo の動き方
+// =====================================================================
+{
+  const d = start('copilot:cp-29-how-applyto-works.svg', 'applyTo の動き方：AI が扱うファイルの場所で、読むマニュアルが決まる', '公式の説明は「Copilot が作業しているファイルと一致したら、その指示を使う」。依頼の文面ではなく、扱うファイルの場所で決まる。');
+  const y0 = 128;
+  const col = (x, w, tone, title) => card(d, x, y0, w, 560, tone, title, [], { hh: 46, ts: 15.5 });
+  col(28, 562, T.script, 'A：ファイルを扱う依頼 → 部署の指示が加わる');
+  col(610, 562, T.must, 'B：ファイルに触れない質問 → 加わらないことがある');
+  const flow = (x, y, steps) => steps.forEach((s, i) => {
+    const yy = y + i * 98;
+    rc(d, x, yy, 526, 84, { fill: s.tone.f, stroke: s.tone.c, rx: 10, sw: 1.5 });
+    badge(d, x + 26, yy + 28, String(i + 1), s.tone.c, 14, 13.5);
+    tx(d, x + 50, yy + 33, s.t, { size: 14.5, color: s.tone.t, weight: 700, maxW: 460 });
+    s.l.forEach((ln, k) => tx(d, x + 50, yy + 57 + k * 20, ln, { size: 12.5, maxW: 460 }));
+    if (i < steps.length - 1) arrow(d, [[x + 26, yy + 46], [x + 26, yy + 96]], '#94a3b8', { sw: 1.6, headSize: 7 });
+  });
+  flow(46, y0 + 66, [
+    { tone: T.ai, t: '依頼「lot-002.md に今日の検査結果を追加して」', l: ['対象のファイルがはっきりしている'] },
+    { tone: T.ai, t: 'AI が departments/qa/inspection/lot-002.md を扱う', l: ['このパスで、各指示ファイルの applyTo と照合'] },
+    { tone: T.script, t: '一致：l2-dept-qa（departments/qa/**）', l: ['一致：l3-team-qa-inspection（…/inspection/**）', '不一致：l2-dept-sales（departments/sales/**）'] },
+    { tone: T.script, t: 'L1＋L2 品証＋L3 検査係の指示で作業する', l: ['VS Code では回答の「参照（References）」で確認できる'] },
+    { tone: T.slate, t: '結果：検査係の様式（1 ロット 1 ファイル）で書く', l: ['署名済み signed/ はフックが止める（別の仕組み）'] },
+  ]);
+  flow(628, y0 + 66, [
+    { tone: T.ai, t: '依頼「品証部の不具合報告の書き方は？」', l: ['どのファイルの話か決まっていない'] },
+    { tone: T.must, t: 'AI がどのファイルも扱っていない', l: ['照合する「場所」が無い'] },
+    { tone: T.must, t: 'l2-dept-qa の applyTo と一致しない', l: ['→ 部署の指示が読まれないことがある'] },
+    { tone: T.script, t: '対策 1：AGENTS.md に索引を書いておく', l: ['「不具合報告 → qa-defect-report スキル」と道案内'] },
+    { tone: T.script, t: '対策 2：対象のファイルを添付して頼む', l: ['または部署のエージェント（qa-assistant）を選ぶ'] },
+  ]);
+  done(d, y0 + 560, [
+    'applyTo のパターンはリポジトリのルートから書く。「departments/qa/**」は departments/qa/ の下の全ファイル（深い階層も）に一致する。',
+    '出典：GitHub Docs「Adding repository custom instructions」、VS Code Docs「Custom instructions」（2026-11-19 確認）。',
+  ]);
+}
+
+// =====================================================================
+// cp-30. applyTo は「あり」か
+// =====================================================================
+{
+  const d = start('copilot:cp-30-is-applyto-ok.svg', 'applyTo を使うのは「あり」か：公式の仕組み。ただし「場所で分けられるルール」専用', '部署・係・製品・部品のように「どのフォルダのファイルか」で分けられるなら本命。人・時期・必須の守りは、別の仕組みと組み合わせる。');
+  const y0 = 128;
+  rc(d, 28, y0, 1144, 64, { fill: T.script.f, stroke: T.script.c, rx: 12, sw: 2 });
+  tx(d, 48, y0 + 28, '結論：あり。パス別の指示（.instructions.md の applyTo）は、GitHub が用意している正式な仕組み。', { size: 15.5, color: T.script.t, weight: 700, maxW: 1110 });
+  tx(d, 48, y0 + 50, 'Copilot cloud agent・code review・VS Code・CLI などで使われる。ただし向き・不向きと、画面による違いがある。', { size: 13, maxW: 1110 });
+  const cy = y0 + 88;
+  card(d, 28, cy, 470, 300, T.script, '向いている：場所で決まるルール', [
+    { t: 'フォルダ＝担当領域', weight: 700 },
+    '　departments/qa/**（部署）・…/inspection/**（係）',
+    { t: '製品・部品のフォルダ', weight: 700 },
+    '　products/industrial/**・parts/power-unit/**',
+    { t: '成果物の種類', weight: 700 },
+    '　parts/*/electrical/**・**/*.py（言語ごと）',
+    { gap: 4 },
+    { t: '→ 担当外の人の作業に混ざらない', color: T.script.t, weight: 700 },
+  ], { hh: 44, top: 28, ls: 13, lh: 25, ts: 15.5 });
+  card(d, 522, cy, 650, 300, T.must, '向いていない → 代わりの仕組み', [], { hh: 44, ts: 15.5 });
+  const alt = [
+    ['人・役割で分けたい', '「検査担当として作業する」', 'agent', 'エージェント（*.agent.md）'],
+    ['案件・時期で分けたい', '「ACME 社の案件として」', 'manual', '手動のスキル（/case-context）'],
+    ['必ず守らせたい', '「署名済みは絶対に直さない」', 'guard', 'フック・必須チェック'],
+    ['どの画面でも効かせたい', '「社外秘を扱わない」', 'always', 'AGENTS.md にも書く'],
+  ];
+  alt.forEach(([a, ex, k, b], i) => {
+    const y = cy + 58 + i * 58;
+    tx(d, 542, y + 18, a, { size: 13.5, weight: 700 });
+    tx(d, 542, y + 38, ex, { size: 12, color: MUTED });
+    arrow(d, [[760, y + 22], [800, y + 22]], '#94a3b8', { sw: 1.6, headSize: 8 });
+    tag(d, 808, y + 22, MECH[k].label, MECH[k].tone, { size: 12, h: 24 });
+    tx(d, 808 + estWidth(MECH[k].label, 12) + 30, y + 27, b, { size: 13, maxW: 1160 - 808 - estWidth(MECH[k].label, 12) - 40 });
+  });
+  const ny = cy + 324;
+  card(d, 28, ny, 1144, 186, T.slate, '使うときの注意 4 つ', [], { hh: 44, ts: 15.5 });
+  const notes = [
+    ['画面による', 'GitHub.com の Chat では使われない（cloud agent と code review は使う）。VS Code の code review も使わない。'],
+    ['順位なしで全部つながる', '一致した指示ファイルは全部読まれる。上下で矛盾させず、既定値には「下の指定に従う」と書く。'],
+    ['除外もできる', 'frontmatter の excludeAgent: "code-review" または "cloud-agent" で、その仕組みからだけ外せる。'],
+    ['効いたか確かめる', 'VS Code は回答の「参照（References）」で、読まれた指示ファイルを確認できる（守ったかどうかは別）。'],
+  ];
+  notes.forEach(([h, t], i) => {
+    const y = ny + 62 + i * 30;
+    tag(d, 46, y, h, T.slate, { size: 12, h: 24 });
+    tx(d, 46 + estWidth(h, 12) + 30, y + 5, t, { size: 12.5, maxW: 1110 - estWidth(h, 12) - 30 });
+  });
+  done(d, ny + 186, [
+    'サンプルが applyTo を多く使うのは、部署・係・製品・部品がフォルダで分けられる題材だから。人や案件は別の仕組みにしている。',
+    '出典：GitHub Docs（Adding repository custom instructions ほか）、VS Code Docs（2026-11-19 確認）。',
+  ]);
+}
+
 if (warnings.length) {
   console.warn('[幅チェック] 枠からはみ出す可能性のある文字列:');
   warnings.forEach((w) => console.warn('  - ' + w));

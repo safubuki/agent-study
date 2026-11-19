@@ -4,7 +4,7 @@
 
 | 資料 | 内容 |
 |---|---|
-| **[03 図で読む：ルールの階層の組み方](03_layered-visual-guide.md)** | **まずここから**。早見表「こんなときは、このファイルを作る」、事例 3 を 1 枚の回路図で読む ①〜⑤、ゼロから作る 6 ステップ。図だけで読める |
+| **[03 図で読む：ルールの階層の組み方](03_layered-visual-guide.md)** | **まずここから**。透明シートのたとえ・applyTo の正体と「ありか」・早見表・事例 3 を 1 枚の回路図でたどる ①〜⑤・作る順番。各図に「言いたいこと／見るところ」つき |
 | [01 GitHub Copilot での組み方](01_copilot-setup.md) | 置き場所の早見表、3 層の組み方、重なり方と画面ごとの違い、説明文の競合を防ぐつまみ、強制（フック・GitHub の関所）、配布、利用ログと評価、見落としやすい点 |
 | [samples/01-layered-rules](samples/01-layered-rules/README.md) | 製品リポジトリを 3 層で組んだ動くサンプル（GitHub の組織設定・各 PC のポリシーも含む） |
 | [02 階層の組み方の事例 3 つ](02_layered-examples.md) | **絶対ルール → 部署・カテゴリ → 係・顧客**の 3 階層を、全社 AI ワークスペース・製品づくり・その複合（ドメイン × 部品 → 係 → 案件）の 3 事例で。各階層のファイルへのリンク・ファイル構成図つき |
@@ -16,7 +16,7 @@
 
 関連：[04 指示ファイルの制約と年表](../04_instruction-limits-and-timeline.md)、[05 大容量データは Git の外に置く](../05_large-files-outside-git.md)。
 
-## 図（26 枚）
+## 図（30 枚）
 
 | 図 | 内容 |
 |---|---|
@@ -39,3 +39,7 @@
 | [cp-20](assets/cp-20-which-files-for-which-case.svg) | 早見表：こんなときは、このファイルを作る |
 | [cp-21](assets/cp-21-read-the-path.svg)〜[cp-25](assets/cp-25-pull-request-gate.svg) | 1 枚の回路図で読む ①パス ②通常の作業 ③案件 ④書き込みの関所 ⑤PR の関所 |
 | [cp-26](assets/cp-26-build-in-six-steps.svg) | ゼロから作る 6 ステップ |
+| [cp-27](assets/cp-27-transparent-sheets.svg) | イメージ：ルールの階層は「地図に重ねる透明シート」 |
+| [cp-28](assets/cp-28-office-analogy.svg) | たとえ：仕組みを会社の書類と道具に置き換える |
+| [cp-29](assets/cp-29-how-applyto-works.svg) | applyTo の動き方（扱うファイルの場所で決まる） |
+| [cp-30](assets/cp-30-is-applyto-ok.svg) | applyTo を使うのは「あり」か（向き・不向き・注意） |

@@ -71,7 +71,7 @@
 <rect x="28" y="598" width="1144" height="96" rx="12" fill="#0f172a" stroke="none"/>
 <text x="48" y="626" font-size="12.5" font-weight="700" fill="#94a3b8" text-anchor="start">AI に返るメッセージ（1 行目の例）</text>
 <text x="48" y="654" font-size="13" font-weight="400" fill="#e2e8f0" text-anchor="start">[layered-guard] parts/power-unit/electrical/released/rev-a.md は L2「電気設計部（ドメイン）」の書き込み禁止の場所です。</text>
-<text x="48" y="678" font-size="13" font-weight="400" fill="#e2e8f0" text-anchor="start">リリース済みの図面は直さず、新しい版を作る（l2-domain-electrical.json）回避せず、人に依頼してください。</text>
+<text x="48" y="678" font-size="13" font-weight="400" fill="#e2e8f0" text-anchor="start">リリース済みの図面は直さず、新しい版を作る（l2-domain-electrical.json）。回避せず、人に依頼してください。</text>
 <rect x="28" y="724" width="1144" height="82" rx="9" fill="#f8fafc" stroke="#e2e8f0"/>
 <text x="44" y="752" font-size="16" font-weight="400" fill="#475569" text-anchor="start">ポリシーには「許可」を書く欄が無い。だから下の階層（L2〜L4）は守る場所を足せるが、上の階層（L1）の守りは外せない。</text>
 <text x="44" y="779" font-size="16" font-weight="400" fill="#475569" text-anchor="start">このフックは「書き込みの瞬間」の関所。読むのは自由なので、AI は図面や要求書を参照して新しい版を作れる。</text>

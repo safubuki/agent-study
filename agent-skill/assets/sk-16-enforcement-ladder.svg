@@ -38,7 +38,7 @@
 <text x="198" y="588.1" font-size="17" font-weight="700" fill="#fff" text-anchor="middle">1</text>
 <text x="230" y="572" font-size="17" font-weight="700" fill="#334155" text-anchor="start">人が呼んだときだけ（手動）</text>
 <text x="230" y="602" font-size="13.5" font-weight="400" fill="#334155" text-anchor="start">/スキル名（disable-model-invocation）</text>
-<text x="760" y="572" font-size="14.5" font-weight="700" fill="#334155" text-anchor="start">副作用がある・タイミングを人が決める</text>
+<text x="760" y="572" font-size="14.5" font-weight="700" fill="#334155" text-anchor="start">影響が大きい・タイミングを人が決める</text>
 <text x="760" y="602" font-size="13.5" font-weight="400" fill="#64748b" text-anchor="start">例：リリース・デプロイ</text>
 <path d="M1190 628 L1190 132" fill="none" stroke="#be123c" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/>
 <path d="M1196.6 144 L1190 132 L1183.4 144 Z" fill="#be123c" stroke="none"/>

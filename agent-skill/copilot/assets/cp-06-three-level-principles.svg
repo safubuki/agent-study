@@ -80,7 +80,7 @@
 <circle cx="602" cy="532" r="13" fill="#be123c"/>
 <text x="602" y="536.9" font-size="13.5" font-weight="700" fill="#fff" text-anchor="middle">5</text>
 <text x="620" y="538.5" font-size="16" font-weight="700" fill="#9f1239" text-anchor="start">強制は 1 つのフックで全階層</text>
-<text x="590" y="576" font-size="13.5" font-weight="400" fill="#334155" text-anchor="start">ポリシーに許可キーが無い → 下は厳しくするだけ</text>
+<text x="590" y="576" font-size="13.5" font-weight="400" fill="#334155" text-anchor="start">ポリシーに「許可」項目が無い → 下は厳しくするだけ</text>
 <rect x="28" y="628" width="1144" height="82" rx="9" fill="#f8fafc" stroke="#e2e8f0"/>
 <text x="44" y="656" font-size="16" font-weight="400" fill="#475569" text-anchor="start">事例 1（全社 AI ワークスペース）と事例 2（製品づくり）は、どちらもこの 5 つで組んである。L3 は全部の枝に作らなくてよい。</text>
 <text x="44" y="683" font-size="16" font-weight="400" fill="#475569" text-anchor="start">ファイル名の先頭に l1- / l2- / l3- を付けると、並び順で階層が見え、which-rules.js でも階層を読める。</text>

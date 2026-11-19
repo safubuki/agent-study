@@ -820,7 +820,7 @@ function start(spec, title, subtitle) {
     { tone: T.always, n: '4', t: '毎回見える指示（常時）', m: 'CLAUDE.md・AGENTS.md・copilot-instructions.md', w: '毎回知っておくべき事実と約束', ex: 'ビルド方法・命名規則' },
     { tone: T.base, n: '3', t: '該当ファイルのときは毎回', m: '.claude/rules（paths）・*.instructions.md（applyTo）', w: '特定のフォルダ・種類だけの約束', ex: 'firmware/ の安全規則' },
     { tone: T.skill, n: '2', t: '合いそうなら呼ばれる（自動）', m: 'スキル（説明文で判断・確率的）', w: '必要なときだけ要る手順や知識', ex: 'API の落とし穴・調査手順' },
-    { tone: T.slate, n: '1', t: '人が呼んだときだけ（手動）', m: '/スキル名（disable-model-invocation）', w: '副作用がある・タイミングを人が決める', ex: 'リリース・デプロイ' },
+    { tone: T.slate, n: '1', t: '人が呼んだときだけ（手動）', m: '/スキル名（disable-model-invocation）', w: '影響が大きい・タイミングを人が決める', ex: 'リリース・デプロイ' },
   ];
   const h = 92; const g = 10;
   steps.forEach((s, i) => {
@@ -1045,7 +1045,7 @@ function start(spec, title, subtitle) {
     { q: ['Q1. 破られたら事故・損害になる？'], tone: T.must, a: ['権限（deny）・フック・CI で止める', '＋ 理由を常時の指示に 1 行'] },
     { q: ['Q2. 毎回の作業で知っておくべき事実？'], tone: T.always, a: ['CLAUDE.md / AGENTS.md', '（200 行以内。長くなったら下へ）'] },
     { q: ['Q3. 特定のフォルダ・ファイルの時だけ？'], tone: T.base, a: ['.claude/rules（paths）・applyTo', 'または担当フォルダの CLAUDE.md'] },
-    { q: ['Q4. 複数手順の作業や、知識の塊？'], tone: T.skill, a: ['スキル（副作用あり → 手動専用）', '役割ごとなら専用エージェント＋skills:'] },
+    { q: ['Q4. 複数ステップの手順や、専門知識のまとめ？'], tone: T.skill, a: ['スキル（影響が大きい作業 → 手動専用）', '役割ごとなら専用エージェント＋skills:'] },
   ];
   const qh = 84; const g = 34;
   qs.forEach((s, i) => {
@@ -1121,7 +1121,7 @@ function start(spec, title, subtitle) {
   tx(d, 28, 241, '知識の出どころ', { size: 21, weight: 700 });
   tx(d, 550, 241, '次に使う範囲に合わせて共有する', { size: 21, weight: 700 });
   card(d, 28, 268, 433, 180, T.data, 'L4　担当者が案件ごとに記録する', [
-    'C1 を選び直した理由と計算を残す。',
+    '部品 C1 を選び直した理由と計算を残す。',
     '別の案件でも使えた確認手順を共有する。',
     { t: 'ACME 社の 48 V 要求と期限は案件に残す。', weight: 700 },
   ], { ls: 17, lh: 32, top: 35 });
@@ -1663,7 +1663,7 @@ function useRow(d, x, y, w, lv, text, o = {}) {
     { tone: T.always, b: '2', t: 'L1 に「変えてよい点」を書く', l: '文体・様式・通信方式など。表に無いことは下で変えない' },
     { tone: T.dept, b: '3', t: '下は足す・狭めるだけ', l: '絶対ルールを緩める書き方をしない。禁止は足してよい' },
     { tone: T.ai, b: '4', t: '既定値は「下の指定に従う」と書く', l: 'Copilot は指示を順位なしで結合するので、矛盾させない' },
-    { tone: T.must, b: '5', t: '強制は 1 つのフックで全階層', l: 'ポリシーに許可キーが無い → 下は厳しくするだけ' },
+    { tone: T.must, b: '5', t: '強制は 1 つのフックで全階層', l: 'ポリシーに「許可」項目が無い → 下は厳しくするだけ' },
   ];
   ps.forEach((p, i) => card(d, 572, y0 + i * 96, 600, 84, p.tone, p.t, [p.l], { badge: p.b, hh: 40, top: 24, ls: 13.5, ts: 16 }));
   done(d, y0 + 470, [
@@ -1717,7 +1717,7 @@ function useRow(d, x, y, w, lv, text, o = {}) {
     lines: ['安全停止は common/safety を使い変更しない', '停止 100 ms・定格 10 A は固定／試験は必須'],
   });
   scopeBox(d, 46, y0 + 130, 210, 410, 'L2', '家庭用', 'products/home/**', { lines: ['誤操作防止（長押し）', '待機電力 0.5 W 以下', '既定：BLE・日本語'] });
-  scopeBox(d, 272, y0 + 130, 338, 410, 'L2', '産業用', 'products/industrial/**', { lines: ['耐ノイズ・ウォッチドッグ', '既定：Modbus TCP・保存 365 日', '認証書類は編集不可'] });
+  scopeBox(d, 272, y0 + 130, 338, 410, 'L2', '産業用', 'products/industrial/**', { lines: ['耐ノイズ・異常監視（ウォッチドッグ）', '既定：Modbus TCP・保存 365 日', '認証書類は編集不可'] });
   scopeBox(d, 62, y0 + 290, 178, 230, 'L3', '標準品', 'standard/', { lines: ['値だけ（色）', '指示ファイルは', '作らない'], dash: '6 5' });
   scopeBox(d, 288, y0 + 290, 150, 230, 'L3', 'ACME', 'customer-acme/', { lines: ['ログ CSV', '保存 730 日', '契約書は', '編集不可'], sw: 3.2 });
   scopeBox(d, 448, y0 + 290, 150, 230, 'L3', 'Borealis', 'customer-borealis/', { lines: ['OPC UA に', '上書き', '英語・JSON'] });
@@ -1791,7 +1791,7 @@ function useRow(d, x, y, w, lv, text, o = {}) {
 // cp-10. 階層つきの強制（layered-guard）
 // =====================================================================
 {
-  const d = start('copilot:cp-10-layered-enforcement.svg', '階層つきの強制：1 つのフックが全階層のポリシーを読む', '編集しようとしたファイルの場所から、範囲に入るポリシー（L1・L2・L3）を集め、どれか 1 つでも禁止なら止める。許可するキーは無い。');
+  const d = start('copilot:cp-10-layered-enforcement.svg', '階層つきの強制：1 つのフックが全階層のポリシーを読む', '編集しようとしたファイルの場所から、範囲に入るポリシー（L1・L2・L3）を集め、どれか 1 つでも禁止なら止める。禁止を解除する項目は無い。');
   const y0 = 128;
   box(d, 28, y0 + 120, 220, 110, T.ai, ['AI が編集しようとする', 'departments/qa/', 'inspection/signed/lot-001.md'], { fill: T.ai.f, ls: 13 });
   arrow(d, [[250, y0 + 175], [300, y0 + 175]], T.ai.c, { sw: 2.2 });
@@ -1815,7 +1815,7 @@ function useRow(d, x, y, w, lv, text, o = {}) {
   box(d, 966, y0 + 110, 206, 130, T.must, ['拒否（終了コード 2）', 'L3「検査係」の', '書き込み禁止の場所', '→ 人に依頼する'], { fill: '#fff', ls: 13 });
   arrow(d, [[942, y0 + 316], [1069, y0 + 316], [1069, y0 + 242]], T.must.c, { sw: 2.2 });
   card(d, 28, y0 + 386, 1144, 132, T.slate, 'なぜ「下は厳しくするだけ」になるのか', [
-    'ポリシーの形は scope・protect・denyExtensions だけで、「許可」を書くキーが無い。L2・L3 がどんな JSON を足しても、L1 の禁止は消えない。',
+    'ポリシーの形は scope・protect・denyExtensions だけで、禁止を解除する「許可」の項目が無い。L2・L3 がどんな JSON を足しても、L1 の禁止は消えない。',
     'L3 の担当者は自分の係の禁止（署名済み・Excel）を自分で足せるが、L1 の「社外秘」を外すには L1 の CODEOWNERS（全社の管理者）のレビューが要る。',
   ], { top: 26, ls: 13.5, lh: 25 });
   done(d, y0 + 518, [
@@ -2172,7 +2172,7 @@ function layerMechTable(d, y0, cols, rows, o = {}) {
     tx(d, 140, y + 102, sc, { size: 11, color: '#fff', anchor: 'middle' });
   });
   const cells = {
-    '0,0': { t: 'power-unit/electrical/', team: 'L3 電源係', note: 'ディレーティング確認' },
+    '0,0': { t: 'power-unit/electrical/', team: 'L3 電源係', note: '定格 70% 以下確認' },
     '0,1': { t: 'motor-driver/electrical/' },
     '1,2': { t: 'enclosure/mechanical/' },
     '2,0': { t: 'power-unit/software/' },
@@ -2275,7 +2275,7 @@ function layerMechTable(d, y0, cols, rows, o = {}) {
     ['L1', 'AGENTS.md・copilot-instructions.md', '常に'],
     ['L2 電気設計部', 'l2-domain-electrical（書き方・道具）', 'applyTo 一致'],
     ['L2 部品 電源ユニット', 'l2-part-power-unit（仕様値は part.json）', 'applyTo 一致'],
-    ['L3 電源係', 'l3-team-power（ディレーティング確認）', 'applyTo 一致'],
+    ['L3 電源係', 'l3-team-power（定格 70% 以下確認）', 'applyTo 一致'],
     ['L4 案件 C-2026-031', 'CASE.md・case.json（48 V・IP65）', '人が /case-context'],
   ];
   st.forEach(([lv, t, when], i) => {
@@ -2390,7 +2390,7 @@ function layerMechTable(d, y0, cols, rows, o = {}) {
     { lv: 'L2', name: '電気設計部', scope: 'parts/*/electrical/**', cells: [
       ['l2-domain-electrical', '回路図の書き方', '版の作り方'],
       [],
-      ['l2-domain-electrical', '.json：released/ を守る'],
+      ['l2-domain-electrical', 'released/ を守る（JSON）'],
       ['elec-schematic-review'],
       ['electrical-dept'],
     ] },
@@ -2402,7 +2402,7 @@ function layerMechTable(d, y0, cols, rows, o = {}) {
       ['power-unit-owner'],
     ] },
     { lv: 'L3', name: '電源係', scope: 'power-unit/electrical/**', cells: [
-      ['l3-team-power', 'ディレーティング 70%', '値は自分で決めない'],
+      ['l3-team-power', '定格 70% 以下確認', '値は部品仕様に従う'],
       [],
       [],
       ['power-derating-check'],
@@ -2411,7 +2411,7 @@ function layerMechTable(d, y0, cols, rows, o = {}) {
     { lv: 'L3', name: '駆動制御係', scope: 'motor-driver/software/**', cells: [
       ['l3-team-drive-control', '制御周期 1 ms', '試験ログを残す'],
       [],
-      ['l3-team-drive-control', '.json：.hex・.bin を禁止'],
+      ['l3-team-drive-control', '.hex・.bin 禁止（JSON）'],
       [],
       ['drive-control-team'],
     ] },
@@ -2534,7 +2534,7 @@ function stepBox(d, x, y, w, h, n, tone, title, lines) {
     { x: 28, lv: 'L1', title: 'ワークスペース全体', file: 'AGENTS.md（どの場所でも）', lines: ['安全停止は common/safety を使い', '編集しない', '変更には試験を付ける', 'released/ は直さず新しい版を作る'] },
     { x: 318, lv: 'L2 部品', title: '電源ユニット', file: 'l2-part-power-unit.instructions.md', lines: ['仕様値は part.json を見る', { t: '（いまは入力 24 V）', color: T_PART.t, weight: 700 }, '案件で上書きされていれば', 'そちらに従う'] },
     { x: 608, lv: 'L2 ドメイン', title: '電気設計部', file: 'l2-domain-electrical.instructions.md', lines: ['回路図は部品番号・定格・', '使用値・率を表で書く', 'released/ は直さない', 'レビュー観点は専用スキル'] },
-    { x: 898, lv: 'L3', title: '電源係', file: 'l3-team-power.instructions.md', lines: ['部品を選ぶたびに', { t: '使用値が定格の 70% 以下か', color: T.self.t, weight: 700 }, 'を確かめる（専用スキル）', '入力電圧は自分で決めない'] },
+    { x: 898, lv: 'L3', title: '電源係', file: 'l3-team-power.instructions.md', lines: ['部品を選ぶたびに', { t: '使用値が定格の 70% 以下か', color: T.self.t, weight: 700 }, 'を確かめる（専用スキル）', '入力電圧は部品仕様に従う'] },
   ];
   cards.forEach((c) => ruleCard(d, c.x, cy, 274, ch, c.lv, c.title, c.file, c.lines));
   // 矢印：パス → カード
@@ -2678,7 +2678,7 @@ function stepBox(d, x, y, w, h, n, tone, title, lines) {
   rc(d, 28, my, 1144, 96, { fill: '#0f172a', rx: 12 });
   tx(d, 48, my + 28, 'AI に返るメッセージ（1 行目の例）', { size: 12.5, color: '#94a3b8', weight: 700 });
   tx(d, 48, my + 56, '[layered-guard] parts/power-unit/electrical/released/rev-a.md は L2「電気設計部（ドメイン）」の書き込み禁止の場所です。', { size: 13, color: '#e2e8f0', maxW: 1110 });
-  tx(d, 48, my + 80, 'リリース済みの図面は直さず、新しい版を作る（l2-domain-electrical.json）回避せず、人に依頼してください。', { size: 13, color: '#e2e8f0', maxW: 1110 });
+  tx(d, 48, my + 80, 'リリース済みの図面は直さず、新しい版を作る（l2-domain-electrical.json）。回避せず、人に依頼してください。', { size: 13, color: '#e2e8f0', maxW: 1110 });
   done(d, my + 96, [
     'ポリシーには「許可」を書く欄が無い。だから下の階層（L2〜L4）は守る場所を足せるが、上の階層（L1）の守りは外せない。',
     'このフックは「書き込みの瞬間」の関所。読むのは自由なので、AI は図面や要求書を参照して新しい版を作れる。',
@@ -2973,7 +2973,7 @@ function poly(d, pts, fill, stroke, o = {}) {
   const notes = [
     ['画面による', 'GitHub.com の Chat では使われない（cloud agent と code review は使う）。VS Code の code review も使わない。'],
     ['順位なしで全部つながる', '一致した指示ファイルは全部読まれる。上下で矛盾させず、既定値には「下の指定に従う」と書く。'],
-    ['除外もできる', 'frontmatter の excludeAgent: "code-review" または "cloud-agent" で、その仕組みからだけ外せる。'],
+    ['除外もできる', 'frontmatter の excludeAgent: "code-review" または "cloud-agent" で、特定の機能からだけ対象外にできる。'],
     ['効いたか確かめる', 'VS Code は回答の「参照（References）」で、読まれた指示ファイルを確認できる（守ったかどうかは別）。'],
   ];
   notes.forEach(([h, t], i) => {

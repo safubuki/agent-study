@@ -25,7 +25,7 @@
 <text x="300" y="284.5" font-size="12.5" font-weight="700" fill="#fff" text-anchor="middle">L2</text>
 <text x="324" y="285" font-size="15" font-weight="700" fill="#9a3412" text-anchor="start">産業用</text>
 <text x="286" y="308" font-size="12.5" font-weight="400" fill="#64748b" text-anchor="start">products/industrial/**</text>
-<text x="286" y="332" font-size="13" font-weight="400" fill="#334155" text-anchor="start">耐ノイズ・ウォッチドッグ</text>
+<text x="286" y="332" font-size="13" font-weight="400" fill="#334155" text-anchor="start">耐ノイズ・異常監視（ウォッチドッグ）</text>
 <text x="286" y="353" font-size="13" font-weight="400" fill="#334155" text-anchor="start">既定：Modbus TCP・保存 365 日</text>
 <text x="286" y="374" font-size="13" font-weight="400" fill="#334155" text-anchor="start">認証書類は編集不可</text>
 <rect x="62" y="418" width="178" height="230" rx="12" fill="#f0fdfa" stroke="#0f766e" stroke-width="1.6" stroke-dasharray="6 5"/>

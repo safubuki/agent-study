@@ -39,12 +39,12 @@
 <path d="M256.4 469 L263 481 L269.6 469 Z" fill="#2563eb" stroke="none"/>
 <text x="276" y="470" font-size="13" font-weight="700" fill="#1e40af" text-anchor="start">いいえ</text>
 <rect x="28" y="482" width="470" height="84" rx="10" fill="#eff6ff" stroke="#2563eb" stroke-width="1.7"/>
-<text x="263" y="529" font-size="16.5" font-weight="700" fill="#1e40af" text-anchor="middle">Q4. 複数手順の作業や、知識の塊？</text>
+<text x="263" y="529" font-size="16.5" font-weight="700" fill="#1e40af" text-anchor="middle">Q4. 複数ステップの手順や、専門知識のまとめ？</text>
 <path d="M500 524 L598 524" fill="none" stroke="#7c3aed" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/>
 <path d="M586 530.6 L598 524 L586 517.4 Z" fill="#7c3aed" stroke="none"/>
 <text x="549" y="514" font-size="13.5" font-weight="700" fill="#5b21b6" text-anchor="middle">はい</text>
 <rect x="602" y="482" width="570" height="84" rx="10" fill="#f5f3ff" stroke="#7c3aed" stroke-width="1.7"/>
-<text x="887" y="518.5" font-size="15.5" font-weight="700" fill="#5b21b6" text-anchor="middle">スキル（副作用あり → 手動専用）</text>
+<text x="887" y="518.5" font-size="15.5" font-weight="700" fill="#5b21b6" text-anchor="middle">スキル（影響が大きい作業 → 手動専用）</text>
 <text x="887" y="539.5" font-size="14" font-weight="400" fill="#334155" text-anchor="middle">役割ごとなら専用エージェント＋skills:</text>
 <path d="M263 567 L263 598" fill="none" stroke="#2563eb" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
 <path d="M256.4 586 L263 598 L269.6 586 Z" fill="#2563eb" stroke="none"/>

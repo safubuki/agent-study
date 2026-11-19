@@ -66,7 +66,7 @@
 <text x="210.6" y="637" font-size="12.5" font-weight="400" fill="#334155" text-anchor="start">一致した指示ファイルは全部読まれる。上下で矛盾させず、既定値には「下の指定に従う」と書く。</text>
 <rect x="46" y="650" width="92" height="24" rx="6" fill="#475569" stroke="none"/>
 <text x="92" y="666.3" font-size="12" font-weight="700" fill="#fff" text-anchor="middle">除外もできる</text>
-<text x="149.4" y="667" font-size="12.5" font-weight="400" fill="#334155" text-anchor="start">frontmatter の excludeAgent: &quot;code-review&quot; または &quot;cloud-agent&quot; で、その仕組みからだけ外せる。</text>
+<text x="149.4" y="667" font-size="12.5" font-weight="400" fill="#334155" text-anchor="start">frontmatter の excludeAgent: &quot;code-review&quot; または &quot;cloud-agent&quot; で、特定の機能からだけ対象外にできる。</text>
 <rect x="46" y="680" width="116" height="24" rx="6" fill="#475569" stroke="none"/>
 <text x="104" y="696.3" font-size="12" font-weight="700" fill="#fff" text-anchor="middle">効いたか確かめる</text>
 <text x="173.9" y="697" font-size="12.5" font-weight="400" fill="#334155" text-anchor="start">VS Code は回答の「参照（References）」で、読まれた指示ファイルを確認できる（守ったかどうかは別）。</text>

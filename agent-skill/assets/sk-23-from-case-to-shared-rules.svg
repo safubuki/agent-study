@@ -15,7 +15,7 @@
 <path d="M28 314 H461" fill="none" stroke="#a5f3fc" stroke-width="1.4" stroke-linejoin="round" stroke-linecap="round"/>
 <rect x="28" y="268" width="433" height="180" rx="12" fill="none" stroke="#0e7490" stroke-width="1.6"/>
 <text x="46" y="297.5" font-size="17.5" font-weight="700" fill="#155e75" text-anchor="start">L4　担当者が案件ごとに記録する</text>
-<text x="46" y="349" font-size="17" font-weight="400" fill="#334155" text-anchor="start">C1 を選び直した理由と計算を残す。</text>
+<text x="46" y="349" font-size="17" font-weight="400" fill="#334155" text-anchor="start">部品 C1 を選び直した理由と計算を残す。</text>
 <text x="46" y="381" font-size="17" font-weight="400" fill="#334155" text-anchor="start">別の案件でも使えた確認手順を共有する。</text>
 <text x="46" y="413" font-size="17" font-weight="700" fill="#334155" text-anchor="start">ACME 社の 48 V 要求と期限は案件に残す。</text>
 <rect x="28" y="480" width="433" height="138" rx="12" fill="#fff" stroke="none"/>

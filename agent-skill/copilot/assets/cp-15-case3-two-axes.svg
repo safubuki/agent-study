@@ -43,7 +43,7 @@
 <text x="262" y="328" font-size="12.5" font-weight="400" fill="#64748b" text-anchor="start">L1＋L2 ドメイン＋L2 部品</text>
 <rect x="262" y="344" width="78" height="24" rx="6" fill="#0f766e" stroke="none"/>
 <text x="301" y="360.5" font-size="12.5" font-weight="700" fill="#fff" text-anchor="middle">L3 電源係</text>
-<text x="262" y="382" font-size="12.5" font-weight="400" fill="#115e59" text-anchor="start">＋係のルール：ディレーティング確認</text>
+<text x="262" y="382" font-size="12.5" font-weight="400" fill="#115e59" text-anchor="start">＋係のルール：定格 70% 以下確認</text>
 <rect x="556" y="276" width="296" height="120" rx="10" fill="#fff" stroke="#475569" stroke-width="1.3"/>
 <text x="570" y="304" font-size="13.5" font-weight="700" fill="#334155" text-anchor="start">motor-driver/electrical/</text>
 <text x="570" y="328" font-size="12.5" font-weight="400" fill="#64748b" text-anchor="start">L1＋L2 ドメイン＋L2 部品</text>

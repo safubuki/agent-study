@@ -62,7 +62,7 @@
 <text x="912" y="364" font-size="12.5" font-weight="400" fill="#334155" text-anchor="start">部品を選ぶたびに</text>
 <text x="912" y="386" font-size="12.5" font-weight="700" fill="#115e59" text-anchor="start">使用値が定格の 70% 以下か</text>
 <text x="912" y="408" font-size="12.5" font-weight="400" fill="#334155" text-anchor="start">を確かめる（専用スキル）</text>
-<text x="912" y="430" font-size="12.5" font-weight="400" fill="#334155" text-anchor="start">入力電圧は自分で決めない</text>
+<text x="912" y="430" font-size="12.5" font-weight="400" fill="#334155" text-anchor="start">入力電圧は部品仕様に従う</text>
 <path d="M396 198 L396 208" fill="none" stroke="#4d7c0f" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
 <path d="M396 244 L396 284" fill="none" stroke="#4d7c0f" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
 <path d="M389.4 272 L396 284 L402.6 272 Z" fill="#4d7c0f" stroke="none"/>

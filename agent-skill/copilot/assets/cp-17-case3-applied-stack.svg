@@ -28,7 +28,7 @@
 <rect x="46" y="418" width="524" height="64" rx="10" fill="#f0fdfa" stroke="#0f766e" stroke-width="1.4"/>
 <rect x="58" y="429" width="75" height="22" rx="6" fill="#0f766e" stroke="none"/>
 <text x="95.5" y="444.3" font-size="12" font-weight="700" fill="#fff" text-anchor="middle">L3 電源係</text>
-<text x="58" y="468" font-size="13" font-weight="400" fill="#334155" text-anchor="start">l3-team-power（ディレーティング確認）</text>
+<text x="58" y="468" font-size="13" font-weight="400" fill="#334155" text-anchor="start">l3-team-power（定格 70% 以下確認）</text>
 <text x="558" y="468" font-size="12" font-weight="700" fill="#115e59" text-anchor="end">applyTo 一致</text>
 <rect x="46" y="494" width="524" height="64" rx="10" fill="#fdf2f8" stroke="#be185d" stroke-width="2.2" stroke-dasharray="7 5"/>
 <rect x="58" y="505" width="137" height="22" rx="6" fill="#be185d" stroke="none"/>

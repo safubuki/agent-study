@@ -16,6 +16,7 @@
 
 | 順番 | ファイル | 内容 |
 |---|---|---|
+| 動的版 | [interactive-guide.html](interactive-guide.html) | **動かして学ぶ動的ガイド**：コンテキスト分離、A/B/C 実測レース、並列スイートスポット、定義比較をブラウザ上で即時体験 |
 | 1 | [docs/00_subagent-guide.md](docs/00_subagent-guide.md) | **サブエージェント入門（Claude Code 編）**：仕組み、自動起動の条件、カスタマイズ、他社 CLI 呼び出し、並列数の目安、親1＋子3の作り方 |
 | 2 | [docs/01_copilot-subagent-guide.md](docs/01_copilot-subagent-guide.md) | **GitHub Copilot 編**：VS Code（旧 Local／Copilot ハーネス）と CLI の違い、子ごとの他社モデル割当、料金ランクの落とし穴、`/fleet` |
 | 3 | [docs/02_agent-patterns.md](docs/02_agent-patterns.md) | **定番パターン5選**：調査係・オーケストレーター・作り手＋チェック・相談役・受付と、AI の進化で古くなる部分 |

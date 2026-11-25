@@ -8,6 +8,7 @@
 
 | 順番 | ガイド | 主に分かること |
 |---|---|---|
+| **動的版** | [interactive-guide.html](interactive-guide.html) | **動かして学ぶ動的ガイド**：3層構造切替、Fusion 6列シーケンス再生、窓閉じ実験、teamDocs MCP 復旧ラボをブラウザで体験 |
 | **1** | [Local と Copilot ハーネス](01_harness-local-vs-copilot.md) | ハーネスの働き、旧 Local との違いと切り替え方、MCP や環境変数が動かなくなる理由と復旧手順 |
 | **2** | [Copilot Fusion](02_copilot-fusion.md) | Single / Cascade / Critique の 3 方式、Auto やサブエージェントとの違い、始め方と注意点 |
 

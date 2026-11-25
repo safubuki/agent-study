@@ -10,6 +10,7 @@
 
 | 順番 | ファイル | 内容 |
 |---|---|---|
+| 動的版 | [interactive-guide.html](interactive-guide.html) | **動かして学ぶ動的ガイド**：JSON-RPC 3ステップ、Kame Cafe 全16商品アレルゲン＆原価率の罠、Tool Poisoning 透視をブラウザで体験 |
 | 1 | [docs/00_mcp-guide.md](docs/00_mcp-guide.md) | **MCP 入門（Claude Code 編）**：Web API との違い、ローカル／クラウドの3使い方、JSON-RPC 3ステップ、CLI・Skills との使い分け |
 | 2 | [docs/01_copilot-mcp-guide.md](docs/01_copilot-mcp-guide.md) | **GitHub Copilot / VS Code 編**：`.mcp.json` と `.vscode/mcp.json` の対比、サブエージェント単位のツール絞り込み、企業環境での注意点 |
 | 3 | [docs/02_mcp-patterns.md](docs/02_mcp-patterns.md) | **定番パターン5選**：知識・DB ゲートウェイ、外部 SaaS、業務ファサード、サブエージェント隔離、Tool Search / Code Mode と鮮度整理 |

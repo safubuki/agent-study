@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 205" role="img" aria-label="AIと普遍的UI設計のイラスト：Chat・Canvas・Inline・Ambient・Tuners等の一次情報に基づく7パターンとUD・WCAG基準">
+  <defs>
+    <linearGradient id="bg7" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f0fdfa"/>
+      <stop offset="100%" stop-color="#ccfbf1"/>
+    </linearGradient>
+  </defs>
+  <rect width="360" height="205" rx="18" fill="url(#bg7)"/>
+
+  <rect x="20" y="16" width="320" height="148" rx="14" fill="#ffffff" stroke="#0f766e" stroke-width="2.4"/>
+  <rect x="20" y="16" width="320" height="24" rx="14" fill="#0f766e"/>
+  <rect x="20" y="28" width="320" height="12" fill="#0f766e"/>
+  <circle cx="36" cy="28" r="3.5" fill="#99f6e4"/>
+  <circle cx="49" cy="28" r="3.5" fill="#99f6e4"/>
+  <text x="180" y="32" text-anchor="middle" font-size="9.5" font-weight="700" fill="#ffffff" font-family="BIZ UDPGothic, sans-serif">一次情報に基づく AI UI の 7 パターン × 普遍 UI 基礎</text>
+
+  <!-- 左：構造化UI＋インライン＋会話 -->
+  <rect x="32" y="48" width="138" height="104" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+  <text x="42" y="65" font-size="9" font-weight="700" fill="#0f766e" font-family="BIZ UDPGothic, sans-serif">🎚️ Tuners / Inline / Chat</text>
+  <line x1="44" y1="81" x2="156" y2="81" stroke="#cbd5e1" stroke-width="4" stroke-linecap="round"/>
+  <line x1="44" y1="81" x2="112" y2="81" stroke="#0f766e" stroke-width="4" stroke-linecap="round"/>
+  <circle cx="112" cy="81" r="5.5" fill="#0f766e"/>
+  <rect x="42" y="95" width="118" height="21" rx="6" fill="#ffffff" stroke="#94a3b8" stroke-width="1.2"/>
+  <text x="48" y="109" font-size="8.5" fill="#475569" font-family="BIZ UDPGothic, sans-serif">💬 会話・一言指示</text>
+  <rect x="42" y="123" width="118" height="21" rx="7" fill="#0f766e"/>
+  <text x="101" y="137" text-anchor="middle" font-size="9" font-weight="700" fill="#ffffff" font-family="BIZ UDPGothic, sans-serif">✨ 最適UIを診断</text>
+
+  <!-- 右：Canvas・Ambient・UD・承認 -->
+  <rect x="182" y="48" width="146" height="104" rx="10" fill="#f0fdfa" stroke="#5eead4" stroke-width="1.8"/>
+  <text x="192" y="65" font-size="9" font-weight="700" fill="#115e59" font-family="BIZ UDPGothic, sans-serif">📄 Canvas / Ambient / GenUI</text>
+  <rect x="192" y="74" width="126" height="32" rx="7" fill="#ffffff" stroke="#99f6e4" stroke-width="1.4"/>
+  <text x="199" y="88" font-size="8.5" font-weight="700" fill="#0f172a" font-family="BIZ UDPGothic, sans-serif">UD 16px・WCAG 4.5:1</text>
+  <text x="199" y="100" font-size="8" fill="#475569" font-family="BIZ UDPGothic, sans-serif">親切なエラー＆余白</text>
+  <rect x="192" y="114" width="60" height="19" rx="9" fill="#ecfdf5" stroke="#059669" stroke-width="1.2"/>
+  <text x="222" y="127" text-anchor="middle" font-size="8.5" font-weight="700" fill="#047857" font-family="BIZ UDPGothic, sans-serif">✅ 承認</text>
+  <rect x="258" y="114" width="60" height="19" rx="9" fill="#fffbeb" stroke="#d97706" stroke-width="1.2"/>
+  <text x="288" y="127" text-anchor="middle" font-size="8.5" font-weight="700" fill="#92400e" font-family="BIZ UDPGothic, sans-serif">↩ Undo</text>
+  <text x="255" y="146" text-anchor="middle" font-size="8" fill="#0f766e" font-family="BIZ UDPGothic, sans-serif">Google / Apple / MS / NN/g 準拠</text>
+
+  <text x="180" y="188" text-anchor="middle" font-size="10" font-weight="700" fill="#0f766e" font-family="BIZ UDPGothic, sans-serif">エビデンスある 7 パターン＋AI相談プロンプト付き</text>
+</svg>

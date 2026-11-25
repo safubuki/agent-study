@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 205" role="img" aria-label="エージェントスキルのイラスト：透明シートのようにルールを重ね、必要な道具箱だけ開く">
+  <defs>
+    <linearGradient id="bg6" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f5f3ff"/>
+      <stop offset="100%" stop-color="#ede9fe"/>
+    </linearGradient>
+    <marker id="arr6" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#7c3aed"/>
+    </marker>
+  </defs>
+  <rect width="360" height="205" rx="18" fill="url(#bg6)"/>
+
+  <text x="102" y="26" text-anchor="middle" font-size="10.5" font-weight="700" fill="#5b21b6" font-family="BIZ UDPGothic, sans-serif">透明シートを重ねるルール階層</text>
+  <rect x="22" y="38" width="154" height="30" rx="8" fill="#fef3c7" stroke="#d97706" stroke-width="2"/>
+  <text x="99" y="57" text-anchor="middle" font-size="10" font-weight="700" fill="#92400e" font-family="BIZ UDPGothic, sans-serif">1. 全社ルール（いつも適用）</text>
+
+  <rect x="30" y="76" width="154" height="30" rx="8" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+  <text x="107" y="95" text-anchor="middle" font-size="10" font-weight="700" fill="#1e40af" font-family="BIZ UDPGothic, sans-serif">2. 部署・部品（対象時だけ）</text>
+
+  <rect x="38" y="114" width="154" height="30" rx="8" fill="#fce7f3" stroke="#be123c" stroke-width="2"/>
+  <text x="115" y="133" text-anchor="middle" font-size="10" font-weight="700" fill="#9f1239" font-family="BIZ UDPGothic, sans-serif">3. 顧客・案件（上書き優先）</text>
+
+  <path d="M 196 91 L 226 91" fill="none" stroke="#7c3aed" stroke-width="2.4" marker-end="url(#arr6)"/>
+
+  <rect x="232" y="38" width="110" height="106" rx="14" fill="#ffffff" stroke="#7c3aed" stroke-width="2.5"/>
+  <text x="287" y="65" text-anchor="middle" font-size="22" font-family="sans-serif">🧰</text>
+  <text x="287" y="86" text-anchor="middle" font-size="11.5" font-weight="700" fill="#5b21b6" font-family="BIZ UDPGothic, sans-serif">スキル道具箱</text>
+  <text x="287" y="102" text-anchor="middle" font-size="9" fill="#475569" font-family="BIZ UDPGothic, sans-serif">普段は名札だけ</text>
+  <text x="287" y="116" text-anchor="middle" font-size="9" fill="#475569" font-family="BIZ UDPGothic, sans-serif">使う瞬間に開く</text>
+  <rect x="247" y="123" width="80" height="15" rx="7" fill="#7c3aed"/>
+  <text x="287" y="134" text-anchor="middle" font-size="8.5" font-weight="700" fill="#ffffff" font-family="BIZ UDPGothic, sans-serif">段階的開示</text>
+
+  <text x="180" y="188" text-anchor="middle" font-size="10" font-weight="700" fill="#6d28d9" font-family="BIZ UDPGothic, sans-serif">記憶を節約しながら、組織のノウハウを育てる</text>
+</svg>

@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>サブエージェント わかる動的ガイド — agent-guide</title>
+  <style>
+    :root {
+      --bg: #f8fafc;
+      --surface: #ffffff;
+      --surface-soft: #f1f5f9;
+      --border: #e2e8f0;
+      --border-strong: #cbd5e1;
+      --ink: #0f172a;
+      --ink-sub: #334155;
+      --ink-muted: #64748b;
+
+      --accent: #4f46e5;
+      --accent-hover: #4338ca;
+      --accent-soft: #eef2ff;
+      --accent-border: #c7d2fe;
+
+      --blue: #2563eb;    --blue-soft: #eff6ff;
+      --emerald: #059669; --emerald-soft: #ecfdf5;
+      --cyan: #0891b2;    --cyan-soft: #ecfeff;
+      --amber: #b45309;   --amber-soft: #fffbeb;
+      --rose: #be123c;    --rose-soft: #fff1f2;
+
+      --card-shadow: 0 4px 24px -8px rgba(15, 23, 42, 0.08);
+      --btn-shadow: 0 2px 6px rgba(15, 23, 42, 0.08);
+      --primary-shadow: 0 6px 18px -4px rgba(79, 70, 229, 0.42);
+      --ease: cubic-bezier(0.22, 1, 0.36, 1);
+      --font-sans: "BIZ UDPGothic", "Hiragino Kaku Gothic ProN", "Yu Gothic UI", "Meiryo", system-ui, sans-serif;
+      --font-mono: "Cascadia Code", "Fira Code", Consolas, monospace;
+    }
+
+    [data-theme="dark"] {
+      --bg: #0b1120;
+      --surface: #111827;
+      --surface-soft: #1e293b;
+      --border: #1e293b;
+      --border-strong: #334155;
+      --ink: #f8fafc;
+      --ink-sub: #cbd5e1;
+      --ink-muted: #94a3b8;
+
+      --accent: #818cf8;
+      --accent-hover: #6366f1;
+      --accent-soft: rgba(99, 102, 241, 0.16);
+      --accent-border: rgba(129, 140, 248, 0.36);
+
+      --blue: #60a5fa;    --blue-soft: rgba(59, 130, 246, 0.16);
+      --emerald: #34d399; --emerald-soft: rgba(16, 185, 129, 0.16);
+      --cyan: #22d3ee;    --cyan-soft: rgba(6, 182, 212, 0.16);
+      --amber: #fbbf24;   --amber-soft: rgba(245, 158, 11, 0.16);
+      --rose: #fb7185;    --rose-soft: rgba(244, 63, 94, 0.16);
+
+      --card-shadow: 0 8px 28px -8px rgba(0, 0, 0, 0.5);
+      --btn-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0; font-family: var(--font-sans); font-size: 16px; line-height: 1.9;
+      background: var(--bg); color: var(--ink);
+      transition: background-color 0.3s var(--ease), color 0.3s var(--ease);
+    }
+    .progress-bar { position: fixed; top: 0; left: 0; height: 3px; width: 0%; background: var(--accent); z-index: 200; }
+
+    header.topbar {
+      position: sticky; top: 0; z-index: 100;
+      background: color-mix(in srgb, var(--surface) 90%, transparent);
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .topbar-inner {
+      max-width: 920px; margin: 0 auto; padding: 12px 20px;
+      display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;
+    }
+    .brand { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 1rem; color: var(--ink); text-decoration: none; }
+    .brand-icon { width: 32px; height: 32px; border-radius: 9px; background: var(--accent); color: #fff; display: inline-flex; align-items: center; justify-content: center; }
+    .guide-nav { display: flex; gap: 4px; flex-wrap: wrap; }
+    .guide-nav a { padding: 5px 11px; border-radius: 8px; font-size: 0.82rem; font-weight: 700; color: var(--ink-muted); text-decoration: none; }
+    .guide-nav a:hover { color: var(--ink); background: var(--surface-soft); }
+    .guide-nav a.current { color: #fff; background: var(--accent); }
+    .util-btns { display: flex; gap: 6px; }
+    .util-btn {
+      padding: 6px 12px; border-radius: 9px; border: 1.5px solid var(--border-strong);
+      background: var(--surface); color: var(--ink-sub); font-family: inherit;
+      font-size: 0.8rem; font-weight: 700; cursor: pointer; box-shadow: var(--btn-shadow);
+    }
+    .util-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+    main { max-width: 820px; margin: 0 auto; padding: 36px 20px 96px; }
+
+    .hero {
+      background: var(--surface); border: 1px solid var(--border); border-radius: 22px;
+      padding: 36px 34px; margin-bottom: 60px; box-shadow: var(--card-shadow);
+    }
+    .eyebrow { display: inline-block; font-size: 0.8rem; font-weight: 800; color: var(--accent); margin-bottom: 8px; }
+    .hero h1 { margin: 0 0 14px; font-size: clamp(1.6rem, 3vw, 2.15rem); line-height: 1.35; }
+    .hero p.lead { margin: 0 0 22px; color: var(--ink-sub); }
+    .toc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .toc-item {
+      display: flex; align-items: center; gap: 10px; padding: 11px 14px; border-radius: 12px;
+      border: 1.5px solid var(--border); background: var(--surface); color: var(--ink);
+      text-decoration: none; font-size: 0.88rem; font-weight: 700; transition: all 0.2s var(--ease);
+    }
+    .toc-item:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-soft); transform: translateX(3px); }
+    .toc-no {
+      width: 24px; height: 24px; border-radius: 50%; flex-shrink: 0;
+      background: var(--accent); color: #fff; font-size: 0.78rem; font-weight: 800;
+      display: inline-flex; align-items: center; justify-content: center;
+    }
+
+    section.lesson { margin-bottom: 72px; scroll-margin-top: 84px; }
+    .lesson-kicker { font-size: 0.8rem; font-weight: 800; color: var(--accent); letter-spacing: 0.05em; display: block; margin-bottom: 4px; }
+    .lesson h2 { margin: 0 0 12px; font-size: clamp(1.35rem, 2.3vw, 1.65rem); line-height: 1.38; }
+
+    .story-box {
+      padding: 16px 20px; border-radius: 14px; background: var(--surface-soft);
+      border-left: 4px solid var(--accent); margin-bottom: 20px; font-size: 0.95rem; color: var(--ink-sub);
+    }
+    .story-box strong { color: var(--ink); }
+
+    .exp-card {
+      background: var(--surface); border: 1px solid var(--border); border-radius: 20px;
+      overflow: hidden; box-shadow: var(--card-shadow);
+    }
+    .step-bar { padding: 16px 24px; background: var(--surface-soft); border-bottom: 1px solid var(--border); }
+    .step-bar.run-bar {
+      background: var(--accent-soft); border-bottom: 1.5px solid var(--accent-border);
+      display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;
+    }
+    .step-label { display: block; font-size: 0.78rem; font-weight: 800; color: var(--ink-muted); margin-bottom: 10px; }
+    .step-bar.run-bar .step-label { margin-bottom: 0; color: var(--accent); }
+
+    .select-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+    .select-grid.two { grid-template-columns: repeat(2, 1fr); }
+    .sel-btn {
+      text-align: left; padding: 12px 14px; border-radius: 12px;
+      border: 2px solid var(--border-strong); background: var(--surface);
+      color: var(--ink); font-family: inherit; cursor: pointer;
+      box-shadow: var(--btn-shadow); transition: all 0.2s var(--ease);
+    }
+    .sel-btn:hover { border-color: var(--accent); transform: translateY(-2px); }
+    .sel-btn.active { border-color: var(--accent); background: var(--accent-soft); box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent) 22%, transparent); }
+    .sel-btn .sel-title { display: block; font-size: 0.9rem; font-weight: 800; margin-bottom: 2px; }
+    .sel-btn .sel-sub { display: block; font-size: 0.78rem; color: var(--ink-muted); line-height: 1.45; }
+
+    .run-btn {
+      display: inline-flex; align-items: center; gap: 8px; padding: 11px 22px; border-radius: 12px;
+      border: 2px solid var(--accent); background: var(--accent); color: #fff; font-family: inherit;
+      font-size: 0.94rem; font-weight: 800; cursor: pointer; box-shadow: var(--primary-shadow);
+      transition: all 0.2s var(--ease);
+    }
+    .run-btn:hover { background: var(--accent-hover); transform: translateY(-2px); }
+    .sub-btn {
+      display: inline-flex; align-items: center; gap: 6px; padding: 9px 16px; border-radius: 11px;
+      border: 1.5px solid var(--border-strong); background: var(--surface); color: var(--ink);
+      font-family: inherit; font-size: 0.86rem; font-weight: 700; cursor: pointer; box-shadow: var(--btn-shadow);
+    }
+    .sub-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+    .stage { padding: 28px 26px; }
+    .takeaway { padding: 18px 26px; background: var(--surface-soft); border-top: 1px solid var(--border); font-size: 0.95rem; }
+    .takeaway-head { font-size: 0.8rem; font-weight: 800; color: var(--accent); display: block; margin-bottom: 4px; }
+
+    details.code-drawer { border-top: 1px solid var(--border); background: var(--surface); }
+    details.code-drawer summary {
+      padding: 13px 26px; font-size: 0.86rem; font-weight: 700; color: var(--ink-muted);
+      cursor: pointer; list-style: none; display: flex; align-items: center; gap: 8px;
+    }
+    details.code-drawer summary:hover { color: var(--accent); }
+    details.code-drawer summary::after { content: "▼ 開く"; margin-left: auto; font-size: 0.76rem; }
+    details.code-drawer[open] summary::after { content: "▲ 閉じる"; }
+    .drawer-body { padding: 0 26px 22px; }
+    pre.code-snip {
+      margin: 8px 0 0; padding: 14px 16px; border-radius: 12px;
+      background: #0f172a; color: #e2e8f0; font-family: var(--font-mono);
+      font-size: 0.82rem; line-height: 1.65; overflow-x: auto;
+    }
+
+    /* 第1章：記憶メーター（上下2段で読みやすく） */
+    .brain-row { padding: 18px; border-radius: 14px; background: var(--surface-soft); border: 1px solid var(--border); margin-bottom: 14px; }
+    .brain-row:last-child { margin-bottom: 0; }
+    .brain-top { display: flex; justify-content: space-between; align-items: center; font-weight: 800; margin-bottom: 8px; flex-wrap: wrap; gap: 8px; }
+    .bar-bg { height: 16px; border-radius: 99px; background: var(--surface); border: 1px solid var(--border); overflow: hidden; margin-bottom: 12px; }
+    .bar-fg { height: 100%; width: 4%; border-radius: 99px; transition: width 0.6s var(--ease); }
+    .chip-wrap { display: flex; flex-wrap: wrap; gap: 7px; }
+    .chip { padding: 5px 11px; border-radius: 8px; font-size: 0.82rem; font-weight: 700; background: var(--surface); border: 1px solid var(--border); }
+    .chip.bad { background: var(--rose-soft); color: var(--rose); border-color: rgba(190, 18, 60, 0.3); }
+    .chip.good { background: var(--emerald-soft); color: var(--emerald); border-color: rgba(5, 150, 105, 0.35); }
+
+    /* 第2章：実測レース */
+    .race-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 10px; }
+    .legend { display: flex; gap: 14px; flex-wrap: wrap; font-size: 0.8rem; color: var(--ink-muted); font-weight: 600; }
+    .sw { width: 11px; height: 11px; border-radius: 3px; display: inline-block; margin-right: 5px; vertical-align: -1px; }
+    .clock { font-family: var(--font-mono); font-size: 1.25rem; font-weight: 800; color: var(--accent); }
+    .lane { margin-bottom: 18px; }
+    .lane:last-child { margin-bottom: 0; }
+    .lane-top { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 5px; flex-wrap: wrap; gap: 6px; }
+    .gantt { position: relative; height: 38px; border-radius: 10px; background: var(--surface-soft); border: 1px solid var(--border); overflow: hidden; }
+    .seg {
+      position: absolute; top: 3px; bottom: 3px; border-radius: 7px; color: #fff;
+      font-size: 0.78rem; font-weight: 700; display: flex; align-items: center; justify-content: center;
+      white-space: nowrap; overflow: hidden; padding: 0 6px; transition: width 0.08s linear;
+    }
+
+    /* 第3章：3つの仕事の視覚モデル */
+    .work-arena {
+      padding: 22px; border-radius: 16px; background: var(--surface-soft);
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; text-align: center;
+    }
+    .w-card { padding: 16px 12px; border-radius: 12px; background: var(--surface); border: 2px solid var(--border); }
+    .w-card.ok { border-color: var(--emerald); background: var(--emerald-soft); }
+    .w-card.bad { border-color: var(--rose); background: var(--rose-soft); }
+    .w-card.wait { border-color: var(--amber); background: var(--amber-soft); }
+
+    /* 第4章：ハーネス縮小 */
+    .h-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .h-card { padding: 14px 16px; border-radius: 12px; background: var(--surface-soft); border: 1.5px solid var(--border); font-size: 0.9rem; font-weight: 700; transition: all 0.35s var(--ease); }
+    .h-card.drop { opacity: 0.35; text-decoration: line-through; border-style: dashed; }
+    .h-card.keep { background: var(--emerald-soft); border-color: var(--emerald); color: var(--ink); }
+
+    /* 表＆クイズ */
+    table.cmp { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+    table.cmp th, table.cmp td { padding: 11px 13px; border-bottom: 1px solid var(--border); text-align: left; }
+    table.cmp th { background: var(--surface-soft); font-weight: 800; }
+
+    .quiz-item { padding: 18px; border-radius: 14px; background: var(--surface-soft); margin-bottom: 14px; }
+    .quiz-item:last-child { margin-bottom: 0; }
+    .quiz-opts { display: flex; flex-direction: column; gap: 8px; margin-top: 12px; }
+    .quiz-btn {
+      text-align: left; padding: 12px 16px; border-radius: 11px; border: 1.5px solid var(--border-strong);
+      background: var(--surface); color: var(--ink); font-family: inherit; font-size: 0.9rem; font-weight: 700;
+      cursor: pointer; box-shadow: var(--btn-shadow);
+    }
+    .quiz-btn:hover:not(:disabled) { border-color: var(--accent); color: var(--accent); }
+    .quiz-btn.ok { background: var(--emerald-soft); border-color: var(--emerald); color: var(--emerald); }
+    .quiz-btn.ng { background: var(--rose-soft); border-color: var(--rose); color: var(--rose); }
+    .quiz-fb { margin-top: 10px; font-size: 0.88rem; color: var(--ink-sub); display: none; }
+    .quiz-fb.show { display: block; }
+
+    #confetti-canvas { position: fixed; inset: 0; pointer-events: none; z-index: 999; }
+
+    footer.site-footer {
+      max-width: 820px; margin: 0 auto; padding: 28px 20px 60px; border-top: 1px solid var(--border);
+      display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;
+      font-size: 0.86rem; color: var(--ink-muted);
+    }
+    .footer-links { display: flex; gap: 16px; flex-wrap: wrap; }
+    .footer-links a { color: var(--accent); font-weight: 700; text-decoration: none; }
+    .footer-links a:hover { text-decoration: underline; }
+
+    @media (max-width: 700px) {
+      .toc-grid, .select-grid, .select-grid.two, .work-arena, .h-grid { grid-template-columns: 1fr; }
+      .hero { padding: 26px 20px; }
+      .stage, .step-bar, .takeaway { padding-left: 16px; padding-right: 16px; }
+    }
+  
+    /* === 全8ページ完全統一ヘッダー === */
+    header.topbar {
+      position: sticky; top: 0; z-index: 100;
+      background: color-mix(in srgb, var(--surface) 94%, transparent);
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .topbar-row1 {
+      max-width: 1040px; margin: 0 auto; padding: 10px 20px 8px;
+      display: flex; align-items: center; justify-content: space-between; gap: 12px;
+    }
+    header.topbar .brand {
+      display: inline-flex; align-items: center; gap: 9px;
+      font-weight: 800; font-size: 0.96rem; color: var(--ink); text-decoration: none; white-space: nowrap;
+    }
+    header.topbar .brand-icon {
+      width: 30px; height: 30px; border-radius: 8px;
+      background: linear-gradient(135deg, #2563eb, #0f766e); color: #fff;
+      display: inline-flex; align-items: center; justify-content: center; font-size: 0.95rem;
+    }
+    .page-chip {
+      padding: 2px 10px; border-radius: 99px; font-size: 0.76rem; font-weight: 800;
+      background: var(--accent-soft); color: var(--accent); border: 1px solid var(--accent-border);
+      white-space: nowrap;
+    }
+    header.topbar .util-btns { display: flex; gap: 6px; flex-shrink: 0; }
+    header.topbar .util-btn {
+      padding: 5px 11px; border-radius: 8px; border: 1.5px solid var(--border-strong);
+      background: var(--surface); color: var(--ink-sub); font-family: inherit;
+      font-size: 0.78rem; font-weight: 700; cursor: pointer; box-shadow: var(--btn-shadow); white-space: nowrap;
+    }
+    header.topbar .util-btn:hover { border-color: var(--accent); color: var(--accent); }
+    .topbar-row2 {
+      border-top: 1px solid var(--border);
+      background: color-mix(in srgb, var(--surface-soft) 72%, transparent);
+    }
+    header.topbar .guide-nav {
+      max-width: 1040px; margin: 0 auto; padding: 6px 20px;
+      display: flex; align-items: center; gap: 4px; overflow-x: auto; scrollbar-width: thin; flex-wrap: nowrap;
+    }
+    header.topbar .guide-nav a {
+      padding: 5px 11px; border-radius: 8px; font-size: 0.8rem; font-weight: 700;
+      color: var(--ink-muted); text-decoration: none; white-space: nowrap; flex-shrink: 0;
+      transition: background 0.15s, color 0.15s;
+    }
+    header.topbar .guide-nav a:hover { color: var(--ink); background: var(--surface); }
+    header.topbar .guide-nav a.current { color: #fff; background: var(--accent); }
+    section.lesson { scroll-margin-top: 112px; }
+
+  
+    /* === 全8ページ ヘッダー書体・サイズ完全固定 === */
+    header.topbar, header.topbar * {
+      font-family: "BIZ UDPGothic", "Hiragino Kaku Gothic ProN", "Yu Gothic UI", "Meiryo", system-ui, sans-serif !important;
+      letter-spacing: 0 !important;
+    }
+    header.topbar .topbar-row1 {
+      max-width: 1040px; margin: 0 auto; padding: 10px 20px 8px;
+      min-height: 48px; box-sizing: border-box;
+    }
+    header.topbar .brand { font-size: 15px !important; line-height: 1.3 !important; }
+    header.topbar .page-chip { font-size: 12px !important; line-height: 1.4 !important; padding: 3px 10px !important; }
+    header.topbar .util-btn { font-size: 12.5px !important; line-height: 1.3 !important; padding: 6px 11px !important; }
+    header.topbar .guide-nav {
+      max-width: 1040px; margin: 0 auto; padding: 6px 20px;
+      gap: 4px !important; min-height: 42px; box-sizing: border-box;
+    }
+    header.topbar .guide-nav a {
+      font-size: 13px !important; line-height: 1.4 !important;
+      padding: 5px 11px !important; font-weight: 700 !important;
+    }
+
+  </style>
+</head>
+<body>
+  <div class="progress-bar" id="progressBar" aria-hidden="true"></div>
+  <canvas id="confetti-canvas" aria-hidden="true"></canvas>
+
+  <header class="topbar">
+    <div class="topbar-row1">
+      <div style="display:flex;align-items:center;gap:10px;min-width:0;">
+        <a href="../index.html" class="brand">
+          <span class="brand-icon">🧭</span>
+          <span>agent-study</span>
+        </a>
+        <span class="page-chip">1. エージェント</span>
+      </div>
+      <div class="util-btns">
+        <button class="util-btn" id="soundToggle" type="button" aria-pressed="false">🔇 効果音</button>
+        <button class="util-btn" id="themeToggle" type="button" aria-pressed="false">🌙 ダーク</button>
+      </div>
+    </div>
+    <div class="topbar-row2">
+      <nav class="guide-nav" aria-label="学習ガイド一覧">
+        <a href="../index.html">🏠 トップ</a>
+        <a href="../agent-guide/interactive-guide.html" class="current">1. エージェント</a>
+        <a href="../copilot-fusion/interactive-guide.html">2. Fusion</a>
+        <a href="../hook-guide/interactive-guide.html">3. フック</a>
+        <a href="../mcp-guide/interactive-guide.html">4. MCP</a>
+        <a href="../uml-guide/interactive-guide.html">5. UML・要求図</a>
+        <a href="../agent-skill/interactive-guide.html">6. スキル</a>
+        <a href="../ui-guide/interactive-guide.html">7. AI・UI設計</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <span class="eyebrow">AGENT-GUIDE — 初めてでも 5 分でわかる「サブエージェント」入門</span>
+      <h1>AI に仕事を分担させると本当に速くなる？<br>実測と動きで「効く場面・ダメな場面」を理解する</h1>
+      <p class="lead">
+        <strong>サブエージェント</strong>とは、メインの AI が仕事の一部を任せるために呼び出す「別の AI 作業員」のことです。
+        いちばんの価値は速さよりも<strong>「メインの AI の頭（記憶）を雑音で汚さないこと」</strong>。4 つの体験で本質をつかみましょう。
+      </p>
+      <div class="toc-grid">
+        <a class="toc-item" href="#ch1"><span class="toc-no">1</span>1人で調べる vs 調査係に任せる（記憶の違い）</a>
+        <a class="toc-item" href="#ch2"><span class="toc-no">2</span>なぜ分担したのに遅くなった？（A/B/C 実測レース）</a>
+        <a class="toc-item" href="#ch3"><span class="toc-no">3</span>分担が効く仕事・逆に遅くなる仕事</a>
+        <a class="toc-item" href="#ch4"><span class="toc-no">4</span>モデルが進化しても「残すべき 3 原則」</a>
+      </div>
+    </section>
+
+    <!-- 第1章：記憶を汚さない -->
+    <section class="lesson" id="ch1">
+      <span class="lesson-kicker">STEP 1 — サブエージェント最大のメリット</span>
+      <h2>別室で調べさせて「要点メモ 1 枚」だけ持ち帰ってもらう</h2>
+
+      <div class="story-box">
+        <strong>どんな場面？</strong>
+        50 個のファイルと長いエラーログの中から、バグの原因を探してほしい場面です。メイン AI が自分で全部読むと、記憶（コンテキスト）が雑音でパンパンになってしまいます。
+      </div>
+
+      <div class="exp-card">
+        <div class="step-bar run-bar">
+          <span class="step-label">ボタンを押して、メイン AI の記憶の使われ方を比べましょう</span>
+          <div style="display:flex;gap:8px;">
+            <button class="run-btn" id="btnCtxRun" type="button">▶ 50ファイル調査を始める</button>
+            <button class="sub-btn" id="btnCtxReset" type="button">↺ 戻す</button>
+          </div>
+        </div>
+        <div class="stage">
+          <div class="brain-row">
+            <div class="brain-top"><span>😵 1人で全部読む（メイン直読み）</span><span id="tokSolo" style="color:var(--rose);">500 tok</span></div>
+            <div class="bar-bg"><div class="bar-fg" id="barSolo" style="background:var(--rose);"></div></div>
+            <div class="chip-wrap" id="chipsSolo"><span class="chip">元の依頼 (500 tok)</span></div>
+          </div>
+          <div class="brain-row">
+            <div class="brain-top"><span>✨ 調査係（別室のサブエージェント）に任せる</span><span id="tokSub" style="color:var(--emerald);">500 tok</span></div>
+            <div class="bar-bg"><div class="bar-fg" id="barSub" style="background:var(--emerald);"></div></div>
+            <div class="chip-wrap" id="chipsSub"><span class="chip">元の依頼 (500 tok)</span></div>
+          </div>
+        </div>
+        <div class="takeaway" id="ctxTake">
+          <span class="takeaway-head">💡 いま起きていること</span>
+          ボタンを押すと、大量のログを読んだときの記憶の差が動きで分かります。
+        </div>
+      </div>
+    </section>
+
+    <!-- 第2章：A/B/C 実測レース -->
+    <section class="lesson" id="ch2">
+      <span class="lesson-kicker">STEP 2 — 実際の比較実験（report_01-profile.md）</span>
+      <h2>分担（B）が 1人（A）より遅かったワケと、スクリプト統合（C）の大逆転</h2>
+
+      <div class="story-box">
+        <strong>どんな実験？</strong>
+        同じ自己紹介ページを 3 通りで作り比べました。<strong>A（1人）</strong>、<strong>B（親が設計→HTML/CSS/JS の 3 体が並列作成→最後に親 AI が 1 ファイルへ書き写し統合）</strong>、<strong>C（B と同じだが、最後の統合だけ Node.js スクリプトに任せる）</strong>。同時スタートで比べてみましょう！
+      </div>
+
+      <div class="exp-card">
+        <div class="step-bar run-bar">
+          <span class="step-label">B の「赤いバー（AI 書き写し統合）」と C の「緑のバー（1.1秒）」の差に注目！</span>
+          <div style="display:flex;gap:8px;">
+            <button class="run-btn" id="btnRace" type="button">▶ レースを再生する</button>
+            <button class="sub-btn" id="btnRaceReset" type="button">↺ 最初から</button>
+          </div>
+        </div>
+        <div class="stage">
+          <div class="race-meta">
+            <div class="legend">
+              <span><i class="sw" style="background:#7c3aed;"></i>設計・発注</span>
+              <span><i class="sw" style="background:#0891b2;"></i>並列部品づくり</span>
+              <span><i class="sw" style="background:#be123c;"></i>AI 書き写し統合 (129秒)</span>
+              <span><i class="sw" style="background:#059669;"></i>スクリプト統合 (1.1秒)</span>
+            </div>
+            <div class="clock" id="raceClock">0.0 秒</div>
+          </div>
+
+          <div class="lane">
+            <div class="lane-top"><strong>方式 A：1人（Opus が全部書く）</strong><span id="lInfoA" style="font-family:var(--font-mono);font-size:0.86rem;">0.0秒 / $1.15</span></div>
+            <div class="gantt" id="gA"></div>
+          </div>
+          <div class="lane">
+            <div class="lane-top"><strong>方式 B：分担（統合も AI が 4万字を書き写す）</strong><span id="lInfoB" style="font-family:var(--font-mono);font-size:0.86rem;">0.0秒 / $1.68</span></div>
+            <div class="gantt" id="gB"></div>
+          </div>
+          <div class="lane">
+            <div class="lane-top"><strong>方式 C：分担 ＋ 統合だけスクリプト（1.1秒）</strong><span id="lInfoC" style="font-family:var(--font-mono);font-size:0.86rem;">0.0秒 / $1.05</span></div>
+            <div class="gantt" id="gC"></div>
+          </div>
+        </div>
+        <div class="takeaway" id="raceTake">
+          <span class="takeaway-head">💡 実況ポイント</span>
+          「▶ レースを再生する」を押すと、3 方式が同時スタートします。
+        </div>
+        <details class="code-drawer">
+          <summary>🔍 もっと詳しく：スクリプト作成費は何回目で元が取れる？</summary>
+          <div class="drawer-body">
+            <p style="margin:0;font-size:0.9rem;color:var(--ink-sub);">
+              統合スクリプト（<code>merge-parts.js</code>）を最初に AI に作らせるコストは <strong>99.1 秒・0.43 USD</strong> でした。
+              方式 B と比べると<strong>1 回目から即回収</strong>、方式 A と比べても<strong>時間は 2 回目・コストは 5 回目</strong>から方式 C がお得になります。
+            </p>
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <!-- 第3章：分担が効く仕事・ダメな仕事 -->
+    <section class="lesson" id="ch3">
+      <span class="lesson-kicker">STEP 3 — 並列化の向き・不向き</span>
+      <h2>「独立した調べもの」は 2〜5 体で爆速。「順番依存・同時執筆」は逆効果</h2>
+
+      <div class="story-box">
+        <strong>どんな疑問？</strong>
+        「どんな仕事でも 5 人に分けたら速くなるの？」——Google / MIT や Cursor の大規模実験では、仕事の性質によって結果が正反対に分かれました。3 つの仕事を選び比べてみましょう。
+      </div>
+
+      <div class="exp-card">
+        <div class="step-bar">
+          <span class="step-label">試したい仕事の種類を選んでください</span>
+          <div class="select-grid" id="ch3Sel">
+            <button class="sel-btn active" data-w="research" type="button">
+              <span class="sel-title">🔍 独立した調査・調べもの</span>
+              <span class="sel-sub">別々の資料やモジュールを並行調査</span>
+            </button>
+            <button class="sel-btn" data-w="seq" type="button">
+              <span class="sel-title">🪜 順番に積み上げる作業</span>
+              <span class="sel-sub">前の答えを見てから次を決める仕事</span>
+            </button>
+            <button class="sel-btn" data-w="edit" type="button">
+              <span class="sel-title">📝 同じファイルを同時編集</span>
+              <span class="sel-sub">みんなで 1 つのコードを同時に書く</span>
+            </button>
+          </div>
+        </div>
+        <div class="stage">
+          <div id="workFlowBanner" style="margin-bottom:12px;padding:10px 14px;border-radius:10px;background:var(--accent-soft);color:var(--accent);font-size:0.86rem;font-weight:800;text-align:center;"></div>
+          <div class="work-arena" id="workArena"></div>
+        </div>
+        <div class="takeaway" id="workTake"></div>
+      </div>
+    </section>
+
+    <!-- 第4章：モデル進化で残すこと・外すこと -->
+    <section class="lesson" id="ch4">
+      <span class="lesson-kicker">STEP 4 — 長く効くエージェント設計のコツ</span>
+      <h2>AI が賢くなると、念押しや手順縛りは不要になり「3 本柱」だけが残る</h2>
+
+      <div class="story-box">
+        <strong>どんな考え方？（The Bitter Lesson：苦い教訓）</strong>
+        モデルの弱点を補うために足した細かい工夫は、次の世代のモデルが出ると逆に足かせになります。時代を切り替えて「外せる工夫」と「ずっと残すべき 3 本柱」を確認しましょう。
+      </div>
+
+      <div class="exp-card">
+        <div class="step-bar">
+          <span class="step-label">時代を切り替えて比べてください</span>
+          <div class="select-grid two" id="ch4Sel">
+            <button class="sel-btn active" data-e="0" type="button">
+              <span class="sel-title">2025年 前半（旧世代モデル）</span>
+              <span class="sel-sub">文脈切れや手順抜けを防ぐ工夫がたくさん必要だった</span>
+            </button>
+            <button class="sel-btn" data-e="1" type="button">
+              <span class="sel-title">2026年 現在（最新世代・1M 窓）</span>
+              <span class="sel-sub">不要な縛りを外し、本当に効く 3 本柱だけを残す</span>
+            </button>
+          </div>
+        </div>
+        <div class="stage">
+          <div class="h-grid" id="hGrid"></div>
+        </div>
+        <div class="takeaway" id="hTake"></div>
+        <details class="code-drawer">
+          <summary>🔍 もっと詳しく：定義ファイルの書き方（Claude Code と Copilot の違い）を見る</summary>
+          <div class="drawer-body">
+            <p style="margin:0 0 8px;font-size:0.86rem;color:var(--ink-sub);">
+              定義ファイルは「上段（YAML 設定）＋下段（役割の本文）」の 2 段構造です。文章で「編集禁止」とお願いするより、<code>tools</code> から書き込み道具を外すのが最も確実です。なお Copilot（VS Code）では<strong>子の料金ランクを親より高くできない</strong>点に注意します。
+            </p>
+            <pre class="code-snip"># Claude Code (.claude/agents/readonly-reviewer.md)
+---
+name: readonly-reviewer
+model: sonnet
+tools: Read, Grep, Glob   # ← Write / Edit を渡さない＝物理的に編集不可！
+---
+作成過程を見ないまっさらな目線で、バグと仕様ズレを報告する。</pre>
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <!-- まとめ＆クイズ -->
+    <section class="lesson" id="ch5">
+      <span class="lesson-kicker">SUMMARY — 定番 5 パターンと 3 問チェック</span>
+      <h2>まず 1 人で試し、足りないところだけ 5 つの型から選ぶ</h2>
+
+      <div class="exp-card" style="margin-bottom:28px;">
+        <div class="stage">
+          <table class="cmp">
+            <thead><tr><th>パターン名</th><th>ひとことで</th><th>向いている場面</th></tr></thead>
+            <tbody>
+              <tr><td><strong>① 調査係</strong></td><td>読取専用の子が要約だけ返す</td><td>広いコード検索、長いログ解析</td></tr>
+              <tr><td><strong>② 配ってまとめる</strong></td><td>独立部品を並列作成 → 1人/スクリプト統合</td><td>独立モジュール調査、ファイル分離分担</td></tr>
+              <tr><td><strong>③ 作り手＋チェック</strong></td><td>作成過程を見ない別 AI が客観採点</td><td>合格基準が明確で品質重視の仕事</td></tr>
+              <tr><td><strong>④ 相談役</strong></td><td>安いモデルが実行し難所だけ Opus に相談</td><td>量が多くコストを抑えたい仕事</td></tr>
+              <tr><td><strong>⑤ 受付と専門窓口</strong></td><td>入口で分類して専用道具の担当へ振る</td><td>似た道具が多くて誤選択が起きる業務</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="exp-card">
+        <div class="stage" id="quizBox"></div>
+        <div class="takeaway" id="quizScore"><span class="takeaway-head">現在のスコア</span>0 / 3 問正解</div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div><strong>agent-guide</strong> — 動かしてわかる動的ガイド</div>
+    <div class="footer-links">
+      <a href="README.md">README.md</a>
+      <a href="docs/00_subagent-guide.md">00 入門</a>
+      <a href="docs/01_copilot-subagent-guide.md">01 Copilot編</a>
+      <a href="docs/02_agent-patterns.md">02 パターン5選</a>
+      <a href="output/report_01-profile.md">実測レポート</a>
+    </div>
+  </footer>
+
+  <script>
+    'use strict';
+
+    const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+
+    const Sound = (() => {
+      let on = false, ctx = null;
+      const tone = (f, d = 0.07, type = 'triangle', g = 0.055, dl = 0) => {
+        if (!on) return;
+        if (!ctx) { const AC = window.AudioContext || window.webkitAudioContext; if (AC) ctx = new AC(); }
+        if (!ctx) return;
+        if (ctx.state === 'suspended') ctx.resume();
+        const t = ctx.currentTime + dl, o = ctx.createOscillator(), gn = ctx.createGain();
+        o.type = type; o.frequency.setValueAtTime(f, t);
+        gn.gain.setValueAtTime(0.0001, t); gn.gain.exponentialRampToValueAtTime(g, t + 0.01);
+        gn.gain.exponentialRampToValueAtTime(0.0001, t + d);
+        o.connect(gn).connect(ctx.destination); o.start(t); o.stop(t + d + 0.02);
+      };
+      return {
+        toggle() { on = !on; if (on) { tone(523, 0.08); tone(659, 0.1, 'triangle', 0.055, 0.06); } return on; },
+        click() { tone(580, 0.045, 'sine', 0.045); },
+        ok() { tone(523, 0.08, 'triangle', 0.055, 0); tone(659, 0.09, 'triangle', 0.055, 0.06); tone(784, 0.14, 'triangle', 0.055, 0.12); },
+        warn() { tone(220, 0.12, 'sawtooth', 0.04, 0); tone(175, 0.15, 'sawtooth', 0.04, 0.09); },
+        win() { [523, 659, 784, 1046].forEach((f, i) => tone(f, 0.16, 'triangle', 0.06, i * 0.07)); }
+      };
+    })();
+
+    const themeBtn = document.getElementById('themeToggle');
+    const setTheme = (t) => {
+      document.documentElement.setAttribute('data-theme', t);
+      const dk = t === 'dark';
+      themeBtn.setAttribute('aria-pressed', String(dk));
+      themeBtn.textContent = dk ? '☀️ ライト' : '🌙 ダーク';
+      try { localStorage.setItem('agent-study-theme', t); } catch {}
+    };
+    const saved = (() => { try { return localStorage.getItem('agent-study-theme'); } catch { return null; } })();
+    setTheme(saved || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'));
+    themeBtn.addEventListener('click', () => { Sound.click(); setTheme(document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'); });
+    document.getElementById('soundToggle').addEventListener('click', (e) => {
+      const on = Sound.toggle(); e.currentTarget.setAttribute('aria-pressed', String(on));
+      e.currentTarget.textContent = on ? '🔊 効果音 ON' : '🔇 効果音';
+    });
+    window.addEventListener('scroll', () => {
+      const h = document.documentElement.scrollHeight - window.innerHeight;
+      document.getElementById('progressBar').style.width = h > 0 ? `${Math.min(100, (window.scrollY / h) * 100)}%` : '0%';
+    }, { passive: true });
+
+    function confetti() {
+      const cv = document.getElementById('confetti-canvas'), cx = cv.getContext('2d');
+      cv.width = window.innerWidth; cv.height = window.innerHeight;
+      const cols = ['#4f46e5', '#059669', '#0891b2', '#d97706', '#be123c'];
+      const ps = Array.from({ length: 70 }, () => ({
+        x: cv.width * (0.25 + Math.random() * 0.5), y: cv.height * 0.4,
+        vx: (Math.random() - 0.5) * 9, vy: -Math.random() * 10 - 3,
+        s: 6 + Math.random() * 5, c: cols[Math.floor(Math.random() * cols.length)], l: 1
+      }));
+      let n = 0;
+      const step = () => {
+        cx.clearRect(0, 0, cv.width, cv.height);
+        ps.forEach((p) => { p.x += p.vx; p.y += p.vy; p.vy += 0.3; p.l -= 0.012; cx.globalAlpha = Math.max(0, p.l); cx.fillStyle = p.c; cx.fillRect(p.x, p.y, p.s, p.s * 0.6); });
+        if (++n < 85) requestAnimationFrame(step); else cx.clearRect(0, 0, cv.width, cv.height);
+      };
+      requestAnimationFrame(step);
+    }
+
+    /* 第1章：記憶を汚さない */
+    let t1 = [];
+    function resetCtx() {
+      t1.forEach(clearTimeout); t1 = [];
+      document.getElementById('barSolo').style.width = '4%';
+      document.getElementById('barSub').style.width = '4%';
+      document.getElementById('tokSolo').textContent = '500 tok';
+      document.getElementById('tokSub').textContent = '500 tok';
+      document.getElementById('chipsSolo').innerHTML = '<span class="chip">元の依頼 (500 tok)</span>';
+      document.getElementById('chipsSub').innerHTML = '<span class="chip">元の依頼 (500 tok)</span>';
+      document.getElementById('ctxTake').innerHTML = '<span class="takeaway-head">💡 いま起きていること</span>ボタンを押すと、大量のログを読んだときの記憶の差が動きで分かります。';
+    }
+    document.getElementById('btnCtxReset').addEventListener('click', () => { Sound.click(); resetCtx(); });
+    document.getElementById('btnCtxRun').addEventListener('click', () => {
+      Sound.click(); resetCtx();
+      const logs = [['エラーログ 1,200行 (+18,000)', 18000], ['無関係な検索結果 48件 (+15,000)', 15000], ['古いテスト全文 (+16,000)', 16000], ['設定ダンプ (+10,000)', 10000]];
+      let acc = 500;
+      const subWrap = document.getElementById('chipsSub');
+      const tmp = document.createElement('span'); tmp.className = 'chip'; tmp.textContent = '🔍 別室で 59,000 tok を読破中…';
+      subWrap.appendChild(tmp);
+      logs.forEach(([lbl, tok], i) => {
+        t1.push(setTimeout(() => {
+          Sound.click(); acc += tok;
+          const sp = document.createElement('span'); sp.className = 'chip bad'; sp.textContent = lbl;
+          document.getElementById('chipsSolo').appendChild(sp);
+          document.getElementById('tokSolo').textContent = `${acc.toLocaleString()} tok（パンパン！）`;
+          document.getElementById('barSolo').style.width = `${Math.min(96, (acc / 60000) * 100)}%`;
+          if (i === logs.length - 1) {
+            t1.push(setTimeout(() => {
+              tmp.remove();
+              const ok = document.createElement('span'); ok.className = 'chip good'; ok.textContent = '✅ 原因と該当 3 箇所の要点メモだけ返却 (+1,400)';
+              subWrap.appendChild(ok);
+              document.getElementById('tokSub').textContent = '1,900 tok（約 1/30！）';
+              document.getElementById('barSub').style.width = '10%';
+              document.getElementById('ctxTake').innerHTML = '<span class="takeaway-head">💡 なるほどまとめ</span>サブエージェントは別室で大量の雑音を捨てて「要点（1,000〜2,000 tok）だけ」を親に返すため、親の頭がスッキリ保たれます。';
+              Sound.ok();
+            }, 380));
+          }
+        }, 420 * (i + 1)));
+      });
+    });
+
+    /* 第2章：実測レース */
+    const MAX_T = 385;
+    const RACE = {
+      A: { total: 321.5, cost: 1.15, segs: [{ l: '1人で全部作成 (285s)', s: 0, d: 285, c: '#2563eb' }, { l: '報告', s: 285, d: 36.5, c: '#64748b' }] },
+      B: { total: 380.8, cost: 1.68, segs: [{ l: '設計・発注 (106s)', s: 0, d: 106, c: '#7c3aed' }, { l: '並列部品 (139s)', s: 106, d: 139, c: '#0891b2' }, { l: 'AI 書き写し統合 129s', s: 245, d: 129, c: '#be123c' }, { l: '報告', s: 374, d: 6.8, c: '#64748b' }] },
+      C: { total: 258.2, cost: 1.05, segs: [{ l: '設計・発注 (98s)', s: 0, d: 98, c: '#7c3aed' }, { l: '並列部品 (125s)', s: 98, d: 125, c: '#0891b2' }, { l: '待機', s: 223, d: 27, c: '#94a3b8' }, { l: '1.1s', s: 250, d: 3, c: '#059669' }, { l: '報告', s: 253, d: 5.2, c: '#64748b' }] }
+    };
+    ['A', 'B', 'C'].forEach((k) => {
+      const box = document.getElementById(`g${k}`);
+      RACE[k].segs.forEach((sg, i) => {
+        const d = document.createElement('div'); d.className = 'seg'; d.id = `seg_${k}_${i}`;
+        d.style.left = `${(sg.s / MAX_T) * 100}%`; d.style.width = '0%'; d.style.background = sg.c; d.textContent = sg.l;
+        box.appendChild(d);
+      });
+    });
+    let rT = 0, rPlay = false, rRaf = null, rLast = 0, cHit = false;
+    function drawRace(t) {
+      document.getElementById('raceClock').textContent = `${t.toFixed(1)} 秒`;
+      ['A', 'B', 'C'].forEach((k) => {
+        const d = RACE[k], et = Math.min(t, d.total), ratio = et / d.total;
+        document.getElementById(`lInfo${k}`).textContent = `${et.toFixed(1)}秒 / $${(d.cost * ratio).toFixed(2)}${t >= d.total ? ' 🏁' : ''}`;
+        d.segs.forEach((sg, i) => {
+          document.getElementById(`seg_${k}_${i}`).style.width = `${(Math.max(0, Math.min(sg.d, et - sg.s)) / MAX_T) * 100}%`;
+        });
+      });
+      if (t >= 258.2 && !cHit) { cHit = true; Sound.ok(); }
+      const take = document.getElementById('raceTake');
+      if (t < 105) take.innerHTML = '<span class="takeaway-head">0〜105秒：設計フェーズ</span>B・C の親（Opus）がまず設計書 <code>spec.md</code> を書き、3 体の子へ並列発注します。';
+      else if (t < 245) take.innerHTML = '<span class="takeaway-head">105〜245秒：並列で部品づくり</span>HTML・CSS・JS の 3 体が同時稼働！全体の待ち時間は一番遅い CSS 担当で決まります。';
+      else if (t < 275) take.innerHTML = '<span class="takeaway-head" style="color:var(--emerald);">258.2秒：方式 C が最速・最安でゴール！🏆</span>最後の合体だけプログラム（1.1秒）に任せた C が一気に勝利。B はここから親 AI が 4 万字を書き写し始めます…';
+      else take.innerHTML = '<span class="takeaway-head">💡 なるほどまとめ</span>「単純なファイル連結を AI にさせずスクリプト化する」「高い Opus の作業を設計と検品に絞る」ことで、分担が初めて 1 人に勝ちます！';
+    }
+    function loopRace(ts) {
+      if (!rPlay) return;
+      if (!rLast) rLast = ts;
+      rT = Math.min(380.8, rT + ((ts - rLast) / 1000) * 48);
+      rLast = ts; drawRace(rT);
+      if (rT >= 380.8) { rPlay = false; document.getElementById('btnRace').textContent = '▶ もう一度再生'; return; }
+      rRaf = requestAnimationFrame(loopRace);
+    }
+    document.getElementById('btnRace').addEventListener('click', () => {
+      Sound.click();
+      if (rPlay) { rPlay = false; document.getElementById('btnRace').textContent = '▶ 再開する'; }
+      else { if (rT >= 380.8) { rT = 0; cHit = false; } rPlay = true; rLast = 0; document.getElementById('btnRace').textContent = '⏸ 一時停止'; rRaf = requestAnimationFrame(loopRace); }
+    });
+    document.getElementById('btnRaceReset').addEventListener('click', () => {
+      Sound.click(); rPlay = false; cancelAnimationFrame(rRaf); rT = 0; cHit = false;
+      document.getElementById('btnRace').textContent = '▶ レースを再生する'; drawRace(0);
+    });
+
+    /* 第3章：3つの仕事 */
+    const WORKS = {
+      research: {
+        cards: [
+          ['ok', '🤖 子1：A社を調査', '他を待たず即完了 ✅'],
+          ['ok', '🤖 子2：B社を調査', '他を待たず即完了 ✅'],
+          ['ok', '🤖 子3：C社を調査', '他を待たず即完了 ✅']
+        ],
+        take: '✨ <strong>いちばん効果が出る仕事（普段使い 2〜5 体が快適）！</strong> Anthropic・Google 研究で精度 +80〜90%、所要時間最大 90% 短縮が報告されています（ただしトークン消費は増えます）。'
+      },
+      seq: {
+        cards: [
+          ['ok', '🤖 子1：手順1を解く', '実行中…'],
+          ['wait', '🤖 子2：手順2（待機）', '⏳ 子1待ち＋伝言ズレ'],
+          ['bad', '🤖 子3：手順3（渋滞）', '❌ 文脈分断でミス増幅']
+        ],
+        take: '❌ <strong>分担すると逆効果！</strong> Google / MIT 研究では、順番に積み上げる作業を分担するとどの構成でも <strong>39〜70% 性能が悪化</strong> しました。この仕事は 1 人で解くのが最強です。'
+      },
+      edit: {
+        cards: [
+          ['bad', '🤖 子1：app.js 編集', '💥 変数名が衝突！'],
+          ['bad', '🤖 子2：app.js 編集', '💥 設計が食い違う！'],
+          ['bad', '🤖 子3：app.js 編集', '💥 上書き合戦！']
+        ],
+        take: '⚠️ <strong>「読むのは分担・書くのは 1 人」が鉄則！</strong> Cursor の実験では共有ファイルを取り合う 20 体が 2〜3 体分の速度に低下。書く作業を分けるなら必ず担当ファイルと設計書（spec.md）を厳密に分けます。'
+      }
+    };
+    function renderWork(k) {
+      const w = WORKS[k];
+      const banners = {
+        research: '親 AI ── 独立した 3 仕事を同時に渡す ━━▶ 子1・子2・子3（同時完了 → 親へ要約返却）',
+        seq: '親 AI ── 手順1 ━━▶ 子1 ──(完了待ち)━━▶ 子2 ──(完了待ち)━━▶ 子3（直列渋滞！）',
+        edit: '子1・子2・子3 ━━▶ [たった 1 枚の app.js] ◀━━ 3方向から同時に書き換えて衝突！'
+      };
+      document.getElementById('workFlowBanner').textContent = banners[k];
+      document.getElementById('workArena').innerHTML = w.cards.map(([cls, t, s]) => `
+        <div class="w-card ${cls}"><strong style="display:block;font-size:0.9rem;margin-bottom:4px;">${esc(t)}</strong><span style="font-size:0.82rem;color:var(--ink-sub);">${esc(s)}</span></div>
+      `).join('');
+      document.getElementById('workTake').innerHTML = `<span class="takeaway-head">💡 研究結果からの結論</span>${w.take}`;
+    }
+    document.querySelectorAll('#ch3Sel .sel-btn').forEach((b) => b.addEventListener('click', () => {
+      const k = b.dataset.w;
+      if (k === 'research') Sound.ok(); else Sound.warn();
+      document.querySelectorAll('#ch3Sel .sel-btn').forEach((x) => x.classList.toggle('active', x === b));
+      renderWork(k);
+    }));
+    renderWork('research');
+
+    /* 第4章：ハーネス縮小 */
+    const H_ITEMS = [
+      ['こまめな文脈リセット・細かい分割', false],
+      ['大文字 IMPORTANT や「手を抜くな」の念押し', false],
+      ['良い答え目的だけの単純な丸投げ', false],
+      ['🔒 権限・ツール制限（読取専用などの安全境界）', true],
+      ['✅ 完了の定義と客観的な合格テスト', true],
+      ['⚙️ 毎回同じ定型作業のスクリプト化（merge-parts.js）', true]
+    ];
+    function renderEra(e) {
+      document.getElementById('hGrid').innerHTML = H_ITEMS.map(([txt, keep]) => {
+        const cls = e === 1 ? (keep ? 'keep' : 'drop') : '';
+        return `<div class="h-card ${cls}">${esc(txt)}</div>`;
+      }).join('');
+      document.getElementById('hTake').innerHTML = e === 0
+        ? '<span class="takeaway-head">2025年 前半</span>旧世代モデルの弱点を補うため、細かい分割や念押しなど多くの工夫が必要でした。'
+        : '<span class="takeaway-head" style="color:var(--emerald);">2026年 現在（長く効く 3 本柱）</span>モデル強化で念押しや手順縛りは足かせになり廃止へ。<strong>権限制限・合格テスト・スクリプト化</strong>（＋社内固有情報）を残すのが正解です。';
+    }
+    document.querySelectorAll('#ch4Sel .sel-btn').forEach((b) => b.addEventListener('click', () => {
+      Sound.click();
+      document.querySelectorAll('#ch4Sel .sel-btn').forEach((x) => x.classList.toggle('active', x === b));
+      renderEra(Number(b.dataset.e));
+    }));
+    renderEra(0);
+
+    /* 3問チェック */
+    const QUIZ = [
+      {
+        q: 'Q1. 実験で方式 B（分担・AI 統合）が 1人（A）より遅く高くなった最大の原因は？',
+        opts: ['親 AI が部品を 1 ファイルへ書き写す統合だけで 129 秒かかったから', 'HTML 担当がエラーを出したから', '並列起動ができなかったから'],
+        ans: 0,
+        exp: '単純なファイル合体を AI にやらせたのが原因。スクリプト化した方式 C では統合が 1.1 秒になり最速・最安でした。'
+      },
+      {
+        q: 'Q2. サブエージェントに分担すると逆に性能が大きく悪化する（-39〜70%）のはどの仕事？',
+        opts: ['独立した複数資料の並列調査', '前のステップの結果に依存する「順番に積み上げる作業」', '読み取り専用のログ調査'],
+        ans: 1,
+        exp: '逐次作業は文脈が切れると大きく悪化します。こういう仕事は 1 人で進めるのが最強です。'
+      },
+      {
+        q: 'Q3. レビュー役の子に「絶対にファイルを書き換えさせない」最も確実な方法は？',
+        opts: ['プロンプトに大文字で IMPORTANT と書く', '定義ファイルの tools から Write / Edit / Bash を外し読取専用にする', 'モデルを小さくする'],
+        ans: 1,
+        exp: '文章の禁止は「お願い」ですが、道具そのものを取り上げれば物理的に編集できなくなります。'
+      }
+    ];
+    const qRes = [null, null, null];
+    const qBox = document.getElementById('quizBox');
+    qBox.innerHTML = QUIZ.map((it, qi) => `
+      <div class="quiz-item">
+        <strong>${esc(it.q)}</strong>
+        <div class="quiz-opts">${it.opts.map((o, oi) => `<button class="quiz-btn" data-qi="${qi}" data-oi="${oi}" type="button">${esc(o)}</button>`).join('')}</div>
+        <div class="quiz-fb" id="qfb_${qi}"></div>
+      </div>
+    `).join('');
+    qBox.querySelectorAll('.quiz-btn').forEach((btn) => btn.addEventListener('click', () => {
+      const qi = Number(btn.dataset.qi), oi = Number(btn.dataset.oi);
+      if (qRes[qi] !== null) return;
+      qRes[qi] = oi === QUIZ[qi].ans;
+      qBox.querySelectorAll(`[data-qi="${qi}"]`).forEach((b, i) => {
+        b.disabled = true;
+        if (i === QUIZ[qi].ans) b.classList.add('ok');
+        else if (i === oi) b.classList.add('ng');
+      });
+      const fb = document.getElementById(`qfb_${qi}`);
+      fb.textContent = `${qRes[qi] ? '✅ 正解！ ' : '💡 解説： '}${QUIZ[qi].exp}`;
+      fb.classList.add('show');
+      const sc = qRes.filter(Boolean).length;
+      document.getElementById('quizScore').innerHTML = `<span class="takeaway-head">現在のスコア</span>${sc} / 3 問正解${sc === 3 ? ' 🎉 全問正解です！' : ''}`;
+      if (qRes[qi]) Sound.ok(); else Sound.warn();
+      if (qRes.every((v) => v !== null) && sc === 3) { Sound.win(); confetti(); }
+    }));
+  </script>
+</body>
+</html>

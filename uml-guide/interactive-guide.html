@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>UML・SysML と要求図 わかる動的ガイド — uml-guide</title>
+  <style>
+    :root {
+      --bg: #f8fafc;
+      --surface: #ffffff;
+      --surface-soft: #f1f5f9;
+      --border: #e2e8f0;
+      --border-strong: #cbd5e1;
+      --ink: #0f172a;
+      --ink-sub: #334155;
+      --ink-muted: #64748b;
+
+      --accent: #7c3aed;
+      --accent-hover: #6d28d9;
+      --accent-soft: #f5f3ff;
+      --accent-border: #ddd6fe;
+
+      /* 既存 uml-guide/req の色分けルール完全準拠 */
+      --c-wish: #be123c;   --f-wish: #fff1f2;
+      --c-top: #7c3aed;    --f-top: #f5f3ff;
+      --c-mid: #2563eb;    --f-mid: #eff6ff;
+      --c-low: #0e7490;    --f-low: #ecfeff;
+      --c-spec: #4f46e5;   --f-spec: #eef2ff;
+      --c-design: #059669; --f-design: #ecfdf5;
+      --c-test: #b45309;   --f-test: #fffbeb;
+
+      --card-shadow: 0 4px 24px -8px rgba(15, 23, 42, 0.08);
+      --btn-shadow: 0 2px 6px rgba(15, 23, 42, 0.08);
+      --primary-shadow: 0 6px 18px -4px rgba(124, 58, 237, 0.42);
+      --ease: cubic-bezier(0.22, 1, 0.36, 1);
+      --font-sans: "BIZ UDPGothic", "Hiragino Kaku Gothic ProN", "Yu Gothic UI", "Meiryo", system-ui, sans-serif;
+      --font-mono: "Cascadia Code", "Fira Code", Consolas, monospace;
+    }
+
+    [data-theme="dark"] {
+      --bg: #0b1120;
+      --surface: #111827;
+      --surface-soft: #1e293b;
+      --border: #1e293b;
+      --border-strong: #334155;
+      --ink: #f8fafc;
+      --ink-sub: #cbd5e1;
+      --ink-muted: #94a3b8;
+
+      --accent: #a78bfa;
+      --accent-hover: #8b5cf6;
+      --accent-soft: rgba(139, 92, 246, 0.16);
+      --accent-border: rgba(167, 139, 250, 0.36);
+
+      --c-wish: #fb7185;   --f-wish: rgba(244, 63, 94, 0.16);
+      --c-top: #a78bfa;    --f-top: rgba(139, 92, 246, 0.16);
+      --c-mid: #60a5fa;    --f-mid: rgba(59, 130, 246, 0.16);
+      --c-low: #22d3ee;    --f-low: rgba(6, 182, 212, 0.16);
+      --c-spec: #818cf8;   --f-spec: rgba(99, 102, 241, 0.16);
+      --c-design: #34d399; --f-design: rgba(16, 185, 129, 0.16);
+      --c-test: #fbbf24;   --f-test: rgba(245, 158, 11, 0.16);
+
+      --card-shadow: 0 8px 28px -8px rgba(0, 0, 0, 0.5);
+      --btn-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0; font-family: var(--font-sans); font-size: 16px; line-height: 1.9;
+      background: var(--bg); color: var(--ink);
+      transition: background-color 0.3s var(--ease), color 0.3s var(--ease);
+    }
+    .progress-bar { position: fixed; top: 0; left: 0; height: 3px; width: 0%; background: var(--accent); z-index: 200; }
+
+    header.topbar {
+      position: sticky; top: 0; z-index: 100;
+      background: color-mix(in srgb, var(--surface) 90%, transparent);
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .topbar-inner {
+      max-width: 920px; margin: 0 auto; padding: 12px 20px;
+      display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;
+    }
+    .brand { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 1rem; color: var(--ink); text-decoration: none; }
+    .brand-icon { width: 32px; height: 32px; border-radius: 9px; background: var(--accent); color: #fff; display: inline-flex; align-items: center; justify-content: center; }
+    .guide-nav { display: flex; gap: 4px; flex-wrap: wrap; }
+    .guide-nav a { padding: 5px 11px; border-radius: 8px; font-size: 0.82rem; font-weight: 700; color: var(--ink-muted); text-decoration: none; }
+    .guide-nav a:hover { color: var(--ink); background: var(--surface-soft); }
+    .guide-nav a.current { color: #fff; background: var(--accent); }
+    .util-btns { display: flex; gap: 6px; }
+    .util-btn {
+      padding: 6px 12px; border-radius: 9px; border: 1.5px solid var(--border-strong);
+      background: var(--surface); color: var(--ink-sub); font-family: inherit;
+      font-size: 0.8rem; font-weight: 700; cursor: pointer; box-shadow: var(--btn-shadow);
+    }
+    .util-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+    main { max-width: 820px; margin: 0 auto; padding: 36px 20px 96px; }
+
+    .hero {
+      background: var(--surface); border: 1px solid var(--border); border-radius: 22px;
+      padding: 36px 34px; margin-bottom: 60px; box-shadow: var(--card-shadow);
+    }
+    .eyebrow { display: inline-block; font-size: 0.8rem; font-weight: 800; color: var(--accent); margin-bottom: 8px; }
+    .hero h1 { margin: 0 0 14px; font-size: clamp(1.6rem, 3vw, 2.15rem); line-height: 1.35; }
+    .hero p.lead { margin: 0 0 18px; color: var(--ink-sub); }
+
+    .color-legend {
+      display: flex; flex-wrap: wrap; gap: 8px; padding: 12px 14px; border-radius: 12px;
+      background: var(--surface-soft); margin-bottom: 22px; align-items: center; font-size: 0.8rem;
+    }
+    .tag { display: inline-block; padding: 2px 9px; border-radius: 6px; color: #fff; font-weight: 800; font-size: 0.76rem; }
+
+    .toc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .toc-item {
+      display: flex; align-items: center; gap: 10px; padding: 11px 14px; border-radius: 12px;
+      border: 1.5px solid var(--border); background: var(--surface); color: var(--ink);
+      text-decoration: none; font-size: 0.88rem; font-weight: 700; transition: all 0.2s var(--ease);
+    }
+    .toc-item:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-soft); transform: translateX(3px); }
+    .toc-no {
+      width: 24px; height: 24px; border-radius: 50%; flex-shrink: 0;
+      background: var(--accent); color: #fff; font-size: 0.78rem; font-weight: 800;
+      display: inline-flex; align-items: center; justify-content: center;
+    }
+
+    section.lesson { margin-bottom: 72px; scroll-margin-top: 84px; }
+    .lesson-kicker { font-size: 0.8rem; font-weight: 800; color: var(--accent); letter-spacing: 0.05em; display: block; margin-bottom: 4px; }
+    .lesson h2 { margin: 0 0 12px; font-size: clamp(1.35rem, 2.3vw, 1.65rem); line-height: 1.38; }
+
+    .story-box {
+      padding: 16px 20px; border-radius: 14px; background: var(--surface-soft);
+      border-left: 4px solid var(--accent); margin-bottom: 20px; font-size: 0.95rem; color: var(--ink-sub);
+    }
+    .story-box strong { color: var(--ink); }
+
+    .exp-card {
+      background: var(--surface); border: 1px solid var(--border); border-radius: 20px;
+      overflow: hidden; box-shadow: var(--card-shadow);
+    }
+    .step-bar { padding: 16px 24px; background: var(--surface-soft); border-bottom: 1px solid var(--border); }
+    .step-bar.run-bar {
+      background: var(--accent-soft); border-bottom: 1.5px solid var(--accent-border);
+      display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;
+    }
+    .step-label { display: block; font-size: 0.78rem; font-weight: 800; color: var(--ink-muted); margin-bottom: 10px; }
+    .step-bar.run-bar .step-label { margin-bottom: 0; color: var(--accent); }
+
+    .select-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+    .select-grid.two { grid-template-columns: repeat(2, 1fr); }
+    .select-grid.four { grid-template-columns: repeat(2, 1fr); }
+    .sel-btn {
+      text-align: left; padding: 12px 14px; border-radius: 12px;
+      border: 2px solid var(--border-strong); background: var(--surface);
+      color: var(--ink); font-family: inherit; cursor: pointer;
+      box-shadow: var(--btn-shadow); transition: all 0.2s var(--ease);
+    }
+    .sel-btn:hover { border-color: var(--accent); transform: translateY(-2px); }
+    .sel-btn.active { border-color: var(--accent); background: var(--accent-soft); box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent) 22%, transparent); }
+    .sel-btn .sel-title { display: block; font-size: 0.9rem; font-weight: 800; margin-bottom: 2px; }
+    .sel-btn .sel-sub { display: block; font-size: 0.78rem; color: var(--ink-muted); line-height: 1.45; }
+
+    .run-btn {
+      display: inline-flex; align-items: center; gap: 8px; padding: 11px 22px; border-radius: 12px;
+      border: 2px solid var(--accent); background: var(--accent); color: #fff; font-family: inherit;
+      font-size: 0.94rem; font-weight: 800; cursor: pointer; box-shadow: var(--primary-shadow);
+      transition: all 0.2s var(--ease);
+    }
+    .run-btn:hover { background: var(--accent-hover); transform: translateY(-2px); }
+    .sub-btn {
+      display: inline-flex; align-items: center; gap: 6px; padding: 9px 16px; border-radius: 11px;
+      border: 1.5px solid var(--border-strong); background: var(--surface); color: var(--ink);
+      font-family: inherit; font-size: 0.86rem; font-weight: 700; cursor: pointer; box-shadow: var(--btn-shadow);
+    }
+    .sub-btn:hover:not(:disabled) { border-color: var(--accent); color: var(--accent); }
+    .sub-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+    .pager-bar {
+      display: flex; align-items: center; justify-content: space-between; gap: 12px;
+      padding: 14px 24px; background: var(--accent-soft); border-bottom: 1.5px solid var(--accent-border); flex-wrap: wrap;
+    }
+    .pager-count { font-size: 0.9rem; font-weight: 800; color: var(--accent); }
+    .pager-btns { display: flex; gap: 8px; }
+
+    .stage { padding: 28px 26px; }
+    .takeaway { padding: 18px 26px; background: var(--surface-soft); border-top: 1px solid var(--border); font-size: 0.95rem; }
+    .takeaway-head { font-size: 0.8rem; font-weight: 800; color: var(--accent); display: block; margin-bottom: 4px; }
+
+    /* 第1章：5段階紙芝居＆反転 */
+    .step-dots { display: flex; gap: 8px; margin-bottom: 16px; }
+    .s-dot { height: 7px; flex: 1; border-radius: 99px; background: var(--border-strong); }
+    .s-dot.done { background: var(--accent); }
+    .stage5-card { padding: 22px; border-radius: 14px; border: 2.5px solid var(--c-wish); background: var(--f-wish); transition: all 0.3s var(--ease); }
+    .flip-card { padding: 22px; border-radius: 14px; border: 2.5px solid var(--c-spec); background: var(--f-spec); text-align: center; transition: all 0.3s var(--ease); }
+
+    /* 第2章：要求図 SVG */
+    .svg-box { background: var(--surface-soft); border-radius: 14px; padding: 18px; text-align: center; }
+
+    /* 第3章：自動水やり機 */
+    .dev-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 18px; }
+    .dev-card {
+      padding: 16px 12px; border-radius: 14px; background: var(--surface-soft);
+      border: 2px solid var(--border); text-align: center; transition: all 0.35s var(--ease);
+    }
+    .dev-card.active { border-color: var(--c-mid); background: var(--f-mid); }
+    .dev-card.warn { border-color: var(--c-test); background: var(--f-test); }
+    .v-meter { width: 46px; height: 72px; margin: 8px auto; border-radius: 8px; background: var(--surface); border: 2px solid var(--border-strong); position: relative; overflow: hidden; }
+    .v-fill { position: absolute; left: 0; right: 0; bottom: 0; transition: height 0.5s var(--ease), background 0.3s; }
+    .step-log { display: flex; flex-direction: column; gap: 8px; }
+    .sl-item {
+      padding: 10px 14px; border-radius: 10px; background: var(--surface-soft);
+      border-left: 4px solid var(--border-strong); font-size: 0.88rem;
+      display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap;
+    }
+    .sl-item.ran { background: var(--f-design); border-left-color: var(--c-design); font-weight: 700; }
+    .sl-item.skip { opacity: 0.45; }
+    .sl-item.notify { background: var(--f-test); border-left-color: var(--c-test); font-weight: 700; }
+
+    /* 第4章：トレーサビリティ表 */
+    table.cmp { width: 100%; border-collapse: collapse; font-size: 0.86rem; }
+    table.cmp th, table.cmp td { padding: 11px 12px; border-bottom: 1px solid var(--border); text-align: left; }
+    table.cmp th { background: var(--surface-soft); font-weight: 800; }
+    table.cmp tr.hi-ok td { background: var(--f-design); font-weight: 700; }
+    table.cmp tr.hi-ng td { background: var(--f-wish); font-weight: 700; }
+
+    /* クイズ */
+    .quiz-item { padding: 18px; border-radius: 14px; background: var(--surface-soft); margin-bottom: 14px; }
+    .quiz-item:last-child { margin-bottom: 0; }
+    .quiz-opts { display: flex; flex-direction: column; gap: 8px; margin-top: 12px; }
+    .quiz-btn {
+      text-align: left; padding: 12px 16px; border-radius: 11px; border: 1.5px solid var(--border-strong);
+      background: var(--surface); color: var(--ink); font-family: inherit; font-size: 0.9rem; font-weight: 700;
+      cursor: pointer; box-shadow: var(--btn-shadow);
+    }
+    .quiz-btn:hover:not(:disabled) { border-color: var(--accent); color: var(--accent); }
+    .quiz-btn.ok { background: var(--f-design); border-color: var(--c-design); color: var(--c-design); }
+    .quiz-btn.ng { background: var(--f-wish); border-color: var(--c-wish); color: var(--c-wish); }
+    .quiz-fb { margin-top: 10px; font-size: 0.88rem; color: var(--ink-sub); display: none; }
+    .quiz-fb.show { display: block; }
+
+    #confetti-canvas { position: fixed; inset: 0; pointer-events: none; z-index: 999; }
+
+    footer.site-footer {
+      max-width: 820px; margin: 0 auto; padding: 28px 20px 60px; border-top: 1px solid var(--border);
+      display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;
+      font-size: 0.86rem; color: var(--ink-muted);
+    }
+    .footer-links { display: flex; gap: 16px; flex-wrap: wrap; }
+    .footer-links a { color: var(--accent); font-weight: 700; text-decoration: none; }
+    .footer-links a:hover { text-decoration: underline; }
+
+    @media (max-width: 700px) {
+      .toc-grid, .select-grid, .select-grid.two, .select-grid.four, .dev-grid { grid-template-columns: 1fr; }
+      .hero { padding: 26px 20px; }
+      .stage, .step-bar, .takeaway, .pager-bar { padding-left: 16px; padding-right: 16px; }
+    }
+  
+    /* === 全8ページ完全統一ヘッダー === */
+    header.topbar {
+      position: sticky; top: 0; z-index: 100;
+      background: color-mix(in srgb, var(--surface) 94%, transparent);
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .topbar-row1 {
+      max-width: 1040px; margin: 0 auto; padding: 10px 20px 8px;
+      display: flex; align-items: center; justify-content: space-between; gap: 12px;
+    }
+    header.topbar .brand {
+      display: inline-flex; align-items: center; gap: 9px;
+      font-weight: 800; font-size: 0.96rem; color: var(--ink); text-decoration: none; white-space: nowrap;
+    }
+    header.topbar .brand-icon {
+      width: 30px; height: 30px; border-radius: 8px;
+      background: linear-gradient(135deg, #2563eb, #0f766e); color: #fff;
+      display: inline-flex; align-items: center; justify-content: center; font-size: 0.95rem;
+    }
+    .page-chip {
+      padding: 2px 10px; border-radius: 99px; font-size: 0.76rem; font-weight: 800;
+      background: var(--accent-soft); color: var(--accent); border: 1px solid var(--accent-border);
+      white-space: nowrap;
+    }
+    header.topbar .util-btns { display: flex; gap: 6px; flex-shrink: 0; }
+    header.topbar .util-btn {
+      padding: 5px 11px; border-radius: 8px; border: 1.5px solid var(--border-strong);
+      background: var(--surface); color: var(--ink-sub); font-family: inherit;
+      font-size: 0.78rem; font-weight: 700; cursor: pointer; box-shadow: var(--btn-shadow); white-space: nowrap;
+    }
+    header.topbar .util-btn:hover { border-color: var(--accent); color: var(--accent); }
+    .topbar-row2 {
+      border-top: 1px solid var(--border);
+      background: color-mix(in srgb, var(--surface-soft) 72%, transparent);
+    }
+    header.topbar .guide-nav {
+      max-width: 1040px; margin: 0 auto; padding: 6px 20px;
+      display: flex; align-items: center; gap: 4px; overflow-x: auto; scrollbar-width: thin; flex-wrap: nowrap;
+    }
+    header.topbar .guide-nav a {
+      padding: 5px 11px; border-radius: 8px; font-size: 0.8rem; font-weight: 700;
+      color: var(--ink-muted); text-decoration: none; white-space: nowrap; flex-shrink: 0;
+      transition: background 0.15s, color 0.15s;
+    }
+    header.topbar .guide-nav a:hover { color: var(--ink); background: var(--surface); }
+    header.topbar .guide-nav a.current { color: #fff; background: var(--accent); }
+    section.lesson { scroll-margin-top: 112px; }
+
+  
+    /* === 全8ページ ヘッダー書体・サイズ完全固定 === */
+    header.topbar, header.topbar * {
+      font-family: "BIZ UDPGothic", "Hiragino Kaku Gothic ProN", "Yu Gothic UI", "Meiryo", system-ui, sans-serif !important;
+      letter-spacing: 0 !important;
+    }
+    header.topbar .topbar-row1 {
+      max-width: 1040px; margin: 0 auto; padding: 10px 20px 8px;
+      min-height: 48px; box-sizing: border-box;
+    }
+    header.topbar .brand { font-size: 15px !important; line-height: 1.3 !important; }
+    header.topbar .page-chip { font-size: 12px !important; line-height: 1.4 !important; padding: 3px 10px !important; }
+    header.topbar .util-btn { font-size: 12.5px !important; line-height: 1.3 !important; padding: 6px 11px !important; }
+    header.topbar .guide-nav {
+      max-width: 1040px; margin: 0 auto; padding: 6px 20px;
+      gap: 4px !important; min-height: 42px; box-sizing: border-box;
+    }
+    header.topbar .guide-nav a {
+      font-size: 13px !important; line-height: 1.4 !important;
+      padding: 5px 11px !important; font-weight: 700 !important;
+    }
+
+  </style>
+</head>
+<body>
+  <div class="progress-bar" id="progressBar" aria-hidden="true"></div>
+  <canvas id="confetti-canvas" aria-hidden="true"></canvas>
+
+  <header class="topbar">
+    <div class="topbar-row1">
+      <div style="display:flex;align-items:center;gap:10px;min-width:0;">
+        <a href="../index.html" class="brand">
+          <span class="brand-icon">🧭</span>
+          <span>agent-study</span>
+        </a>
+        <span class="page-chip">5. UML・要求図</span>
+      </div>
+      <div class="util-btns">
+        <button class="util-btn" id="soundToggle" type="button" aria-pressed="false">🔇 効果音</button>
+        <button class="util-btn" id="themeToggle" type="button" aria-pressed="false">🌙 ダーク</button>
+      </div>
+    </div>
+    <div class="topbar-row2">
+      <nav class="guide-nav" aria-label="学習ガイド一覧">
+        <a href="../index.html">🏠 トップ</a>
+        <a href="../agent-guide/interactive-guide.html">1. エージェント</a>
+        <a href="../copilot-fusion/interactive-guide.html">2. Fusion</a>
+        <a href="../hook-guide/interactive-guide.html">3. フック</a>
+        <a href="../mcp-guide/interactive-guide.html">4. MCP</a>
+        <a href="../uml-guide/interactive-guide.html" class="current">5. UML・要求図</a>
+        <a href="../agent-skill/interactive-guide.html">6. スキル</a>
+        <a href="../ui-guide/interactive-guide.html">7. AI・UI設計</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <span class="eyebrow">UML-GUIDE — 「自動水やり機」1つで全部わかる入門ガイド</span>
+      <h1>お客さんの「願い」から「設計図とテスト」までを<br>1 本の糸でつなぐ考え方（UML・SysML・要求図）</h1>
+      <p class="lead">
+        全章を通して同じ<strong>「自動水やり機（留守中に鉢植えへ自動で水をあげる装置）」</strong>を例にします。
+        このガイド全体で統一している色の意味は次のとおりです。
+      </p>
+      <div class="color-legend" aria-label="色分けルール">
+        <span>色のルール：</span>
+        <span class="tag" style="background:var(--c-wish);">要望</span>
+        <span class="tag" style="background:var(--c-top);">要求</span>
+        <span class="tag" style="background:var(--c-mid);">要件</span>
+        <span class="tag" style="background:var(--c-low);">部品への要求</span>
+        <span class="tag" style="background:var(--c-spec);">仕様</span>
+        <span class="tag" style="background:var(--c-design);">設計</span>
+        <span class="tag" style="background:var(--c-test);">確認（試験）</span>
+      </div>
+      <div class="toc-grid">
+        <a class="toc-item" href="#ch1"><span class="toc-no">1</span>「願い」が設計図に変わる 5 コマ紙芝居</a>
+        <a class="toc-item" href="#ch2"><span class="toc-no">2</span>要求図で一番間違える「矢印の向き」</a>
+        <a class="toc-item" href="#ch3"><span class="toc-no">3</span>自動水やり機を実際に動かしてみよう！</a>
+        <a class="toc-item" href="#ch4"><span class="toc-no">4</span>トレーサビリティ表で抜け漏れを発見</a>
+      </div>
+    </section>
+
+    <!-- 第1章：5段階紙芝居＆主語反転 -->
+    <section class="lesson" id="ch1">
+      <span class="lesson-kicker">STEP 1 — 言葉の使い分け</span>
+      <h2>同じ「自動水やり機」の話が、5 段階でどう書き換わる？</h2>
+
+      <div class="story-box">
+        <strong>どんな場面？</strong>
+        お客さんから「旅行中も植物に水をあげたい」と相談を受けました。このままでは作れないので、5 つの段階を踏んで「設計図」まで具体化していきます。1 コマずつ進めてみましょう。
+      </div>
+
+      <div class="exp-card" style="margin-bottom:24px;">
+        <div class="pager-bar">
+          <span class="pager-count" id="c1Count">段階 1 / 5</span>
+          <div class="pager-btns">
+            <button class="sub-btn" id="btnC1Prev" type="button">◀ 前の段階へ</button>
+            <button class="run-btn" id="btnC1Next" type="button">次の段階へ ▶</button>
+          </div>
+        </div>
+        <div class="stage">
+          <div id="c1Path" style="margin-bottom:12px;font-size:0.82rem;font-weight:800;display:flex;align-items:center;gap:6px;flex-wrap:wrap;"></div>
+          <div class="step-dots" id="c1Dots"></div>
+          <div class="stage5-card" id="c1Card"></div>
+        </div>
+        <div class="takeaway" id="c1Take"></div>
+      </div>
+
+      <div class="story-box">
+        <strong>もう 1 つの大事なルール：「立場（どの箱を主語にするか）」で仕様と要件は入れ替わる！</strong>
+        「待機中の平均消費電力を 0.1W 以下にする」という<strong>まったく同じ 1 文</strong>でも、本機の設計者と電源部の設計者では見え方が変わります。
+      </div>
+
+      <div class="exp-card">
+        <div class="step-bar">
+          <span class="step-label">2 つの立場を切り替えて、バッジの変化を見てみましょう</span>
+          <div class="select-grid two" id="flipSel">
+            <button class="sel-btn active" data-v="sys" type="button"><span class="sel-title">📦 本機の設計者の目線</span><span class="sel-sub">7日間動かすために自分で選んだ電力配分</span></button>
+            <button class="sel-btn" data-v="pwr" type="button"><span class="sel-title">🔋 電源部の設計者の目線</span><span class="sel-sub">外から渡された、必ず守るべき条件</span></button>
+          </div>
+        </div>
+        <div class="stage">
+          <div class="flip-card" id="flipCard"></div>
+        </div>
+        <div class="takeaway" id="flipTake"></div>
+      </div>
+    </section>
+
+    <!-- 第2章：SysML 要求図の矢印の向き -->
+    <section class="lesson" id="ch2">
+      <span class="lesson-kicker">STEP 2 — SysML 要求図の鉄則</span>
+      <h2>点線矢印は「作業順とは逆向き」に、いつも上の要求を指す</h2>
+
+      <div class="story-box">
+        <strong>なぜ SysML を使うの？</strong>
+        ソフト用の <strong>UML（14図）</strong>には「要求図」がありません。ハードウェアも絡む全体設計では、UML を拡張して要求図を追加した <strong>SysML（9図）</strong>を使います。要求図で一番間違えやすい「矢印の向き」を 3 つだけ覚えましょう。
+      </div>
+
+      <div class="exp-card">
+        <div class="step-bar">
+          <span class="step-label">関係線の種類を選んで、矢印が必ず「上（満たされる要求）」を向くことを確認しましょう</span>
+          <div class="select-grid" id="relSel">
+            <button class="sel-btn active" data-r="cont" type="button"><span class="sel-title">① 分解（⊕）</span><span class="sel-sub">本機の要求を同じ目線で小分け</span></button>
+            <button class="sel-btn" data-r="derive" type="button"><span class="sel-title">② 導出 «deriveReqt»</span><span class="sel-sub">計算根拠つきで部品の条件へ</span></button>
+            <button class="sel-btn" data-r="sv" type="button"><span class="sel-title">③ 充足・検証</span><span class="sel-sub">設計部品や試験から要求へ結ぶ</span></button>
+          </div>
+        </div>
+        <div class="stage">
+          <div class="svg-box" id="relSvg"></div>
+        </div>
+        <div class="takeaway" id="relTake"></div>
+      </div>
+    </section>
+
+    <!-- 第3章：自動水やり機シミュレーター -->
+    <section class="lesson" id="ch3">
+      <span class="lesson-kicker">STEP 3 — 仕様とシーケンス図を動かして体験</span>
+      <h2>5 分タイマーが起きたとき、自動水やり機はどう判断して動く？</h2>
+
+      <div class="story-box">
+        <strong>仕様の 4 つの約束（S-1〜S-4）：</strong>
+        ① 5 分ごとに水分量を測る ／ ② <strong>30% 未満</strong>かつタンクに水があればポンプを 10 秒動かす（約 50mL） ／ ③ <strong>前回給水から 30 分は再給水しない</strong> ／ ④ タンク残量 <strong>20% 以下</strong>ならスマホへ通知する。
+      </div>
+
+      <div class="exp-card">
+        <div class="step-bar">
+          <span class="step-label">① 試したい状況を 1 つ選んでください</span>
+          <div class="select-grid four" id="plantSel">
+            <button class="sel-btn active" data-p="std" type="button"><span class="sel-title">🌱 乾き ＆ 水少なめ（標準例）</span><span class="sel-sub">水分 25%・タンク 18%・前回から 40 分</span></button>
+            <button class="sel-btn" data-p="wet" type="button"><span class="sel-title">💧 土は十分潤っている</span><span class="sel-sub">水分 55%・タンク 65%・前回から 45 分</span></button>
+            <button class="sel-btn" data-p="cool" type="button"><span class="sel-title">⏱️ さっき水をあげたばかり</span><span class="sel-sub">水分 22%・タンク 60%・前回から 15 分</span></button>
+            <button class="sel-btn" data-p="empty" type="button"><span class="sel-title">🚫 タンクが空っぽ</span><span class="sel-sub">水分 20%・タンク 0%・前回から 50 分</span></button>
+          </div>
+        </div>
+
+        <div class="step-bar run-bar">
+          <span class="step-label">② 5 分タイマーを起動して、各部品と処理の流れを見てみましょう</span>
+          <button class="run-btn" id="btnRunPlant" type="button">▶ 5 分タイマーを動かす</button>
+        </div>
+
+        <div class="stage">
+          <div class="dev-grid">
+            <div class="dev-card" id="dSoil">
+              <strong style="font-size:0.88rem;">🪴 鉢植えの土</strong>
+              <div class="v-meter"><div class="v-fill" id="vSoil" style="height:31%;background:#b45309;"></div></div>
+              <div id="tSoil" style="font-size:0.82rem;font-weight:700;">水分量 25%</div>
+            </div>
+            <div class="dev-card" id="dTank">
+              <strong style="font-size:0.88rem;">💧 水タンク＆ポンプ</strong>
+              <div class="v-meter"><div class="v-fill" id="vTank" style="height:18%;background:#2563eb;"></div></div>
+              <div id="tTank" style="font-size:0.82rem;font-weight:700;">残量 18%（待機中）</div>
+            </div>
+            <div class="dev-card" id="dPhone">
+              <strong style="font-size:0.88rem;">📱 利用者のスマホ</strong>
+              <div style="height:72px;margin:8px 0;display:flex;align-items:center;justify-content:center;font-size:0.85rem;font-weight:800;" id="tPhone">待機中</div>
+              <div style="font-size:0.76rem;color:var(--ink-muted);">通知部 (Notifier)</div>
+            </div>
+          </div>
+
+          <div class="step-log" id="plantLog"></div>
+        </div>
+
+        <div class="takeaway" id="plantTake">
+          <span class="takeaway-head">💡 いま起きていること</span>
+          状況を選んで「▶ 5 分タイマーを動かす」を押すと、鉢植え・タンク・スマホと処理ステップが連動して動きます。
+        </div>
+      </div>
+    </section>
+
+    <!-- 第4章：トレーサビリティ表 -->
+    <section class="lesson" id="ch4">
+      <span class="lesson-kicker">STEP 4 — 抜け漏れを見つける最終チェック</span>
+      <h2>トレーサビリティ表で「作り忘れ」と「頼まれてない機能」を発見する</h2>
+
+      <div class="story-box">
+        <strong>どんな場面？</strong>
+        要件・仕様・設計・試験を 1 枚の表に並べてみました。実はこの表の中に<strong>2 つの設計ミス</strong>が隠れています。下のボタンで見つけてみましょう。
+      </div>
+
+      <div class="exp-card">
+        <div class="step-bar">
+          <span class="step-label">見たい箇所を選んでください</span>
+          <div class="select-grid" id="trSel">
+            <button class="sel-btn active" data-t="ok" type="button"><span class="sel-title">🧵 正常につながっている例</span><span class="sel-sub">REQ-1.2 の 1 本の糸を見る</span></button>
+            <button class="sel-btn" data-t="gap" type="button"><span class="sel-title">⚠️ ミス①：作り忘れ（空欄）</span><span class="sel-sub">要件はあるのに仕様が無い行</span></button>
+            <button class="sel-btn" data-t="orphan" type="button"><span class="sel-title">⚠️ ミス②：親なし仕様</span><span class="sel-sub">だれも頼んでいない機能？</span></button>
+          </div>
+        </div>
+
+        <div class="stage" style="overflow-x:auto;">
+          <table class="cmp">
+            <thead><tr><th>要件</th><th>仕様</th><th>設計（クラス・部品）</th><th>試験</th></tr></thead>
+            <tbody>
+              <tr id="tr0"><td><strong>REQ-1.1</strong> 乾き検知</td><td>S-1</td><td>MoistureSensor.readMoisture()</td><td>TC-1</td></tr>
+              <tr id="tr1"><td><strong>REQ-1.2</strong> 自動給水</td><td>S-2, S-3</td><td>WateringController / Pump.run()</td><td>TC-2</td></tr>
+              <tr id="tr2"><td><strong>REQ-1.3</strong> 水切れ通知</td><td>S-4</td><td>WaterTank / Notifier.send()</td><td>TC-3</td></tr>
+              <tr id="tr3"><td><strong>REQ-1.4</strong> 7日間動く</td><td style="color:var(--c-wish);">⚠ 空欄（未作成）</td><td>電源部ブロック</td><td>TC-4</td></tr>
+              <tr id="tr4"><td style="color:var(--c-wish);">⚠ 空欄（親なし）</td><td>S-5（設定変更）</td><td>Settings.update()</td><td>—</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="takeaway" id="trTake"></div>
+      </div>
+    </section>
+
+    <!-- まとめ＆クイズ -->
+    <section class="lesson" id="ch5">
+      <span class="lesson-kicker">SUMMARY — 3 問チェック</span>
+      <h2>理解度チェック（全 3 問）</h2>
+      <div class="exp-card">
+        <div class="stage" id="quizBox"></div>
+        <div class="takeaway" id="quizScore"><span class="takeaway-head">現在のスコア</span>0 / 3 問正解</div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div><strong>uml-guide</strong> — 動かしてわかる動的ガイド</div>
+    <div class="footer-links">
+      <a href="req/README.md">req/README.md</a>
+      <a href="req/00_what-is-a-requirement.md">00 言葉の定義</a>
+      <a href="req/01_uml-vs-sysml.md">01 UMLとSysML</a>
+      <a href="req/02_requirement-diagram.md">02 要求図の書き方</a>
+      <a href="req/03_requirements-to-design.md">03 要求から設計図まで</a>
+    </div>
+  </footer>
+
+  <script>
+    'use strict';
+
+    const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+
+    const Sound = (() => {
+      let on = false, ctx = null;
+      const tone = (f, d = 0.07, type = 'triangle', g = 0.055, dl = 0) => {
+        if (!on) return;
+        if (!ctx) { const AC = window.AudioContext || window.webkitAudioContext; if (AC) ctx = new AC(); }
+        if (!ctx) return;
+        if (ctx.state === 'suspended') ctx.resume();
+        const t = ctx.currentTime + dl, o = ctx.createOscillator(), gn = ctx.createGain();
+        o.type = type; o.frequency.setValueAtTime(f, t);
+        gn.gain.setValueAtTime(0.0001, t); gn.gain.exponentialRampToValueAtTime(g, t + 0.01);
+        gn.gain.exponentialRampToValueAtTime(0.0001, t + d);
+        o.connect(gn).connect(ctx.destination); o.start(t); o.stop(t + d + 0.02);
+      };
+      return {
+        toggle() { on = !on; if (on) { tone(523, 0.08); tone(659, 0.1, 'triangle', 0.055, 0.06); } return on; },
+        click() { tone(580, 0.045, 'sine', 0.045); },
+        ok() { tone(523, 0.08, 'triangle', 0.055, 0); tone(659, 0.09, 'triangle', 0.055, 0.06); tone(784, 0.14, 'triangle', 0.055, 0.12); },
+        warn() { tone(220, 0.12, 'sawtooth', 0.04, 0); tone(175, 0.15, 'sawtooth', 0.04, 0.09); },
+        win() { [523, 659, 784, 1046].forEach((f, i) => tone(f, 0.16, 'triangle', 0.06, i * 0.07)); }
+      };
+    })();
+
+    const themeBtn = document.getElementById('themeToggle');
+    const setTheme = (t) => {
+      document.documentElement.setAttribute('data-theme', t);
+      const dk = t === 'dark';
+      themeBtn.setAttribute('aria-pressed', String(dk));
+      themeBtn.textContent = dk ? '☀️ ライト' : '🌙 ダーク';
+      try { localStorage.setItem('agent-study-theme', t); } catch {}
+    };
+    const saved = (() => { try { return localStorage.getItem('agent-study-theme'); } catch { return null; } })();
+    setTheme(saved || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'));
+    themeBtn.addEventListener('click', () => { Sound.click(); setTheme(document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'); });
+    document.getElementById('soundToggle').addEventListener('click', (e) => {
+      const on = Sound.toggle(); e.currentTarget.setAttribute('aria-pressed', String(on));
+      e.currentTarget.textContent = on ? '🔊 効果音 ON' : '🔇 効果音';
+    });
+    window.addEventListener('scroll', () => {
+      const h = document.documentElement.scrollHeight - window.innerHeight;
+      document.getElementById('progressBar').style.width = h > 0 ? `${Math.min(100, (window.scrollY / h) * 100)}%` : '0%';
+    }, { passive: true });
+
+    function confetti() {
+      const cv = document.getElementById('confetti-canvas'), cx = cv.getContext('2d');
+      cv.width = window.innerWidth; cv.height = window.innerHeight;
+      const cols = ['#7c3aed', '#2563eb', '#059669', '#0e7490', '#b45309'];
+      const ps = Array.from({ length: 70 }, () => ({
+        x: cv.width * (0.25 + Math.random() * 0.5), y: cv.height * 0.4,
+        vx: (Math.random() - 0.5) * 9, vy: -Math.random() * 10 - 3,
+        s: 6 + Math.random() * 5, c: cols[Math.floor(Math.random() * cols.length)], l: 1
+      }));
+      let n = 0;
+      const step = () => {
+        cx.clearRect(0, 0, cv.width, cv.height);
+        ps.forEach((p) => { p.x += p.vx; p.y += p.vy; p.vy += 0.3; p.l -= 0.012; cx.globalAlpha = Math.max(0, p.l); cx.fillStyle = p.c; cx.fillRect(p.x, p.y, p.s, p.s * 0.6); });
+        if (++n < 85) requestAnimationFrame(step); else cx.clearRect(0, 0, cv.width, cv.height);
+      };
+      requestAnimationFrame(step);
+    }
+
+    /* 第1章：5段階紙芝居 */
+    const S5 = [
+      { tag: '① 要望（お客さんの声）', c: 'var(--c-wish)', f: 'var(--f-wish)', who: '顧客・利用者', text: '「旅行中も植物に水をあげたい」', take: 'お客さんの言葉そのまま。まだ曖昧ですが捨てずに記録し、後で出どころとして残します。' },
+      { tag: '② 要求（利用者が得る成果）', c: 'var(--c-top)', f: 'var(--f-top)', who: '顧客と開発者で合意', text: 'REQ-1：本機は、最大 7 日間留守にしても鉢植えの植物を水不足で枯らさないこと', take: '「何が実現できれば困りごとが解決するか」を主語（本機は）から書きます。まだ部品名は書きません。' },
+      { tag: '③ 要件（本機が守る条件）', c: 'var(--c-mid)', f: 'var(--f-mid)', who: '開発側が提案し合意', text: 'REQ-1.2：本機は、土の水分量が 30% 未満になってから 10 分以内に鉢への給水を始めること', take: '「すぐに」などの曖昧語をやめ、外から試験で確かめられる数値と単位（30%・10分）にします。' },
+      { tag: '④ 仕様（作り方の取り決め）', c: 'var(--c-spec)', f: 'var(--f-spec)', who: '開発者', text: 'S-1・S-2：5 分ごとに水分量を測り、30% 未満で水があればポンプを 10 秒動かす（約 50mL）', take: '要件を満たすために開発側が選んだ方式です（1 分周期など別の方法でも要件を満たせば変えられます）。' },
+      { tag: '⑤ 設計（中の部品とプログラム）', c: 'var(--c-design)', f: 'var(--f-design)', who: '開発者（設計者）', text: '制御部（WateringController）がセンサーを読み、Pump.run(10秒) と Notifier.send() を呼び出す', take: 'ここで初めて具体的なクラス図・ブロック図・シーケンス図へ落とし込みます！' }
+    ];
+    let c1Idx = 0;
+    function renderC1() {
+      const s = S5[c1Idx];
+      document.getElementById('c1Count').textContent = `段階 ${c1Idx + 1} / 5`;
+      document.getElementById('btnC1Prev').disabled = c1Idx === 0;
+      document.getElementById('btnC1Next').textContent = c1Idx === 4 ? '↺ 最初から見る' : '次の段階へ ▶';
+      document.getElementById('c1Dots').innerHTML = S5.map((_, i) => `<div class="s-dot ${i <= c1Idx ? 'done' : ''}"></div>`).join('');
+      const names5 = ['① 要望', '② 要求', '③ 要件', '④ 仕様', '⑤ 設計'];
+      document.getElementById('c1Path').innerHTML = names5.map((nm, i) => {
+        const active = i === c1Idx;
+        const badge = `<span style="padding:3px 9px;border-radius:8px;background:${active ? S5[i].c : 'var(--surface-soft)'};color:${active ? '#fff' : 'var(--ink-muted)'};">${nm}</span>`;
+        return i < 4 ? `${badge}<span style="color:var(--ink-muted);">→</span>` : badge;
+      }).join('');
+      const card = document.getElementById('c1Card');
+      card.style.borderColor = s.c; card.style.background = s.f;
+      card.innerHTML = `
+        <div style="margin-bottom:10px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+          <span class="tag" style="background:${s.c};">${esc(s.tag)}</span>
+          <span style="font-size:0.82rem;color:var(--ink-sub);font-weight:700;">決める人：${esc(s.who)}</span>
+        </div>
+        <div style="font-size:1.08rem;font-weight:800;">${esc(s.text)}</div>
+      `;
+      document.getElementById('c1Take').innerHTML = `<span class="takeaway-head">💡 この段階のポイント</span>${esc(s.take)}`;
+    }
+    document.getElementById('btnC1Prev').addEventListener('click', () => { Sound.click(); if (c1Idx > 0) { c1Idx--; renderC1(); } });
+    document.getElementById('btnC1Next').addEventListener('click', () => {
+      if (c1Idx < 4) { c1Idx++; if (c1Idx === 4) Sound.ok(); else Sound.click(); }
+      else { c1Idx = 0; Sound.click(); }
+      renderC1();
+    });
+    renderC1();
+
+    /* 主語反転 */
+    function renderFlip(v) {
+      const isSys = v === 'sys';
+      const card = document.getElementById('flipCard');
+      card.style.borderColor = isSys ? 'var(--c-spec)' : 'var(--c-mid)';
+      card.style.background = isSys ? 'var(--f-spec)' : 'var(--f-mid)';
+      card.innerHTML = `
+        <span class="tag" style="background:${isSys ? 'var(--c-spec)' : 'var(--c-mid)'};margin-bottom:10px;">
+          ${isSys ? '［仕様］本機の設計で自分で選んだ配分' : '［要件］電源部が守らねばならない条件（PWR-1）'}
+        </span>
+        <div style="font-size:1.1rem;font-weight:800;">「待機中の平均消費電力を 0.1W 以下にする」</div>
+      `;
+      document.getElementById('flipTake').innerHTML = isSys
+        ? '<span class="takeaway-head">本機の設計者から見ると［仕様］</span>電池 20Wh で 7 日間動かすために自分で選んだ配分です（電池を大きくして条件をゆるめる別の手もありました）。'
+        : '<span class="takeaway-head">電源部の設計者から見ると［要件］</span>外から渡された守るべき条件です。<strong>「1 段上の仕様は、1 段下の要件になる」</strong>と覚えると迷いません！';
+    }
+    document.querySelectorAll('#flipSel .sel-btn').forEach((b) => b.addEventListener('click', () => {
+      Sound.click();
+      document.querySelectorAll('#flipSel .sel-btn').forEach((x) => x.classList.toggle('active', x === b));
+      renderFlip(b.dataset.v);
+    }));
+    renderFlip('sys');
+
+    /* 第2章：要求図の矢印 */
+    const RELS = {
+      cont: {
+        top: ['REQ-1（上位要求・本機）', '7日間留守でも植物を枯らさない', '#7c3aed'],
+        bot: ['REQ-1.2（下位要求・本機）', '30%未満から10分以内に給水開始', '#2563eb'],
+        sym: '実線 ＋ ⊕（丸に十字を親の側へ）', solid: true,
+        take: '分解（containment）は主語を変えず「本機」のまま小分けにします。子 4 つ（REQ-1.1〜1.4）を全部満たすと親を満たします。'
+      },
+      derive: {
+        top: ['REQ-1.2（本機の要件）', '10分以内に給水を開始する', '#2563eb'],
+        bot: ['PMP-1（ポンプ部品の要件）', '1回の給水で約50mLを送る', '#0e7490'],
+        sym: '点線矢印 «deriveReqt»（下 → 上！）', solid: false,
+        take: '導出は主語が「本機 → ポンプ」へ変わります。「10秒 × 5mL/s ＝ 約50mL」の計算根拠を «rationale» 注記に残します。'
+      },
+      sv: {
+        top: ['REQ-1.2（本機の要件）', '10分以内に給水を開始する', '#2563eb'],
+        bot: ['設計部品 «block» ／ 試験 «testCase»', '制御部・ポンプ（«satisfy»）／ 給水試験 TC-2（«verify»）', '#059669'],
+        sym: '点線矢印 «satisfy» / «verify»（下 → 上！）', solid: false,
+        take: '設計部品もテストケースも、必ず「満たされる要求（上側）」に向かって点線矢印を引きます。これで V 字モデルの対応が明確になります。'
+      }
+    };
+    function renderRel(k) {
+      const r = RELS[k];
+      document.getElementById('relSvg').innerHTML = `
+        <svg viewBox="0 0 580 215" width="100%" style="max-width:580px" role="img" aria-label="要求図の矢印の向き">
+          <defs><marker id="uArr" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="10" markerHeight="10" orient="auto"><path d="M1 1 L10 6 L1 11" fill="none" stroke="var(--ink)" stroke-width="2.2"/></marker></defs>
+          <rect x="60" y="8" width="460" height="62" rx="12" fill="var(--surface)" stroke="${r.top[2]}" stroke-width="2.5"/>
+          <text x="290" y="32" text-anchor="middle" fill="${r.top[2]}" font-size="13" font-weight="800">${esc(r.top[0])}</text>
+          <text x="290" y="54" text-anchor="middle" fill="var(--ink)" font-size="13" font-weight="700">${esc(r.top[1])}</text>
+          <line x1="290" y1="145" x2="290" y2="${r.solid ? 86 : 75}" stroke="var(--ink)" stroke-width="2.4" ${r.solid ? '' : 'stroke-dasharray="7 5" marker-end="url(#uArr)"'}/>
+          ${r.solid ? '<circle cx="290" cy="80" r="9" fill="var(--surface)" stroke="var(--ink)" stroke-width="2"/><path d="M284 80 L296 80 M290 74 L290 86" stroke="var(--ink)" stroke-width="2"/>' : ''}
+          <circle r="4.5" fill="${r.bot[2]}"><animate attributeName="cy" from="142" to="80" dur="1.1s" repeatCount="indefinite"/><animate attributeName="cx" values="290" dur="1.1s" repeatCount="indefinite"/></circle>
+          <text x="308" y="114" fill="var(--ink)" font-size="13" font-weight="800">${esc(r.sym)}</text>
+          <rect x="60" y="145" width="460" height="62" rx="12" fill="var(--surface)" stroke="${r.bot[2]}" stroke-width="2.5"/>
+          <text x="290" y="169" text-anchor="middle" fill="${r.bot[2]}" font-size="13" font-weight="800">${esc(r.bot[0])}</text>
+          <text x="290" y="191" text-anchor="middle" fill="var(--ink)" font-size="12.5" font-weight="700">${esc(r.bot[1])}</text>
+        </svg>
+      `;
+      document.getElementById('relTake').innerHTML = `<span class="takeaway-head">💡 ポイント</span>${esc(r.take)}`;
+    }
+    document.querySelectorAll('#relSel .sel-btn').forEach((b) => b.addEventListener('click', () => {
+      Sound.click();
+      document.querySelectorAll('#relSel .sel-btn').forEach((x) => x.classList.toggle('active', x === b));
+      renderRel(b.dataset.r);
+    }));
+    renderRel('cont');
+
+    /* 第3章：自動水やり機シミュレーター（①状況を選ぶ → ②タイマー実行） */
+    const PLANTS = {
+      std:   { m: 25, t: 18, e: 40, label: '乾き＆水少なめ' },
+      wet:   { m: 55, t: 65, e: 45, label: '土は潤っている' },
+      cool:  { m: 22, t: 60, e: 15, label: '15分前に給水済' },
+      empty: { m: 20, t: 0,  e: 50, label: 'タンクが空っぽ' }
+    };
+    let pKey = 'std';
+    function previewPlant() {
+      const p = PLANTS[pKey];
+      document.getElementById('dSoil').className = 'dev-card';
+      document.getElementById('dTank').className = 'dev-card';
+      document.getElementById('dPhone').className = 'dev-card';
+      document.getElementById('vSoil').style.height = `${Math.min(100, (p.m / 80) * 100)}%`;
+      document.getElementById('vSoil').style.background = p.m < 30 ? '#b45309' : '#059669';
+      document.getElementById('tSoil').textContent = `水分量 ${p.m}%`;
+      document.getElementById('vTank').style.height = `${p.t}%`;
+      document.getElementById('vTank').style.background = p.t <= 20 ? '#be123c' : '#2563eb';
+      document.getElementById('tTank').textContent = `残量 ${p.t}%（待機中）`;
+      document.getElementById('tPhone').textContent = '待機中';
+      document.getElementById('plantLog').innerHTML = '<div class="sl-item"><span>「▶ 5 分タイマーを動かす」を押すと実行結果が表示されます</span></div>';
+    }
+    document.querySelectorAll('#plantSel .sel-btn').forEach((b) => b.addEventListener('click', () => {
+      Sound.click(); pKey = b.dataset.p;
+      document.querySelectorAll('#plantSel .sel-btn').forEach((x) => x.classList.toggle('active', x === b));
+      previewPlant();
+    }));
+    document.getElementById('btnRunPlant').addEventListener('click', () => {
+      const p = PLANTS[pKey];
+      const dry = p.m < 30, coolOk = p.e >= 30, hasW = p.t > 0;
+      const doPump = dry && coolOk && hasW;
+      const notify = p.t <= 20;
+
+      const afterM = doPump ? p.m + 18 : p.m;
+      const afterT = doPump ? Math.max(0, p.t - 5) : p.t;
+
+      document.getElementById('vSoil').style.height = `${Math.min(100, (afterM / 80) * 100)}%`;
+      document.getElementById('vSoil').style.background = afterM < 30 ? '#b45309' : '#059669';
+      document.getElementById('tSoil').textContent = doPump ? `${p.m}% → ${afterM}%（給水完了 💧）` : `水分量 ${p.m}%（変化なし）`;
+      document.getElementById('dSoil').className = `dev-card ${doPump ? 'active' : ''}`;
+
+      document.getElementById('vTank').style.height = `${afterT}%`;
+      document.getElementById('tTank').textContent = doPump ? `残量 ${afterT}%（10秒・約50mL送水）` : `残量 ${p.t}%（ポンプ停止）`;
+      document.getElementById('dTank').className = `dev-card ${doPump ? 'active' : (!hasW ? 'warn' : '')}`;
+
+      document.getElementById('tPhone').textContent = notify ? '🔔「水を補充して」' : '通知なし';
+      document.getElementById('dPhone').className = `dev-card ${notify ? 'warn' : ''}`;
+
+      const rows = [
+        ['ran', '① S-1：水分センサーが土の水分量を測定', `${p.m}%`],
+        [dry && coolOk ? 'ran' : 'skip', '② 制御部が条件判定（30%未満 かつ 30分以上経過？）', !dry ? '潤っているため終了' : (!coolOk ? '30分未満（S-3 例外で中止）' : '給水条件クリア！')],
+        [doPump ? 'ran' : 'skip', '③ S-2：ポンプを 10 秒動かして給水時刻を記録', doPump ? '約 50mL 送水完了！' : (!hasW && dry && coolOk ? 'タンク空のため空運転防止' : '実行せず')],
+        [notify ? 'notify' : 'skip', '④ S-4：残量 20% 以下ならスマホへ補充通知', notify ? 'スマホへ通知送信！' : '残量十分のため通知なし']
+      ];
+      document.getElementById('plantLog').innerHTML = rows.map(([cls, l, r]) => `
+        <div class="sl-item ${cls}"><span>${esc(l)}</span><span style="font-family:var(--font-mono);font-size:0.82rem;">${esc(r)}</span></div>
+      `).join('');
+
+      const msg = doPump && notify
+        ? 'ガイドのシーケンス図そのものの動き！乾燥を検知して 10 秒給水し、同時に残量 20% 以下のためスマホへ補充を知らせました。'
+        : !dry ? '土が十分潤っているため、ムダにポンプを動かさず終了しました。'
+        : !coolOk ? '水が土にしみ込む前に連続給水するのを防ぐ例外ルール（S-3）が働きました！'
+        : 'タンクが空のときはポンプ故障を防ぐため空運転を止め、スマホへ補充通知だけ送ります。';
+      document.getElementById('plantTake').innerHTML = `<span class="takeaway-head">💡 この条件での動き</span>${esc(msg)}`;
+      if (doPump) Sound.ok(); else Sound.click();
+    });
+    previewPlant();
+
+    /* 第4章：トレーサビリティ表 */
+    function renderTrace(mode) {
+      [0, 1, 2, 3, 4].forEach((i) => { document.getElementById(`tr${i}`).className = ''; });
+      if (mode === 'ok') {
+        document.getElementById('tr1').className = 'hi-ok';
+        document.getElementById('trTake').innerHTML = '<span class="takeaway-head">🧵 正常につながっている 1 本の糸</span>REQ-1.2（自動給水）→ S-2・S-3 → WateringController / Pump.run() → TC-2 まで、抜けなく 1 本につながっています。';
+      } else if (mode === 'gap') {
+        document.getElementById('tr3').className = 'hi-ng';
+        document.getElementById('trTake').innerHTML = '<span class="takeaway-head" style="color:var(--c-wish);">⚠️ ミス①：空欄＝「まだ作っていない」サイン！</span>REQ-1.4（7日間動く）の仕様欄が空っぽです。「5分ごとに起きる省電力モード」などの仕様を書き足す必要があります。';
+      } else {
+        document.getElementById('tr4').className = 'hi-ng';
+        document.getElementById('trTake').innerHTML = '<span class="takeaway-head" style="color:var(--c-wish);">⚠️ ミス②：親の要件がない仕様＝「要求漏れ」か「不要機能」</span>S-5（設定変更）に親の要件がありません。関係者に確認し、必要なら要求図へ足し、不要なら仕様から削ります。';
+      }
+    }
+    document.querySelectorAll('#trSel .sel-btn').forEach((b) => b.addEventListener('click', () => {
+      Sound.click();
+      document.querySelectorAll('#trSel .sel-btn').forEach((x) => x.classList.toggle('active', x === b));
+      renderTrace(b.dataset.t);
+    }));
+    renderTrace('ok');
+
+    /* 3問チェック */
+    const QUIZ = [
+      {
+        q: 'Q1. SysML 要求図で、設計部品や試験から引く点線矢印（«satisfy» / «verify»）の正しい向きは？',
+        opts: ['要求から設計・試験へ向けて引く', '設計や試験の側から、満たされる「要求（上側）」へ向けて引く', 'どちら向きでもよい'],
+        ans: 1,
+        exp: '作業する順番とは逆向きに、必ず「根拠になる側・満たされる要求」を指すのがルールです。'
+      },
+      {
+        q: 'Q2. 「待機電力 0.1W 以下」が本機の設計者には［仕様］、電源部の設計者には［要件］になる理由は？',
+        opts: ['同じ内容でも、その箱の中で自分で選んだ作り方なら［仕様］、外から決められた条件なら［要件］だから', '電力だけは特別ルールだから', '電源部では仕様という言葉を使わないから'],
+        ans: 0,
+        exp: '「1 段上の仕様は、1 段下の要件になる」という主語（箱）の段差がカギです。'
+      },
+      {
+        q: 'Q3. トレーサビリティ表で「要件欄が空欄で、仕様 S-5 だけがある行」が見つかったら何を疑う？',
+        opts: ['完璧に設計できている証拠', '要求漏れ、またはだれも頼んでいない不要な機能の候補', 'テストが完了している印'],
+        ans: 1,
+        exp: '親のない仕様は要求漏れか勝手な作り込みのサイン。関係者に確認して追加または削除します。'
+      }
+    ];
+    const qRes = [null, null, null];
+    const qBox = document.getElementById('quizBox');
+    qBox.innerHTML = QUIZ.map((it, qi) => `
+      <div class="quiz-item">
+        <strong>${esc(it.q)}</strong>
+        <div class="quiz-opts">${it.opts.map((o, oi) => `<button class="quiz-btn" data-qi="${qi}" data-oi="${oi}" type="button">${esc(o)}</button>`).join('')}</div>
+        <div class="quiz-fb" id="qfb_${qi}"></div>
+      </div>
+    `).join('');
+    qBox.querySelectorAll('.quiz-btn').forEach((btn) => btn.addEventListener('click', () => {
+      const qi = Number(btn.dataset.qi), oi = Number(btn.dataset.oi);
+      if (qRes[qi] !== null) return;
+      qRes[qi] = oi === QUIZ[qi].ans;
+      qBox.querySelectorAll(`[data-qi="${qi}"]`).forEach((b, i) => {
+        b.disabled = true;
+        if (i === QUIZ[qi].ans) b.classList.add('ok');
+        else if (i === oi) b.classList.add('ng');
+      });
+      const fb = document.getElementById(`qfb_${qi}`);
+      fb.textContent = `${qRes[qi] ? '✅ 正解！ ' : '💡 解説： '}${QUIZ[qi].exp}`;
+      fb.classList.add('show');
+      const sc = qRes.filter(Boolean).length;
+      document.getElementById('quizScore').innerHTML = `<span class="takeaway-head">現在のスコア</span>${sc} / 3 問正解${sc === 3 ? ' 🎉 全問正解です！' : ''}`;
+      if (qRes[qi]) Sound.ok(); else Sound.warn();
+      if (qRes.every((v) => v !== null) && sc === 3) { Sound.win(); confetti(); }
+    }));
+  </script>
+</body>
+</html>

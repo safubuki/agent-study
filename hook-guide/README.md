@@ -148,6 +148,7 @@ flowchart LR
 
 | 順番 | ファイル | 内容 |
 |---|---|---|
+| 動的版 | [interactive-guide.html](interactive-guide.html) | **動かして学ぶ動的ガイド**：お願い vs 自動改札対決、PreToolUse/PostToolUse/Stop 7項目ゲート実機再現、4シーケンス再生 |
 | 図から | [docs/03_hook-flow-examples.md](docs/03_hook-flow-examples.md) | **全体図と4つのシーケンス図**：誰がフックを起動するか、アプリへの状態通知、通知なしの自動処理、Claude / Copilot の相違点 |
 | 1 | [docs/00_hook-guide.md](docs/00_hook-guide.md) | **フック入門**（Claude Code 編）：プロンプトとの違い、主要10イベント、設定ファイルの解剖図、`stdin` / `exit 2` / JSON 出力の仕組み、無限ループ防止などの落とし穴 |
 | 2 | [docs/01_copilot-hook-guide.md](docs/01_copilot-hook-guide.md) | **GitHub Copilot / VS Code 編**：`.github/hooks/hooks.json` の書き方、Claude Code との対応表、Git Hooks（`pre-commit`）や VS Code 設定との組み合わせ方 |

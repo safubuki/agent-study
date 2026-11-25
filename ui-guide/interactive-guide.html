@@ -1,0 +1,1958 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI・UI設計 わかる動的ガイド — ui-guide</title>
+  <style>
+    :root {
+      --bg: #f8fafc;
+      --surface: #ffffff;
+      --surface-soft: #f1f5f9;
+      --border: #e2e8f0;
+      --border-strong: #cbd5e1;
+      --ink: #0f172a;
+      --ink-sub: #334155;
+      --ink-muted: #475569;
+
+      --accent: #0f766e;
+      --accent-hover: #115e59;
+      --accent-soft: #f0fdfa;
+      --accent-border: #99f6e4;
+
+      --blue: #1d4ed8;    --blue-soft: #eff6ff;
+      --emerald: #047857; --emerald-soft: #ecfdf5;
+      --violet: #6d28d9;  --violet-soft: #f5f3ff;
+      --amber: #b45309;   --amber-soft: #fffbeb;
+      --rose: #be123c;    --rose-soft: #fff1f2;
+
+      --card-shadow: 0 4px 24px -8px rgba(15, 23, 42, 0.08);
+      --btn-shadow: 0 2px 6px rgba(15, 23, 42, 0.08);
+      --primary-shadow: 0 6px 18px -4px rgba(15, 118, 110, 0.42);
+      --ease: cubic-bezier(0.22, 1, 0.36, 1);
+      --font-sans: "BIZ UDPGothic", "Hiragino Kaku Gothic ProN", "Yu Gothic UI", "Meiryo", system-ui, sans-serif;
+      --font-mono: "Cascadia Code", "Fira Code", Consolas, monospace;
+    }
+
+    [data-theme="dark"] {
+      --bg: #0b1120;
+      --surface: #111827;
+      --surface-soft: #1e293b;
+      --border: #1e293b;
+      --border-strong: #334155;
+      --ink: #f8fafc;
+      --ink-sub: #cbd5e1;
+      --ink-muted: #94a3b8;
+
+      --accent: #2dd4bf;
+      --accent-hover: #14b8a6;
+      --accent-soft: rgba(20, 184, 166, 0.16);
+      --accent-border: rgba(45, 212, 191, 0.36);
+
+      --blue: #60a5fa;    --blue-soft: rgba(59, 130, 246, 0.16);
+      --emerald: #34d399; --emerald-soft: rgba(16, 185, 129, 0.16);
+      --violet: #a78bfa;  --violet-soft: rgba(139, 92, 246, 0.16);
+      --amber: #fbbf24;   --amber-soft: rgba(245, 158, 11, 0.16);
+      --rose: #fb7185;    --rose-soft: rgba(244, 63, 94, 0.16);
+
+      --card-shadow: 0 8px 28px -8px rgba(0, 0, 0, 0.5);
+      --btn-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0; font-family: var(--font-sans); font-size: 16px; line-height: 1.9;
+      background: var(--bg); color: var(--ink);
+      transition: background-color 0.3s var(--ease), color 0.3s var(--ease);
+    }
+    .progress-bar { position: fixed; top: 0; left: 0; height: 3px; width: 0%; background: var(--accent); z-index: 200; }
+
+    /* =====================================================================
+       全8ページ完全統一ヘッダー
+    ===================================================================== */
+    header.topbar {
+      position: sticky; top: 0; z-index: 100;
+      background: color-mix(in srgb, var(--surface) 94%, transparent);
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .topbar-row1 {
+      max-width: 1040px; margin: 0 auto; padding: 10px 20px 8px;
+      display: flex; align-items: center; justify-content: space-between; gap: 12px;
+    }
+    .brand {
+      display: inline-flex; align-items: center; gap: 9px;
+      font-weight: 800; color: var(--ink); text-decoration: none; white-space: nowrap;
+    }
+    .brand-icon {
+      width: 30px; height: 30px; border-radius: 8px;
+      background: linear-gradient(135deg, #2563eb, #0f766e); color: #fff;
+      display: inline-flex; align-items: center; justify-content: center; font-size: 0.95rem;
+    }
+    .page-chip {
+      border-radius: 99px; font-weight: 800;
+      background: var(--accent-soft); color: var(--accent); border: 1px solid var(--accent-border);
+      white-space: nowrap;
+    }
+    .util-btns { display: flex; gap: 6px; flex-shrink: 0; }
+    .util-btn {
+      border-radius: 8px; border: 1.5px solid var(--border-strong);
+      background: var(--surface); color: var(--ink-sub); font-family: inherit;
+      font-weight: 700; cursor: pointer; box-shadow: var(--btn-shadow); white-space: nowrap;
+    }
+    .util-btn:hover { border-color: var(--accent); color: var(--accent); }
+    .topbar-row2 {
+      border-top: 1px solid var(--border);
+      background: color-mix(in srgb, var(--surface-soft) 72%, transparent);
+    }
+    .guide-nav {
+      max-width: 1040px; margin: 0 auto; padding: 6px 20px;
+      display: flex; align-items: center; gap: 4px; overflow-x: auto; scrollbar-width: thin;
+    }
+    .guide-nav a {
+      border-radius: 8px; color: var(--ink-muted); text-decoration: none; white-space: nowrap; flex-shrink: 0;
+      transition: background 0.15s, color 0.15s;
+    }
+    .guide-nav a:hover { color: var(--ink); background: var(--surface); }
+    .guide-nav a.current { color: #fff; background: var(--accent); }
+    [data-theme="dark"] .guide-nav a.current { color: #0b1120; }
+
+    /* 全8ページ ヘッダー書体・サイズ完全固定 */
+    header.topbar, header.topbar * {
+      font-family: "BIZ UDPGothic", "Hiragino Kaku Gothic ProN", "Yu Gothic UI", "Meiryo", system-ui, sans-serif !important;
+      letter-spacing: 0 !important;
+    }
+    header.topbar .topbar-row1 { min-height: 48px; box-sizing: border-box; }
+    header.topbar .brand { font-size: 15px !important; line-height: 1.3 !important; }
+    header.topbar .page-chip { font-size: 12px !important; line-height: 1.4 !important; padding: 3px 10px !important; }
+    header.topbar .util-btn { font-size: 12.5px !important; line-height: 1.3 !important; padding: 6px 11px !important; }
+    header.topbar .guide-nav { gap: 4px !important; min-height: 42px; box-sizing: border-box; }
+    header.topbar .guide-nav a { font-size: 13px !important; line-height: 1.4 !important; padding: 5px 11px !important; font-weight: 700 !important; }
+
+    main { max-width: 980px; margin: 0 auto; padding: 34px 20px 96px; }
+
+    .hero {
+      background: var(--surface); border: 1px solid var(--border); border-radius: 22px;
+      padding: 34px 32px; margin-bottom: 52px; box-shadow: var(--card-shadow);
+    }
+    .eyebrow { display: inline-block; font-size: 0.8rem; font-weight: 800; color: var(--accent); margin-bottom: 8px; }
+    .hero h1 { margin: 0 0 14px; font-size: clamp(1.55rem, 3vw, 2.05rem); line-height: 1.38; }
+    .hero p.lead { margin: 0 0 18px; color: var(--ink-sub); max-width: 780px; }
+    .source-strip { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 20px; }
+    .src-tag {
+      padding: 3px 10px; border-radius: 99px; font-size: 0.75rem; font-weight: 800;
+      background: var(--surface-soft); border: 1px solid var(--border-strong); color: var(--ink-sub);
+    }
+    .toc-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+    .toc-item {
+      display: flex; align-items: center; gap: 10px; padding: 11px 14px; border-radius: 12px;
+      border: 1.5px solid var(--border); background: var(--surface); color: var(--ink);
+      text-decoration: none; font-size: 0.84rem; font-weight: 700; transition: all 0.2s var(--ease);
+    }
+    .toc-item:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-soft); transform: translateX(3px); }
+    .toc-no {
+      width: 24px; height: 24px; border-radius: 50%; flex-shrink: 0;
+      background: var(--accent); color: #fff; font-size: 0.76rem; font-weight: 800;
+      display: inline-flex; align-items: center; justify-content: center;
+    }
+    [data-theme="dark"] .toc-no { color: #0b1120; }
+
+    section.lesson { margin-bottom: 68px; scroll-margin-top: 112px; }
+    .lesson-kicker { font-size: 0.8rem; font-weight: 800; color: var(--accent); letter-spacing: 0.04em; display: block; margin-bottom: 4px; }
+    .lesson h2 { margin: 0 0 12px; font-size: clamp(1.32rem, 2.3vw, 1.62rem); line-height: 1.38; }
+
+    .story-box {
+      padding: 15px 20px; border-radius: 14px; background: var(--surface-soft);
+      border-left: 4px solid var(--accent); margin-bottom: 18px; font-size: 0.93rem; color: var(--ink-sub);
+    }
+    .story-box strong { color: var(--ink); }
+
+    .exp-card {
+      background: var(--surface); border: 1px solid var(--border); border-radius: 20px;
+      overflow: hidden; box-shadow: var(--card-shadow);
+    }
+    .step-bar { padding: 16px 22px; background: var(--surface-soft); border-bottom: 1px solid var(--border); }
+    .step-label { display: block; font-size: 0.8rem; font-weight: 800; color: var(--ink-muted); margin-bottom: 10px; }
+
+    .select-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+    .select-grid.three { grid-template-columns: repeat(3, 1fr); }
+    .select-grid.four { grid-template-columns: repeat(4, 1fr); }
+    .sel-btn {
+      text-align: left; padding: 10px 12px; border-radius: 12px;
+      border: 2px solid var(--border-strong); background: var(--surface);
+      color: var(--ink); font-family: inherit; cursor: pointer;
+      box-shadow: var(--btn-shadow); transition: all 0.2s var(--ease);
+    }
+    .sel-btn:hover { border-color: var(--accent); transform: translateY(-2px); }
+    .sel-btn.active { border-color: var(--accent); background: var(--accent-soft); box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent) 22%, transparent); }
+    .sel-btn .sel-title { display: block; font-size: 0.84rem; font-weight: 800; margin-bottom: 2px; line-height: 1.35; }
+    .sel-btn .sel-sub { display: block; font-size: 0.73rem; color: var(--ink-muted); line-height: 1.38; }
+
+    .run-btn {
+      display: inline-flex; align-items: center; gap: 7px; padding: 10px 18px; border-radius: 11px;
+      border: 2px solid var(--accent); background: var(--accent); color: #fff; font-family: inherit;
+      font-size: 0.88rem; font-weight: 800; cursor: pointer; box-shadow: var(--primary-shadow);
+      transition: all 0.2s var(--ease);
+    }
+    [data-theme="dark"] .run-btn { color: #0b1120; }
+    .run-btn:hover { background: var(--accent-hover); transform: translateY(-1px); }
+    .sub-btn {
+      display: inline-flex; align-items: center; gap: 6px; padding: 8px 13px; border-radius: 10px;
+      border: 1.5px solid var(--border-strong); background: var(--surface); color: var(--ink);
+      font-family: inherit; font-size: 0.82rem; font-weight: 700; cursor: pointer; box-shadow: var(--btn-shadow);
+    }
+    .sub-btn:hover:not(:disabled) { border-color: var(--accent); color: var(--accent); }
+    .sub-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+    .stage { padding: 24px; }
+    .takeaway { padding: 18px 24px; background: var(--surface-soft); border-top: 1px solid var(--border); font-size: 0.93rem; }
+    .takeaway-head { font-size: 0.8rem; font-weight: 800; color: var(--accent); display: block; margin-bottom: 4px; }
+
+    /* =====================================================================
+       本格 Web アプリ再現ブラウザウィンドウ（STEP 1：全7パターン）
+       ※ アプリ内部は実在SaaSらしく独立した明るいプロダクト面で高精細に描画
+    ===================================================================== */
+    .browser-frame {
+      border-radius: 16px; overflow: hidden;
+      border: 1.5px solid var(--border-strong);
+      box-shadow: 0 20px 50px -18px rgba(15, 23, 42, 0.25);
+      background: #ffffff; color: #0f172a;
+    }
+    .browser-chrome {
+      height: 40px; padding: 0 14px;
+      background: #e2e8f0; border-bottom: 1px solid #cbd5e1;
+      display: flex; align-items: center; gap: 12px;
+    }
+    .win-dots { display: flex; gap: 6px; flex-shrink: 0; }
+    .win-dots span { width: 11px; height: 11px; border-radius: 50%; display: block; }
+    .win-dots .d-r { background: #ef4444; }
+    .win-dots .d-y { background: #f59e0b; }
+    .win-dots .d-g { background: #22c55e; }
+    .url-bar {
+      flex: 1; height: 26px; padding: 0 12px; border-radius: 7px;
+      background: #ffffff; border: 1px solid #cbd5e1;
+      display: flex; align-items: center; justify-content: space-between; gap: 8px;
+      font-size: 12px; color: #475569; font-family: var(--font-mono); overflow: hidden;
+    }
+    .url-bar .lock { color: #059669; font-weight: 700; }
+    .src-pill {
+      padding: 2px 9px; border-radius: 99px; background: #0f766e; color: #ffffff;
+      font-family: var(--font-sans); font-size: 11px; font-weight: 800; white-space: nowrap;
+    }
+
+    /* アプリ内部共通ユーティリティ（常に読みやすい高コントラスト） */
+    .app-viewport { min-height: 455px; background: #f8fafc; color: #0f172a; font-size: 14px; line-height: 1.65; }
+    .app-topbar {
+      height: 46px; padding: 0 16px; background: #ffffff; border-bottom: 1px solid #e2e8f0;
+      display: flex; align-items: center; justify-content: space-between; gap: 10px;
+    }
+    .app-logo { display: flex; align-items: center; gap: 8px; font-weight: 800; font-size: 14px; color: #0f172a; }
+    .app-logo-mark {
+      width: 26px; height: 26px; border-radius: 7px; color: #fff;
+      display: inline-flex; align-items: center; justify-content: center; font-size: 13px;
+    }
+    .app-pill {
+      padding: 3px 10px; border-radius: 99px; font-size: 11.5px; font-weight: 700;
+      background: #f1f5f9; color: #334155; border: 1px solid #e2e8f0;
+    }
+    .app-btn {
+      padding: 6px 12px; border-radius: 8px; border: 1px solid #cbd5e1; background: #ffffff;
+      color: #0f172a; font-family: inherit; font-size: 12px; font-weight: 700; cursor: pointer;
+      transition: all 0.15s;
+    }
+    .app-btn:hover:not(:disabled) { border-color: #0f766e; color: #0f766e; background: #f0fdfa; }
+    .app-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+    .app-btn.primary { background: #0f766e; color: #ffffff; border-color: #0f766e; }
+    .app-btn.primary:hover { background: #115e59; color: #ffffff; }
+    .app-btn.danger { background: #be123c; color: #ffffff; border-color: #be123c; }
+    .app-btn.blue { background: #2563eb; color: #ffffff; border-color: #2563eb; }
+
+    /* パターン1：ChatGPT / Claude 風本格チャットアプリ */
+    .m-chat-layout { display: grid; grid-template-columns: 210px 1fr; min-height: 455px; }
+    .m-sidebar {
+      background: #0f172a; color: #e2e8f0; padding: 14px 12px;
+      display: flex; flex-direction: column; gap: 6px;
+    }
+    .m-side-new {
+      width: 100%; padding: 8px 10px; border-radius: 9px; border: 1px solid #334155;
+      background: #1e293b; color: #f8fafc; font-family: inherit; font-size: 12.5px; font-weight: 700;
+      cursor: pointer; text-align: left; margin-bottom: 6px;
+    }
+    .m-side-new:hover { background: #334155; }
+    .m-side-item {
+      padding: 7px 10px; border-radius: 8px; font-size: 12px; color: #cbd5e1;
+      cursor: pointer; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .m-side-item.active { background: #1e293b; color: #ffffff; font-weight: 700; }
+    .m-chat-main { display: flex; flex-direction: column; background: #ffffff; }
+    .m-chat-stream {
+      flex: 1; padding: 18px 20px; overflow-y: auto; max-height: 310px;
+      display: flex; flex-direction: column; gap: 14px;
+    }
+    .m-msg-row { display: flex; gap: 10px; align-items: flex-start; }
+    .m-msg-row.user { flex-direction: row-reverse; }
+    .m-avatar {
+      width: 30px; height: 30px; border-radius: 50%; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 800;
+    }
+    .m-avatar.ai { background: #0f766e; color: #fff; }
+    .m-avatar.user { background: #2563eb; color: #fff; }
+    .m-bubble {
+      max-width: 82%; padding: 11px 14px; border-radius: 14px; font-size: 13.5px; line-height: 1.7;
+    }
+    .m-msg-row.ai .m-bubble { background: #f1f5f9; color: #0f172a; border-top-left-radius: 4px; }
+    .m-msg-row.user .m-bubble { background: #2563eb; color: #ffffff; border-top-right-radius: 4px; }
+    .m-msg-actions { display: flex; gap: 6px; margin-top: 6px; }
+    .m-micro-btn {
+      padding: 2px 7px; border-radius: 6px; border: 1px solid #cbd5e1; background: #ffffff;
+      color: #475569; font-size: 11px; cursor: pointer; font-family: inherit;
+    }
+    .m-micro-btn:hover { border-color: #0f766e; color: #0f766e; }
+    .m-chat-dock { padding: 12px 16px; border-top: 1px solid #e2e8f0; background: #f8fafc; }
+    .m-chip-bar { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 8px; }
+    .m-chip {
+      padding: 4px 10px; border-radius: 99px; border: 1px solid #99f6e4; background: #f0fdfa;
+      color: #0f766e; font-size: 11.5px; font-weight: 700; cursor: pointer; font-family: inherit;
+    }
+    .m-chip:hover { background: #ccfbf1; }
+    .m-composer {
+      display: flex; gap: 8px; background: #ffffff; padding: 6px 8px; border-radius: 12px;
+      border: 1.5px solid #cbd5e1; align-items: center;
+    }
+    .m-composer input {
+      flex: 1; border: none; outline: none; font-family: inherit; font-size: 13.5px; color: #0f172a; padding: 4px 6px;
+    }
+
+    /* パターン2：Canvas / Artifacts 2ペインワークスペース */
+    .m-canvas-layout { display: grid; grid-template-columns: 320px 1fr; min-height: 410px; }
+    .m-canvas-left {
+      border-right: 1px solid #e2e8f0; background: #f8fafc; padding: 14px;
+      display: flex; flex-direction: column; justify-content: space-between; gap: 10px;
+    }
+    .m-canvas-right { background: #f1f5f9; padding: 18px; display: flex; flex-direction: column; gap: 12px; }
+    .m-pop-poster {
+      background: linear-gradient(155deg, #ffffff 0%, #f0fdf4 100%);
+      border: 2px solid #86efac; border-radius: 16px; padding: 20px;
+      box-shadow: 0 12px 28px -12px rgba(5, 150, 105, 0.25);
+    }
+    .m-pop-ribbon {
+      display: inline-block; padding: 3px 12px; border-radius: 99px;
+      background: #15803d; color: #ffffff; font-size: 11.5px; font-weight: 800; margin-bottom: 10px;
+    }
+
+    /* パターン3：Google Docs / Notion 風インライン補助エディタ */
+    .m-doc-toolbar {
+      padding: 8px 16px; background: #f8fafc; border-bottom: 1px solid #e2e8f0;
+      display: flex; align-items: center; gap: 8px; flex-wrap: wrap; font-size: 12px; color: #475569;
+    }
+    .m-doc-tb-btn {
+      padding: 3px 8px; border-radius: 5px; background: #ffffff; border: 1px solid #e2e8f0; font-weight: 700;
+    }
+    .m-doc-canvas { padding: 22px 26px; background: #e2e8f0; min-height: 365px; }
+    .m-doc-page {
+      max-width: 680px; margin: 0 auto; background: #ffffff; border-radius: 10px;
+      padding: 26px 30px; box-shadow: 0 6px 20px rgba(15, 23, 42, 0.08);
+    }
+    .m-selected-para {
+      padding: 10px 12px; border-radius: 8px; background: #dbeafe; border-left: 3px solid #2563eb;
+      margin: 10px 0; position: relative;
+    }
+    .m-floating-ai {
+      display: inline-flex; align-items: center; gap: 6px; flex-wrap: wrap;
+      padding: 6px 10px; border-radius: 10px; background: #0f172a; color: #ffffff;
+      box-shadow: 0 10px 25px rgba(15, 23, 42, 0.3); margin-bottom: 8px;
+    }
+    .m-float-btn {
+      padding: 4px 9px; border-radius: 6px; border: 1px solid #334155; background: #1e293b;
+      color: #f8fafc; font-size: 11.5px; font-weight: 700; cursor: pointer; font-family: inherit;
+    }
+    .m-float-btn:hover { background: #0f766e; border-color: #2dd4bf; }
+    .m-diff-box {
+      margin-top: 10px; padding: 12px 14px; border-radius: 10px;
+      background: #f0fdfa; border: 1.5px solid #0f766e;
+    }
+
+    /* パターン4：Figma / Canva 風クリエイティブスタジオ（Tuners + Hybrid） */
+    .m-studio-layout { display: grid; grid-template-columns: 310px 1fr; min-height: 410px; }
+    .m-studio-ctrl { padding: 16px; background: #ffffff; border-right: 1px solid #e2e8f0; }
+    .m-studio-stage { padding: 20px; background: #e2e8f0; display: flex; align-items: center; justify-content: center; }
+    .m-sns-card {
+      width: 100%; max-width: 360px; background: #ffffff; border-radius: 16px;
+      overflow: hidden; box-shadow: 0 14px 32px -12px rgba(15, 23, 42, 0.25); border: 1px solid #cbd5e1;
+    }
+    .m-sns-head {
+      padding: 10px 14px; display: flex; align-items: center; justify-content: space-between;
+      border-bottom: 1px solid #f1f5f9; font-size: 12.5px; font-weight: 800;
+    }
+    .m-sns-photo {
+      height: 124px; background: linear-gradient(135deg, #065f46, #34d399 65%, #fef3c7);
+      display: flex; align-items: center; justify-content: center; flex-direction: column; color: #ffffff;
+    }
+    .m-sns-body { padding: 12px 14px 16px; font-size: 13px; line-height: 1.65; }
+
+    /* パターン5：Gmail 風 Ambient / Invisible ML 画面 */
+    .m-mail-layout { display: grid; grid-template-columns: 1fr 250px; min-height: 410px; }
+    .m-mail-main { padding: 18px 20px; background: #ffffff; border-right: 1px solid #e2e8f0; }
+    .m-mail-row {
+      display: flex; align-items: center; gap: 10px; padding: 8px 0;
+      border-bottom: 1px solid #f1f5f9; font-size: 13px;
+    }
+    .m-mail-row span.lbl { width: 48px; color: #64748b; font-weight: 700; }
+    .m-ghost-editor {
+      margin-top: 12px; padding: 14px; border-radius: 10px; border: 1.5px solid #cbd5e1;
+      min-height: 150px; background: #f8fafc; font-size: 14px; line-height: 1.8;
+    }
+    .m-ghost-span { color: #94a3b8; background: #e0f2fe; padding: 1px 4px; border-radius: 4px; }
+    .m-mail-side { padding: 16px; background: #f8fafc; }
+
+    /* パターン6：Generative UI（Perplexity / Vercel 風 動的部品生成） */
+    .m-genui-wrap { padding: 18px 20px; background: #f8fafc; min-height: 410px; }
+    .m-genui-card {
+      margin-top: 14px; background: #ffffff; border-radius: 14px; padding: 18px;
+      border: 1.5px solid #cbd5e1; box-shadow: 0 8px 24px -12px rgba(15, 23, 42, 0.14);
+    }
+
+    /* パターン7：Agentic Workspace（計画＆承認ダッシュボード） */
+    .m-agent-layout { display: grid; grid-template-columns: 280px 1fr; min-height: 410px; }
+    .m-agent-plan { padding: 16px; background: #0f172a; color: #e2e8f0; }
+    .m-plan-step {
+      padding: 10px 12px; border-radius: 10px; margin-bottom: 8px; font-size: 12.5px;
+      background: #1e293b; border: 1.5px solid #334155; display: flex; gap: 8px; align-items: flex-start;
+    }
+    .m-plan-step.done { border-color: #10b981; background: rgba(16, 185, 129, 0.14); }
+    .m-plan-step.wait { border-color: #f59e0b; background: rgba(245, 158, 11, 0.16); }
+    .m-agent-work { padding: 18px 20px; background: #f8fafc; }
+
+    .meta-strip {
+      margin-top: 16px; padding: 14px 16px; border-radius: 12px;
+      background: var(--surface-soft); border: 1px solid var(--border);
+      display: grid; grid-template-columns: 1fr 1fr; gap: 12px; font-size: 0.86rem;
+    }
+
+    /* 7ボタン直下の「1行概要＋AIの絡み方」案内帯 */
+    .pat-brief {
+      margin-bottom: 16px; padding: 14px 18px; border-radius: 14px;
+      background: var(--accent-soft); border: 1.5px solid var(--accent-border);
+      display: flex; flex-direction: column; gap: 6px;
+    }
+    .pat-brief-line1 { font-size: 0.96rem; font-weight: 800; color: var(--ink); }
+    .pat-brief-line2 { font-size: 0.87rem; color: var(--ink-sub); line-height: 1.65; }
+    .pat-brief-mock {
+      font-size: 0.77rem; color: var(--ink-muted); padding-top: 4px;
+      border-top: 1px dashed var(--accent-border);
+    }
+
+    /* STEP 2〜6 */
+    .txt-input {
+      flex: 1; padding: 10px 14px; border-radius: 10px; border: 1.5px solid var(--border-strong);
+      background: var(--surface); color: var(--ink); font-family: inherit; font-size: 0.92rem;
+    }
+    .txt-input:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+    .range-input { width: 100%; accent-color: #0f766e; cursor: pointer; }
+    .ctrl-group { margin-bottom: 12px; }
+    .ctrl-label { display: flex; justify-content: space-between; font-size: 12.5px; font-weight: 800; margin-bottom: 5px; }
+    .seg-row { display: flex; gap: 6px; }
+    .seg-btn {
+      flex: 1; padding: 6px 8px; border-radius: 8px; border: 1.5px solid #cbd5e1;
+      background: #ffffff; color: #0f172a; font-family: inherit; font-size: 12px; font-weight: 700; cursor: pointer;
+    }
+    .seg-btn.active { border-color: #0f766e; background: #0f766e; color: #ffffff; }
+
+    .wiz-q { margin-bottom: 18px; }
+    .wiz-q:last-child { margin-bottom: 0; }
+    .wiz-q-title { font-size: 0.9rem; font-weight: 800; margin-bottom: 8px; display: block; }
+    .wiz-result {
+      padding: 20px; border-radius: 16px; background: var(--accent-soft);
+      border: 2px solid var(--accent); margin-bottom: 18px;
+    }
+    .prompt-box {
+      padding: 16px; border-radius: 14px; background: #0f172a; color: #e2e8f0;
+      font-family: var(--font-mono); font-size: 0.82rem; line-height: 1.7;
+      white-space: pre-wrap; max-height: 280px; overflow-y: auto; margin-top: 10px;
+    }
+
+    .bad-ui {
+      background: #f3f4f6; color: #9ca3af; font-size: 12px; line-height: 1.3;
+      padding: 10px; border: 1px solid #e5e7eb; border-radius: 4px;
+    }
+    .bad-ui input { width: 100%; padding: 4px; font-size: 11px; border: 1px solid #d1d5db; color: #9ca3af; background: #f9fafb; }
+    .bad-btn { padding: 4px 8px; font-size: 11px; background: #e5e7eb; color: #9ca3af; border: 1px solid #d1d5db; cursor: pointer; }
+    .good-ui {
+      background: var(--surface); color: var(--ink); font-size: 16px; line-height: 1.8;
+      padding: 22px; border: 2px solid var(--accent-border); border-radius: 14px;
+    }
+    .field-err {
+      margin-top: 8px; padding: 10px 14px; border-radius: 10px;
+      background: var(--rose-soft); border: 1.5px solid var(--rose); color: var(--rose);
+      font-size: 0.88rem; font-weight: 700; display: flex; align-items: flex-start; gap: 8px;
+    }
+    .field-ok {
+      margin-top: 8px; padding: 10px 14px; border-radius: 10px;
+      background: var(--emerald-soft); border: 1.5px solid var(--emerald); color: var(--emerald);
+      font-size: 0.88rem; font-weight: 700; display: flex; align-items: flex-start; gap: 8px;
+    }
+    .lab-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 16px; }
+    .preview-pane { padding: 22px; border-radius: 14px; border: 2px solid var(--border-strong); background: #ffffff; transition: all 0.2s; }
+    .wcag-pill { display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px; border-radius: 99px; font-size: 0.82rem; font-weight: 800; }
+    .wcag-pill.pass { background: var(--emerald-soft); color: var(--emerald); border: 1.5px solid var(--emerald); }
+    .wcag-pill.fail { background: var(--rose-soft); color: var(--rose); border: 1.5px solid var(--rose); }
+
+    table.cmp { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+    table.cmp th, table.cmp td { padding: 10px 10px; border-bottom: 1px solid var(--border); text-align: left; vertical-align: top; }
+    table.cmp th { background: var(--surface-soft); font-weight: 800; }
+
+    .quiz-item { padding: 18px; border-radius: 14px; background: var(--surface-soft); margin-bottom: 14px; }
+    .quiz-item:last-child { margin-bottom: 0; }
+    .quiz-opts { display: flex; flex-direction: column; gap: 8px; margin-top: 12px; }
+    .quiz-btn {
+      text-align: left; padding: 12px 16px; border-radius: 11px; border: 1.5px solid var(--border-strong);
+      background: var(--surface); color: var(--ink); font-family: inherit; font-size: 0.9rem; font-weight: 700;
+      cursor: pointer; box-shadow: var(--btn-shadow);
+    }
+    .quiz-btn:hover { border-color: var(--accent); }
+    .quiz-btn.ok { border-color: var(--emerald); background: var(--emerald-soft); color: var(--emerald); }
+    .quiz-btn.ng { border-color: var(--rose); background: var(--rose-soft); color: var(--rose); }
+    .quiz-ans { margin-top: 10px; font-size: 0.88rem; color: var(--ink-sub); display: none; }
+    .quiz-ans.show { display: block; }
+
+    .next-card {
+      margin-top: 48px; padding: 24px 28px; border-radius: 18px; background: var(--surface);
+      border: 1.5px solid var(--border); display: flex; align-items: center; justify-content: space-between;
+      gap: 16px; flex-wrap: wrap;
+    }
+
+    @media (max-width: 820px) {
+      .toc-grid, .select-grid, .select-grid.three, .select-grid.four, .meta-strip, .lab-grid,
+      .m-chat-layout, .m-canvas-layout, .m-studio-layout, .m-mail-layout, .m-agent-layout { grid-template-columns: 1fr; }
+      .hero { padding: 24px 20px; }
+      .stage { padding: 18px 14px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="progress-bar" id="progressBar"></div>
+
+  <!-- 全8ページ完全統一ヘッダー -->
+  <header class="topbar">
+    <div class="topbar-row1">
+      <div style="display:flex;align-items:center;gap:10px;min-width:0;">
+        <a href="../index.html" class="brand">
+          <span class="brand-icon">🧭</span>
+          <span>agent-study</span>
+        </a>
+        <span class="page-chip">7. AI・UI設計</span>
+      </div>
+      <div class="util-btns">
+        <button type="button" class="util-btn" id="soundToggle">🔊 音 ON</button>
+        <button type="button" class="util-btn" id="themeToggle">🌙 ダーク</button>
+      </div>
+    </div>
+    <div class="topbar-row2">
+      <nav class="guide-nav" aria-label="学習ガイド一覧">
+        <a href="../index.html">🏠 トップ</a>
+        <a href="../agent-guide/interactive-guide.html">1. エージェント</a>
+        <a href="../copilot-fusion/interactive-guide.html">2. Fusion</a>
+        <a href="../hook-guide/interactive-guide.html">3. フック</a>
+        <a href="../mcp-guide/interactive-guide.html">4. MCP</a>
+        <a href="../uml-guide/interactive-guide.html">5. UML・要求図</a>
+        <a href="../agent-skill/interactive-guide.html">6. スキル</a>
+        <a href="interactive-guide.html" class="current">7. AI・UI設計</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <span class="eyebrow">一次情報エビデンスに基づく AI UI 全 7 パターン × 普遍的な UI 基礎</span>
+      <h1>実在アプリ風モックで体感する AI UI 設計ガイド</h1>
+      <p class="lead">
+        Google・Apple・Microsoft・Nielsen Norman Group (NN/g)・The Shape of AI などの一次ガイドラインに基づく <strong>AI UI の全 7 パターン</strong>を、<strong>本物の Web アプリ画面さながらの操作できるモック</strong>で再現しました。<br/>
+        さらに「ポチポチ最適 UI 診断」と「そのまま自分のワークスペースで AI へ設計相談できるプロンプト生成」も使えます！
+      </p>
+      <div class="source-strip" aria-label="根拠となる一次情報">
+        <span class="src-tag">📚 Google People + AI Guidebook (PAIR)</span>
+        <span class="src-tag">🍎 Apple HIG (Machine Learning)</span>
+        <span class="src-tag">🪟 Microsoft HAX Toolkit (18指針)</span>
+        <span class="src-tag">🔎 Nielsen Norman Group (NN/g)</span>
+        <span class="src-tag">🧩 The Shape of AI</span>
+        <span class="src-tag">♿ WCAG 2.1/2.2・JIS X 8341-3</span>
+      </div>
+      <div class="toc-grid">
+        <a class="toc-item" href="#step1"><span class="toc-no">1</span>全7パターン本格Webアプリ再現</a>
+        <a class="toc-item" href="#step2"><span class="toc-no">2</span>最適UI診断＆AI相談プロンプト</a>
+        <a class="toc-item" href="#step3"><span class="toc-no">3</span>悪い UI ⇔ 良い UI 比較体験</a>
+        <a class="toc-item" href="#step4"><span class="toc-no">4</span>UD 文字・WCAG 4.5:1 体感ラボ</a>
+        <a class="toc-item" href="#step5"><span class="toc-no">5</span>全7パターン出典早見表＆クイズ</a>
+      </div>
+    </section>
+
+    <!-- ===================================================================
+         STEP 1：全 7 パターン「本格 Web アプリ画面」再現ギャラリー
+    =================================================================== -->
+    <section class="lesson" id="step1">
+      <span class="lesson-kicker">STEP 1 — ブラウザの中に本物の Web アプリを再現！（全 7 パターン完全対応）</span>
+      <h2>7 つの AI UI パターンを「実在アプリ風の画面」で操作し比べる</h2>
+      <div class="story-box">
+        <strong>🍵 共通の題材：</strong> カフェ（Kame Cafe）の新商品<strong>「春の宇治抹茶ラテ」</strong>の企画・販促・顧客案内。下の 7 つのタブを切り替えると、ブラウザ枠の中身が <strong>ChatGPT風・Canvas風・Google Docs風・Canva風スタジオ・Gmail風自動補完・Perplexity風動的UI・自律エージェントコンソール</strong> へと本格的に切り替わります。ぜひ中身をポチポチ触ってみてください！
+      </div>
+
+      <div class="exp-card">
+        <div class="step-bar">
+          <span class="step-label">① 体験したい AI UI パターン（一次情報の正式名称＋日本語）を 1 つ選んでください</span>
+          <div class="select-grid four">
+            <button type="button" class="sel-btn active" data-pat="chat">
+              <span class="sel-title">💬 1. Conversational</span>
+              <span class="sel-sub">会話・チャット型 (NN/g)</span>
+            </button>
+            <button type="button" class="sel-btn" data-pat="canvas">
+              <span class="sel-title">📑 2. Canvas / Artifact</span>
+              <span class="sel-sub">成果物並列編集 (NN/g)</span>
+            </button>
+            <button type="button" class="sel-btn" data-pat="inline">
+              <span class="sel-title">✨ 3. Inline / Contextual</span>
+              <span class="sel-sub">その場補助 (Apple HIG)</span>
+            </button>
+            <button type="button" class="sel-btn" data-pat="hybrid">
+              <span class="sel-title">🎚️ 4. Tuners ＋ Hybrid</span>
+              <span class="sel-sub">調整つまみ＋一言 (Shape of AI)</span>
+            </button>
+            <button type="button" class="sel-btn" data-pat="ambient">
+              <span class="sel-title">🌫️ 5. Ambient / Invisible</span>
+              <span class="sel-sub">不可視・先回り (Apple HIG)</span>
+            </button>
+            <button type="button" class="sel-btn" data-pat="genui">
+              <span class="sel-title">🧩 6. Generative UI</span>
+              <span class="sel-sub">動的UI部品生成 (NN/g)</span>
+            </button>
+            <button type="button" class="sel-btn" data-pat="agentic">
+              <span class="sel-title">🤖 7. Agentic Workspace</span>
+              <span class="sel-sub">計画＆承認 (MS HAX)</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="stage">
+          <!-- 選んだパターンの1行概要＋AIの絡み方ガイド -->
+          <div class="pat-brief" id="patBrief"></div>
+
+          <!-- 本物ブラウザウィンドウ枠 -->
+          <div class="browser-frame">
+            <div class="browser-chrome">
+              <div class="win-dots" aria-hidden="true">
+                <span class="d-r"></span><span class="d-y"></span><span class="d-g"></span>
+              </div>
+              <div class="url-bar">
+                <span><span class="lock">🔒</span> <span id="mockUrl">https://app.kame-cafe.jp/chat</span></span>
+                <span class="src-pill" id="mockSrc">出典：NN/g・Shape of AI</span>
+              </div>
+            </div>
+            <div class="app-viewport" id="appViewport"></div>
+          </div>
+
+          <div class="meta-strip" id="demoMeta"></div>
+        </div>
+
+        <div class="takeaway" id="s1Takeaway"></div>
+      </div>
+    </section>
+
+    <!-- ===================================================================
+         STEP 2：ポチポチ最適 UI 診断 ＆ AI 相談プロンプト自動生成
+    =================================================================== -->
+    <section class="lesson" id="step2">
+      <span class="lesson-kicker">STEP 2 — 迷ったらポチポチ診断 → そのまま AI へ相談！</span>
+      <h2>作りたいアプリに合う UI パターン診断 ＆ AI 相談プロンプト生成</h2>
+      <div class="story-box">
+        <strong>🧭 どんな場面？</strong> 3 つの質問をポチポチ選ぶと、一次情報に基づく<strong>おすすめパターン＋組み合わせ案</strong>が分かります。さらにそのまま自分のワークスペースで AI（Claude Code / Copilot）に貼り付けて<strong>2〜3 案比較＋レイアウト案</strong>を相談できるプロンプトも自動生成されます。
+      </div>
+
+      <div class="exp-card">
+        <div class="step-bar">
+          <span class="step-label">① あなたの作りたいアプリに近いものをポチポチ選んでください</span>
+
+          <div class="wiz-q">
+            <span class="wiz-q-title">Q1. このアプリで、お客さまはいちばん何をする？</span>
+            <div class="select-grid three" id="wizQ1">
+              <button type="button" class="sel-btn active" data-q1="structured">
+                <span class="sel-title">🎚️ 決まった条件で作成・調整</span>
+                <span class="sel-sub">8割は定番設定＋少し例外あり</span>
+              </button>
+              <button type="button" class="sel-btn" data-q1="doc">
+                <span class="sel-title">📄 1つの文書・コードを磨く</span>
+                <span class="sel-sub">何度も手直ししながら完成へ</span>
+              </button>
+              <button type="button" class="sel-btn" data-q1="existing">
+                <span class="sel-title">✨ 既存画面の入力をサッと補助</span>
+                <span class="sel-sub">文章の言い換え・要約・補完</span>
+              </button>
+              <button type="button" class="sel-btn" data-q1="explore">
+                <span class="sel-title">💬 毎回違う相談・アイデア出し</span>
+                <span class="sel-sub">ゴールが未確定の自由な探索</span>
+              </button>
+              <button type="button" class="sel-btn" data-q1="auto">
+                <span class="sel-title">🌫️ 意識せず裏側で自動整理</span>
+                <span class="sel-sub">自動分類・予測入力・異常検知</span>
+              </button>
+              <button type="button" class="sel-btn" data-q1="agent">
+                <span class="sel-title">🤖 複数手順を自律実行させる</span>
+                <span class="sel-sub">調査→作成→外部連携など多段階</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="wiz-q">
+            <span class="wiz-q-title">Q2. 主な利用者は AI 操作（プロンプト入力）に慣れている？</span>
+            <div class="select-grid" id="wizQ2">
+              <button type="button" class="sel-btn active" data-q2="beginner">
+                <span class="sel-title">🌱 慣れていない現場スタッフ・一般客</span>
+                <span class="sel-sub">迷わず押せるボタン・初期値・お題が大切</span>
+              </button>
+              <button type="button" class="sel-btn" data-q2="power">
+                <span class="sel-title">⚡ 普段から業務ツールや AI に慣れている</span>
+                <span class="sel-sub">柔軟な指示やショートカットも歓迎</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="wiz-q">
+            <span class="wiz-q-title">Q3. メール送信・削除・金額確定など「やり直せない操作」はある？</span>
+            <div class="select-grid" id="wizQ3">
+              <button type="button" class="sel-btn active" data-q3="yes">
+                <span class="sel-title">🛡️ ある（ミスすると困る）</span>
+                <span class="sel-sub">送信前の承認ゲート（Human-in-the-loop）必須</span>
+              </button>
+              <button type="button" class="sel-btn" data-q3="no">
+                <span class="sel-title">📝 ない（下書き・閲覧・検索のみ）</span>
+                <span class="sel-sub">軽快な操作と Undo（やり直し）を重視</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="stage">
+          <div class="wiz-result" id="wizResult"></div>
+
+          <div style="margin-bottom:10px;">
+            <label for="appMemo" style="display:block;font-size:0.86rem;font-weight:800;margin-bottom:6px;">
+              📝 （任意）作りたいアプリを一言入れると、下の AI 相談プロンプトに自動反映されます：
+            </label>
+            <input type="text" id="appMemo" class="txt-input" style="width:100%;" placeholder="例：社内の部品資料を検索して見積もり案を作る業務アプリ" />
+          </div>
+
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-top:14px;">
+            <strong style="font-size:0.9rem;">🤖 ワークスペースを見せて AI にベストな UI を相談するプロンプト</strong>
+            <button type="button" class="run-btn" id="copyPromptBtn">📋 このプロンプトをコピー</button>
+          </div>
+          <div class="prompt-box" id="promptPreview"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================================================================
+         STEP 3：普遍 UI ビフォー／アフター
+    =================================================================== -->
+    <section class="lesson" id="step3">
+      <span class="lesson-kicker">STEP 3 — AI に関係なく大切な「見やすさ・親切さ」</span>
+      <h2>「見にくい画面」と「ユニバーサルで親切な画面」を触り比べる</h2>
+      <div class="story-box">
+        <strong>📮 どんな場面？</strong> クーポンのメール登録画面です。わざと <code>@</code> が抜けたアドレス（<code>kame-cafe.jp</code>）が入っています。そのままボタンを押したときの<strong>エラー表示・視認性・アフォーダンス</strong>の違いを比べましょう。
+      </div>
+
+      <div class="exp-card">
+        <div class="step-bar">
+          <span class="step-label">① 見比べたい画面デザインを選んでください</span>
+          <div class="select-grid">
+            <button type="button" class="sel-btn active" data-ui="bad">
+              <span class="sel-title">😵 よくある見にくい UI（悪い例）</span>
+              <span class="sel-sub">薄グレー小文字・詰め込み・冷たいエラー</span>
+            </button>
+            <button type="button" class="sel-btn" data-ui="good">
+              <span class="sel-title">✨ ユニバーサルで親切な UI（良い例）</span>
+              <span class="sel-sub">16px UD文字・高コントラスト・3点セットエラー</span>
+            </button>
+          </div>
+        </div>
+        <div class="stage" id="s3Stage"></div>
+        <div class="takeaway" id="s3Takeaway"></div>
+      </div>
+    </section>
+
+    <!-- ===================================================================
+         STEP 4：UD 文字・行間・WCAG コントラスト体感ラボ
+    =================================================================== -->
+    <section class="lesson" id="step4">
+      <span class="lesson-kicker">STEP 4 — 国際規格（WCAG 2.1/2.2・JIS X 8341-3）を体感する</span>
+      <h2>文字サイズ・行間・コントラスト（4.5:1 基準）体感ラボ</h2>
+      <div class="story-box">
+        <strong>👓 どんな場面？</strong> 国際基準 <strong>WCAG AA</strong> では通常文字のコントラスト比 <strong>4.5 : 1 以上</strong>（UI部品 3.0 : 1 以上）が求められます。スライダーを動かして読みやすさの変化を体感しましょう。
+      </div>
+
+      <div class="exp-card">
+        <div class="step-bar">
+          <span class="step-label">① スライダーまたはプリセットを試してください</span>
+          <div style="display:flex; gap:8px; flex-wrap:wrap;">
+            <button type="button" class="sub-btn" id="presetBad">😵 疲れやすい設定（12px / 行間1.2 / 2.2:1）</button>
+            <button type="button" class="run-btn" id="presetGood">✨ おすすめ UD 設定（16px / 行間1.8 / 15:1）</button>
+          </div>
+        </div>
+        <div class="stage">
+          <div class="lab-grid">
+            <div class="ctrl-group">
+              <div class="ctrl-label"><span>文字サイズ（推奨 16px 以上）</span><span id="lblSize">16px</span></div>
+              <input type="range" class="range-input" id="rngSize" min="11" max="20" step="1" value="16" />
+            </div>
+            <div class="ctrl-group">
+              <div class="ctrl-label"><span>行間（推奨 1.5 〜 1.9）</span><span id="lblLh">1.8</span></div>
+              <input type="range" class="range-input" id="rngLh" min="1.1" max="2.1" step="0.1" value="1.8" />
+            </div>
+            <div class="ctrl-group" style="grid-column:1 / -1; margin-bottom:0;">
+              <div class="ctrl-label"><span>文字の濃さ（白背景とのコントラスト比）</span><span id="lblContrast">15.4 : 1</span></div>
+              <input type="range" class="range-input" id="rngGray" min="15" max="195" step="5" value="15" />
+            </div>
+          </div>
+          <div style="margin-bottom:12px; display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap;">
+            <span class="wcag-pill pass" id="wcagBadge">✅ WCAG AA 合格</span>
+            <span style="font-size:0.82rem; color:var(--ink-muted);" id="readJudge">とても読みやすいバランスです</span>
+          </div>
+          <div class="preview-pane" id="readPreview">
+            <strong style="display:block; margin-bottom:6px;">春の宇治抹茶ラテのご案内（UD フォント・視認性サンプル）</strong>
+            京都産の一番茶を石臼で挽いた抹茶に、やさしい甘さのミルクを合わせました。濁点のある「ぱ・ば・だ」や、数字の「0・1」と英字の「O・l」も、BIZ UDPGothic 等のユニバーサルデザイン（UD）書体と十分なコントラストがあれば、年齢や環境を問わず正確に読み取れます。
+          </div>
+        </div>
+        <div class="takeaway">
+          <span class="takeaway-head">💡 なるほどポイント</span>
+          <strong>16px 以上・行間 1.7 前後・コントラスト 4.5:1 以上・色だけに頼らずアイコンと文字を併用</strong>。この 4 つを守るだけで、誰でも快適に読める画面になります。
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================================================================
+         STEP 5：全 7 パターン出典付き早見表＆確認クイズ
+    =================================================================== -->
+    <section class="lesson" id="step5">
+      <span class="lesson-kicker">STEP 5 — 一次情報ベースの全 7 パターン整理＆確認クイズ</span>
+      <h2>AI UI 全 7 パターン出典付き早見表（＋3問クイズ）</h2>
+      <div class="exp-card">
+        <div class="stage">
+          <table class="cmp" style="margin-bottom:24px;">
+            <thead>
+              <tr><th>#</th><th>一次用語（日本語の目安）</th><th>主な出典</th><th>いちばん向いている場面</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><strong>1</strong></td><td><strong>Conversational / Chat</strong>（会話型）</td><td>NN/g・Shape of AI</td><td>毎回内容が違う自由な相談・探索・アイデア出し</td></tr>
+              <tr><td><strong>2</strong></td><td><strong>Canvas / Artifact</strong>（成果物並列型）</td><td>NN/g・Canvas/Artifacts</td><td>文書・コード・設計図など1つの成果物を反復編集</td></tr>
+              <tr><td><strong>3</strong></td><td><strong>Inline / Contextual</strong>（その場補助型）</td><td>NN/g・Apple HIG・MS</td><td>既存エディタやフォーム内で画面遷移せず書き直し・要約</td></tr>
+              <tr><td><strong>4</strong></td><td><strong>Tuners / Structured ＋ Hybrid</strong>（調整UI＋一言）</td><td>Shape of AI・NN/g</td><td>8割は定型条件、残り2割だけ自由注文する業務アプリ</td></tr>
+              <tr><td><strong>5</strong></td><td><strong>Ambient / Invisible ML</strong>（不可視・先回り型）</td><td>Apple HIG・NN/g</td><td>予測入力・自動分類・スマート通知など意識させない補助</td></tr>
+              <tr><td><strong>6</strong></td><td><strong>Generative UI</strong>（動的UI生成型）</td><td>NN/g・Google/Vercel</td><td>依頼に応じて表・グラフ・入力フォームそのものを動的生成</td></tr>
+              <tr><td><strong>7</strong></td><td><strong>Agentic Workspace</strong>（計画＆承認型）</td><td>Microsoft HAX・PAIR</td><td>複数ステップの自律調査・自動化と承認・ロールバック</td></tr>
+            </tbody>
+          </table>
+
+          <div class="quiz-item" data-ans="1">
+            <strong>Q1. Apple HIG（Machine Learning）で、ユーザーが頼んでいないのに AI が先回り提案する「Proactive」設計について注意されている点は？</strong>
+            <div class="quiz-opts">
+              <button type="button" class="quiz-btn" data-i="0">先回りなので多少間違えてもユーザーは気にしない</button>
+              <button type="button" class="quiz-btn" data-i="1">頼んでいない分、誤判定への許容度が極端に低いため、超高精度とオフ・無視手段が必須</button>
+              <button type="button" class="quiz-btn" data-i="2">必ずチャット欄を画面中央に大きく表示する</button>
+            </div>
+            <div class="quiz-ans">正解！Apple HIG では「Proactive（先回り）は外したときの不快感が非常に強い」と明記されており、精度が不十分なうちは Reactive（応答）に留めるのが鉄則です。</div>
+          </div>
+
+          <div class="quiz-item" data-ans="0">
+            <strong>Q2. Nielsen Norman Group (NN/g) が警告する「Conversation Trap（会話の罠）」とは？</strong>
+            <div class="quiz-opts">
+              <button type="button" class="quiz-btn" data-i="0">定型業務や設定変更まで何でもチャット欄に押し込み、かえって使いにくくしてしまう失敗</button>
+              <button type="button" class="quiz-btn" data-i="1">チャット欄の文字サイズを 16px にすること</button>
+              <button type="button" class="quiz-btn" data-i="2">AI の出力に Undo ボタンを付けること</button>
+            </div>
+            <div class="quiz-ans">正解！「AI Chat Is Not Always the Answer（チャットが常に正解ではない）」。作業内容に応じて Inline・Tuners・Canvas・Ambient 等を組み合わせるのが王道です。</div>
+          </div>
+
+          <div class="quiz-item" data-ans="2">
+            <strong>Q3. Google PAIR や Apple HIG が推奨する「Implicit（暗黙）vs Explicit（明示）フィードバック」のバランスは？</strong>
+            <div class="quiz-opts">
+              <button type="button" class="quiz-btn" data-i="0">毎回の操作ごとに必ず星5段階評価ポップアップを出す</button>
+              <button type="button" class="quiz-btn" data-i="1">フィードバックは一切集めない</button>
+              <button type="button" class="quiz-btn" data-i="2">編集・採用・スキップなどの自然な行動（Implicit）を主とし、明示的な評価ボタン（Explicit）は要所だけに絞る</button>
+            </div>
+            <div class="quiz-ans">正解！明示評価を出しすぎると「フィードバック疲れ」が起きるため、自然な行動を活かしつつ重要な場面だけ Explicit を置くのが一次ガイドラインの推奨です。</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="next-card">
+        <div>
+          <strong>🎉 全 7 つの AI UI パターンと普遍 UI 基礎を実体験でマスター！</strong><br/>
+          <span style="font-size:0.9rem; color:var(--ink-sub);">一次情報の出典メモやチェックリストは Markdown 資料でもいつでも参照できます。</span>
+        </div>
+        <div style="display:flex; gap:10px; flex-wrap:wrap;">
+          <a href="info/README.md" class="sub-btn" style="text-decoration:none;">📚 一次情報の出典一覧</a>
+          <a href="README.md" class="sub-btn" style="text-decoration:none;">📖 Markdown 資料へ</a>
+          <a href="../index.html" class="run-btn" style="text-decoration:none;">🏠 学習ポータルへ戻る</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    (function () {
+      function esc(s) {
+        return String(s)
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;")
+          .replace(/'/g, "&#39;");
+      }
+
+      let soundOn = true;
+      let actx = null;
+      function beep(freq, dur) {
+        if (!soundOn) return;
+        try {
+          if (!actx) actx = new (window.AudioContext || window.webkitAudioContext)();
+          const o = actx.createOscillator();
+          const g = actx.createGain();
+          o.type = "sine"; o.frequency.value = freq;
+          g.gain.setValueAtTime(0.06, actx.currentTime);
+          g.gain.exponentialRampToValueAtTime(0.001, actx.currentTime + dur);
+          o.connect(g); g.connect(actx.destination);
+          o.start(); o.stop(actx.currentTime + dur);
+        } catch (_) {}
+      }
+
+      const soundBtn = document.getElementById("soundToggle");
+      soundBtn.addEventListener("click", () => {
+        soundOn = !soundOn;
+        soundBtn.textContent = soundOn ? "🔊 音 ON" : "🔇 音 OFF";
+        if (soundOn) beep(520, 0.08);
+      });
+
+      const themeBtn = document.getElementById("themeToggle");
+      themeBtn.addEventListener("click", () => {
+        const dark = document.documentElement.getAttribute("data-theme") === "dark";
+        document.documentElement.setAttribute("data-theme", dark ? "light" : "dark");
+        themeBtn.textContent = dark ? "🌙 ダーク" : "☀️ ライト";
+        beep(440, 0.07);
+      });
+
+      const progressBar = document.getElementById("progressBar");
+      window.addEventListener("scroll", () => {
+        const h = document.documentElement.scrollHeight - window.innerHeight;
+        progressBar.style.width = (h > 0 ? (window.scrollY / h) * 100 : 0) + "%";
+      });
+
+      /* =================================================================
+         STEP 1：全 7 パターン 本格 Web アプリ再現エンジン
+      ================================================================= */
+      const mockUrl = document.getElementById("mockUrl");
+      const mockSrc = document.getElementById("mockSrc");
+      const patBrief = document.getElementById("patBrief");
+      const vp = document.getElementById("appViewport");
+      const demoMeta = document.getElementById("demoMeta");
+      const s1Takeaway = document.getElementById("s1Takeaway");
+      const patBtns = document.querySelectorAll("[data-pat]");
+
+      const patBriefData = {
+        chat: {
+          oneLine: "💬 1. Conversational / Chat：会話のやり取りだけで相談・アイデア出しを進める基本型",
+          aiRole: "🤖 AI の絡み方：ユーザーが入力した自由な文章を毎回 AI（LLM）が解釈して文章で返答します。履歴を文脈として覚えたまま対話を続けます。"
+        },
+        canvas: {
+          oneLine: "📑 2. Canvas / Artifact：左でチャット指示し、右に固定された成果物を何度も磨き上げる並列編集型",
+          aiRole: "🤖 AI の絡み方：まず左のチャット欄で「春の抹茶ラテの店頭POPを作って」と頼むと、AI が右側に初期案（第1版）を自動生成します。その後の「もっと丁寧に」「短く」といった修正指示も AI が右側の成果物だけを更新します（人間が直接手で直すことも可能）。"
+        },
+        inline: {
+          oneLine: "✨ 3. Inline / Contextual：チャット画面を開かず、いま書いている文書や入力欄の「その場」で AI が部分補助する型",
+          aiRole: "🤖 AI の絡み方：ユーザーが選択した文章と周囲の文脈だけを裏で AI に渡し、言い換え・要約・翻訳の「差分案」だけをその場に表示します。採用するかは人間が決めます。"
+        },
+        hybrid: {
+          oneLine: "🎚️ 4. Tuners ＋ Hybrid：スライダーや選択ボタンで 8 割の条件を決め、細かいこだわりだけ一言で AI へ渡す融合型",
+          aiRole: "🤖 AI の絡み方：左のスライダーやボタンの値が裏側で AI への条件（プロンプト設定）に自動変換され、右のプレビュー文を AI が生成・再調整します。人間が毎回プロンプトを書かずに済むのが強みです。"
+        },
+        ambient: {
+          oneLine: "🌫️ 5. Ambient / Invisible ML：チャット欄も AI ボタンも出さず、後ろ側で AI が静かに予測補完・自動分類する型",
+          aiRole: "🤖 AI の絡み方：はい、まさに「後ろ側で AI（機械学習／LLM）が動くパターン」です！ユーザーが普通にメールを書いている入力内容や件名を裏で AI が読み取り、続きの文章（ゴーストテキスト）やカテゴリ・規定違反チェックを先回り提案します。"
+        },
+        genui: {
+          oneLine: "🧩 6. Generative UI：普通のチャット／検索バーに自由入力すると、AI が文字の代わりに「グラフ・予約フォーム・カード」といった UI 部品そのものを返答の中に生成する型",
+          aiRole: "🤖 出発点とルールベースの違い：出発点は「普通の検索・チャット入力」です。従来のアプリは開発者が全画面を固定で作りますが、Generative UI はユーザーの自由入力を AI が解釈し、『数値比較だから棒グラフ部品』『予約したいからフォーム部品』と返答の中に最適な UI を動的に組み立てます。"
+        },
+        agentic: {
+          oneLine: "🤖 7. Agentic Workspace：チャットで大きなゴールを 1 回頼むと、AI が自分で計画を立てて複数ステップを自律実行し、危ない操作前だけ人間に承認を求める型",
+          aiRole: "🤖 出発点と AI の絡み方：出発点は「常連客120名に春のクーポンを案内して」という 1 回の大まかな依頼です。これを契機に AI が「DB検索 → 下書き作成 → 外部送信 → ログ記録」の計画を自動作成して進め、外部送信（Step 3）の直前で一時停止して人間へ承認を求めます。"
+        }
+      };
+
+      function renderBrief(key) {
+        const d = patBriefData[key];
+        patBrief.innerHTML =
+          '<div class="pat-brief-line1">' + esc(d.oneLine) + '</div>' +
+          '<div class="pat-brief-line2">' + esc(d.aiRole) + '</div>' +
+          '<div class="pat-brief-mock">🧪 ※ この画面はブラウザだけでオフライン体験できる「UI モック（再現サンプル）」のため、実際の AI API 通信は行わず、あらかじめ用意した応答パターンで動作を再現しています。</div>';
+      }
+
+      function makeCopy(toneVal, lenKey, targetKey, extraNote) {
+        const t = Number(toneVal);
+        const prefix = targetKey === "biz" ? "仕事の合間のリフレッシュに。" :
+                       targetKey === "fam" ? "ご家族みんなで楽しめる優しい味わい。" :
+                       "自分へのちょっとしたご褒美に。";
+        let body = t < 35
+          ? "京都産一番茶を丁寧に点てた、香り高い「春の宇治抹茶ラテ」をご用意いたしました。"
+          : t < 70
+          ? "春限定の「宇治抹茶ラテ」が新登場！香り豊かな抹茶とまろやかミルクがほっと溶け合います。"
+          : "抹茶好きさん集合〜！ふわっと香る『春の宇治抹茶ラテ』、今だけの幸せな一杯です🍵✨";
+        if (lenKey === "short") {
+          body = t < 35 ? "香り豊かな「春の宇治抹茶ラテ」、期間限定でご用意いたしました。" :
+                 t < 70 ? "春限定「宇治抹茶ラテ」新登場！まろやかミルクでほっと一息。" :
+                          "今だけ！ふわっと香る『春の宇治抹茶ラテ』🍵✨";
+        } else if (lenKey === "long") {
+          body = prefix + " " + body + " 季節限定の今だけ、店内でもテイクアウトでもお楽しみいただけます。";
+        } else {
+          body = prefix + " " + body;
+        }
+        return extraNote ? body + " " + extraNote : body;
+      }
+
+      /* ----- 1. Conversational / Chat（本格チャットアプリ） ----- */
+      let chatThreads = [
+        { title: "春の抹茶ラテ企画", msgs: [
+          { role: "ai", text: "こんにちは！Kame Cafe 企画アシスタントです。新商品『春の宇治抹茶ラテ』について、アイデア出しや紹介文づくりを何でも相談してください。" }
+        ]},
+        { title: "秋の原価率チェック", msgs: [
+          { role: "user", text: "秋コースの原価率上限ルールを教えて" },
+          { role: "ai", text: "セット割引（-150円）を適用した後の売価に対して、原価率 35.0% 以下が採用基準です。" }
+        ]},
+        { title: "新人スタッフ接客マニュアル", msgs: [
+          { role: "ai", text: "アレルギー確認時の声かけ例を 3 パターン用意しました。どの場面から確認しますか？" }
+        ]}
+      ];
+      let activeThread = 0;
+
+      function renderChat() {
+        mockUrl.textContent = "https://chat.kame-cafe.jp/threads/" + (activeThread + 1);
+        mockSrc.textContent = "出典：NN/g・The Shape of AI";
+        const th = chatThreads[activeThread];
+
+        vp.innerHTML =
+          '<div class="m-chat-layout">' +
+            '<aside class="m-sidebar">' +
+              '<button type="button" class="m-side-new" id="mcNew">＋ 新しい相談をはじめる</button>' +
+              '<div style="font-size:10.5px;color:#94a3b8;padding:4px 6px;font-weight:700;">最近の履歴</div>' +
+              chatThreads.map((t, i) => '<div class="m-side-item' + (i === activeThread ? ' active' : '') + '" data-th="' + i + '">💬 ' + esc(t.title) + '</div>').join("") +
+              '<div style="margin-top:auto;padding-top:10px;border-top:1px solid #1e293b;font-size:11.5px;color:#94a3b8;">👤 店長（ログイン中）</div>' +
+            '</aside>' +
+            '<div class="m-chat-main">' +
+              '<div class="app-topbar">' +
+                '<div class="app-logo"><span class="app-logo-mark" style="background:#0f766e;">🤖</span><span>Kame-AI Chat</span><span class="app-pill">モデル：Kame-Pro</span></div>' +
+                '<span class="app-pill">参照：商品マスタ接続中</span>' +
+              '</div>' +
+              '<div class="m-chat-stream" id="mcStream">' +
+                th.msgs.map((m, idx) =>
+                  '<div class="m-msg-row ' + m.role + '">' +
+                    '<div class="m-avatar ' + m.role + '">' + (m.role === "ai" ? "🤖" : "店") + '</div>' +
+                    '<div class="m-bubble">' + esc(m.text) +
+                      (m.role === "ai" ? '<div class="m-msg-actions"><button type="button" class="m-micro-btn" data-fb="copy" data-idx="' + idx + '">📋 コピー</button><button type="button" class="m-micro-btn" data-fb="good" data-idx="' + idx + '">👍 良い</button><button type="button" class="m-micro-btn" data-fb="bad" data-idx="' + idx + '">👎 いまいち</button></div>' : '') +
+                    '</div>' +
+                  '</div>'
+                ).join("") +
+              '</div>' +
+              '<div class="m-chat-dock">' +
+                '<div class="m-chip-bar">' +
+                  '<button type="button" class="m-chip" data-chip="20代女性向けにSNS風で紹介文を作って">💡 20代女性向けSNS風</button>' +
+                  '<button type="button" class="m-chip" data-chip="丁寧で上品な敬語で紹介文を作って">💡 丁寧な敬語で</button>' +
+                  '<button type="button" class="m-chip" data-chip="店頭ボード用の30文字キャッチコピー案を">💡 30文字キャッチコピー</button>' +
+                '</div>' +
+                '<div class="m-composer">' +
+                  '<input type="text" id="mcInput" placeholder="Kame-AI に相談内容を入力（例：甘さ控えめな点を強調して）..." />' +
+                  '<button type="button" class="app-btn primary" id="mcSend">送信 ▶</button>' +
+                '</div>' +
+              '</div>' +
+            '</div>' +
+          '</div>';
+
+        const stream = document.getElementById("mcStream");
+        stream.scrollTop = stream.scrollHeight;
+
+        vp.querySelectorAll("[data-th]").forEach(el => el.addEventListener("click", () => {
+          activeThread = Number(el.getAttribute("data-th")); beep(480, 0.06); renderChat();
+        }));
+        document.getElementById("mcNew").addEventListener("click", () => {
+          chatThreads.unshift({ title: "新しい相談 " + (chatThreads.length + 1), msgs: [{ role: "ai", text: "新しいチャットを開始しました。何について相談しますか？" }] });
+          activeThread = 0; beep(560, 0.07); renderChat();
+        });
+        vp.querySelectorAll("[data-fb]").forEach(b => b.addEventListener("click", () => {
+          const kind = b.getAttribute("data-fb");
+          b.textContent = kind === "copy" ? "✅ コピー済" : kind === "good" ? "👍 記録済" : "👎 改善に活用";
+          beep(600, 0.06);
+        }));
+
+        function send(text) {
+          const v = text.trim();
+          if (!v) return;
+          th.msgs.push({ role: "user", text: v });
+          const reply = v.includes("SNS") ? makeCopy(85, "mid", "young", "#春の宇治抹茶ラテ #カフェ巡り") :
+                        v.includes("丁寧") ? makeCopy(15, "long", "biz", "") :
+                        v.includes("30") ? makeCopy(55, "short", "young", "") :
+                        makeCopy(50, "mid", "young", "（「" + v + "」の視点もしっかり反映しました！）");
+          th.msgs.push({ role: "ai", text: reply });
+          beep(620, 0.08);
+          renderChat();
+        }
+        vp.querySelectorAll("[data-chip]").forEach(b => b.addEventListener("click", () => send(b.getAttribute("data-chip"))));
+        const inp = document.getElementById("mcInput");
+        document.getElementById("mcSend").addEventListener("click", () => send(inp.value));
+        inp.addEventListener("keydown", e => { if (e.key === "Enter") send(inp.value); });
+
+        demoMeta.innerHTML =
+          '<div><strong style="color:var(--emerald);">✅ 本物アプリでの使われ方</strong><br/>左に会話履歴サイドバー、下にお題チップ（Wayfinders）、各返答に 👍/👎（Explicit Feedback）。毎回テーマが変わる自由相談に最適。</div>' +
+          '<div><strong style="color:var(--amber);">⚠️ NN/g の警告（Conversation Trap）</strong><br/>定型業務まで全部チャットにすると毎回文章を打つ負担が増えます。右の 2〜7 パターンと見比べてください。</div>';
+        s1Takeaway.innerHTML = '<span class="takeaway-head">💡 観察ポイント</span>左サイドバーのスレッド切替や、返答下の「コピー・👍/👎」まで本物のチャット AI 画面の構造です。次は右側に成果物を固定する「2. Canvas」を見てみましょう！';
+      }
+
+      /* ----- 2. Canvas / Artifact Workspace（本格2ペインエディタ） ----- */
+      let cHist = [{
+        headline: "春限定・宇治抹茶ラテ新登場！",
+        body: "京都産一番茶の豊かな香りと、まろやかなミルクがほっと溶け合う季節限定の一杯です。",
+        price: "¥580（税込）"
+      }];
+      let cMsgs = [
+        { role: "user", text: "春の宇治抹茶ラテ（580円）の店頭POPの初期案を作って" },
+        { role: "ai", text: "右の Canvas に第 1 版を作成しました！直したい点があれば、下のチャット欄から話しかけてください。" }
+      ];
+      let cEditMode = false;
+      let cBlank = false;
+
+      function renderCanvas() {
+        mockUrl.textContent = "https://studio.kame-cafe.jp/canvas/matcha-pop";
+        mockSrc.textContent = "出典：NN/g・Canvas / Artifacts";
+        const cur = cHist[cHist.length - 1];
+
+        const chatStreamHtml = cBlank
+          ? '<div class="m-msg-row ai"><div class="m-avatar ai">🤖</div><div class="m-bubble">こんにちは！何の成果物を作りましょうか？下のチャット欄から依頼すると、右側に Canvas が開いて初期案を作成します。</div></div>'
+          : cMsgs.map(m =>
+              '<div class="m-msg-row ' + m.role + '">' +
+                '<div class="m-avatar ' + m.role + '">' + (m.role === "ai" ? "🤖" : "店") + '</div>' +
+                '<div class="m-bubble" style="font-size:12.5px;padding:8px 11px;">' + esc(m.text) + '</div>' +
+              '</div>'
+            ).join("");
+
+        vp.innerHTML =
+          '<div class="app-topbar">' +
+            '<div class="app-logo"><span class="app-logo-mark" style="background:#15803d;">📑</span><span>Kame Canvas</span><span class="app-pill">春の宇治抹茶ラテ_店頭POP</span></div>' +
+            '<div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;">' +
+              '<span class="app-pill" style="background:#dcfce7;color:#166534;">' + (cBlank ? '未作成' : '第 ' + cHist.length + ' 版') + '</span>' +
+              '<button type="button" class="app-btn" id="cvRestart">' + (cBlank ? '✨ 初期案を生成する' : '🔄 初期案づくりから見る') + '</button>' +
+              '<button type="button" class="app-btn" id="cvUndo"' + (cBlank || cHist.length <= 1 ? ' disabled' : '') + '>↩ 1つ前に戻す</button>' +
+              '<button type="button" class="app-btn" id="cvMode"' + (cBlank ? ' disabled' : '') + '>' + (cEditMode ? '👁️ 完成プレビュー' : '✏️ 直接編集') + '</button>' +
+            '</div>' +
+          '</div>' +
+          '<div class="m-canvas-layout">' +
+            '<div class="m-canvas-left" style="padding:0;background:#ffffff;">' +
+              '<div style="padding:9px 12px;border-bottom:1px solid #e2e8f0;background:#f8fafc;font-size:12px;font-weight:800;color:#0f766e;">💬 左：AI とのチャット欄（会話履歴）</div>' +
+              '<div class="m-chat-stream" id="cvStream" style="padding:12px;max-height:245px;min-height:215px;gap:10px;">' + chatStreamHtml + '</div>' +
+              '<div class="m-chat-dock" style="padding:10px 12px;">' +
+                (cBlank
+                  ? '<button type="button" class="app-btn primary" id="cvGenFirst" style="width:100%;margin-bottom:8px;">💬 「春の抹茶ラテの店頭POPを作って」と送信 ▶</button>'
+                  : '<div class="m-chip-bar" style="margin-bottom:8px;">' +
+                      '<button type="button" class="m-chip" data-cm="polite">🎩 敬語に</button>' +
+                      '<button type="button" class="m-chip" data-cm="casual">🎉 SNS風に</button>' +
+                      '<button type="button" class="m-chip" data-cm="short">✂️ 短く</button>' +
+                      '<button type="button" class="m-chip" data-cm="set">🍰 割引追記</button>' +
+                    '</div>'
+                ) +
+                '<div class="m-composer">' +
+                  '<input type="text" id="cvInp" placeholder="' + (cBlank ? 'チャットで初期案を依頼...' : 'AI に修正をチャットで伝える...') + '" />' +
+                  '<button type="button" class="app-btn primary" id="cvSend">送信 ▶</button>' +
+                '</div>' +
+              '</div>' +
+            '</div>' +
+            '<div class="m-canvas-right">' +
+              '<div style="font-size:12px;font-weight:800;color:#475569;">📄 右：Canvas 成果物エリア（最新版が常に固定表示）</div>' +
+              (cBlank
+                ? '<div style="border:2px dashed #94a3b8;border-radius:16px;padding:44px 20px;text-align:center;color:#64748b;background:#ffffff;">' +
+                    '<div style="font-size:28px;margin-bottom:8px;">📑</div>' +
+                    '<strong>まだ Canvas は空っぽです</strong><br/>' +
+                    '<span style="font-size:12.5px;">左のチャット欄から「店頭POPを作って」と送信すると、ここに初期案（第 1 版）が生成されます！</span>' +
+                  '</div>'
+                : (cEditMode
+                  ? '<div style="background:#ffffff;padding:16px;border-radius:14px;border:1.5px solid #0f766e;">' +
+                      '<div class="ctrl-label"><span>見出しを手動修正</span></div>' +
+                      '<input type="text" id="cvEditH" class="txt-input" style="width:100%;margin-bottom:10px;" value="' + esc(cur.headline) + '" />' +
+                      '<div class="ctrl-label"><span>本文を手動修正（AIが95点→残り5点を人間が直す）</span></div>' +
+                      '<textarea id="cvEditB" class="txt-input" rows="4" style="width:100%;">' + esc(cur.body) + '</textarea>' +
+                      '<button type="button" class="app-btn primary" id="cvSaveEdit" style="margin-top:10px;">✅ 手動修正を反映</button>' +
+                    '</div>'
+                  : '<div class="m-pop-poster">' +
+                      '<span class="m-pop-ribbon">🌸 SEASONAL LIMITED — 春の期間限定</span>' +
+                      '<h3 style="margin:0 0 8px;font-size:20px;color:#14532d;line-height:1.35;">' + esc(cur.headline) + '</h3>' +
+                      '<p style="margin:0 0 14px;font-size:14px;color:#1e293b;line-height:1.8;">' + esc(cur.body) + '</p>' +
+                      '<div style="display:flex;align-items:center;justify-content:space-between;padding-top:12px;border-top:1.5px dashed #86efac;">' +
+                        '<span style="font-size:18px;font-weight:800;color:#15803d;">' + esc(cur.price) + '</span>' +
+                        '<span style="font-size:12px;color:#475569;">☕ Kame Cafe 店長おすすめ</span>' +
+                      '</div>' +
+                    '</div>'
+                )
+              ) +
+            '</div>' +
+          '</div>';
+
+        const cvStream = document.getElementById("cvStream");
+        if (cvStream) cvStream.scrollTop = cvStream.scrollHeight;
+
+        document.getElementById("cvRestart").addEventListener("click", () => {
+          cBlank = !cBlank; cEditMode = false; beep(520, 0.07); renderCanvas();
+        });
+        const genFirst = document.getElementById("cvGenFirst");
+        if (genFirst) genFirst.addEventListener("click", () => {
+          cBlank = false;
+          cHist = [cHist[0]];
+          cMsgs = [
+            { role: "user", text: "春の宇治抹茶ラテ（580円）の店頭POPの初期案を作って" },
+            { role: "ai", text: "右の Canvas に第 1 版を作成しました！直したい点があれば、下のチャット欄から話しかけてください。" }
+          ];
+          beep(660, 0.1); renderCanvas();
+        });
+
+        vp.querySelectorAll("[data-cm]").forEach(b => b.addEventListener("click", () => {
+          const k = b.getAttribute("data-cm");
+          const next = Object.assign({}, cur);
+          let uTxt = "", aTxt = "";
+          if (k === "polite") { uTxt = "ホテルのような上品な敬語へ直して"; next.headline = "京都産一番茶が香る、春の宇治抹茶ラテ"; next.body = makeCopy(15, "long", "biz", ""); aTxt = "右の POP を上品な敬語へ更新しました（第 " + (cHist.length + 1) + " 版）。"; }
+          if (k === "casual") { uTxt = "SNS映えする親しみやすい表現にして"; next.headline = "抹茶好きさん必見🍵 春の宇治抹茶ラテ！"; next.body = makeCopy(90, "mid", "young", ""); aTxt = "親しみやすく絵文字を添えました（第 " + (cHist.length + 1) + " 版）。"; }
+          if (k === "short") { uTxt = "遠くから読める超短文キャッチにして"; next.headline = "春だけの一杯、宇治抹茶ラテ。"; next.body = makeCopy(50, "short", "young", ""); aTxt = "店頭で一目で読める短文に整えました（第 " + (cHist.length + 1) + " 版）。"; }
+          if (k === "set") { uTxt = "モンブランセット割引（-150円）を追記して"; next.price = "単品 ¥580 ／ ケーキセット -¥150"; aTxt = "価格欄にセット割引（-150円）を追記しました（第 " + (cHist.length + 1) + " 版）。"; }
+          cHist.push(next);
+          cMsgs.push({ role: "user", text: uTxt }, { role: "ai", text: aTxt });
+          cEditMode = false; beep(620, 0.08); renderCanvas();
+        }));
+
+        const sendCustom = () => {
+          const v = document.getElementById("cvInp").value.trim();
+          if (!v) return;
+          if (cBlank) {
+            cBlank = false;
+            cHist = [{ headline: cur.headline, body: cur.body + " " + v, price: cur.price }];
+            cMsgs = [
+              { role: "user", text: v },
+              { role: "ai", text: "ご依頼をもとに、右の Canvas へ初期案（第 1 版）を作成しました！" }
+            ];
+          } else {
+            cHist.push({ headline: cur.headline, body: cur.body + " " + v, price: cur.price });
+            cMsgs.push(
+              { role: "user", text: v },
+              { role: "ai", text: "「" + v + "」を右の POP へ反映しました（第 " + cHist.length + " 版）。" }
+            );
+          }
+          cEditMode = false; beep(620, 0.08); renderCanvas();
+        };
+        document.getElementById("cvSend").addEventListener("click", sendCustom);
+        document.getElementById("cvInp").addEventListener("keydown", e => { if (e.key === "Enter") sendCustom(); });
+
+        const undoBtn = document.getElementById("cvUndo");
+        if (undoBtn) undoBtn.addEventListener("click", () => {
+          if (cHist.length > 1) {
+            cHist.pop();
+            cMsgs.push({ role: "ai", text: "↩ 1 つ前の第 " + cHist.length + " 版へ戻しました（Undo）。" });
+            beep(420, 0.08); renderCanvas();
+          }
+        });
+        document.getElementById("cvMode").addEventListener("click", () => { if (!cBlank) { cEditMode = !cEditMode; beep(500, 0.06); renderCanvas(); } });
+        const saveBtn = document.getElementById("cvSaveEdit");
+        if (saveBtn) saveBtn.addEventListener("click", () => {
+          cHist.push({ headline: document.getElementById("cvEditH").value, body: document.getElementById("cvEditB").value, price: cur.price });
+          cMsgs.push({ role: "ai", text: "✏️ 手動編集の内容を第 " + cHist.length + " 版として保存しました。" });
+          cEditMode = false; beep(660, 0.08); renderCanvas();
+        });
+
+        demoMeta.innerHTML =
+          '<div><strong style="color:var(--emerald);">✅ 初期案の出し方と流れ</strong><br/>左のチャット欄で普通に「○○を作って」と送る → 右に Canvas が開いて初期案（第1版）が出ます。その後の会話も左に積み上がり、右は常に最新版に更新されます。</div>' +
+          '<div><strong style="color:var(--amber);">⚠️ 設計のポイント</strong><br/>AI が 95 点の原稿を作ったあと、最後の 5 点を人間が「✏️ 直接編集」で直せる逃げ道があると満足度が跳ね上がります。</div>';
+        s1Takeaway.innerHTML = '<span class="takeaway-head">💡 観察ポイント</span>左のチャット欄で入力（または小チップをクリック）すると会話が吹き出しで積み上がり、右側の POP だけが最新に差し替わります！';
+      }
+
+      /* ----- 3. Inline / Contextual Assistance（Google Docs / Notion 風） ----- */
+      let docPara = "春の宇治抹茶ラテを発売します。京都の抹茶を使っていておいしいです。ぜひ飲んでください。";
+      let docProposal = null;
+
+      function renderInline() {
+        mockUrl.textContent = "https://docs.kame-cafe.jp/press-release/2026-spring";
+        mockSrc.textContent = "出典：NN/g・Apple HIG (Writing Tools)";
+
+        vp.innerHTML =
+          '<div class="app-topbar">' +
+            '<div class="app-logo"><span class="app-logo-mark" style="background:#2563eb;">📄</span><span>Kame Docs</span><span class="app-pill">春の新商品プレスリリース.doc</span></div>' +
+            '<div style="display:flex;gap:6px;"><span class="app-pill">自動保存済</span><button type="button" class="app-btn blue">共有</button></div>' +
+          '</div>' +
+          '<div class="m-doc-toolbar">' +
+            '<span class="m-doc-tb-btn">B</span><span class="m-doc-tb-btn">I</span><span class="m-doc-tb-btn">U</span>' +
+            '<span class="m-doc-tb-btn">見出し1 ▾</span><span class="m-doc-tb-btn">箇条書き</span>' +
+            '<span style="margin-left:auto;color:#0f766e;font-weight:700;">💡 チャット欄なし・選択テキストの真上に AI が出現</span>' +
+          '</div>' +
+          '<div class="m-doc-canvas">' +
+            '<div class="m-doc-page">' +
+              '<h3 style="margin:0 0 8px;font-size:18px;">【プレスリリース】季節限定ドリンク発売のお知らせ</h3>' +
+              '<p style="margin:0 0 12px;color:#475569;font-size:13px;">Kame Cafe 株式会社（2026年3月）— いつも当店をご利用いただきありがとうございます。</p>' +
+              '<div class="m-floating-ai">' +
+                '<span style="font-size:11.5px;font-weight:800;color:#2dd4bf;">✨ AI 書き換え：</span>' +
+                '<button type="button" class="m-float-btn" data-in="polite">🎩 プレス向け敬語</button>' +
+                '<button type="button" class="m-float-btn" data-in="vivid">🌸 シズル感UP</button>' +
+                '<button type="button" class="m-float-btn" data-in="short">✂️ 1行要約</button>' +
+                '<button type="button" class="m-float-btn" data-in="en">🌐 英訳</button>' +
+              '</div>' +
+              '<div class="m-selected-para">' +
+                '<div style="font-size:11px;font-weight:800;color:#1d4ed8;margin-bottom:3px;">選択中の段落</div>' +
+                '<div style="font-size:14px;">' + esc(docPara) + '</div>' +
+              '</div>' +
+              (docProposal ? (
+                '<div class="m-diff-box">' +
+                  '<div style="font-size:11.5px;font-weight:800;color:#0f766e;margin-bottom:4px;">✨ AI の書き換え提案（差分プレビュー）</div>' +
+                  '<div style="font-size:12.5px;color:#94a3b8;text-decoration:line-through;margin-bottom:4px;">' + esc(docPara) + '</div>' +
+                  '<div style="font-size:14px;font-weight:700;color:#0f172a;margin-bottom:10px;">' + esc(docProposal) + '</div>' +
+                  '<div style="display:flex;gap:8px;">' +
+                    '<button type="button" class="app-btn primary" id="inApply">✅ この文章に置き換える</button>' +
+                    '<button type="button" class="app-btn" id="inCancel">✕ キャンセル</button>' +
+                  '</div>' +
+                '</div>'
+              ) : '<div style="font-size:12.5px;color:#64748b;margin-top:8px;">👆 上の黒いフローティングバーを押すと、その場で差分プレビューが出ます。</div>') +
+            '</div>' +
+          '</div>';
+
+        vp.querySelectorAll("[data-in]").forEach(b => b.addEventListener("click", () => {
+          const k = b.getAttribute("data-in");
+          if (k === "polite") docProposal = "京都産の一番茶を贅沢に使用した季節限定メニュー「春の宇治抹茶ラテ」を発売いたします。香り高い本格抹茶の味わいをご堪能ください。";
+          if (k === "vivid") docProposal = "石臼挽きの宇治抹茶がふわっと香る、春だけの特別な一杯が登場！ほろ苦い抹茶とまろやかなミルクが溶け合う至福のひとときをお届けします。";
+          if (k === "short") docProposal = "京都産一番茶が香る、春限定「宇治抹茶ラテ」を新発売します。";
+          if (k === "en") docProposal = "Introducing our seasonal Spring Uji Matcha Latte, crafted with first-harvest Kyoto matcha and creamy milk.";
+          beep(600, 0.08); renderInline();
+        }));
+        const appBtn = document.getElementById("inApply");
+        if (appBtn) appBtn.addEventListener("click", () => { docPara = docProposal; docProposal = null; beep(680, 0.1); renderInline(); });
+        const canBtn = document.getElementById("inCancel");
+        if (canBtn) canBtn.addEventListener("click", () => { docProposal = null; beep(420, 0.07); renderInline(); });
+
+        demoMeta.innerHTML =
+          '<div><strong style="color:var(--emerald);">✅ 本物アプリでの使われ方</strong><br/>Word・Google Docs・Notion・Apple Writing Tools の王道。画面を切り替えず、<strong>選択した文章の真上</strong>で差分確認→置換できます。</div>' +
+          '<div><strong style="color:var(--amber);">⚠️ 設計のポイント</strong><br/>勝手に上書きせず「打ち消し線（旧）→ 提案（新）→ 置き換える／キャンセル」を出すと安心して使えます。</div>';
+        s1Takeaway.innerHTML = '<span class="takeaway-head">💡 観察ポイント</span>普段使っているエディタの操作感を一切壊さずに AI だけを添える——これが <strong>Inline / Contextual Assistance</strong> の真価です。';
+      }
+
+      /* ----- 4. Tuners / Structured Controls + Hybrid（Canva / スタジオ風） ----- */
+      let st = { target: "young", tone: 55, len: "mid", tags: true, note: "" };
+
+      function renderHybrid() {
+        mockUrl.textContent = "https://sns-studio.kame-cafe.jp/generator";
+        mockSrc.textContent = "出典：The Shape of AI (Tuners)・NN/g";
+        const body = makeCopy(st.tone, st.len, st.target, st.note);
+        const hash = st.tags ? "#春の宇治抹茶ラテ #KameCafe #期間限定" : "";
+
+        vp.innerHTML =
+          '<div class="app-topbar">' +
+            '<div class="app-logo"><span class="app-logo-mark" style="background:#7c3aed;">🎚️</span><span>Kame SNS スタジオ</span><span class="app-pill">Tuners ＋ 一言ハイブリッド</span></div>' +
+            '<button type="button" class="app-btn primary" id="stCopy">📋 投稿文をコピー</button>' +
+          '</div>' +
+          '<div class="m-studio-layout">' +
+            '<div class="m-studio-ctrl">' +
+              '<div class="ctrl-group">' +
+                '<div class="ctrl-label"><span>🎯 想定するお客さま</span></div>' +
+                '<div class="seg-row">' +
+                  '<button type="button" class="seg-btn' + (st.target === "young" ? ' active' : '') + '" data-st="young">20代女性</button>' +
+                  '<button type="button" class="seg-btn' + (st.target === "biz" ? ' active' : '') + '" data-st="biz">ビジネス</button>' +
+                  '<button type="button" class="seg-btn' + (st.target === "fam" ? ' active' : '') + '" data-st="fam">家族連れ</button>' +
+                '</div>' +
+              '</div>' +
+              '<div class="ctrl-group">' +
+                '<div class="ctrl-label"><span>🎚️ トーン（丁寧 ⇔ カジュアル）</span><span style="color:#0f766e;">' + (st.tone < 35 ? "🎩 丁寧" : st.tone < 70 ? "😊 標準" : "🎉 親しみ") + '</span></div>' +
+                '<input type="range" class="range-input" id="stTone" min="0" max="100" value="' + st.tone + '" />' +
+              '</div>' +
+              '<div class="ctrl-group">' +
+                '<div class="ctrl-label"><span>📏 文字ボリューム</span></div>' +
+                '<div class="seg-row">' +
+                  '<button type="button" class="seg-btn' + (st.len === "short" ? ' active' : '') + '" data-sl="short">短め</button>' +
+                  '<button type="button" class="seg-btn' + (st.len === "mid" ? ' active' : '') + '" data-sl="mid">ふつう</button>' +
+                  '<button type="button" class="seg-btn' + (st.len === "long" ? ' active' : '') + '" data-sl="long">長め</button>' +
+                '</div>' +
+              '</div>' +
+              '<div class="ctrl-group" style="display:flex;align-items:center;justify-content:space-between;padding:8px 10px;border-radius:8px;background:#f8fafc;border:1px solid #e2e8f0;">' +
+                '<span style="font-size:12.5px;font-weight:800;">#️⃣ ハッシュタグ自動付与</span>' +
+                '<button type="button" class="app-btn' + (st.tags ? ' primary' : '') + '" id="stTagToggle">' + (st.tags ? 'ON' : 'OFF') + '</button>' +
+              '</div>' +
+              '<div class="ctrl-group" style="margin-bottom:0;padding-top:10px;border-top:1px dashed #cbd5e1;">' +
+                '<div class="ctrl-label"><span>💬 今回だけの細かい注文（任意）</span></div>' +
+                '<div class="m-composer">' +
+                  '<input type="text" id="stNote" value="' + esc(st.note) + '" placeholder="例：甘さ控えめ！" />' +
+                  '<button type="button" class="app-btn primary" id="stApply">反映</button>' +
+                '</div>' +
+              '</div>' +
+            '</div>' +
+            '<div class="m-studio-stage">' +
+              '<div class="m-sns-card">' +
+                '<div class="m-sns-head"><span>🍵 kame_cafe_official</span><span style="color:#64748b;font-weight:700;">ライブプレビュー</span></div>' +
+                '<div class="m-sns-photo">' +
+                  '<span style="font-size:34px;">🍵</span>' +
+                  '<strong style="font-size:14px;margin-top:4px;">春の宇治抹茶ラテ — ¥580</strong>' +
+                '</div>' +
+                '<div class="m-sns-body">' +
+                  '<div style="margin-bottom:6px;font-size:15px;">❤️ 💬 📤</div>' +
+                  '<div><strong>kame_cafe_official</strong> ' + esc(body) + '</div>' +
+                  (hash ? '<div style="color:#2563eb;font-size:12px;margin-top:6px;font-weight:700;">' + esc(hash) + '</div>' : '') +
+                '</div>' +
+              '</div>' +
+            '</div>' +
+          '</div>';
+
+        vp.querySelectorAll("[data-st]").forEach(b => b.addEventListener("click", () => { st.target = b.getAttribute("data-st"); beep(520, 0.06); renderHybrid(); }));
+        vp.querySelectorAll("[data-sl]").forEach(b => b.addEventListener("click", () => { st.len = b.getAttribute("data-sl"); beep(520, 0.06); renderHybrid(); }));
+        document.getElementById("stTone").addEventListener("input", e => { st.tone = Number(e.target.value); renderHybrid(); });
+        document.getElementById("stTagToggle").addEventListener("click", () => { st.tags = !st.tags; beep(560, 0.06); renderHybrid(); });
+        document.getElementById("stApply").addEventListener("click", () => { st.note = document.getElementById("stNote").value.trim(); beep(620, 0.08); renderHybrid(); });
+        document.getElementById("stCopy").addEventListener("click", e => { e.target.textContent = "✅ コピーしました！"; beep(680, 0.08); setTimeout(() => { e.target.textContent = "📋 投稿文をコピー"; }, 1800); });
+
+        demoMeta.innerHTML =
+          '<div><strong style="color:var(--emerald);">✅ 本物アプリでの使われ方</strong><br/>左の <strong>Tuners（スライダー・セグメント・トグル）</strong> で 8 割を瞬時に決め、右の SNS 投稿プレビューを見ながら例外だけ一言で足せます。</div>' +
+          '<div><strong style="color:var(--amber);">⚠️ 業務アプリ最強の理由</strong><br/>プロンプトを書けない店舗スタッフでも 3 秒で安定した結果を出せ、しかも細かいこだわりも諦めずに済みます。</div>';
+        s1Takeaway.innerHTML = '<span class="takeaway-head">💡 観察ポイント</span>左のスライダーやトグルを動かしてみてください。右の Instagram 風プレビューが 0 秒で変わる気持ちよさが <strong>Tuners ＋ Hybrid</strong> の魅力です。';
+      }
+
+      /* ----- 5. Ambient / Invisible ML（Gmail 風＋予測補完＆自動タグ） ----- */
+      let ambOn = true;
+      let ambAccepted = false;
+
+      function renderAmbient() {
+        mockUrl.textContent = "https://mail.kame-cafe.jp/compose";
+        mockSrc.textContent = "出典：Apple HIG (Invisible / Proactive)・NN/g";
+
+        vp.innerHTML =
+          '<div class="app-topbar">' +
+            '<div class="app-logo"><span class="app-logo-mark" style="background:#0284c7;">✉️</span><span>Kame Mail</span><span class="app-pill">通常のメール作成画面（AIボタンなし）</span></div>' +
+            '<div style="display:flex;gap:8px;align-items:center;">' +
+              '<span style="font-size:12px;font-weight:700;color:#475569;">先回り予測 (Proactive):</span>' +
+              '<button type="button" class="app-btn' + (ambOn ? ' primary' : '') + '" id="ambToggle">' + (ambOn ? 'ON' : 'OFF') + '</button>' +
+            '</div>' +
+          '</div>' +
+          '<div class="m-mail-layout">' +
+            '<div class="m-mail-main">' +
+              '<div class="m-mail-row"><span class="lbl">宛先</span><span>常連会員グループ（120名）</span></div>' +
+              '<div class="m-mail-row"><span class="lbl">件名</span><strong>【春限定】宇治抹茶ラテ先行試飲のご案内</strong></div>' +
+              '<div class="m-ghost-editor">' +
+                '<div>いつも Kame Cafe をご愛顧いただきありがとうございます。</div>' +
+                '<div style="margin-top:8px;">3月1日より、春の限定ドリンク「宇治抹茶ラテ」を発売いたします。' +
+                (ambAccepted
+                  ? '<span style="color:#047857;font-weight:700;">会員様限定で 150円引きクーポンをご用意いたしましたので、ぜひこの機会にご賞味ください。</span>'
+                  : (ambOn
+                    ? '<span class="m-ghost-span">会員様限定で 150円引きクーポンをご用意いたしましたので、ぜひこの機会にご賞味ください。 [Tabで採用]</span>'
+                    : '<span style="color:#94a3b8;">| （先回り予測は OFF です。通常の入力のみ）</span>')) +
+                '</div>' +
+              '</div>' +
+              '<div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap;align-items:center;">' +
+                '<button type="button" class="app-btn primary" id="ambTab"' + (!ambOn ? ' disabled' : '') + '>' + (ambAccepted ? '↺ 入力前に戻す' : '⇥ Tab で予測補完を採用') + '</button>' +
+                '<button type="button" class="app-btn" id="ambEsc"' + (!ambOn ? ' disabled' : '') + '>✕ Esc で無視</button>' +
+              '</div>' +
+            '</div>' +
+            '<aside class="m-mail-side">' +
+              '<div style="font-size:12px;font-weight:800;color:#475569;margin-bottom:10px;">🌫️ 裏側で静かに動く処理<br/>（Invisible ML）</div>' +
+              '<div style="padding:10px;border-radius:10px;background:#ffffff;border:1px solid #e2e8f0;margin-bottom:8px;font-size:12px;">' +
+                '<div style="color:#64748b;font-weight:700;">自動カテゴリ分類</div>' +
+                '<span class="app-pill" style="display:inline-block;margin-top:4px;background:#ecfdf5;color:#047857;">🏷️ 季節プロモーション</span>' +
+              '</div>' +
+              '<div style="padding:10px;border-radius:10px;background:#ffffff;border:1px solid #e2e8f0;margin-bottom:8px;font-size:12px;">' +
+                '<div style="color:#64748b;font-weight:700;">送信前リスク検知</div>' +
+                '<div style="color:#047857;font-weight:700;margin-top:3px;">✅ 割引額 150円（規定内）</div>' +
+              '</div>' +
+              '<div style="font-size:11.5px;color:#64748b;line-height:1.55;">※ Apple HIG 原則：右上のスイッチでいつでも先回り予測を OFF にでき、Tab採用 / Esc無視 が Google PAIR の暗黙フィードバックになります。</div>' +
+            '</aside>' +
+          '</div>';
+
+        document.getElementById("ambToggle").addEventListener("click", () => { ambOn = !ambOn; if (!ambOn) ambAccepted = false; beep(500, 0.06); renderAmbient(); });
+        document.getElementById("ambTab").addEventListener("click", () => { ambAccepted = !ambAccepted; beep(640, 0.08); renderAmbient(); });
+        document.getElementById("ambEsc").addEventListener("click", () => { ambAccepted = false; beep(400, 0.06); renderAmbient(); });
+
+        demoMeta.innerHTML =
+          '<div><strong style="color:var(--emerald);">✅ 本物アプリでの使われ方</strong><br/>Gmail のスマート作成や写真アプリの自動整理のように、<strong>チャット欄も AI 起動ボタンも一切置かず</strong>、普段の作業に溶け込みます。</div>' +
+          '<div><strong style="color:var(--amber);">⚠️ Apple HIG の絶対ルール</strong><br/>頼んでいない先回り（Proactive）は外すと強いストレスになるため、右上の <strong>OFF 切替</strong> と <strong>Esc 即無視</strong> が必須です。</div>';
+        s1Takeaway.innerHTML = '<span class="takeaway-head">💡 観察ポイント</span>画面のどこにも「AI チャット」がありません。それでも入力補完・自動分類・リスク検知が静かに助けてくれるのが <strong>Ambient / Invisible ML</strong> です。';
+      }
+
+      /* ----- 6. Generative UI（チャット／検索入力が出発点 → 返答内にUI部品生成） ----- */
+      let genMode = "chart";
+      let genQuery = "秋コース3案の原価率を比較して";
+      let genPlainMode = false;
+      let genDate = "3月15日(日) 14:00";
+      let genPopTheme = "green";
+
+      function renderGenUI() {
+        mockUrl.textContent = "https://ask.kame-cafe.jp/chat-genui";
+        mockSrc.textContent = "出典：NN/g (Generative UI)・Google / Vercel";
+
+        let widgetHtml = "";
+        let plainText = "";
+        if (genMode === "chart") {
+          plainText = "【文字だけで返答した場合】\n・コース1（抹茶＋モンブラン）：原価480円÷割引後1,350円＝35.6%（基準35%超過・要見直し）\n・コース2（珈琲＋チーズケーキ）：33.2%（合格）\n・コース3（紅茶＋アップルパイ）：33.4%（合格）";
+          widgetHtml =
+            '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:6px;">' +
+              '<strong>📊 AI が返答内に生成した UI：原価率比較グラフ（基準 35.0%）</strong>' +
+              '<span class="app-pill" style="background:#fef2f2;color:#be123c;">コース1 要見直し</span>' +
+            '</div>' +
+            '<div style="display:flex;flex-direction:column;gap:9px;">' +
+              '<div><div style="display:flex;justify-content:space-between;font-size:12.5px;font-weight:700;"><span>コース1（抹茶＋モンブラン / 割引後 ¥1,350）</span><span style="color:#be123c;">35.6% ❌ 超過</span></div><div style="height:13px;border-radius:99px;background:#f1f5f9;overflow:hidden;margin-top:4px;"><div style="width:71.2%;height:100%;background:#be123c;"></div></div></div>' +
+              '<div><div style="display:flex;justify-content:space-between;font-size:12.5px;font-weight:700;"><span>コース2（珈琲＋チーズケーキ / 割引後 ¥1,100）</span><span style="color:#047857;">33.2% ✅ 合格</span></div><div style="height:13px;border-radius:99px;background:#f1f5f9;overflow:hidden;margin-top:4px;"><div style="width:66.4%;height:100%;background:#059669;"></div></div></div>' +
+              '<div><div style="display:flex;justify-content:space-between;font-size:12.5px;font-weight:700;"><span>コース3（紅茶＋アップルパイ / 割引後 ¥1,250）</span><span style="color:#047857;">33.4% ✅ 合格</span></div><div style="height:13px;border-radius:99px;background:#f1f5f9;overflow:hidden;margin-top:4px;"><div style="width:66.8%;height:100%;background:#059669;"></div></div></div>' +
+            '</div>';
+        } else if (genMode === "form") {
+          plainText = "【文字だけで返答した場合】\n試飲会の候補日は ①3月15日(日)14:00 ②3月16日(月)10:30 ③3月17日(火)16:00 です。ご希望の日時をもう一度チャットで返信してください。";
+          widgetHtml =
+            '<strong style="display:block;margin-bottom:10px;">📅 AI が返答内に生成した UI：そのまま押せる予約フォーム部品</strong>' +
+            '<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px;">' +
+              ['3月15日(日) 14:00', '3月16日(月) 10:30', '3月17日(火) 16:00'].map(d =>
+                '<button type="button" class="app-btn' + (genDate === d ? ' primary' : '') + '" data-gd="' + d + '">' + d + '</button>'
+              ).join("") +
+            '</div>' +
+            '<div style="display:flex;align-items:center;justify-content:space-between;padding:9px 12px;border-radius:10px;background:#f0fdfa;border:1px solid #99f6e4;flex-wrap:wrap;gap:8px;">' +
+              '<span style="font-size:12.5px;font-weight:700;">選択中：' + esc(genDate) + '</span>' +
+              '<button type="button" class="app-btn primary" id="gdBook">✅ この日時で予約確定</button>' +
+            '</div>' +
+            '<div id="gdMsg" style="margin-top:6px;font-size:12.5px;font-weight:700;color:#047857;"></div>';
+        } else {
+          plainText = "【文字だけで返答した場合】\n春の宇治抹茶ラテ（580円）の店頭POP案です。配色は緑・ピンク・ゴールドのいずれかがおすすめです。どの色にしますか？";
+          const bg = genPopTheme === "green" ? "linear-gradient(135deg,#ecfdf5,#d1fae5)" : genPopTheme === "pink" ? "linear-gradient(135deg,#fff1f2,#ffe4e6)" : "linear-gradient(135deg,#fffbeb,#fef3c7)";
+          widgetHtml =
+            '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:6px;">' +
+              '<strong>🎨 AI が返答内に生成した UI：配色切替つき店頭カード部品</strong>' +
+              '<div style="display:flex;gap:6px;">' +
+                '<button type="button" class="app-btn' + (genPopTheme === "green" ? ' primary' : '') + '" data-gt="green">🍵 抹茶</button>' +
+                '<button type="button" class="app-btn' + (genPopTheme === "pink" ? ' primary' : '') + '" data-gt="pink">🌸 桜</button>' +
+                '<button type="button" class="app-btn' + (genPopTheme === "gold" ? ' primary' : '') + '" data-gt="gold">✨ 上品</button>' +
+              '</div>' +
+            '</div>' +
+            '<div style="padding:16px;border-radius:12px;background:' + bg + ';border:1.5px solid #cbd5e1;text-align:center;">' +
+              '<div style="font-size:11.5px;font-weight:800;color:#475569;">KAME CAFE SPRING SPECIAL</div>' +
+              '<div style="font-size:18px;font-weight:800;margin:4px 0;">春の宇治抹茶ラテ ¥580</div>' +
+              '<div style="font-size:12.5px;color:#334155;">京都産一番茶 × まろやかミルク。今だけの特別な香り。</div>' +
+            '</div>';
+        }
+
+        const aiDecision = genMode === "chart"
+          ? "🤖 AI の判断：『比較・原価率（数値）』と解釈 → 文字だけでなく棒グラフ部品を返答内に生成"
+          : genMode === "form"
+          ? "🤖 AI の判断：『予約したい（選択操作が必要）』と解釈 → 押せる予約フォーム部品を返答内に生成"
+          : "🤖 AI の判断：『POPの色を比べたい』と解釈 → 色切替ボタン付きカード部品を返答内に生成";
+
+        vp.innerHTML =
+          '<div class="app-topbar">' +
+            '<div class="app-logo"><span class="app-logo-mark" style="background:#0f172a;">🧩</span><span>Kame Ask（出発点＝普通のチャット入力）</span></div>' +
+            '<button type="button" class="app-btn' + (genPlainMode ? ' primary' : '') + '" id="genCmpToggle">' + (genPlainMode ? '🧩 Generative UI に戻す' : '💬 普通のチャット（文字だけ）と比較') + '</button>' +
+          '</div>' +
+          '<div class="m-genui-wrap">' +
+            '<div style="background:#ffffff;padding:12px 14px;border-radius:12px;border:1.5px solid #cbd5e1;margin-bottom:14px;">' +
+              '<div style="font-size:11.5px;font-weight:800;color:#0f766e;margin-bottom:6px;">① 出発点：ユーザーは普通にチャット／検索欄へ入力して送信します</div>' +
+              '<div class="m-composer" style="margin-bottom:8px;">' +
+                '<input type="text" id="genInp" value="' + esc(genQuery) + '" placeholder="例：原価率を比較して / 試飲会を予約したい / POPの色を試したい" />' +
+                '<button type="button" class="app-btn primary" id="genSend">送信 ▶</button>' +
+              '</div>' +
+              '<div class="m-chip-bar" style="margin-bottom:0;">' +
+                '<span style="font-size:11px;color:#64748b;font-weight:700;align-self:center;">例文で試す：</span>' +
+                '<button type="button" class="m-chip" data-gq="chart">📊 秋コースの原価率を比較して</button>' +
+                '<button type="button" class="m-chip" data-gq="form">📅 試飲会の予約をしたい</button>' +
+                '<button type="button" class="m-chip" data-gq="card">🎨 店頭POPの色を比べたい</button>' +
+              '</div>' +
+            '</div>' +
+            '<div class="m-msg-row user" style="margin-bottom:10px;">' +
+              '<div class="m-avatar user">店</div>' +
+              '<div class="m-bubble" style="font-size:13px;padding:8px 12px;">' + esc(genQuery) + '</div>' +
+            '</div>' +
+            '<div class="m-msg-row ai">' +
+              '<div class="m-avatar ai">🤖</div>' +
+              '<div style="flex:1;min-width:0;">' +
+                (genPlainMode
+                  ? '<div class="m-bubble" style="max-width:100%;white-space:pre-line;background:#f1f5f9;border:1.5px dashed #94a3b8;">' + esc(plainText) + '</div>'
+                  : '<div style="padding:7px 11px;border-radius:9px;background:#eef2ff;border:1px solid #c7d2fe;font-size:11.5px;color:#312e81;font-weight:700;margin-bottom:8px;">' + esc(aiDecision) + '</div>' +
+                    '<div class="m-genui-card" style="margin-top:0;">' + widgetHtml + '</div>'
+                ) +
+              '</div>' +
+            '</div>' +
+          '</div>';
+
+        const runGenQuery = (text, forcedMode) => {
+          const v = text.trim();
+          if (!v) return;
+          genQuery = v;
+          if (forcedMode) {
+            genMode = forcedMode;
+          } else if (v.includes("予約") || v.includes("日程") || v.includes("試飲")) {
+            genMode = "form";
+          } else if (v.includes("POP") || v.includes("色") || v.includes("カード") || v.includes("デザイン")) {
+            genMode = "card";
+          } else {
+            genMode = "chart";
+          }
+          genPlainMode = false;
+          beep(580, 0.08);
+          renderGenUI();
+        };
+
+        document.getElementById("genSend").addEventListener("click", () => runGenQuery(document.getElementById("genInp").value));
+        document.getElementById("genInp").addEventListener("keydown", e => { if (e.key === "Enter") runGenQuery(e.target.value); });
+        vp.querySelectorAll("[data-gq]").forEach(b => b.addEventListener("click", () => {
+          const m = b.getAttribute("data-gq");
+          const q = m === "chart" ? "秋コース3案の原価率を比較して" : m === "form" ? "スタッフ試飲会の予約をしたい" : "新商品の店頭POPの色を比べたい";
+          runGenQuery(q, m);
+        }));
+        document.getElementById("genCmpToggle").addEventListener("click", () => { genPlainMode = !genPlainMode; beep(520, 0.07); renderGenUI(); });
+        vp.querySelectorAll("[data-gd]").forEach(b => b.addEventListener("click", () => { genDate = b.getAttribute("data-gd"); beep(500, 0.06); renderGenUI(); }));
+        const bookBtn = document.getElementById("gdBook");
+        if (bookBtn) bookBtn.addEventListener("click", () => { document.getElementById("gdMsg").textContent = "🎉 " + genDate + " で予約を登録しました！"; beep(680, 0.1); });
+        vp.querySelectorAll("[data-gt]").forEach(b => b.addEventListener("click", () => { genPopTheme = b.getAttribute("data-gt"); beep(520, 0.06); renderGenUI(); }));
+
+        demoMeta.innerHTML =
+          '<div><strong style="color:var(--emerald);">✅ 出発点（きっかけ）</strong><br/>普通のチャットや検索バーへ自然言語で入力するところから始まります。右上の「💬 普通のチャットと比較」を押すと、文字だけの返答との差が一目瞭然です！</div>' +
+          '<div><strong style="color:var(--amber);">⚠️ NN/g の指摘する注意点</strong><br/>毎回レイアウトが変わると混乱やアクセシビリティ崩れが起きるため、<strong>承認済みのデザインシステム部品カタログ</strong>から組み立てるのが鉄則です。</div>';
+        s1Takeaway.innerHTML = '<span class="takeaway-head">💡 観察ポイント</span>出発点は「普通の質問入力」！右上の「💬 普通のチャット（文字だけ）と比較」ボタンを押して見比べてみてください。';
+      }
+
+      /* ----- 7. Agentic / Multi-step Workspace（計画＆承認コンソール） ----- */
+      let agStage = 0; /* 0:待機, 1:Step3承認待ち, 2:修正済, 3:完了, 4:中止 */
+
+      function renderAgentic() {
+        mockUrl.textContent = "https://agent.kame-cafe.jp/runs/campaign-042";
+        mockSrc.textContent = "出典：Microsoft HAX (G1/G3/G7/G8)・Google PAIR";
+
+        const s1 = agStage >= 1 && agStage !== 4 ? "done" : "";
+        const s2 = agStage >= 1 && agStage !== 4 ? "done" : "";
+        const s3 = agStage === 1 || agStage === 2 ? "wait" : (agStage === 3 ? "done" : "");
+        const s4 = agStage === 3 ? "done" : "";
+
+        let rightHtml = "";
+        if (agStage === 0) {
+          rightHtml =
+            '<div style="background:#ffffff;padding:20px;border-radius:14px;border:1.5px solid #cbd5e1;">' +
+              '<strong style="font-size:15px;">📋 実行前の計画プレビュー（Microsoft HAX G1）</strong>' +
+              '<p style="font-size:13px;color:#475569;margin:8px 0 14px;">エージェントは 4 つのステップを自律実行します。外部メール送信（Step 3）の直前で必ず一時停止し、あなたの承認を待ちます。</p>' +
+              '<button type="button" class="app-btn primary" id="agStart">▶ エージェントの実行を開始</button>' +
+            '</div>';
+        } else if (agStage === 1 || agStage === 2) {
+          const fixed = agStage === 2;
+          rightHtml =
+            '<div style="background:#ffffff;padding:18px;border-radius:14px;border:2px solid ' + (fixed ? '#059669' : '#f59e0b') + ';">' +
+              '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:6px;">' +
+                '<strong style="color:' + (fixed ? '#047857' : '#b45309') + ';">' + (fixed ? '✅ 修正済み・送信承認待ち（Step 3）' : '⏸️ 一時停止：人間の承認が必要です（Step 3）') + '</strong>' +
+                '<span class="app-pill">宛先：常連客 120 名</span>' +
+              '</div>' +
+              '<div style="padding:12px;border-radius:10px;background:#f8fafc;border:1px solid #e2e8f0;font-size:13px;margin-bottom:12px;">' +
+                '<div><strong>件名：</strong>【春限定】宇治抹茶ラテ先行クーポンのお知らせ</div>' +
+                '<div style="margin-top:6px;"><strong>本文：</strong>今だけ ' +
+                (fixed ? '<strong style="color:#047857;">150円引き</strong>' : '<strong style="color:#be123c;text-decoration:underline;">500円引き（※AI が割引額を誤記！）</strong>') +
+                ' でご提供いたします！</div>' +
+              '</div>' +
+              '<div style="display:flex;gap:8px;flex-wrap:wrap;">' +
+                '<button type="button" class="app-btn" id="agFix">' + (fixed ? '↩ 修正を戻す (Undo)' : '✏️ 150円引きに手動修正') + '</button>' +
+                '<button type="button" class="app-btn primary" id="agApprove"' + (!fixed ? ' disabled' : '') + '>✅ 承認して 120 名へ送信</button>' +
+                '<button type="button" class="app-btn danger" id="agStop">🛑 実行を中止</button>' +
+              '</div>' +
+              (!fixed ? '<div style="margin-top:8px;font-size:12px;color:#b45309;font-weight:700;">※ 誤記を直してから承認ボタンが押せる安全設計です</div>' : '') +
+            '</div>';
+        } else if (agStage === 3) {
+          rightHtml =
+            '<div style="background:#ecfdf5;padding:20px;border-radius:14px;border:2px solid #059669;">' +
+              '<strong style="color:#047857;font-size:15px;">🎉 全 4 ステップが安全に完了しました！</strong>' +
+              '<p style="font-size:13px;color:#065f46;margin:8px 0 14px;">Step 3 で人間が割引額の誤記を見つけて直したおかげで、120 名へ正確な案内メールが送信されました。</p>' +
+              '<button type="button" class="app-btn" id="agReset">↺ 最初からもう一度試す</button>' +
+            '</div>';
+        } else {
+          rightHtml =
+            '<div style="background:#fff1f2;padding:20px;border-radius:14px;border:2px solid #be123c;">' +
+              '<strong style="color:#be123c;font-size:15px;">🛑 エージェントの実行を安全に中止しました（Microsoft HAX G7）</strong>' +
+              '<p style="font-size:13px;color:#9f1239;margin:8px 0 14px;">メールは 1 通も送信されていません。いつでも止められる安心感が重要です。</p>' +
+              '<button type="button" class="app-btn" id="agReset">↺ 最初からもう一度試す</button>' +
+            '</div>';
+        }
+
+        vp.innerHTML =
+          '<div class="app-topbar">' +
+            '<div class="app-logo"><span class="app-logo-mark" style="background:#b45309;">🤖</span><span>Kame Agent Console</span><span class="app-pill">Human-in-the-loop</span></div>' +
+            '<span class="app-pill">' + (agStage === 0 ? '待機中' : agStage === 3 ? '完了' : agStage === 4 ? '中止済' : '承認待ち') + '</span>' +
+          '</div>' +
+          '<div class="m-agent-layout">' +
+            '<aside class="m-agent-plan">' +
+              '<div style="padding:8px 10px;border-radius:9px;background:#1e293b;border:1px solid #475569;margin-bottom:12px;font-size:11.5px;">' +
+                '<div style="color:#38bdf8;font-weight:800;margin-bottom:2px;">🎯 出発点（あなたの最初の依頼）</div>' +
+                '<div>「常連客 120 名に春の抹茶ラテ 150円引きクーポンを案内して」</div>' +
+              '</div>' +
+              '<div style="font-size:11px;font-weight:800;color:#94a3b8;margin-bottom:8px;">AI が自動作成した実行計画</div>' +
+              '<div class="m-plan-step ' + s1 + '"><span>' + (s1 ? '✅' : '1️⃣') + '</span><div><strong>顧客DBから対象抽出</strong><div style="font-size:11px;color:#94a3b8;">常連会員 120 名を特定</div></div></div>' +
+              '<div class="m-plan-step ' + s2 + '"><span>' + (s2 ? '✅' : '2️⃣') + '</span><div><strong>案内メール下書き生成</strong><div style="font-size:11px;color:#94a3b8;">キャンペーン案を作成</div></div></div>' +
+              '<div class="m-plan-step ' + s3 + '"><span>' + (s3 === 'done' ? '✅' : s3 === 'wait' ? '⏸️' : '3️⃣') + '</span><div><strong>外部メール一斉送信</strong><div style="font-size:11px;color:#fbbf24;">🛡️ 人間の承認ゲート</div></div></div>' +
+              '<div class="m-plan-step ' + s4 + '"><span>' + (s4 ? '✅' : '4️⃣') + '</span><div><strong>実行ログを保存</strong><div style="font-size:11px;color:#94a3b8;">監査履歴に記録</div></div></div>' +
+            '</aside>' +
+            '<div class="m-agent-work">' + rightHtml + '</div>' +
+          '</div>';
+
+        const bStart = document.getElementById("agStart");
+        if (bStart) bStart.addEventListener("click", () => { agStage = 1; beep(580, 0.08); renderAgentic(); });
+        const bFix = document.getElementById("agFix");
+        if (bFix) bFix.addEventListener("click", () => { agStage = agStage === 2 ? 1 : 2; beep(620, 0.08); renderAgentic(); });
+        const bApp = document.getElementById("agApprove");
+        if (bApp) bApp.addEventListener("click", () => { agStage = 3; beep(700, 0.12); renderAgentic(); });
+        const bStop = document.getElementById("agStop");
+        if (bStop) bStop.addEventListener("click", () => { agStage = 4; beep(280, 0.12); renderAgentic(); });
+        const bReset = document.getElementById("agReset");
+        if (bReset) bReset.addEventListener("click", () => { agStage = 0; beep(460, 0.07); renderAgentic(); });
+
+        demoMeta.innerHTML =
+          '<div><strong style="color:var(--emerald);">✅ 本物アプリでの使われ方</strong><br/>左に「計画と進捗タイムライン」、右に「承認カード・手動修正・中止ボタン」。複数ステップを自律実行するエージェントの標準 UI です。</div>' +
+          '<div><strong style="color:var(--amber);">⚠️ Microsoft HAX（G3/G7/G8）準拠</strong><br/>外部送信や削除の直前で止める「承認ゲート」と、いつでも止められる「🛑 中止」で信頼を築きます。</div>';
+        s1Takeaway.innerHTML = '<span class="takeaway-head">💡 観察ポイント</span>「▶ 実行を開始」→ Step 3 で一時停止 → 誤記を直して承認！この一連の流れが <strong>Agentic Workspace</strong> のお手本です。';
+      }
+
+      const patRenderers = {
+        chat: renderChat, canvas: renderCanvas, inline: renderInline,
+        hybrid: renderHybrid, ambient: renderAmbient, genui: renderGenUI, agentic: renderAgentic
+      };
+      patBtns.forEach(b => b.addEventListener("click", () => {
+        patBtns.forEach(x => x.classList.remove("active"));
+        b.classList.add("active");
+        const k = b.getAttribute("data-pat");
+        renderBrief(k);
+        patRenderers[k]();
+        beep(520, 0.07);
+      }));
+      renderBrief("chat");
+      renderChat();
+
+      /* =================================================================
+         STEP 2：ポチポチ最適 UI 診断 ＆ AI 相談プロンプト自動生成
+      ================================================================= */
+      let wiz = { q1: "structured", q2: "beginner", q3: "yes" };
+      const wizResult = document.getElementById("wizResult");
+      const appMemo = document.getElementById("appMemo");
+      const promptPreview = document.getElementById("promptPreview");
+
+      const recMap = {
+        structured: {
+          main: "④ Tuners / Structured Controls ＋ Hybrid（調整つまみ＋一言ハイブリッド型）",
+          combo: "＋ ② Canvas（右プレビュー）",
+          why: "毎回決まった条件がある業務でチャット欄だけを出すと、NN/g が警告する『Conversation Trap（会話の罠）』に陥ります。スライダーや選択肢（The Shape of AI の Tuners）で 8 割を決め、例外だけ一言で足す構成が最も速くて安定します。"
+        },
+        doc: {
+          main: "② Canvas / Artifact Workspace（成果物並列型）",
+          combo: "＋ ③ Inline（選択部分の書き直し）",
+          why: "1 つの文書やコードを何度も磨く場面では、最新版が常に右側へ固定表示される Canvas 型が最適です。部分選択でサッと直せる Inline 補助と Undo を組み合わせると完成度が一気に上がります。"
+        },
+        existing: {
+          main: "③ Inline / Contextual Assistance（インライン・その場補助型）",
+          combo: "＋ ⑤ Ambient（入力予測）",
+          why: "すでに使い慣れた業務画面やフォームがあるなら、別チャット画面へ移動させる必要はありません。Apple HIG の Writing Tools や NN/g の Inline 型のように、いま操作している場所で直接補助する方が定着率が高くなります。"
+        },
+        explore: {
+          main: "① Conversational / Chat（会話・チャット型）",
+          combo: "＋ ⑥ Generative UI（比較表やカードを動的表示）",
+          why: "ゴールが決まっていない自由な相談や調査はチャット型が最も得意です。最初の一言で迷わないようお題チップ（Wayfinders）を置き、結果に応じて表やカードを返す Generative UI を足すと見やすくなります。"
+        },
+        auto: {
+          main: "⑤ Ambient / Invisible ML（アンビエント・不可視／先回り型）",
+          combo: "＋ すぐ無視・オフできる制御（Apple HIG 原則）",
+          why: "自動分類や予測補完など、ユーザーが AI を意識したくない場面には Apple HIG の Invisible ML / NN/g の Ambient UI が最適です。誤判定のストレスを防ぐため、1 クリックで元に戻せる逃げ道とオフ設定を必ず用意します。"
+        },
+        agent: {
+          main: "⑦ Agentic / Multi-step Workspace（計画＆承認ワークスペース型）",
+          combo: "＋ ⑥ Generative UI（進捗・差分カード）",
+          why: "AI が複数ステップを自律実行する場面では、Microsoft HAX（G1・G3・G7・G8）に基づき、実行前の計画提示・進捗タイムライン・途中停止ボタン・ロールバック機能を見える化することが信頼の鍵になります。"
+        }
+      };
+
+      const q1Labels = {
+        structured: "毎回決まった条件での作成・調整が 8 割＋少しの例外",
+        doc: "1 つの文書・コード・設計図を何度も磨き上げる",
+        existing: "既存フォームやエディタ内での素早い書き直し・要約",
+        explore: "毎回内容が違う相談・調査・アイデア出し",
+        auto: "ユーザーに意識させない自動分類・予測入力・異常検知",
+        agent: "調査→作成→外部連携など複数手順の自律実行"
+      };
+
+      function renderWiz() {
+        const rec = recMap[wiz.q1];
+        const guardNote = wiz.q3 === "yes"
+          ? "＋ 🛡️ 承認ゲート（Human-in-the-loop：送信・削除前の確認カード）"
+          : "＋ ↩ 1 クリック Undo（やり直し）";
+        const userNote = wiz.q2 === "beginner"
+          ? "利用者が AI 操作に慣れていないため、初期画面のお題チップ・おすすめ初期値・16px UD 文字が特に重要です。"
+          : "慣れた利用者向けなので、ショートカットや詳細ログの折りたたみ（Progressive Disclosure）を用意すると喜ばれます。";
+
+        wizResult.innerHTML =
+          '<div style="font-size:0.78rem;font-weight:800;color:var(--accent);margin-bottom:4px;">🎯 診断結果：おすすめ UI パターン</div>' +
+          '<strong style="display:block;font-size:1.06rem;margin-bottom:6px;">' + esc(rec.main) + '</strong>' +
+          '<div style="font-size:0.88rem;font-weight:800;color:var(--emerald);margin-bottom:8px;">おすすめの組み合わせ：' + esc(rec.combo + " " + guardNote) + '</div>' +
+          '<div style="font-size:0.9rem;color:var(--ink-sub);margin-bottom:6px;">' + esc(rec.why) + '</div>' +
+          '<div style="font-size:0.84rem;color:var(--ink-muted);">📌 ' + esc(userNote) + '</div>';
+
+        const memo = appMemo.value.trim() || "（ここに作りたいアプリの概要やワークスペースの目的を記入）";
+        promptPreview.textContent =
+`このワークスペースの構成（および ui-guide/00_ai-ui-patterns.md の一次情報ベース 7 パターン）を踏まえて、
+以下のアプリに最適な UI 設計を提案してください。
+
+【作りたいアプリの概要】
+- 内容：${memo}
+- 作業の性質：${q1Labels[wiz.q1]}
+- 主な利用者：${wiz.q2 === "beginner" ? "AI 操作に慣れていない現場スタッフ・一般利用者" : "普段から業務ツールや AI を使い慣れている利用者"}
+- やり直せない操作（送信・削除・確定等）：${wiz.q3 === "yes" ? "あり（承認ゲート Human-in-the-loop 必須）" : "なし（下書き・閲覧中心、Undo 重視）"}
+
+【お願いしたいこと】
+1. 一次情報に基づく 7 つの AI UI パターン（Chat / Canvas / Inline / Tuners＋Hybrid / Ambient・Invisible / Generative UI / Agentic Workspace）の中から、単体または組み合わせで最適な案を 2〜3 案比較してください。
+2. おすすめ第 1 案と、あえて他案を採らない理由を Google PAIR / Apple HIG / Microsoft HAX / NN/g の観点で説明してください。
+3. 画面レイアウトのシンプルなテキスト図（「選ぶ」と「動かす」の分離・視線誘導）と、親切なエラー表示・UD 文字・WCAG AA（4.5:1）配慮のポイントも添えてください。`;
+      }
+
+      document.querySelectorAll("#wizQ1 .sel-btn").forEach(b => b.addEventListener("click", () => {
+        document.querySelectorAll("#wizQ1 .sel-btn").forEach(x => x.classList.remove("active"));
+        b.classList.add("active"); wiz.q1 = b.getAttribute("data-q1"); renderWiz(); beep(540, 0.06);
+      }));
+      document.querySelectorAll("#wizQ2 .sel-btn").forEach(b => b.addEventListener("click", () => {
+        document.querySelectorAll("#wizQ2 .sel-btn").forEach(x => x.classList.remove("active"));
+        b.classList.add("active"); wiz.q2 = b.getAttribute("data-q2"); renderWiz(); beep(540, 0.06);
+      }));
+      document.querySelectorAll("#wizQ3 .sel-btn").forEach(b => b.addEventListener("click", () => {
+        document.querySelectorAll("#wizQ3 .sel-btn").forEach(x => x.classList.remove("active"));
+        b.classList.add("active"); wiz.q3 = b.getAttribute("data-q3"); renderWiz(); beep(540, 0.06);
+      }));
+      appMemo.addEventListener("input", renderWiz);
+
+      const copyBtn = document.getElementById("copyPromptBtn");
+      copyBtn.addEventListener("click", () => {
+        const txt = promptPreview.textContent;
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(txt).then(() => {
+            copyBtn.textContent = "✅ コピーしました！そのまま AI へ貼り付けできます";
+            beep(680, 0.1);
+            setTimeout(() => { copyBtn.textContent = "📋 このプロンプトをコピー"; }, 2200);
+          }).catch(() => { copyBtn.textContent = "📋 枠内を選択して Ctrl+C でコピーしてください"; });
+        } else {
+          copyBtn.textContent = "📋 枠内を選択して Ctrl+C でコピーしてください";
+        }
+      });
+      renderWiz();
+
+      /* =================================================================
+         STEP 3：悪い UI vs 良い UI
+      ================================================================= */
+      const uiBtns = document.querySelectorAll("[data-ui]");
+      const s3Stage = document.getElementById("s3Stage");
+      const s3Takeaway = document.getElementById("s3Takeaway");
+
+      function renderS3(mode) {
+        if (mode === "bad") {
+          s3Stage.innerHTML =
+            '<div class="bad-ui">' +
+              '<div id="badErr" style="color:#f87171;font-size:11px;min-height:16px;"></div>' +
+              '<div>クーポン会員登録フォーム（必須項目を入力してください。不正な値の場合エラーとなります）</div>' +
+              '<div style="margin-top:6px;">Email <input id="badMail" type="text" value="kame-cafe.jp" /></div>' +
+              '<div style="margin-top:6px;display:flex;gap:4px;">' +
+                '<button type="button" class="bad-btn" id="badSubmit">送信</button>' +
+                '<button type="button" class="bad-btn">リセット</button>' +
+                '<span class="bad-btn" style="cursor:default;">状態:未登録</span>' +
+              '</div>' +
+            '</div>';
+          document.getElementById("badSubmit").addEventListener("click", () => {
+            const v = document.getElementById("badMail").value;
+            document.getElementById("badErr").textContent = v.includes("@") ? "OK" : "Error 400: Invalid Input (field: email)";
+            if (!v.includes("@")) document.getElementById("badMail").value = "";
+            beep(240, 0.1);
+          });
+          s3Takeaway.innerHTML = '<span class="takeaway-head">😵 悪い UI の問題点</span>①文字が小さく薄いグレーで読めない ②押せるボタンと押せない表示が同じ見た目 ③冷たいエラー文が出て、入力文字まで消えてしまう！';
+        } else {
+          s3Stage.innerHTML =
+            '<div class="good-ui">' +
+              '<div style="font-weight:800;margin-bottom:4px;">🎁 春の新商品クーポンを受け取る</div>' +
+              '<div style="font-size:0.88rem;color:var(--ink-muted);margin-bottom:14px;">メールアドレスを登録すると、150円引きクーポンをお届けします。</div>' +
+              '<label for="goodMail" style="display:block;font-size:0.9rem;font-weight:800;margin-bottom:6px;">メールアドレス <span style="padding:2px 7px;border-radius:6px;background:var(--rose-soft);color:var(--rose);font-size:0.74rem;">必須</span></label>' +
+              '<input id="goodMail" class="txt-input" style="width:100%;" type="email" value="kame-cafe.jp" aria-describedby="goodMsg" />' +
+              '<div id="goodMsg" role="alert"></div>' +
+              '<div style="margin-top:14px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;">' +
+                '<button type="button" class="run-btn" id="goodSubmit">クーポンを申し込む ▶</button>' +
+                '<span style="font-size:0.82rem;color:var(--ink-muted);">※ いつでも1クリックで解除できます</span>' +
+              '</div>' +
+            '</div>';
+          document.getElementById("goodSubmit").addEventListener("click", () => {
+            const v = document.getElementById("goodMail").value.trim();
+            const msg = document.getElementById("goodMsg");
+            if (!v.includes("@")) {
+              msg.innerHTML = '<div class="field-err"><span>⚠️</span><div><strong>メールアドレスに「@」が含まれていません。</strong><br/><code>example@domain.com</code> のように「@」を入れて入力し直してください（入力内容は残しています）。</div></div>';
+              beep(300, 0.1);
+            } else {
+              msg.innerHTML = '<div class="field-ok"><span>✅</span><div><strong>登録を受け付けました！</strong> ' + esc(v) + ' 宛てにクーポンをお送りしました。</div></div>';
+              beep(680, 0.12);
+            }
+          });
+          s3Takeaway.innerHTML = '<span class="takeaway-head">✨ 良い UI の工夫</span>①本文 16px・UD フォント・高コントラスト ②押せる主ボタンだけがくっきり目立つ ③エラーが入力欄の直下に出て、アイコン＋3点セットで丁寧に案内します！';
+        }
+      }
+      uiBtns.forEach(b => b.addEventListener("click", () => {
+        uiBtns.forEach(x => x.classList.remove("active"));
+        b.classList.add("active");
+        renderS3(b.getAttribute("data-ui"));
+        beep(500, 0.07);
+      }));
+      renderS3("bad");
+
+      /* =================================================================
+         STEP 4：UD 文字・行間・WCAG コントラスト体感ラボ
+      ================================================================= */
+      const rngSize = document.getElementById("rngSize");
+      const rngLh = document.getElementById("rngLh");
+      const rngGray = document.getElementById("rngGray");
+      const lblSize = document.getElementById("lblSize");
+      const lblLh = document.getElementById("lblLh");
+      const lblContrast = document.getElementById("lblContrast");
+      const wcagBadge = document.getElementById("wcagBadge");
+      const readJudge = document.getElementById("readJudge");
+      const readPreview = document.getElementById("readPreview");
+
+      function relLum(v) {
+        const s = v / 255;
+        return s <= 0.03928 ? s / 12.92 : Math.pow((s + 0.055) / 1.055, 2.4);
+      }
+      function updateLab() {
+        const sz = Number(rngSize.value);
+        const lh = Number(rngLh.value);
+        const g = Number(rngGray.value);
+        const ratio = (1.0 + 0.05) / (relLum(g) + 0.05);
+        lblSize.textContent = sz + "px";
+        lblLh.textContent = lh.toFixed(1);
+        lblContrast.textContent = ratio.toFixed(1) + " : 1";
+        readPreview.style.fontSize = sz + "px";
+        readPreview.style.lineHeight = String(lh);
+        readPreview.style.color = "rgb(" + g + "," + g + "," + g + ")";
+        const ok = ratio >= 4.5;
+        wcagBadge.className = "wcag-pill " + (ok ? "pass" : "fail");
+        wcagBadge.textContent = ok
+          ? (ratio >= 7.0 ? "✅ WCAG AAA 合格（7.0:1 以上）" : "✅ WCAG AA 合格（4.5:1 以上）")
+          : "🚫 WCAG AA 不合格（4.5:1 未満）";
+        readJudge.textContent = !ok
+          ? "文字が薄すぎて、明るい場所やスマホでは読み取れません"
+          : (sz < 15 || lh < 1.5)
+          ? "色は合格ですが、文字サイズや行間が窮屈で目が疲れます"
+          : "とても読みやすく、ユニバーサルデザインに適した設定です！";
+      }
+      [rngSize, rngLh, rngGray].forEach(el => el.addEventListener("input", updateLab));
+      document.getElementById("presetBad").addEventListener("click", () => { rngSize.value = 12; rngLh.value = 1.2; rngGray.value = 175; updateLab(); beep(280, 0.09); });
+      document.getElementById("presetGood").addEventListener("click", () => { rngSize.value = 16; rngLh.value = 1.8; rngGray.value = 15; updateLab(); beep(640, 0.09); });
+      updateLab();
+
+      /* =================================================================
+         STEP 5：3問クイズ
+      ================================================================= */
+      document.querySelectorAll(".quiz-item").forEach(q => {
+        const ansIdx = Number(q.getAttribute("data-ans"));
+        const btns = q.querySelectorAll(".quiz-btn");
+        const exp = q.querySelector(".quiz-ans");
+        btns.forEach(b => b.addEventListener("click", () => {
+          const i = Number(b.getAttribute("data-i"));
+          btns.forEach(x => x.classList.remove("ok", "ng"));
+          if (i === ansIdx) { b.classList.add("ok"); exp.classList.add("show"); beep(680, 0.12); }
+          else { b.classList.add("ng"); beep(250, 0.1); }
+        }));
+      });
+    })();
+  </script>
+</body>
+</html>

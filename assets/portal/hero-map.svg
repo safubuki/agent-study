@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 210" role="img" aria-label="agent-study 学習マップ全体図：AIの仕組みから安全な運用、UI設計まで7つのテーマをつなぐ">
+  <defs>
+    <linearGradient id="heroBg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f8fafc"/>
+      <stop offset="50%" stop-color="#eff6ff"/>
+      <stop offset="100%" stop-color="#f0fdfa"/>
+    </linearGradient>
+    <marker id="hArr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#475569"/>
+    </marker>
+  </defs>
+  <rect width="760" height="210" rx="20" fill="url(#heroBg)" stroke="#cbd5e1" stroke-width="1.5"/>
+
+  <text x="380" y="30" text-anchor="middle" font-size="13.5" font-weight="700" fill="#0f172a" font-family="BIZ UDPGothic, sans-serif">🗺️ 7つの学びのつながり（どこから読んでも OK！気になる絵をクリック）</text>
+
+  <!-- グループ1：AI を動かす -->
+  <rect x="20" y="48" width="234" height="142" rx="14" fill="#ffffff" stroke="#93c5fd" stroke-width="2"/>
+  <rect x="32" y="56" width="124" height="22" rx="11" fill="#dbeafe"/>
+  <text x="94" y="71" text-anchor="middle" font-size="10.5" font-weight="700" fill="#1d4ed8" font-family="BIZ UDPGothic, sans-serif">① AI を賢く動かす</text>
+
+  <rect x="32" y="88" width="210" height="42" rx="10" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="44" y="106" font-size="11.5" font-weight="700" fill="#1e3a8a" font-family="BIZ UDPGothic, sans-serif">1. サブエージェント</text>
+  <text x="44" y="122" font-size="9.5" fill="#475569" font-family="BIZ UDPGothic, sans-serif">仕事を専門AIへ分担して速く正確に</text>
+
+  <rect x="32" y="138" width="210" height="42" rx="10" fill="#eef2ff" stroke="#4f46e5" stroke-width="1.5"/>
+  <text x="44" y="156" font-size="11.5" font-weight="700" fill="#312e81" font-family="BIZ UDPGothic, sans-serif">2. Copilot Fusion</text>
+  <text x="44" y="172" font-size="9.5" fill="#475569" font-family="BIZ UDPGothic, sans-serif">複数モデルが協調・批評して質を上げる</text>
+
+  <path d="M 256 118 L 274 118" fill="none" stroke="#475569" stroke-width="2.2" marker-end="url(#hArr)"/>
+
+  <!-- グループ2：守り・つなぎ・育てる -->
+  <rect x="280" y="48" width="236" height="142" rx="14" fill="#ffffff" stroke="#6ee7b7" stroke-width="2"/>
+  <rect x="292" y="56" width="154" height="22" rx="11" fill="#d1fae5"/>
+  <text x="369" y="71" text-anchor="middle" font-size="10.5" font-weight="700" fill="#047857" font-family="BIZ UDPGothic, sans-serif">② 守る・つなぐ・育てる</text>
+
+  <rect x="292" y="86" width="212" height="28" rx="8" fill="#ecfdf5" stroke="#059669" stroke-width="1.5"/>
+  <text x="302" y="104" font-size="10.5" font-weight="700" fill="#065f46" font-family="BIZ UDPGothic, sans-serif">3. フック：危険操作を自動ブロック</text>
+
+  <rect x="292" y="120" width="212" height="28" rx="8" fill="#f0f9ff" stroke="#0284c7" stroke-width="1.5"/>
+  <text x="302" y="138" font-size="10.5" font-weight="700" fill="#0c4a6e" font-family="BIZ UDPGothic, sans-serif">4. MCP：本物のDB・計算と接続</text>
+
+  <rect x="292" y="154" width="212" height="28" rx="8" fill="#f5f3ff" stroke="#7c3aed" stroke-width="1.5"/>
+  <text x="302" y="172" font-size="10.5" font-weight="700" fill="#5b21b6" font-family="BIZ UDPGothic, sans-serif">6. スキル：ルール階層と道具箱</text>
+
+  <path d="M 518 118 L 536 118" fill="none" stroke="#475569" stroke-width="2.2" marker-end="url(#hArr)"/>
+
+  <!-- グループ3：人に届ける設計 -->
+  <rect x="542" y="48" width="198" height="142" rx="14" fill="#ffffff" stroke="#5eead4" stroke-width="2"/>
+  <rect x="554" y="56" width="136" height="22" rx="11" fill="#ccfbf1"/>
+  <text x="622" y="71" text-anchor="middle" font-size="10.5" font-weight="700" fill="#0f766e" font-family="BIZ UDPGothic, sans-serif">③ 人に伝わる設計へ</text>
+
+  <rect x="554" y="88" width="174" height="42" rx="10" fill="#fffbeb" stroke="#d97706" stroke-width="1.5"/>
+  <text x="564" y="106" font-size="11" font-weight="700" fill="#92400e" font-family="BIZ UDPGothic, sans-serif">5. UML・要求図</text>
+  <text x="564" y="122" font-size="9" fill="#78350f" font-family="BIZ UDPGothic, sans-serif">要望を設計図まで整理</text>
+
+  <rect x="554" y="138" width="174" height="42" rx="10" fill="#f0fdfa" stroke="#0f766e" stroke-width="1.5"/>
+  <text x="564" y="156" font-size="11" font-weight="700" fill="#115e59" font-family="BIZ UDPGothic, sans-serif">7. AI・UI 設計</text>
+  <text x="564" y="172" font-size="9" fill="#0f766e" font-family="BIZ UDPGothic, sans-serif">迷わない画面とUD・配色</text>
+</svg>

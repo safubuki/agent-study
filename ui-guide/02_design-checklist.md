@@ -4,6 +4,8 @@
 
 > ポチポチ条件を選ぶだけでおすすめパターンを診断し、入力内容入りの AI 相談プロンプトを 1 クリックコピーできるツールは、[動的ガイド（interactive-guide.html）](interactive-guide.html) の STEP 2 に収録しています。
 
+![迷ったらここをたどる！最適 AI UI パターン選定フロー](assets/ui-09-selection-decision-flow.svg)
+
 ---
 
 ## 1. AI に「最適な UI パターン」を相談するためのプロンプト（コピペ用）

@@ -1,0 +1,85 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 840 440" role="img" aria-label="パターン1 Conversational Chat の本格画面イメージ：左履歴サイドバー・会話ストリーム・お題チップ・チャット入力欄">
+  <rect width="840" height="440" rx="18" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="1.5"/>
+
+  <!-- タイトル帯 -->
+  <text x="26" y="32" font-size="15" font-weight="800" fill="#0f172a" font-family="BIZ UDPGothic, sans-serif">① Conversational / Chat（会話・チャット型）の画面イメージ</text>
+  <rect x="648" y="14" width="168" height="24" rx="12" fill="#2563eb"/>
+  <text x="732" y="30" text-anchor="middle" font-size="10.5" font-weight="800" fill="#ffffff" font-family="BIZ UDPGothic, sans-serif">出典：NN/g・Shape of AI</text>
+
+  <!-- ブラウザウィンドウ枠 -->
+  <rect x="24" y="48" width="792" height="334" rx="14" fill="#ffffff" stroke="#94a3b8" stroke-width="1.8"/>
+  <!-- ブラウザヘッダー -->
+  <rect x="24" y="48" width="792" height="32" rx="14" fill="#e2e8f0"/>
+  <rect x="24" y="66" width="792" height="14" fill="#e2e8f0"/>
+  <circle cx="44" cy="64" r="5" fill="#ef4444"/>
+  <circle cx="60" cy="64" r="5" fill="#f59e0b"/>
+  <circle cx="76" cy="64" r="5" fill="#22c55e"/>
+  <rect x="96" y="54" width="380" height="20" rx="6" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="108" y="68" font-size="10.5" fill="#475569" font-family="Cascadia Code, monospace">🔒 https://chat.kame-cafe.jp/threads/1</text>
+
+  <!-- 左サイドバー（履歴） -->
+  <rect x="25" y="80" width="192" height="301" fill="#0f172a"/>
+  <rect x="39" y="96" width="164" height="32" rx="8" fill="#1e293b" stroke="#475569"/>
+  <text x="54" y="116" font-size="11.5" font-weight="800" fill="#f8fafc" font-family="BIZ UDPGothic, sans-serif">＋ 新しい相談をはじめる</text>
+  <text x="41" y="148" font-size="10" font-weight="700" fill="#94a3b8" font-family="BIZ UDPGothic, sans-serif">最近の履歴</text>
+  <rect x="39" y="156" width="164" height="30" rx="7" fill="#1d4ed8"/>
+  <text x="50" y="175" font-size="11" font-weight="700" fill="#ffffff" font-family="BIZ UDPGothic, sans-serif">💬 春の抹茶ラテ企画</text>
+  <text x="50" y="206" font-size="11" fill="#cbd5e1" font-family="BIZ UDPGothic, sans-serif">💬 秋の原価率チェック</text>
+  <text x="50" y="232" font-size="11" fill="#cbd5e1" font-family="BIZ UDPGothic, sans-serif">💬 新人接客マニュアル</text>
+  <line x1="39" y1="336" x2="203" y2="336" stroke="#334155"/>
+  <text x="44" y="360" font-size="11" fill="#94a3b8" font-family="BIZ UDPGothic, sans-serif">👤 店長（ログイン中）</text>
+
+  <!-- 右メインエリアヘッダー -->
+  <rect x="217" y="80" width="598" height="40" fill="#ffffff" stroke="#e2e8f0"/>
+  <rect x="232" y="89" width="24" height="22" rx="6" fill="#0f766e"/>
+  <text x="244" y="104" text-anchor="middle" font-size="12" font-family="sans-serif">🤖</text>
+  <text x="264" y="105" font-size="12.5" font-weight="800" fill="#0f172a" font-family="BIZ UDPGothic, sans-serif">Kame-AI Chat</text>
+  <rect x="366" y="90" width="108" height="20" rx="10" fill="#f1f5f9" stroke="#cbd5e1"/>
+  <text x="420" y="104" text-anchor="middle" font-size="10" font-weight="700" fill="#334155" font-family="BIZ UDPGothic, sans-serif">モデル：Kame-Pro</text>
+  <rect x="650" y="90" width="148" height="20" rx="10" fill="#ecfdf5" stroke="#6ee7b7"/>
+  <text x="724" y="104" text-anchor="middle" font-size="10" font-weight="700" fill="#047857" font-family="BIZ UDPGothic, sans-serif">参照：商品マスタ接続中</text>
+
+  <!-- 会話タイムライン -->
+  <circle cx="246" cy="146" r="14" fill="#0f766e"/>
+  <text x="246" y="151" text-anchor="middle" font-size="12" font-family="sans-serif">🤖</text>
+  <rect x="268" y="130" width="380" height="44" rx="12" fill="#f1f5f9" stroke="#e2e8f0"/>
+  <text x="282" y="149" font-size="11.5" fill="#0f172a" font-family="BIZ UDPGothic, sans-serif">こんにちは！新商品「春の宇治抹茶ラテ」の企画や紹介文を</text>
+  <text x="282" y="166" font-size="11.5" fill="#0f172a" font-family="BIZ UDPGothic, sans-serif">一緒に考えましょう。お題チップか自由入力でどうぞ。</text>
+
+  <!-- ユーザー吹き出し -->
+  <rect x="444" y="186" width="314" height="36" rx="12" fill="#2563eb"/>
+  <text x="458" y="209" font-size="11.5" font-weight="700" fill="#ffffff" font-family="BIZ UDPGothic, sans-serif">20代女性向けに、SNSで目を引く紹介文を作って！</text>
+  <circle cx="778" cy="204" r="14" fill="#1d4ed8"/>
+  <text x="778" y="209" text-anchor="middle" font-size="11" font-weight="800" fill="#ffffff" font-family="BIZ UDPGothic, sans-serif">店</text>
+
+  <!-- AI 返答吹き出し＋マイクロ操作 -->
+  <circle cx="246" cy="248" r="14" fill="#0f766e"/>
+  <text x="246" y="253" text-anchor="middle" font-size="12" font-family="sans-serif">🤖</text>
+  <rect x="268" y="232" width="440" height="66" rx="12" fill="#f1f5f9" stroke="#e2e8f0"/>
+  <text x="282" y="251" font-size="11.5" fill="#0f172a" font-family="BIZ UDPGothic, sans-serif">自分へのご褒美に🍵 ふわっと香る『春の宇治抹茶ラテ』が新登場！</text>
+  <text x="282" y="268" font-size="11" fill="#2563eb" font-weight="700" font-family="BIZ UDPGothic, sans-serif">#春の宇治抹茶ラテ #カフェ巡り</text>
+  <rect x="282" y="274" width="66" height="18" rx="5" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="315" y="287" text-anchor="middle" font-size="9.5" fill="#475569" font-family="BIZ UDPGothic, sans-serif">📋 コピー</text>
+  <rect x="354" y="274" width="46" height="18" rx="5" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="377" y="287" text-anchor="middle" font-size="9.5" fill="#475569" font-family="BIZ UDPGothic, sans-serif">👍 良</text>
+  <rect x="406" y="274" width="52" height="18" rx="5" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="432" y="287" text-anchor="middle" font-size="9.5" fill="#475569" font-family="BIZ UDPGothic, sans-serif">👎 改善</text>
+
+  <!-- 下部入力ドック（お題チップ＋送信欄） -->
+  <rect x="217" y="308" width="598" height="73" fill="#f8fafc" stroke="#e2e8f0"/>
+  <rect x="232" y="316" width="136" height="20" rx="10" fill="#f0fdfa" stroke="#5eead4"/>
+  <text x="300" y="330" text-anchor="middle" font-size="9.5" font-weight="700" fill="#0f766e" font-family="BIZ UDPGothic, sans-serif">💡 20代女性向けSNS風</text>
+  <rect x="376" y="316" width="106" height="20" rx="10" fill="#f0fdfa" stroke="#5eead4"/>
+  <text x="429" y="330" text-anchor="middle" font-size="9.5" font-weight="700" fill="#0f766e" font-family="BIZ UDPGothic, sans-serif">💡 丁寧な敬語で</text>
+  <rect x="490" y="316" width="128" height="20" rx="10" fill="#f0fdfa" stroke="#5eead4"/>
+  <text x="554" y="330" text-anchor="middle" font-size="9.5" font-weight="700" fill="#0f766e" font-family="BIZ UDPGothic, sans-serif">💡 30文字キャッチ案</text>
+
+  <rect x="232" y="342" width="490" height="32" rx="10" fill="#ffffff" stroke="#94a3b8" stroke-width="1.4"/>
+  <text x="246" y="362" font-size="11.5" fill="#64748b" font-family="BIZ UDPGothic, sans-serif">AI に相談内容を入力（例：甘さ控えめな点を強調して）...</text>
+  <rect x="730" y="342" width="70" height="32" rx="10" fill="#0f766e"/>
+  <text x="765" y="362" text-anchor="middle" font-size="11.5" font-weight="800" fill="#ffffff" font-family="BIZ UDPGothic, sans-serif">送信 ▶</text>
+
+  <!-- 下部ポイント解説帯 -->
+  <rect x="24" y="394" width="792" height="34" rx="10" fill="#ffffff" stroke="#bfdbfe" stroke-width="1.5"/>
+  <text x="40" y="415" font-size="10" font-weight="700" fill="#1e3a8a" font-family="BIZ UDPGothic, sans-serif">📌 ポイント：自由な相談に最強。白紙で手が止まらないよう「お題チップ（Wayfinders）」と返答下の「コピー・👍/👎」を添えるのが定番。</text>
+</svg>

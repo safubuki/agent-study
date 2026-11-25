@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 840 440" role="img" aria-label="パターン3 Inline Contextual Assistance の本格画面イメージ：文書エディタの選択段落の真上に浮くAIツールバーと差分プレビュー">
+  <rect width="840" height="440" rx="18" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="1.5"/>
+
+  <text x="26" y="32" font-size="15" font-weight="800" fill="#0f172a" font-family="BIZ UDPGothic, sans-serif">③ Inline / Contextual Assistance（その場補助型）の画面イメージ</text>
+  <rect x="576" y="14" width="240" height="24" rx="12" fill="#0284c7"/>
+  <text x="696" y="30" text-anchor="middle" font-size="9.5" font-weight="800" fill="#ffffff" font-family="BIZ UDPGothic, sans-serif">出典：NN/g・Apple HIG (Writing Tools)</text>
+
+  <!-- ブラウザウィンドウ -->
+  <rect x="24" y="48" width="792" height="334" rx="14" fill="#ffffff" stroke="#94a3b8" stroke-width="1.8"/>
+  <rect x="24" y="48" width="792" height="32" rx="14" fill="#e2e8f0"/>
+  <rect x="24" y="66" width="792" height="14" fill="#e2e8f0"/>
+  <circle cx="44" cy="64" r="5" fill="#ef4444"/>
+  <circle cx="60" cy="64" r="5" fill="#f59e0b"/>
+  <circle cx="76" cy="64" r="5" fill="#22c55e"/>
+  <rect x="96" y="54" width="390" height="20" rx="6" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="108" y="68" font-size="10.5" fill="#475569" font-family="Cascadia Code, monospace">🔒 https://docs.kame-cafe.jp/press-release/2026-spring</text>
+
+  <!-- 文書エディタヘッダー＆書式バー -->
+  <rect x="25" y="80" width="790" height="38" fill="#ffffff" stroke="#e2e8f0"/>
+  <rect x="38" y="88" width="22" height="22" rx="5" fill="#2563eb"/>
+  <text x="49" y="103" text-anchor="middle" font-size="12" font-family="sans-serif">📄</text>
+  <text x="68" y="104" font-size="12.5" font-weight="800" fill="#0f172a" font-family="BIZ UDPGothic, sans-serif">Kame Docs</text>
+  <rect x="150" y="89" width="190" height="20" rx="10" fill="#f1f5f9" stroke="#cbd5e1"/>
+  <text x="245" y="103" text-anchor="middle" font-size="10" font-weight="700" fill="#334155" font-family="BIZ UDPGothic, sans-serif">春の新商品プレスリリース.doc</text>
+  <rect x="742" y="87" width="58" height="24" rx="7" fill="#2563eb"/>
+  <text x="771" y="103" text-anchor="middle" font-size="10.5" font-weight="800" fill="#ffffff" font-family="BIZ UDPGothic, sans-serif">共有</text>
+
+  <rect x="25" y="118" width="790" height="30" fill="#f8fafc" stroke="#e2e8f0"/>
+  <rect x="38" y="123" width="24" height="20" rx="4" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="50" y="137" text-anchor="middle" font-size="10.5" font-weight="800" fill="#334155" font-family="sans-serif">B</text>
+  <rect x="68" y="123" width="24" height="20" rx="4" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="80" y="137" text-anchor="middle" font-size="10.5" font-style="italic" fill="#334155" font-family="serif">I</text>
+  <rect x="98" y="123" width="66" height="20" rx="4" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="131" y="137" text-anchor="middle" font-size="10" font-weight="700" fill="#334155" font-family="BIZ UDPGothic, sans-serif">見出し1 ▾</text>
+  <rect x="170" y="123" width="66" height="20" rx="4" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="203" y="137" text-anchor="middle" font-size="10" font-weight="700" fill="#334155" font-family="BIZ UDPGothic, sans-serif">箇条書き</text>
+  <text x="798" y="137" text-anchor="end" font-size="10.5" font-weight="800" fill="#0f766e" font-family="BIZ UDPGothic, sans-serif">💡 チャット欄なし・選択テキストの真上に AI が出現</text>
+
+  <!-- 紙面キャンバス -->
+  <rect x="25" y="148" width="790" height="233" fill="#e2e8f0"/>
+  <rect x="86" y="160" width="668" height="210" rx="10" fill="#ffffff" stroke="#cbd5e1"/>
+
+  <text x="114" y="188" font-size="15" font-weight="800" fill="#0f172a" font-family="BIZ UDPGothic, sans-serif">【プレスリリース】季節限定ドリンク発売のお知らせ</text>
+  <text x="114" y="208" font-size="11" fill="#64748b" font-family="BIZ UDPGothic, sans-serif">Kame Cafe 株式会社（2026年3月）— いつも当店をご利用いただきありがとうございます。</text>
+
+  <!-- 浮き上がる黒いフローティング AI バー -->
+  <rect x="114" y="218" width="446" height="32" rx="9" fill="#0f172a"/>
+  <text x="128" y="238" font-size="10.5" font-weight="800" fill="#2dd4bf" font-family="BIZ UDPGothic, sans-serif">② ✨ AI 書き換え：</text>
+  <rect x="236" y="224" width="102" height="20" rx="5" fill="#0f766e" stroke="#2dd4bf"/>
+  <text x="287" y="238" text-anchor="middle" font-size="9.5" font-weight="800" fill="#ffffff" font-family="BIZ UDPGothic, sans-serif">🎩 プレス向け敬語</text>
+  <rect x="344" y="224" width="76" height="20" rx="5" fill="#1e293b" stroke="#475569"/>
+  <text x="382" y="238" text-anchor="middle" font-size="9.5" fill="#f8fafc" font-family="BIZ UDPGothic, sans-serif">🌸 魅力UP</text>
+  <rect x="426" y="224" width="64" height="20" rx="5" fill="#1e293b" stroke="#475569"/>
+  <text x="458" y="238" text-anchor="middle" font-size="9.5" fill="#f8fafc" font-family="BIZ UDPGothic, sans-serif">✂️ 要約</text>
+  <rect x="496" y="224" width="56" height="20" rx="5" fill="#1e293b" stroke="#475569"/>
+  <text x="524" y="238" text-anchor="middle" font-size="9.5" fill="#f8fafc" font-family="BIZ UDPGothic, sans-serif">🌐 英訳</text>
+
+  <!-- 選択中の段落（出発点） -->
+  <rect x="114" y="256" width="612" height="36" rx="7" fill="#dbeafe" stroke="#2563eb" stroke-width="1.6"/>
+  <text x="126" y="271" font-size="9.5" font-weight="800" fill="#1d4ed8" font-family="BIZ UDPGothic, sans-serif">① ユーザーが選択した段落</text>
+  <text x="126" y="286" font-size="11.5" fill="#0f172a" font-family="BIZ UDPGothic, sans-serif">春の宇治抹茶ラテを発売します。京都の抹茶を使っていておいしいです。ぜひ飲んでください。</text>
+
+  <!-- 差分プレビュー箱 -->
+  <rect x="114" y="298" width="612" height="62" rx="9" fill="#f0fdfa" stroke="#0f766e" stroke-width="1.6"/>
+  <text x="126" y="314" font-size="10" font-weight="800" fill="#0f766e" font-family="BIZ UDPGothic, sans-serif">③ ✨ AI の書き換え提案（勝手に上書きせず、確認してから置換）</text>
+  <text x="126" y="332" font-size="11.5" font-weight="700" fill="#0f172a" font-family="BIZ UDPGothic, sans-serif">京都産の一番茶を贅沢に使用した季節限定「春の宇治抹茶ラテ」を発売いたします。</text>
+  <rect x="126" y="338" width="136" height="18" rx="5" fill="#0f766e"/>
+  <text x="194" y="351" text-anchor="middle" font-size="9.5" font-weight="800" fill="#ffffff" font-family="BIZ UDPGothic, sans-serif">✅ この文章に置き換える</text>
+  <rect x="270" y="338" width="84" height="18" rx="5" fill="#ffffff" stroke="#94a3b8"/>
+  <text x="312" y="351" text-anchor="middle" font-size="9.5" font-weight="700" fill="#475569" font-family="BIZ UDPGothic, sans-serif">✕ キャンセル</text>
+
+  <rect x="24" y="394" width="792" height="34" rx="10" fill="#ffffff" stroke="#7dd3fc" stroke-width="1.5"/>
+  <text x="40" y="415" font-size="11" font-weight="700" fill="#0c4a6e" font-family="BIZ UDPGothic, sans-serif">📌 ポイント：普段使っている文書エディタやフォームから別画面へ移動させず、「選択→浮くバー→差分確認→置換」で自然に助ける。</text>
+</svg>

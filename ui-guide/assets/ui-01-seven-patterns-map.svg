@@ -1,0 +1,97 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 840 370" role="img" aria-label="一次情報に基づくAI UI全7パターンの全体俯瞰マップ">
+  <defs>
+    <linearGradient id="gBg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f8fafc"/>
+      <stop offset="100%" stop-color="#f0fdfa"/>
+    </linearGradient>
+    <marker id="mArrL" viewBox="0 0 10 10" refX="2" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 10 1 L 0 5 L 10 9 z" fill="#0f766e"/>
+    </marker>
+    <marker id="mArrR" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#0f766e"/>
+    </marker>
+  </defs>
+
+  <rect width="840" height="370" rx="18" fill="url(#gBg)" stroke="#cbd5e1" stroke-width="1.5"/>
+
+  <!-- タイトル -->
+  <text x="420" y="34" text-anchor="middle" font-size="16" font-weight="800" fill="#0f172a" font-family="BIZ UDPGothic, Yu Gothic UI, sans-serif">一次情報に基づく AI アプリの UI パターン全体マップ（全 7 パターン）</text>
+  <text x="420" y="54" text-anchor="middle" font-size="11.5" fill="#475569" font-family="BIZ UDPGothic, Yu Gothic UI, sans-serif">出典：Nielsen Norman Group (NN/g) ／ Apple HIG ／ Google PAIR ／ Microsoft HAX Toolkit ／ The Shape of AI</text>
+
+  <!-- 上段：操作軸バー -->
+  <line x1="60" y1="80" x2="780" y2="80" stroke="#0f766e" stroke-width="2.5" marker-start="url(#mArrL)" marker-end="url(#mArrR)"/>
+  <rect x="46" y="67" width="186" height="24" rx="12" fill="#dbeafe" stroke="#2563eb" stroke-width="1.2"/>
+  <text x="139" y="83" text-anchor="middle" font-size="11" font-weight="800" fill="#1e40af" font-family="BIZ UDPGothic, sans-serif">人が言葉で細かく指示する</text>
+  <rect x="606" y="67" width="190" height="24" rx="12" fill="#ccfbf1" stroke="#0f766e" stroke-width="1.2"/>
+  <text x="701" y="83" text-anchor="middle" font-size="11" font-weight="800" fill="#115e59" font-family="BIZ UDPGothic, sans-serif">AI が文脈を読んで自然に動く</text>
+
+  <!-- 1段目：5つの基本インタラクション型 -->
+  <!-- 1. Chat -->
+  <rect x="24" y="106" width="148" height="122" rx="12" fill="#ffffff" stroke="#2563eb" stroke-width="2"/>
+  <rect x="24" y="106" width="148" height="28" rx="12" fill="#2563eb"/>
+  <rect x="24" y="122" width="148" height="12" fill="#2563eb"/>
+  <text x="98" y="125" text-anchor="middle" font-size="11.5" font-weight="800" fill="#ffffff" font-family="BIZ UDPGothic, sans-serif">① Chat（会話型）</text>
+  <text x="98" y="152" text-anchor="middle" font-size="10.5" font-weight="700" fill="#1e3a8a" font-family="BIZ UDPGothic, sans-serif">Conversational</text>
+  <text x="98" y="172" text-anchor="middle" font-size="10" fill="#334155" font-family="BIZ UDPGothic, sans-serif">対話タイムライン</text>
+  <text x="98" y="188" text-anchor="middle" font-size="10" fill="#334155" font-family="BIZ UDPGothic, sans-serif">自由な相談・探索</text>
+  <text x="98" y="216" text-anchor="middle" font-size="9" fill="#64748b" font-family="BIZ UDPGothic, sans-serif">NN/g・Shape of AI</text>
+
+  <!-- 2. Canvas -->
+  <rect x="184" y="106" width="148" height="122" rx="12" fill="#ffffff" stroke="#059669" stroke-width="2"/>
+  <rect x="184" y="106" width="148" height="28" rx="12" fill="#059669"/>
+  <rect x="184" y="122" width="148" height="12" fill="#059669"/>
+  <text x="258" y="125" text-anchor="middle" font-size="11.5" font-weight="800" fill="#ffffff" font-family="BIZ UDPGothic, sans-serif">② Canvas（並列型）</text>
+  <text x="258" y="152" text-anchor="middle" font-size="10.5" font-weight="700" fill="#065f46" font-family="BIZ UDPGothic, sans-serif">Artifact Workspace</text>
+  <text x="258" y="172" text-anchor="middle" font-size="10" fill="#334155" font-family="BIZ UDPGothic, sans-serif">左チャット＋右成果物</text>
+  <text x="258" y="188" text-anchor="middle" font-size="10" fill="#334155" font-family="BIZ UDPGothic, sans-serif">文書・コード反復編集</text>
+  <text x="258" y="216" text-anchor="middle" font-size="9" fill="#64748b" font-family="BIZ UDPGothic, sans-serif">NN/g・Canvas/Artifacts</text>
+
+  <!-- 3. Inline -->
+  <rect x="344" y="106" width="152" height="122" rx="12" fill="#ffffff" stroke="#0284c7" stroke-width="2"/>
+  <rect x="344" y="106" width="152" height="28" rx="12" fill="#0284c7"/>
+  <rect x="344" y="122" width="152" height="12" fill="#0284c7"/>
+  <text x="420" y="125" text-anchor="middle" font-size="11.5" font-weight="800" fill="#ffffff" font-family="BIZ UDPGothic, sans-serif">③ Inline（その場型）</text>
+  <text x="420" y="152" text-anchor="middle" font-size="10.5" font-weight="700" fill="#0c4a6e" font-family="BIZ UDPGothic, sans-serif">Contextual Assist</text>
+  <text x="420" y="172" text-anchor="middle" font-size="10" fill="#334155" font-family="BIZ UDPGothic, sans-serif">選択文の真上に浮く</text>
+  <text x="420" y="188" text-anchor="middle" font-size="10" fill="#334155" font-family="BIZ UDPGothic, sans-serif">既存エディタ内で補助</text>
+  <text x="420" y="216" text-anchor="middle" font-size="9" fill="#64748b" font-family="BIZ UDPGothic, sans-serif">NN/g・Apple HIG</text>
+
+  <!-- 4. Tuners + Hybrid -->
+  <rect x="508" y="106" width="148" height="122" rx="12" fill="#ffffff" stroke="#7c3aed" stroke-width="2"/>
+  <rect x="508" y="106" width="148" height="28" rx="12" fill="#7c3aed"/>
+  <rect x="508" y="122" width="148" height="12" fill="#7c3aed"/>
+  <text x="582" y="125" text-anchor="middle" font-size="11.5" font-weight="800" fill="#ffffff" font-family="BIZ UDPGothic, sans-serif">④ Tuners＋Hybrid</text>
+  <text x="582" y="152" text-anchor="middle" font-size="10.5" font-weight="700" fill="#5b21b6" font-family="BIZ UDPGothic, sans-serif">調整つまみ＋一言</text>
+  <text x="582" y="172" text-anchor="middle" font-size="10" fill="#334155" font-family="BIZ UDPGothic, sans-serif">スライダー・ボタンで</text>
+  <text x="582" y="188" text-anchor="middle" font-size="10" fill="#334155" font-family="BIZ UDPGothic, sans-serif">8割設定＋2割自由入力</text>
+  <text x="582" y="216" text-anchor="middle" font-size="9" fill="#64748b" font-family="BIZ UDPGothic, sans-serif">Shape of AI・NN/g</text>
+
+  <!-- 5. Ambient / Invisible -->
+  <rect x="668" y="106" width="148" height="122" rx="12" fill="#ffffff" stroke="#0f766e" stroke-width="2"/>
+  <rect x="668" y="106" width="148" height="28" rx="12" fill="#0f766e"/>
+  <rect x="668" y="122" width="148" height="12" fill="#0f766e"/>
+  <text x="742" y="125" text-anchor="middle" font-size="10.5" font-weight="800" fill="#ffffff" font-family="BIZ UDPGothic, sans-serif">⑤ Ambient / Invisible</text>
+  <text x="742" y="152" text-anchor="middle" font-size="10.5" font-weight="700" fill="#115e59" font-family="BIZ UDPGothic, sans-serif">不可視・先回り型</text>
+  <text x="742" y="172" text-anchor="middle" font-size="10" fill="#334155" font-family="BIZ UDPGothic, sans-serif">チャット欄・AIボタン無</text>
+  <text x="742" y="188" text-anchor="middle" font-size="10" fill="#334155" font-family="BIZ UDPGothic, sans-serif">予測補完・自動分類</text>
+  <text x="742" y="216" text-anchor="middle" font-size="9" fill="#64748b" font-family="BIZ UDPGothic, sans-serif">Apple HIG・NN/g</text>
+
+  <!-- 2段目：高度な動的出力＆自律実行の2型 -->
+  <text x="420" y="254" text-anchor="middle" font-size="11.5" font-weight="800" fill="#475569" font-family="BIZ UDPGothic, sans-serif">▼ さらに「UI部品そのものの生成」や「複数ステップ自律実行」を担う 2 パターン ▼</text>
+
+  <!-- 6. Generative UI -->
+  <rect x="24" y="268" width="388" height="84" rx="12" fill="#ffffff" stroke="#4f46e5" stroke-width="2"/>
+  <rect x="36" y="280" width="128" height="24" rx="8" fill="#eef2ff" stroke="#6366f1" stroke-width="1.2"/>
+  <text x="100" y="296" text-anchor="middle" font-size="10.5" font-weight="800" fill="#3730a3" font-family="BIZ UDPGothic, sans-serif">⑥ Generative UI</text>
+  <text x="174" y="296" font-size="10" font-weight="800" fill="#0f172a" font-family="BIZ UDPGothic, sans-serif">動的 UI 生成型（NN/g・Google / Vercel）</text>
+  <text x="38" y="322" font-size="9.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif">質問入力を起点に、AI が文字ではなく「グラフ・予約フォーム・カード」</text>
+  <text x="38" y="339" font-size="9.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif">といった操作できる UI 部品をカタログから動的生成して返す。</text>
+
+  <!-- 7. Agentic Workspace -->
+  <rect x="428" y="268" width="388" height="84" rx="12" fill="#ffffff" stroke="#b45309" stroke-width="2"/>
+  <rect x="440" y="280" width="144" height="24" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="1.2"/>
+  <text x="512" y="296" text-anchor="middle" font-size="10.5" font-weight="800" fill="#92400e" font-family="BIZ UDPGothic, sans-serif">⑦ Agentic Workspace</text>
+  <text x="594" y="296" font-size="10" font-weight="800" fill="#0f172a" font-family="BIZ UDPGothic, sans-serif">計画＆承認型（Microsoft HAX）</text>
+  <text x="442" y="322" font-size="9.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif">1回のゴール依頼から AI が複数手順を自律実行。左に計画・進捗を示し、</text>
+  <text x="442" y="339" font-size="9.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif">送信・削除の直前で停止して人間の承認（Human-in-the-loop）を得る。</text>
+</svg>

@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 840 350" role="img" aria-label="作りたいアプリから最適なAI UIパターンを選ぶための意思決定フローチャート">
+  <defs>
+    <marker id="dArr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#475569"/>
+    </marker>
+    <marker id="dArrG" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#0f766e"/>
+    </marker>
+  </defs>
+  <rect width="840" height="350" rx="18" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+  <text x="420" y="32" text-anchor="middle" font-size="15" font-weight="800" fill="#0f172a" font-family="BIZ UDPGothic, sans-serif">迷ったらここをたどる！最適 AI UI パターン選定フロー（組み合わせ推奨）</text>
+
+  <!-- スタート -->
+  <rect x="20" y="138" width="136" height="66" rx="14" fill="#0f172a"/>
+  <text x="88" y="165" text-anchor="middle" font-size="11.5" font-weight="800" fill="#ffffff" font-family="BIZ UDPGothic, sans-serif">🎯 スタート</text>
+  <text x="88" y="185" text-anchor="middle" font-size="9.5" fill="#cbd5e1" font-family="BIZ UDPGothic, sans-serif">お客さまの作業は？</text>
+
+  <!-- 5つの分岐線 -->
+  <path d="M 156 154 C 184 154, 184 74, 212 74" fill="none" stroke="#475569" stroke-width="2" marker-end="url(#dArr)"/>
+  <path d="M 156 162 C 184 162, 184 128, 212 128" fill="none" stroke="#475569" stroke-width="2" marker-end="url(#dArr)"/>
+  <path d="M 156 171 L 212 178" fill="none" stroke="#475569" stroke-width="2" marker-end="url(#dArr)"/>
+  <path d="M 156 180 C 184 180, 184 232, 212 232" fill="none" stroke="#475569" stroke-width="2" marker-end="url(#dArr)"/>
+  <path d="M 156 190 C 184 190, 184 286, 212 286" fill="none" stroke="#475569" stroke-width="2" marker-end="url(#dArr)"/>
+
+  <!-- 質問ノード5つ -->
+  <rect x="218" y="54" width="222" height="40" rx="10" fill="#ffffff" stroke="#7c3aed" stroke-width="1.8"/>
+  <text x="230" y="71" font-size="10" font-weight="800" fill="#5b21b6" font-family="BIZ UDPGothic, sans-serif">8割は定番条件＋少し例外あり</text>
+  <text x="230" y="86" font-size="9" fill="#64748b" font-family="BIZ UDPGothic, sans-serif">例：販促文・見積もり・条件検索</text>
+
+  <rect x="218" y="108" width="222" height="40" rx="10" fill="#ffffff" stroke="#059669" stroke-width="1.8"/>
+  <text x="230" y="125" font-size="10" font-weight="800" fill="#065f46" font-family="BIZ UDPGothic, sans-serif">1つの文書・コードを反復編集</text>
+  <text x="230" y="140" font-size="9" fill="#64748b" font-family="BIZ UDPGothic, sans-serif">例：記事・企画書・ソースコード</text>
+
+  <rect x="218" y="160" width="222" height="40" rx="10" fill="#ffffff" stroke="#0284c7" stroke-width="1.8"/>
+  <text x="230" y="177" font-size="10" font-weight="800" fill="#0c4a6e" font-family="BIZ UDPGothic, sans-serif">既存画面でサッと補助／裏で自動</text>
+  <text x="230" y="192" font-size="9" fill="#64748b" font-family="BIZ UDPGothic, sans-serif">例：言い換え・予測補完・自動分類</text>
+
+  <rect x="218" y="212" width="222" height="40" rx="10" fill="#ffffff" stroke="#2563eb" stroke-width="1.8"/>
+  <text x="230" y="229" font-size="10" font-weight="800" fill="#1e40af" font-family="BIZ UDPGothic, sans-serif">毎回違う自由相談・比較質問</text>
+  <text x="230" y="244" font-size="9" fill="#64748b" font-family="BIZ UDPGothic, sans-serif">例：調査・ブレスト・グラフ/予約</text>
+
+  <rect x="218" y="264" width="222" height="40" rx="10" fill="#ffffff" stroke="#b45309" stroke-width="1.8"/>
+  <text x="230" y="281" font-size="10" font-weight="800" fill="#92400e" font-family="BIZ UDPGothic, sans-serif">複数手順の自律実行・外部連携</text>
+  <text x="230" y="296" font-size="9" fill="#64748b" font-family="BIZ UDPGothic, sans-serif">例：検索→下書き→一斉送信</text>
+
+  <!-- おすすめ結果への矢印 -->
+  <path d="M 442 74 L 474 74" fill="none" stroke="#0f766e" stroke-width="2" marker-end="url(#dArrG)"/>
+  <path d="M 442 128 L 474 128" fill="none" stroke="#0f766e" stroke-width="2" marker-end="url(#dArrG)"/>
+  <path d="M 442 180 L 474 180" fill="none" stroke="#0f766e" stroke-width="2" marker-end="url(#dArrG)"/>
+  <path d="M 442 232 L 474 232" fill="none" stroke="#0f766e" stroke-width="2" marker-end="url(#dArrG)"/>
+  <path d="M 442 284 L 474 284" fill="none" stroke="#0f766e" stroke-width="2" marker-end="url(#dArrG)"/>
+
+  <!-- 推奨パターン（組み合わせ） -->
+  <rect x="480" y="54" width="338" height="40" rx="10" fill="#f5f3ff" stroke="#7c3aed" stroke-width="1.8"/>
+  <text x="492" y="72" font-size="10.5" font-weight="800" fill="#5b21b6" font-family="BIZ UDPGothic, sans-serif">④ Tuners＋Hybrid（＋② Canvas プレビュー）</text>
+  <text x="492" y="87" font-size="9" fill="#475569" font-family="BIZ UDPGothic, sans-serif">プロンプト不要で最速＆例外注文にも対応</text>
+
+  <rect x="480" y="108" width="338" height="40" rx="10" fill="#ecfdf5" stroke="#059669" stroke-width="1.8"/>
+  <text x="492" y="126" font-size="10.5" font-weight="800" fill="#065f46" font-family="BIZ UDPGothic, sans-serif">② Canvas / Artifact（＋③ Inline ＋ ↩ Undo）</text>
+  <text x="492" y="141" font-size="9" fill="#475569" font-family="BIZ UDPGothic, sans-serif">最新版を見失わず、最後の5点は人間が直接編集</text>
+
+  <rect x="480" y="160" width="338" height="40" rx="10" fill="#f0f9ff" stroke="#0284c7" stroke-width="1.8"/>
+  <text x="492" y="178" font-size="10.5" font-weight="800" fill="#0c4a6e" font-family="BIZ UDPGothic, sans-serif">③ Inline（能動） または ⑤ Ambient（高精度なら）</text>
+  <text x="492" y="193" font-size="9" fill="#475569" font-family="BIZ UDPGothic, sans-serif">既存操作を壊さない。先回り機能はOFF切替必須</text>
+
+  <rect x="480" y="212" width="338" height="40" rx="10" fill="#eff6ff" stroke="#2563eb" stroke-width="1.8"/>
+  <text x="492" y="230" font-size="10.5" font-weight="800" fill="#1e40af" font-family="BIZ UDPGothic, sans-serif">① Chat（＋お題チップ ＋ ⑥ Generative UI）</text>
+  <text x="492" y="245" font-size="9" fill="#475569" font-family="BIZ UDPGothic, sans-serif">質問に応じて文字だけでなく表・グラフ・フォームを返す</text>
+
+  <rect x="480" y="264" width="338" height="40" rx="10" fill="#fffbeb" stroke="#b45309" stroke-width="1.8"/>
+  <text x="492" y="282" font-size="10.5" font-weight="800" fill="#92400e" font-family="BIZ UDPGothic, sans-serif">⑦ Agentic Workspace（＋ 🛡️ 承認ゲート必須）</text>
+  <text x="492" y="297" font-size="9" fill="#475569" font-family="BIZ UDPGothic, sans-serif">計画表＋途中停止＋送信・削除前の人間承認</text>
+
+  <!-- 最下部共通バー -->
+  <rect x="20" y="316" width="798" height="24" rx="12" fill="#0f766e"/>
+  <text x="420" y="332" text-anchor="middle" font-size="10" font-weight="800" fill="#ffffff" font-family="BIZ UDPGothic, sans-serif">🛡️ どのパターンでも共通：やり直せない操作の前は承認ゲート ／ 本文 16px UD 文字 ／ WCAG AA (4.5:1) ／ 親切なエラー 3 点セット</text>
+</svg>

@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 840 275" role="img" aria-label="AI UI設計の根拠となる4大一次フレームワークの役割整理図">
+  <rect width="840" height="275" rx="18" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+  <text x="420" y="32" text-anchor="middle" font-size="15" font-weight="800" fill="#0f172a" font-family="BIZ UDPGothic, sans-serif">AI UI 設計の根拠となる 4 大一次フレームワーク（エビデンスの柱）</text>
+
+  <!-- 1. NN/g & Shape of AI -->
+  <rect x="20" y="50" width="192" height="202" rx="13" fill="#ffffff" stroke="#2563eb" stroke-width="2"/>
+  <rect x="20" y="50" width="192" height="34" rx="13" fill="#2563eb"/>
+  <rect x="20" y="70" width="192" height="14" fill="#2563eb"/>
+  <text x="116" y="72" text-anchor="middle" font-size="11" font-weight="800" fill="#ffffff" font-family="BIZ UDPGothic, sans-serif">NN/g &amp; Shape of AI</text>
+  <text x="32" y="106" font-size="10.5" font-weight="800" fill="#1e3a8a" font-family="BIZ UDPGothic, sans-serif">画面構造と部品分類</text>
+  <text x="32" y="128" font-size="9.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif">・Chat は万能ではない</text>
+  <text x="32" y="144" font-size="9.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif">　(Conversation Trap)</text>
+  <text x="32" y="166" font-size="9.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif">・Canvas / Inline /</text>
+  <text x="32" y="182" font-size="9.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif">　Ambient / GenUI 分類</text>
+  <text x="32" y="204" font-size="9.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif">・Wayfinders(お題) や</text>
+  <text x="32" y="220" font-size="9.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif">　Tuners(調整つまみ)</text>
+
+  <!-- 2. Apple HIG -->
+  <rect x="223" y="50" width="192" height="202" rx="13" fill="#ffffff" stroke="#0f766e" stroke-width="2"/>
+  <rect x="223" y="50" width="192" height="34" rx="13" fill="#0f766e"/>
+  <rect x="223" y="70" width="192" height="14" fill="#0f766e"/>
+  <text x="319" y="72" text-anchor="middle" font-size="11" font-weight="800" fill="#ffffff" font-family="BIZ UDPGothic, sans-serif">Apple HIG (ML)</text>
+  <text x="235" y="106" font-size="10.5" font-weight="800" fill="#115e59" font-family="BIZ UDPGothic, sans-serif">見え方と介入タイミング</text>
+  <text x="235" y="128" font-size="9.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif">・Visible（見える）vs</text>
+  <text x="235" y="144" font-size="9.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif">　Invisible（裏側不可視）</text>
+  <text x="235" y="166" font-size="9.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif">・Proactive（先回り）vs</text>
+  <text x="235" y="182" font-size="9.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif">　Reactive（応答）</text>
+  <text x="235" y="204" font-size="9.5" fill="#be123c" font-weight="700" font-family="BIZ UDPGothic, sans-serif">※ 先回りは誤答許容度が</text>
+  <text x="235" y="220" font-size="9.5" fill="#be123c" font-weight="700" font-family="BIZ UDPGothic, sans-serif">　極端に低い→OFF必須</text>
+
+  <!-- 3. Google PAIR -->
+  <rect x="426" y="50" width="192" height="202" rx="13" fill="#ffffff" stroke="#059669" stroke-width="2"/>
+  <rect x="426" y="50" width="192" height="34" rx="13" fill="#059669"/>
+  <rect x="426" y="70" width="192" height="14" fill="#059669"/>
+  <text x="522" y="72" text-anchor="middle" font-size="11" font-weight="800" fill="#ffffff" font-family="BIZ UDPGothic, sans-serif">Google PAIR Guidebook</text>
+  <text x="438" y="106" font-size="10.5" font-weight="800" fill="#065f46" font-family="BIZ UDPGothic, sans-serif">フィードバックと信頼設計</text>
+  <text x="438" y="128" font-size="9.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif">・Implicit（自然な行動）</text>
+  <text x="438" y="144" font-size="9.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif">　vs Explicit（👍/👎等）</text>
+  <text x="438" y="166" font-size="9.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif">・フィードバック疲れ防止</text>
+  <text x="438" y="182" font-size="9.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif">　（明示評価は要所だけ）</text>
+  <text x="438" y="204" font-size="9.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif">・根拠の提示とエラーから</text>
+  <text x="438" y="220" font-size="9.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif">　の優雅な回復設計</text>
+
+  <!-- 4. Microsoft HAX -->
+  <rect x="629" y="50" width="191" height="202" rx="13" fill="#ffffff" stroke="#b45309" stroke-width="2"/>
+  <rect x="629" y="50" width="191" height="34" rx="13" fill="#b45309"/>
+  <rect x="629" y="70" width="191" height="14" fill="#b45309"/>
+  <text x="724" y="72" text-anchor="middle" font-size="11" font-weight="800" fill="#ffffff" font-family="BIZ UDPGothic, sans-serif">Microsoft HAX (18指針)</text>
+  <text x="641" y="106" font-size="10.5" font-weight="800" fill="#92400e" font-family="BIZ UDPGothic, sans-serif">4フェーズの時間軸設計</text>
+  <text x="641" y="128" font-size="9.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif">① 初期(G1-2)：能力と限界</text>
+  <text x="641" y="148" font-size="9.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif">② 操作中(G3-6)：文脈適合</text>
+  <text x="641" y="168" font-size="9.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif">③ 誤り時(G7-10)：簡単修正</text>
+  <text x="641" y="188" font-size="9.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif">④ 継続(G11-18)：緩やか学習</text>
+  <text x="641" y="212" font-size="9.5" fill="#92400e" font-weight="700" font-family="BIZ UDPGothic, sans-serif">→ 自律エージェントの承認・</text>
+  <text x="641" y="228" font-size="9.5" fill="#92400e" font-weight="700" font-family="BIZ UDPGothic, sans-serif">　停止・ロールバックの基盤</text>
+</svg>

@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 840 450" role="img" aria-label="パターン6 Generative UI の本格画面イメージ：普通のチャット入力から普通の文字返答と動的生成されたグラフ・フォームUI部品を対比">
+  <defs>
+    <marker id="p6Arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#4f46e5"/>
+    </marker>
+  </defs>
+  <rect width="840" height="450" rx="18" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="1.5"/>
+
+  <text x="26" y="32" font-size="15" font-weight="800" fill="#0f172a" font-family="BIZ UDPGothic, sans-serif">⑥ Generative UI（動的 UI 生成型）の画面イメージ（出発点＋文字返答との比較）</text>
+  <rect x="598" y="14" width="218" height="24" rx="12" fill="#4f46e5"/>
+  <text x="707" y="30" text-anchor="middle" font-size="10.5" font-weight="800" fill="#ffffff" font-family="BIZ UDPGothic, sans-serif">出典：NN/g・Google / Vercel</text>
+
+  <!-- ブラウザウィンドウ -->
+  <rect x="24" y="48" width="792" height="344" rx="14" fill="#ffffff" stroke="#94a3b8" stroke-width="1.8"/>
+  <rect x="24" y="48" width="792" height="32" rx="14" fill="#e2e8f0"/>
+  <rect x="24" y="66" width="792" height="14" fill="#e2e8f0"/>
+  <circle cx="44" cy="64" r="5" fill="#ef4444"/>
+  <circle cx="60" cy="64" r="5" fill="#f59e0b"/>
+  <circle cx="76" cy="64" r="5" fill="#22c55e"/>
+  <rect x="96" y="54" width="360" height="20" rx="6" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="108" y="68" font-size="10.5" fill="#475569" font-family="Cascadia Code, monospace">🔒 https://ask.kame-cafe.jp/chat-genui</text>
+
+  <!-- 上部：出発点（普通のチャット自由入力欄） -->
+  <rect x="42" y="92" width="756" height="66" rx="12" fill="#f8fafc" stroke="#94a3b8" stroke-width="1.4"/>
+  <text x="58" y="112" font-size="11" font-weight="800" fill="#0f766e" font-family="BIZ UDPGothic, sans-serif">① 出発点（契機）：ユーザーは普通のチャット／検索バーに自由な言葉で質問を打ち込んで送信する</text>
+  <rect x="58" y="120" width="644" height="30" rx="8" fill="#ffffff" stroke="#4f46e5" stroke-width="1.6"/>
+  <text x="72" y="139" font-size="12" font-weight="700" fill="#0f172a" font-family="BIZ UDPGothic, sans-serif">「秋コース 3 案の原価率を比較して」（※予約したい場合は「試飲会を予約したい」と自由入力）</text>
+  <rect x="710" y="120" width="72" height="30" rx="8" fill="#4f46e5"/>
+  <text x="746" y="139" text-anchor="middle" font-size="11" font-weight="800" fill="#ffffff" font-family="BIZ UDPGothic, sans-serif">送信 ▶</text>
+
+  <!-- 分岐矢印 -->
+  <path d="M 240 160 L 210 182" fill="none" stroke="#94a3b8" stroke-width="2" stroke-dasharray="4 3"/>
+  <path d="M 540 160 L 560 182" fill="none" stroke="#4f46e5" stroke-width="2.5" marker-end="url(#p6Arr)"/>
+
+  <!-- 左：従来のチャット（文字だけの返答） -->
+  <rect x="42" y="186" width="280" height="190" rx="12" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5" stroke-dasharray="5 4"/>
+  <text x="56" y="208" font-size="11" font-weight="800" fill="#64748b" font-family="BIZ UDPGothic, sans-serif">💬 普通のチャット（文字だけ返答）</text>
+  <rect x="56" y="218" width="252" height="114" rx="9" fill="#ffffff" stroke="#e2e8f0"/>
+  <text x="68" y="238" font-size="10.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif">🤖 計算結果です：</text>
+  <text x="68" y="258" font-size="10" fill="#334155" font-family="BIZ UDPGothic, sans-serif">・コース1：480÷1350＝35.6%(超過)</text>
+  <text x="68" y="276" font-size="10" fill="#334155" font-family="BIZ UDPGothic, sans-serif">・コース2：365÷1100＝33.2%(合格)</text>
+  <text x="68" y="294" font-size="10" fill="#334155" font-family="BIZ UDPGothic, sans-serif">・コース3：418÷1250＝33.4%(合格)</text>
+  <text x="68" y="316" font-size="9.5" fill="#64748b" font-family="BIZ UDPGothic, sans-serif">どれを選びますか？返信してください。</text>
+  <text x="56" y="356" font-size="9.5" font-weight="700" fill="#64748b" font-family="BIZ UDPGothic, sans-serif">→ 数字の差や操作が文字だけだと伝わりにくい</text>
+
+  <!-- 右：Generative UI（返答内にUI部品そのものを生成） -->
+  <rect x="340" y="186" width="458" height="190" rx="12" fill="#eef2ff" stroke="#4f46e5" stroke-width="2"/>
+  <text x="356" y="208" font-size="11" font-weight="800" fill="#312e81" font-family="BIZ UDPGothic, sans-serif">② 🧩 Generative UI（AI が返答の中に操作できる UI 部品を動的生成！）</text>
+
+  <!-- AIの判断帯 -->
+  <rect x="356" y="216" width="426" height="24" rx="6" fill="#ffffff" stroke="#a5b4fc"/>
+  <text x="368" y="232" font-size="9" font-weight="800" fill="#3730a3" font-family="BIZ UDPGothic, sans-serif">🤖 AI 判断：「数値比較」→ 棒グラフ部品を選択（予約なら日時フォーム部品を選択）</text>
+
+  <!-- 生成されたウィジェット -->
+  <rect x="356" y="248" width="426" height="114" rx="10" fill="#ffffff" stroke="#6366f1" stroke-width="1.5"/>
+  <text x="370" y="268" font-size="11" font-weight="800" fill="#0f172a" font-family="BIZ UDPGothic, sans-serif">📊 秋コース 3 案の原価率比較（社内基準 35.0% 以下）</text>
+
+  <text x="370" y="290" font-size="10" font-weight="700" fill="#be123c" font-family="BIZ UDPGothic, sans-serif">コース1（35.6% ❌ 超過）</text>
+  <rect x="518" y="280" width="212" height="13" rx="6" fill="#be123c"/>
+
+  <text x="370" y="314" font-size="10" font-weight="700" fill="#047857" font-family="BIZ UDPGothic, sans-serif">コース2（33.2% ✅ 合格）</text>
+  <rect x="518" y="304" width="184" height="13" rx="6" fill="#059669"/>
+
+  <text x="370" y="338" font-size="10" font-weight="700" fill="#047857" font-family="BIZ UDPGothic, sans-serif">コース3（33.4% ✅ 合格）</text>
+  <rect x="518" y="328" width="188" height="13" rx="6" fill="#059669"/>
+
+  <line x1="712" y1="276" x2="712" y2="348" stroke="#be123c" stroke-width="2" stroke-dasharray="3 2"/>
+  <text x="720" y="346" font-size="9" font-weight="800" fill="#be123c" font-family="BIZ UDPGothic, sans-serif">35%線</text>
+
+  <rect x="24" y="404" width="792" height="34" rx="10" fill="#ffffff" stroke="#a5b4fc" stroke-width="1.5"/>
+  <text x="40" y="425" font-size="10" font-weight="700" fill="#312e81" font-family="BIZ UDPGothic, sans-serif">📌 ルールベースとの違い：固定メニューではなく「自由入力の意図を AI が判断して部品カタログから UI を選んで返す」のが Generative UI。</text>
+</svg>

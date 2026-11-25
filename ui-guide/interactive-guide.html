@@ -462,6 +462,30 @@
     .wiz-q { margin-bottom: 18px; }
     .wiz-q:last-child { margin-bottom: 0; }
     .wiz-q-title { font-size: 0.9rem; font-weight: 800; margin-bottom: 8px; display: block; }
+    .wiz-card {
+      padding: 22px 24px; border-radius: 16px; background: var(--surface);
+      border: 2px solid var(--accent-border); box-shadow: var(--card-shadow);
+    }
+    .wiz-trail {
+      display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; align-items: center;
+    }
+    .wiz-crumb {
+      padding: 3px 10px; border-radius: 99px; font-size: 0.76rem; font-weight: 800;
+      background: var(--surface-soft); border: 1px solid var(--border-strong); color: var(--ink-sub);
+    }
+    .wiz-crumb.yes { background: var(--emerald-soft); border-color: var(--emerald); color: var(--emerald); }
+    .wiz-crumb.no { background: var(--surface-soft); border-color: var(--border-strong); color: var(--ink-muted); }
+    .yn-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 16px; }
+    .yn-btn {
+      padding: 16px 18px; border-radius: 14px; border: 2px solid var(--border-strong);
+      background: var(--surface); color: var(--ink); font-family: inherit;
+      text-align: left; cursor: pointer; box-shadow: var(--btn-shadow);
+      transition: all 0.2s var(--ease);
+    }
+    .yn-btn.yes:hover { border-color: var(--emerald); background: var(--emerald-soft); transform: translateY(-2px); }
+    .yn-btn.no:hover { border-color: var(--accent); background: var(--accent-soft); transform: translateY(-2px); }
+    .yn-btn .yn-main { display: block; font-size: 1.05rem; font-weight: 800; margin-bottom: 3px; }
+    .yn-btn .yn-sub { display: block; font-size: 0.8rem; color: var(--ink-muted); line-height: 1.45; }
     .wiz-result {
       padding: 20px; border-radius: 16px; background: var(--accent-soft);
       border: 2px solid var(--accent); margin-bottom: 18px;
@@ -658,76 +682,27 @@
     </section>
 
     <!-- ===================================================================
-         STEP 2：ポチポチ最適 UI 診断 ＆ AI 相談プロンプト自動生成
+         STEP 2：Yes / No 2 択でサクサク最適 UI 診断 ＆ AI 相談プロンプト自動生成
     =================================================================== -->
     <section class="lesson" id="step2">
-      <span class="lesson-kicker">STEP 2 — 迷ったらポチポチ診断 → そのまま AI へ相談！</span>
-      <h2>作りたいアプリに合う UI パターン診断 ＆ AI 相談プロンプト生成</h2>
+      <span class="lesson-kicker">STEP 2 — いきなり 6 択で迷わない！はい / いいえ の 2 択診断</span>
+      <h2>「はい / いいえ」で答える最適 UI 診断 ＆ AI 相談プロンプト生成</h2>
       <div class="story-box">
-        <strong>🧭 どんな場面？</strong> 3 つの質問をポチポチ選ぶと、一次情報に基づく<strong>おすすめパターン＋組み合わせ案</strong>が分かります。さらにそのまま自分のワークスペースで AI（Claude Code / Copilot）に貼り付けて<strong>2〜3 案比較＋レイアウト案</strong>を相談できるプロンプトも自動生成されます。
+        <strong>🧭 どんな場面？</strong> 多すぎる選択肢から選ぶのは大変です。ここでは<strong>1 問ずつ「はい／いいえ」の 2 択</strong>で答えるだけで、全 7 パターンの中から最適な構成が自動で決まります。結果はその場で STEP 1 のモック画面にジャンプして試せるほか、<strong>ワークスペースと一緒に AI へ渡せる相談プロンプト</strong>も自動生成されます。
       </div>
 
       <div class="exp-card">
         <div class="step-bar">
-          <span class="step-label">① あなたの作りたいアプリに近いものをポチポチ選んでください</span>
-
-          <div class="wiz-q">
-            <span class="wiz-q-title">Q1. このアプリで、お客さまはいちばん何をする？</span>
-            <div class="select-grid three" id="wizQ1">
-              <button type="button" class="sel-btn active" data-q1="structured">
-                <span class="sel-title">🎚️ 決まった条件で作成・調整</span>
-                <span class="sel-sub">8割は定番設定＋少し例外あり</span>
-              </button>
-              <button type="button" class="sel-btn" data-q1="doc">
-                <span class="sel-title">📄 1つの文書・コードを磨く</span>
-                <span class="sel-sub">何度も手直ししながら完成へ</span>
-              </button>
-              <button type="button" class="sel-btn" data-q1="existing">
-                <span class="sel-title">✨ 既存画面の入力をサッと補助</span>
-                <span class="sel-sub">文章の言い換え・要約・補完</span>
-              </button>
-              <button type="button" class="sel-btn" data-q1="explore">
-                <span class="sel-title">💬 毎回違う相談・アイデア出し</span>
-                <span class="sel-sub">ゴールが未確定の自由な探索</span>
-              </button>
-              <button type="button" class="sel-btn" data-q1="auto">
-                <span class="sel-title">🌫️ 意識せず裏側で自動整理</span>
-                <span class="sel-sub">自動分類・予測入力・異常検知</span>
-              </button>
-              <button type="button" class="sel-btn" data-q1="agent">
-                <span class="sel-title">🤖 複数手順を自律実行させる</span>
-                <span class="sel-sub">調査→作成→外部連携など多段階</span>
-              </button>
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:10px;">
+            <span class="step-label" style="margin-bottom:0;" id="wizProgress">質問に「はい / いいえ」で答えてください</span>
+            <div style="display:flex;gap:8px;">
+              <button type="button" class="sub-btn" id="wizBack" disabled>◀ 1つ前に戻る</button>
+              <button type="button" class="sub-btn" id="wizReset">↺ 最初からやり直す</button>
             </div>
           </div>
 
-          <div class="wiz-q">
-            <span class="wiz-q-title">Q2. 主な利用者は AI 操作（プロンプト入力）に慣れている？</span>
-            <div class="select-grid" id="wizQ2">
-              <button type="button" class="sel-btn active" data-q2="beginner">
-                <span class="sel-title">🌱 慣れていない現場スタッフ・一般客</span>
-                <span class="sel-sub">迷わず押せるボタン・初期値・お題が大切</span>
-              </button>
-              <button type="button" class="sel-btn" data-q2="power">
-                <span class="sel-title">⚡ 普段から業務ツールや AI に慣れている</span>
-                <span class="sel-sub">柔軟な指示やショートカットも歓迎</span>
-              </button>
-            </div>
-          </div>
-
-          <div class="wiz-q">
-            <span class="wiz-q-title">Q3. メール送信・削除・金額確定など「やり直せない操作」はある？</span>
-            <div class="select-grid" id="wizQ3">
-              <button type="button" class="sel-btn active" data-q3="yes">
-                <span class="sel-title">🛡️ ある（ミスすると困る）</span>
-                <span class="sel-sub">送信前の承認ゲート（Human-in-the-loop）必須</span>
-              </button>
-              <button type="button" class="sel-btn" data-q3="no">
-                <span class="sel-title">📝 ない（下書き・閲覧・検索のみ）</span>
-                <span class="sel-sub">軽快な操作と Undo（やり直し）を重視</span>
-              </button>
-            </div>
-          </div>
+          <div class="wiz-trail" id="wizTrail"></div>
+          <div id="wizQuestionArea"></div>
         </div>
 
         <div class="stage">
@@ -1721,81 +1696,254 @@
       renderChat();
 
       /* =================================================================
-         STEP 2：ポチポチ最適 UI 診断 ＆ AI 相談プロンプト自動生成
+         STEP 2：Yes / No 2 択の決定木診断 ＆ AI 相談プロンプト自動生成
       ================================================================= */
-      let wiz = { q1: "structured", q2: "beginner", q3: "yes" };
+      const wizProgress = document.getElementById("wizProgress");
+      const wizBack = document.getElementById("wizBack");
+      const wizReset = document.getElementById("wizReset");
+      const wizTrail = document.getElementById("wizTrail");
+      const wizQuestionArea = document.getElementById("wizQuestionArea");
       const wizResult = document.getElementById("wizResult");
       const appMemo = document.getElementById("appMemo");
       const promptPreview = document.getElementById("promptPreview");
 
-      const recMap = {
-        structured: {
-          main: "④ Tuners / Structured Controls ＋ Hybrid（調整つまみ＋一言ハイブリッド型）",
-          combo: "＋ ② Canvas（右プレビュー）",
-          why: "毎回決まった条件がある業務でチャット欄だけを出すと、NN/g が警告する『Conversation Trap（会話の罠）』に陥ります。スライダーや選択肢（The Shape of AI の Tuners）で 8 割を決め、例外だけ一言で足す構成が最も速くて安定します。"
+      const wizNodes = {
+        q1: {
+          tag: "ステップ 1：AI の役割",
+          q: "お客さまの本業はべつの作業（メール作成・日報入力・文書執筆など）で、AI にはその途中の『ちょっとした手助け（言い換え・補完・自動仕分け）』だけしてほしい？",
+          yesHint: "メイン作業の途中で、数秒だけサッと手伝ってくれれば十分",
+          noHint: "AI と一緒に案を作る・調べる・手続きを進めること自体が目的",
+          short: "別作業の途中のちょい足し補助",
+          yes: { next: "q1a" },
+          no: { next: "q2" }
         },
-        doc: {
-          main: "② Canvas / Artifact Workspace（成果物並列型）",
-          combo: "＋ ③ Inline（選択部分の書き直し）",
-          why: "1 つの文書やコードを何度も磨く場面では、最新版が常に右側へ固定表示される Canvas 型が最適です。部分選択でサッと直せる Inline 補助と Undo を組み合わせると完成度が一気に上がります。"
+        q1a: {
+          tag: "ステップ 2：AI の当てやすさ",
+          q: "その手助けは『入力の続きを予測する・決まった分類へ仕分ける』など、AI が 9 割以上の高確率で当てられる単純な作業？",
+          yesHint: "パターンが定まっていて、AI が自動で当てても外れにくい",
+          noHint: "人によって好みが分かれる・毎回AIが外すこともあるので人が選んで使いたい",
+          short: "9割以上の高確率で当てられる単純補助",
+          yes: { pattern: "ambient", next: "qRisk" },
+          no: { pattern: "inline", next: "qRisk" }
         },
-        existing: {
-          main: "③ Inline / Contextual Assistance（インライン・その場補助型）",
-          combo: "＋ ⑤ Ambient（入力予測）",
-          why: "すでに使い慣れた業務画面やフォームがあるなら、別チャット画面へ移動させる必要はありません。Apple HIG の Writing Tools や NN/g の Inline 型のように、いま操作している場所で直接補助する方が定着率が高くなります。"
+        q2: {
+          tag: "ステップ 2：決まった条件項目の有無",
+          q: "作業を始めるとき、毎回『分類・カテゴリ・対象・トーン』など、あらかじめ決まった項目を指定する必要がある？",
+          yesHint: "毎回だいたい同じ分類や条件項目を指定してから進める",
+          noHint: "決まった項目はなく、毎回まったく自由な内容になる",
+          short: "毎回決まった分類や条件項目がある",
+          yes: { pattern: "hybrid", next: "qRisk" },
+          no: { next: "q3" }
         },
-        explore: {
-          main: "① Conversational / Chat（会話・チャット型）",
-          combo: "＋ ⑥ Generative UI（比較表やカードを動的表示）",
-          why: "ゴールが決まっていない自由な相談や調査はチャット型が最も得意です。最初の一言で迷わないようお題チップ（Wayfinders）を置き、結果に応じて表やカードを返す Generative UI を足すと見やすくなります。"
+        q3: {
+          tag: "ステップ 3：作業の工程数",
+          q: "1 回お願いしたら、人がずっと付きっきりにならなくても『資料を調べる → まとめる → 登録・送信する』といった複数工程を続けて進めてほしい？",
+          yesHint: "ゴールだけ渡して、何工程もの作業をまとめて進めてほしい",
+          noHint: "1 回ごとに返ってきた答えや案を見ながら次を決めたい",
+          short: "複数工程を続けて自動で進める",
+          yes: { pattern: "agentic", next: "qRisk" },
+          no: { next: "q4" }
         },
-        auto: {
-          main: "⑤ Ambient / Invisible ML（アンビエント・不可視／先回り型）",
-          combo: "＋ すぐ無視・オフできる制御（Apple HIG 原則）",
-          why: "自動分類や予測補完など、ユーザーが AI を意識したくない場面には Apple HIG の Invisible ML / NN/g の Ambient UI が最適です。誤判定のストレスを防ぐため、1 クリックで元に戻せる逃げ道とオフ設定を必ず用意します。"
+        q4: {
+          tag: "ステップ 4：成果物の育て方",
+          q: "文章・POP・設計書・コードなど『1 つの完成物』を、AI と何回もやり取りしながら少しずつ仕上げていく作業？",
+          yesHint: "同じ 1 つの成果物を、何度も修正して完成度を高めていく",
+          noHint: "その場ごとの質問への答えや、比較・相談・予約手続きが中心",
+          short: "1つの完成物を何度も手直しする",
+          yes: { pattern: "canvas", next: "qRisk" },
+          no: { next: "q5" }
         },
-        agent: {
-          main: "⑦ Agentic / Multi-step Workspace（計画＆承認ワークスペース型）",
-          combo: "＋ ⑥ Generative UI（進捗・差分カード）",
-          why: "AI が複数ステップを自律実行する場面では、Microsoft HAX（G1・G3・G7・G8）に基づき、実行前の計画提示・進捗タイムライン・途中停止ボタン・ロールバック機能を見える化することが信頼の鍵になります。"
+        q5: {
+          tag: "ステップ 5：伝える情報・手続きの性質",
+          q: "お客さまに返す内容には、『数値の比較・一覧での見比べ・日時や商品の選択』など、文章だけで読むと分かりにくい情報や手続きが多い？",
+          yesHint: "数値比較や予約日時を選ぶなど、文章のやり取りだけだと手間がかかる",
+          noHint: "相談やアイデア出しなど、文章での会話がいちばん自然",
+          short: "数値比較や選択手続きが多い",
+          yes: { pattern: "genui", next: "qRisk" },
+          no: { pattern: "chat", next: "qRisk" }
+        },
+        qRisk: {
+          tag: "安心チェック（あと 2 問）",
+          q: "もし AI が間違えたら困る処理（メール送信・データ上書き・削除・発注など）が含まれる？",
+          yesHint: "一度実行すると取り返しがつかない・外部へ影響する処理がある",
+          noHint: "下書きや案を作るだけで、気に入らなければ何度でもやり直せる",
+          short: "間違えると困る処理あり",
+          yes: { setRisk: true, next: "qUser" },
+          no: { setRisk: false, next: "qUser" }
+        },
+        qUser: {
+          tag: "最後の質問！",
+          q: "使う人の中に『普段あまり AI を使っていない現場スタッフや一般のお客さま』も含まれる？",
+          yesHint: "AI への頼み方に慣れていない人でも迷わず使える必要がある",
+          noHint: "普段から AI や業務ツールを使い慣れている人だけが使う",
+          short: "AI操作に不慣れな人も使う",
+          yes: { setBeginner: true, next: "done" },
+          no: { setBeginner: false, next: "done" }
         }
       };
 
-      const q1Labels = {
-        structured: "毎回決まった条件での作成・調整が 8 割＋少しの例外",
-        doc: "1 つの文書・コード・設計図を何度も磨き上げる",
-        existing: "既存フォームやエディタ内での素早い書き直し・要約",
-        explore: "毎回内容が違う相談・調査・アイデア出し",
-        auto: "ユーザーに意識させない自動分類・予測入力・異常検知",
-        agent: "調査→作成→外部連携など複数手順の自律実行"
+      const recMap = {
+        agentic: {
+          patKey: "agentic",
+          screenJudge: "📐 画面の分け方：専用の別画面（実行コンソール）を作る",
+          main: "⑦ Agentic / Multi-step Workspace（計画＆承認コンソール型）",
+          combo: "＋ ⑥ Generative UI（進捗・差分カード）",
+          why: "複数工程をまとめて進める作業は、既存画面の隅では進捗や失敗箇所が見えません。専用コンソールで計画・進捗・停止・承認を見える化するのが Microsoft HAX の王道です。"
+        },
+        ambient: {
+          patKey: "ambient",
+          screenJudge: "📐 画面の分け方：別画面にしない（今の画面の裏側へ溶け込ませる）",
+          main: "⑤ Ambient / Invisible ML（アンビエント・不可視／先回り型）",
+          combo: "＋ 先回り ON/OFF 切替 ＆ Esc 即無視（Apple HIG 原則）",
+          why: "本業の途中でちょっと助けるだけなら、別画面を開かせるのは大きなストレスになります。高精度を出せるなら今の画面の裏側で静かに補完・分類し、OFF 切替も添えましょう。"
+        },
+        inline: {
+          patKey: "inline",
+          screenJudge: "📐 画面の分け方：別画面にしない（今の画面のその場に小さく足す）",
+          main: "③ Inline / Contextual Assistance（インライン・その場補助型）",
+          combo: "＋ 差分プレビュー（置き換える／キャンセル）",
+          why: "本業の途中で少し書き換えや要約をしたいだけなら、別画面のチャットへ移動させると作業が途切れます。今の画面の選択箇所の真上に小さな AI 補助を出すのが最適です（NN/g・Apple HIG）。"
+        },
+        hybrid: {
+          patKey: "hybrid",
+          screenJudge: "📐 画面の分け方：専用の別画面（入力UI＋プレビュー画面）を作る",
+          main: "④ Tuners / Structured Controls ＋ Hybrid（選択 UI ＋ 一言ハイブリッド型）",
+          combo: "＋ ② Canvas（右側のライブプレビュー）",
+          why: "最初に分類や条件を選ぶ必要がある仕事でチャット欄だけを出すと、毎回同じ説明を打つ羽目になります（Conversation Trap）。専用画面に選択 UI と一言欄を並べるのが最速で安定します。"
+        },
+        canvas: {
+          patKey: "canvas",
+          screenJudge: "📐 画面の分け方：専用の別画面（左チャット＋右成果物の2ペイン）を作る",
+          main: "② Canvas / Artifact Workspace（成果物並列編集型）",
+          combo: "＋ ③ Inline（部分書き直し）＋ ✏️ 直接編集",
+          why: "1 つの完成物を何度も磨く仕事では、会話と成果物が混ざらないよう 2 ペインの専用画面が最適です。AI が 95 点を出したあと人間が直接 5 点を直せる逃げ道も喜ばれます。"
+        },
+        genui: {
+          patKey: "genui",
+          screenJudge: "📐 画面の分け方：専用の別画面（チャット起点＋動的部品表示）を作る",
+          main: "⑥ Generative UI（動的 UI 生成型）＋ ① Chat（チャット起点）",
+          combo: "＋ 承認済みデザインシステム部品カタログ",
+          why: "自由な質問に答えつつ、数値比較や予約手続きなど文章だけでは分かりにくい場面が多いため、返答の中に操作できるグラフやフォーム部品を動的生成する専用画面が効果的です。"
+        },
+        chat: {
+          patKey: "chat",
+          screenJudge: "📐 画面の分け方：専用の別画面（シンプルなチャット画面）を作る",
+          main: "① Conversational / Chat（会話・チャット型）",
+          combo: "＋ お題チップ（Wayfinders）＋ コピー・👍/👎",
+          why: "毎回テーマが変わる自由な相談やアイデア出しは、専用の会話画面がいちばん柔軟です。白紙だと手が止まるため、最初の一歩を示すお題チップ（Wayfinders）を必ず添えましょう。"
+        }
       };
 
+      let wizState = { node: "q1", pattern: null, risk: true, beginner: true, history: [] };
+
+      function answerWiz(isYes) {
+        const cur = wizNodes[wizState.node];
+        const branch = isYes ? cur.yes : cur.no;
+        wizState.history.push({
+          node: wizState.node,
+          short: cur.short,
+          ans: isYes,
+          prevPattern: wizState.pattern,
+          prevRisk: wizState.risk,
+          prevBeginner: wizState.beginner
+        });
+        if (branch.pattern) wizState.pattern = branch.pattern;
+        if (typeof branch.setRisk === "boolean") wizState.risk = branch.setRisk;
+        if (typeof branch.setBeginner === "boolean") wizState.beginner = branch.setBeginner;
+        wizState.node = branch.next;
+        beep(isYes ? 620 : 480, 0.07);
+        renderWiz();
+      }
+
       function renderWiz() {
-        const rec = recMap[wiz.q1];
-        const guardNote = wiz.q3 === "yes"
+        wizBack.disabled = wizState.history.length === 0;
+
+        if (wizState.history.length === 0) {
+          wizTrail.innerHTML = '<span style="font-size:0.78rem;color:var(--ink-muted);">ここに回答の足跡が表示されます（最大 5〜7 問、すべて 2 択です）</span>';
+        } else {
+          wizTrail.innerHTML = wizState.history.map(h =>
+            '<span class="wiz-crumb ' + (h.ans ? 'yes' : 'no') + '">' + esc(h.short) + '：' + (h.ans ? 'はい' : 'いいえ') + '</span>'
+          ).join('<span style="color:var(--ink-muted);font-size:0.78rem;">→</span>');
+        }
+
+        if (wizState.node === "done") {
+          wizProgress.textContent = "🎉 診断完了！（下の結果と AI 相談プロンプトが確定しました）";
+          wizQuestionArea.innerHTML =
+            '<div class="wiz-card" style="background:var(--emerald-soft);border-color:var(--emerald);">' +
+              '<strong style="color:var(--emerald);">✅ すべての「はい / いいえ」への回答が完了しました！</strong>' +
+              '<div style="font-size:0.88rem;color:var(--ink-sub);margin-top:4px;">下におすすめの UI パターンと、そのまま使える AI 相談プロンプトを表示しています。別の条件を試したい場合は「◀ 1つ前に戻る」か「↺ 最初からやり直す」を押してください。</div>' +
+            '</div>';
+        } else {
+          const cur = wizNodes[wizState.node];
+          wizProgress.textContent = cur.tag + "（回答済み " + wizState.history.length + " 問）";
+          wizQuestionArea.innerHTML =
+            '<div class="wiz-card">' +
+              '<div style="font-size:0.78rem;font-weight:800;color:var(--accent);margin-bottom:4px;">' + esc(cur.tag) + '</div>' +
+              '<strong style="display:block;font-size:1.05rem;line-height:1.5;">' + esc(cur.q) + '</strong>' +
+              '<div class="yn-grid">' +
+                '<button type="button" class="yn-btn yes" id="btnWizYes">' +
+                  '<span class="yn-main" style="color:var(--emerald);">⭕ はい（Yes）</span>' +
+                  '<span class="yn-sub">' + esc(cur.yesHint) + '</span>' +
+                '</button>' +
+                '<button type="button" class="yn-btn no" id="btnWizNo">' +
+                  '<span class="yn-main" style="color:var(--accent);">❌ いいえ（No）</span>' +
+                  '<span class="yn-sub">' + esc(cur.noHint) + '</span>' +
+                '</button>' +
+              '</div>' +
+            '</div>';
+          document.getElementById("btnWizYes").addEventListener("click", () => answerWiz(true));
+          document.getElementById("btnWizNo").addEventListener("click", () => answerWiz(false));
+        }
+
+        const activePatKey = wizState.pattern || "hybrid";
+        const rec = recMap[activePatKey];
+        const guardNote = wizState.risk
           ? "＋ 🛡️ 承認ゲート（Human-in-the-loop：送信・削除前の確認カード）"
           : "＋ ↩ 1 クリック Undo（やり直し）";
-        const userNote = wiz.q2 === "beginner"
-          ? "利用者が AI 操作に慣れていないため、初期画面のお題チップ・おすすめ初期値・16px UD 文字が特に重要です。"
+        const userNote = wizState.beginner
+          ? "AI 操作に慣れていない利用者も多いため、お題チップ・おすすめ初期値・16px UD 文字が特に重要です。"
           : "慣れた利用者向けなので、ショートカットや詳細ログの折りたたみ（Progressive Disclosure）を用意すると喜ばれます。";
 
-        wizResult.innerHTML =
-          '<div style="font-size:0.78rem;font-weight:800;color:var(--accent);margin-bottom:4px;">🎯 診断結果：おすすめ UI パターン</div>' +
-          '<strong style="display:block;font-size:1.06rem;margin-bottom:6px;">' + esc(rec.main) + '</strong>' +
-          '<div style="font-size:0.88rem;font-weight:800;color:var(--emerald);margin-bottom:8px;">おすすめの組み合わせ：' + esc(rec.combo + " " + guardNote) + '</div>' +
-          '<div style="font-size:0.9rem;color:var(--ink-sub);margin-bottom:6px;">' + esc(rec.why) + '</div>' +
-          '<div style="font-size:0.84rem;color:var(--ink-muted);">📌 ' + esc(userNote) + '</div>';
+        if (!wizState.pattern) {
+          wizResult.innerHTML =
+            '<div style="font-size:0.8rem;font-weight:800;color:var(--accent);margin-bottom:4px;">⏳ 診断結果（回答を進めるとここに最適なパターンが表示されます）</div>' +
+            '<div style="font-size:0.92rem;color:var(--ink-sub);">上のカードで「⭕ はい」または「❌ いいえ」を押して進めてください。回答途中でも、下の AI 相談プロンプトはそのままコピーして使えます。</div>';
+        } else {
+          wizResult.innerHTML =
+            '<div style="display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:6px;">' +
+              '<span style="font-size:0.8rem;font-weight:800;color:var(--accent);">' + (wizState.node === "done" ? '🎯 最終診断結果：おすすめ UI パターン' : '🎯 暫定のおすすめ UI パターン（残り安心チェック）') + '</span>' +
+              '<button type="button" class="sub-btn" id="jumpMockBtn">👀 STEP 1 でこのモック画面を体験する ▲</button>' +
+            '</div>' +
+            '<div style="display:inline-block;padding:3px 11px;border-radius:99px;background:var(--surface);border:1.5px solid var(--accent);color:var(--accent);font-size:0.8rem;font-weight:800;margin-bottom:8px;">' + esc(rec.screenJudge) + '</div>' +
+            '<strong style="display:block;font-size:1.08rem;margin-bottom:6px;">' + esc(rec.main) + '</strong>' +
+            '<div style="font-size:0.88rem;font-weight:800;color:var(--emerald);margin-bottom:8px;">おすすめの組み合わせ：' + esc(rec.combo + " " + guardNote) + '</div>' +
+            '<div style="font-size:0.9rem;color:var(--ink-sub);margin-bottom:6px;">' + esc(rec.why) + '</div>' +
+            '<div style="font-size:0.84rem;color:var(--ink-muted);">📌 ' + esc(userNote) + '</div>';
+
+          const jumpBtn = document.getElementById("jumpMockBtn");
+          if (jumpBtn) jumpBtn.addEventListener("click", () => {
+            patBtns.forEach(x => x.classList.toggle("active", x.getAttribute("data-pat") === rec.patKey));
+            renderBrief(rec.patKey);
+            patRenderers[rec.patKey]();
+            beep(640, 0.09);
+            document.getElementById("step1").scrollIntoView({ behavior: "smooth" });
+          });
+        }
 
         const memo = appMemo.value.trim() || "（ここに作りたいアプリの概要やワークスペースの目的を記入）";
+        const trailText = wizState.history.length
+          ? wizState.history.map(h => `${h.short}=${h.ans ? "はい" : "いいえ"}`).join(" ／ ")
+          : "（まだ未回答・AIに一から提案してほしい）";
         promptPreview.textContent =
 `このワークスペースの構成（および ui-guide/00_ai-ui-patterns.md の一次情報ベース 7 パターン）を踏まえて、
 以下のアプリに最適な UI 設計を提案してください。
 
 【作りたいアプリの概要】
 - 内容：${memo}
-- 作業の性質：${q1Labels[wiz.q1]}
-- 主な利用者：${wiz.q2 === "beginner" ? "AI 操作に慣れていない現場スタッフ・一般利用者" : "普段から業務ツールや AI を使い慣れている利用者"}
-- やり直せない操作（送信・削除・確定等）：${wiz.q3 === "yes" ? "あり（承認ゲート Human-in-the-loop 必須）" : "なし（下書き・閲覧中心、Undo 重視）"}
+- Yes/No 診断の回答：${trailText}
+- 仮のおすすめ候補：${wizState.pattern ? rec.main : "未確定（複数案から提案希望）"}
+- やり直せない操作（送信・削除・確定等）：${wizState.risk ? "あり（承認ゲート Human-in-the-loop 必須）" : "なし（下書き・閲覧中心、Undo 重視）"}
+- 主な利用者：${wizState.beginner ? "AI 操作に慣れていない現場スタッフ・一般利用者も多い" : "普段から業務ツールや AI を使い慣れている利用者が中心"}
 
 【お願いしたいこと】
 1. 一次情報に基づく 7 つの AI UI パターン（Chat / Canvas / Inline / Tuners＋Hybrid / Ambient・Invisible / Generative UI / Agentic Workspace）の中から、単体または組み合わせで最適な案を 2〜3 案比較してください。
@@ -1803,18 +1951,21 @@
 3. 画面レイアウトのシンプルなテキスト図（「選ぶ」と「動かす」の分離・視線誘導）と、親切なエラー表示・UD 文字・WCAG AA（4.5:1）配慮のポイントも添えてください。`;
       }
 
-      document.querySelectorAll("#wizQ1 .sel-btn").forEach(b => b.addEventListener("click", () => {
-        document.querySelectorAll("#wizQ1 .sel-btn").forEach(x => x.classList.remove("active"));
-        b.classList.add("active"); wiz.q1 = b.getAttribute("data-q1"); renderWiz(); beep(540, 0.06);
-      }));
-      document.querySelectorAll("#wizQ2 .sel-btn").forEach(b => b.addEventListener("click", () => {
-        document.querySelectorAll("#wizQ2 .sel-btn").forEach(x => x.classList.remove("active"));
-        b.classList.add("active"); wiz.q2 = b.getAttribute("data-q2"); renderWiz(); beep(540, 0.06);
-      }));
-      document.querySelectorAll("#wizQ3 .sel-btn").forEach(b => b.addEventListener("click", () => {
-        document.querySelectorAll("#wizQ3 .sel-btn").forEach(x => x.classList.remove("active"));
-        b.classList.add("active"); wiz.q3 = b.getAttribute("data-q3"); renderWiz(); beep(540, 0.06);
-      }));
+      wizBack.addEventListener("click", () => {
+        if (wizState.history.length === 0) return;
+        const last = wizState.history.pop();
+        wizState.node = last.node;
+        wizState.pattern = last.prevPattern;
+        wizState.risk = last.prevRisk;
+        wizState.beginner = last.prevBeginner;
+        beep(440, 0.06);
+        renderWiz();
+      });
+      wizReset.addEventListener("click", () => {
+        wizState = { node: "q1", pattern: null, risk: true, beginner: true, history: [] };
+        beep(420, 0.07);
+        renderWiz();
+      });
       appMemo.addEventListener("input", renderWiz);
 
       const copyBtn = document.getElementById("copyPromptBtn");

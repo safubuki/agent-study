@@ -76,7 +76,7 @@
   <rect x="694" y="290" width="82" height="34" rx="9" fill="#be123c"/>
   <text x="735" y="311" text-anchor="middle" font-size="11" font-weight="800" fill="#ffffff" font-family="BIZ UDPGothic, sans-serif">🛑 中止</text>
 
-  <text x="380" y="346" font-size="10" font-weight="700" fill="#64748b" font-family="BIZ UDPGothic, sans-serif">Microsoft HAX G1(計画明示)・G3(適切介入)・G7(即中止)・G8(簡単修正)</text>
+  <text x="380" y="346" font-size="10" font-weight="700" fill="#64748b" font-family="BIZ UDPGothic, sans-serif">Microsoft HAX G1(計画明示)・G3(適切介入)・G8(却下/中止)・G9(簡単修正)</text>
 
   <rect x="24" y="394" width="792" height="34" rx="10" fill="#ffffff" stroke="#fcd34d" stroke-width="1.5"/>
   <text x="40" y="415" font-size="11" font-weight="700" fill="#92400e" font-family="BIZ UDPGothic, sans-serif">📌 ポイント：1 問 1 答ではなく多段階の自律作業。左で「今どこにいるか」を透明に見せ、右で「危ない操作前だけ人間が承認」する。</text>

@@ -836,13 +836,13 @@
           </div>
 
           <div class="quiz-item" data-ans="0">
-            <strong>Q2. Nielsen Norman Group (NN/g) が警告する「Conversation Trap（会話の罠）」とは？</strong>
+            <strong>Q2. Nielsen Norman Group (NN/g) の記事「AI Chat Is Not (Always) the Answer」で指摘されている代表的な失敗は？</strong>
             <div class="quiz-opts">
-              <button type="button" class="quiz-btn" data-i="0">定型業務や設定変更まで何でもチャット欄に押し込み、かえって使いにくくしてしまう失敗</button>
+              <button type="button" class="quiz-btn" data-i="0">定型業務や設定変更まで何でもチャット欄に押し込み、かえって使いにくくしてしまうこと</button>
               <button type="button" class="quiz-btn" data-i="1">チャット欄の文字サイズを 16px にすること</button>
               <button type="button" class="quiz-btn" data-i="2">AI の出力に Undo ボタンを付けること</button>
             </div>
-            <div class="quiz-ans">正解！「AI Chat Is Not Always the Answer（チャットが常に正解ではない）」。作業内容に応じて Inline・Tuners・Canvas・Ambient 等を組み合わせるのが王道です。</div>
+            <div class="quiz-ans">正解！NN/g は「AI チャットが常に正解とは限らない」と指摘しており、作業内容に応じて Inline・Tuners・Canvas・Ambient 等を組み合わせるのが王道です。</div>
           </div>
 
           <div class="quiz-item" data-ans="2">
@@ -1083,7 +1083,7 @@
 
         demoMeta.innerHTML =
           '<div><strong style="color:var(--emerald);">✅ 本物アプリでの使われ方</strong><br/>左に会話履歴サイドバー、下にお題チップ（Wayfinders）、各返答に 👍/👎（Explicit Feedback）。毎回テーマが変わる自由相談に最適。</div>' +
-          '<div><strong style="color:var(--amber);">⚠️ NN/g の警告（Conversation Trap）</strong><br/>定型業務まで全部チャットにすると毎回文章を打つ負担が増えます。右の 2〜7 パターンと見比べてください。</div>';
+          '<div><strong style="color:var(--amber);">⚠️ NN/g の指摘（AI Chat Is Not (Always) the Answer）</strong><br/>定型業務まで全部チャットにすると毎回文章を打つ負担が増えます。右の 2〜7 パターンと見比べてください。</div>';
         s1Takeaway.innerHTML = '<span class="takeaway-head">💡 観察ポイント</span>左サイドバーのスレッド切替や、返答下の「コピー・👍/👎」まで本物のチャット AI 画面の構造です。次は右側に成果物を固定する「2. Canvas」を見てみましょう！';
       }
 
@@ -1591,7 +1591,7 @@
 
       function renderAgentic() {
         mockUrl.textContent = "https://agent.kame-cafe.jp/runs/campaign-042";
-        mockSrc.textContent = "出典：Microsoft HAX (G1/G3/G7/G8)・Google PAIR";
+        mockSrc.textContent = "出典：Microsoft HAX (G1/G3/G8/G9)・Google PAIR";
 
         const s1 = agStage >= 1 && agStage !== 4 ? "done" : "";
         const s2 = agStage >= 1 && agStage !== 4 ? "done" : "";
@@ -1637,7 +1637,7 @@
         } else {
           rightHtml =
             '<div style="background:#fff1f2;padding:20px;border-radius:14px;border:2px solid #be123c;">' +
-              '<strong style="color:#be123c;font-size:15px;">🛑 エージェントの実行を安全に中止しました（Microsoft HAX G7）</strong>' +
+              '<strong style="color:#be123c;font-size:15px;">🛑 エージェントの実行を安全に中止しました（Microsoft HAX G8：効率的な却下）</strong>' +
               '<p style="font-size:13px;color:#9f1239;margin:8px 0 14px;">メールは 1 通も送信されていません。いつでも止められる安心感が重要です。</p>' +
               '<button type="button" class="app-btn" id="agReset">↺ 最初からもう一度試す</button>' +
             '</div>';
@@ -1676,7 +1676,7 @@
 
         demoMeta.innerHTML =
           '<div><strong style="color:var(--emerald);">✅ 本物アプリでの使われ方</strong><br/>左に「計画と進捗タイムライン」、右に「承認カード・手動修正・中止ボタン」。複数ステップを自律実行するエージェントの標準 UI です。</div>' +
-          '<div><strong style="color:var(--amber);">⚠️ Microsoft HAX（G3/G7/G8）準拠</strong><br/>外部送信や削除の直前で止める「承認ゲート」と、いつでも止められる「🛑 中止」で信頼を築きます。</div>';
+          '<div><strong style="color:var(--amber);">⚠️ Microsoft HAX（G3/G8/G9）準拠</strong><br/>外部送信や削除の直前で止める「承認ゲート」、すぐ止められる「🛑 中止（G8）」、直せる「✏️ 修正（G9）」で信頼を築きます。</div>';
         s1Takeaway.innerHTML = '<span class="takeaway-head">💡 観察ポイント</span>「▶ 実行を開始」→ Step 3 で一時停止 → 誤記を直して承認！この一連の流れが <strong>Agentic Workspace</strong> のお手本です。';
       }
 
@@ -1788,7 +1788,7 @@
           screenJudge: "📐 画面の分け方：専用の別画面（実行コンソール）を作る",
           main: "⑦ Agentic / Multi-step Workspace（計画＆承認コンソール型）",
           combo: "＋ ⑥ Generative UI（進捗・差分カード）",
-          why: "複数工程をまとめて進める作業は、既存画面の隅では進捗や失敗箇所が見えません。専用コンソールで計画・進捗・停止・承認を見える化するのが Microsoft HAX の王道です。"
+          why: "複数工程をまとめて進める作業は、既存画面の隅では進捗や失敗箇所が見えません。専用コンソールで計画（G1）・介入（G3）・却下/中止（G8）・修正（G9）を見える化するのが Microsoft HAX の王道です。"
         },
         ambient: {
           patKey: "ambient",
@@ -1809,7 +1809,7 @@
           screenJudge: "📐 画面の分け方：専用の別画面（入力UI＋プレビュー画面）を作る",
           main: "④ Tuners / Structured Controls ＋ Hybrid（選択 UI ＋ 一言ハイブリッド型）",
           combo: "＋ ② Canvas（右側のライブプレビュー）",
-          why: "最初に分類や条件を選ぶ必要がある仕事でチャット欄だけを出すと、毎回同じ説明を打つ羽目になります（Conversation Trap）。専用画面に選択 UI と一言欄を並べるのが最速で安定します。"
+          why: "最初に分類や条件を選ぶ必要がある仕事でチャット欄だけを出すと、毎回同じ説明を打つ羽目になります（NN/g『AI Chat Is Not (Always) the Answer』）。専用画面に選択 UI と一言欄を並べるのが最速で安定します。"
         },
         canvas: {
           patKey: "canvas",

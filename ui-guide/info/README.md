@@ -11,10 +11,10 @@
 
 | 出典・提唱元 | 資料名 | 主な概念・体系 | 確認日 |
 |---|---|---|---|
-| **Nielsen Norman Group (NN/g)** | AI UI パターン・Generative UI・Conversation Trap に関する調査記事群 | Chat（会話型）、Canvas、Inline（文脈補助）、Ambient（環境溶け込み）、Generative UI（動的UI生成）、"AI Chat Is Not Always the Answer"（会話万能主義への警告） | 2026-11 |
+| **Nielsen Norman Group (NN/g)** | 記事 *"AI Chat Is Not (Always) the Answer"*（Sarah Gibbons & Kate Moran）ほか AI UX 調査記事群 | Chat（会話型）、Canvas、Inline（文脈補助）、Ambient（環境溶け込み）、Generative UI（動的UI生成）、チャット万能主義への警鐘 | 2026-11 |
 | **Apple** | Human Interface Guidelines — Machine Learning（HIG） | **Visible vs. Invisible ML**（見える AI vs 裏側で見えない AI）、**Proactive vs. Reactive**（先回り提案 vs 要求への応答）、**Implicit vs. Explicit Feedback**（暗黙的・明示的フィードバック） | 2026-11 |
 | **Google (PAIR)** | People + AI Guidebook | User Needs + Defining Success、**Implicit vs. Explicit Feedback**、Feedback + Control、Explainability + Trust、Errors + Graceful Failure | 2026-11 |
-| **Microsoft** | Guidelines for Human-AI Interaction（CHI 2019）& HAX Toolkit | 4フェーズ（Initially / During Interaction / When Wrong / Over Time）にわたる **18 の Human-AI 指針（G1〜G18）** と Agentic UI への適用（計画提示・チェックポイント・ロールバック・信頼キャリブレーション） | 2026-11 |
+| **Microsoft** | Guidelines for Human-AI Interaction（CHI 2019）& HAX Toolkit | 4フェーズ（Initially: G1–G2 / During Interaction: G3–G6 / When Wrong: G7–G11［G7呼出・G8却下・G9修正・G10絞込・G11説明］ / Over Time: G12–G18）にわたる **18 の Human-AI 指針** と Agentic UI への適用 | 2026-11 |
 | **The Shape of AI**（Emily Campbell） | AI UX Pattern Library（`shapeof.ai`） | AI 製品の実例を分解した UI パターン体系（Wayfinders / Inputs / **Tuners**［調整つまみ・スライダー等］/ Governors / Trust Indicators / Identifiers） | 2026-11 |
 
 ---

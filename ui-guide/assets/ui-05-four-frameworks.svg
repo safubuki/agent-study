@@ -8,8 +8,8 @@
   <rect x="20" y="70" width="192" height="14" fill="#2563eb"/>
   <text x="116" y="72" text-anchor="middle" font-size="11" font-weight="800" fill="#ffffff" font-family="BIZ UDPGothic, sans-serif">NN/g &amp; Shape of AI</text>
   <text x="32" y="106" font-size="10.5" font-weight="800" fill="#1e3a8a" font-family="BIZ UDPGothic, sans-serif">画面構造と部品分類</text>
-  <text x="32" y="128" font-size="9.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif">・Chat は万能ではない</text>
-  <text x="32" y="144" font-size="9.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif">　(Conversation Trap)</text>
+  <text x="32" y="128" font-size="9.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif">・AI Chat Is Not (Always)</text>
+  <text x="32" y="144" font-size="9.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif">　the Answer（万能ではない）</text>
   <text x="32" y="166" font-size="9.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif">・Canvas / Inline /</text>
   <text x="32" y="182" font-size="9.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif">　Ambient / GenUI 分類</text>
   <text x="32" y="204" font-size="9.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif">・Wayfinders(お題) や</text>
@@ -49,8 +49,8 @@
   <text x="641" y="106" font-size="10.5" font-weight="800" fill="#92400e" font-family="BIZ UDPGothic, sans-serif">4フェーズの時間軸設計</text>
   <text x="641" y="128" font-size="9.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif">① 初期(G1-2)：能力と限界</text>
   <text x="641" y="148" font-size="9.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif">② 操作中(G3-6)：文脈適合</text>
-  <text x="641" y="168" font-size="9.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif">③ 誤り時(G7-10)：簡単修正</text>
-  <text x="641" y="188" font-size="9.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif">④ 継続(G11-18)：緩やか学習</text>
+  <text x="641" y="168" font-size="9.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif">③ 誤り時(G7-11)：却下/修正</text>
+  <text x="641" y="188" font-size="9.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif">④ 継続(G12-18)：緩やか学習</text>
   <text x="641" y="212" font-size="9.5" fill="#92400e" font-weight="700" font-family="BIZ UDPGothic, sans-serif">→ 自律エージェントの承認・</text>
   <text x="641" y="228" font-size="9.5" fill="#92400e" font-weight="700" font-family="BIZ UDPGothic, sans-serif">　停止・ロールバックの基盤</text>
 </svg>

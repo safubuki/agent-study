@@ -20,10 +20,10 @@ AI アプリの UI 設計には、業界で広く参照される 4 つの代表�
 
 | 提唱元・資料 | 何を決めているガイドラインか | 特に押さえるべき核心 |
 |---|---|---|
-| **Nielsen Norman Group (NN/g)**<br/>（UX 研究の権威） | AI 時代の画面構造分類とユーザビリティ研究 | **「AI Chat Is Not Always the Answer（チャットが常に正解ではない）」**＝通称 **Conversation Trap（会話の罠）** を警告。Chat / Canvas / Inline / Ambient / Generative UI の 5 構造を整理 |
+| **Nielsen Norman Group (NN/g)**<br/>（UX 研究の権威） | AI 時代の画面構造分類とユーザビリティ研究 | 記事 **「AI Chat Is Not (Always) the Answer（AI チャットが常に正解とは限らない）」** でチャット万能主義を警告。Chat / Canvas / Inline / Ambient / Generative UI の 5 構造を整理 |
 | **Apple**<br/>Human Interface Guidelines (Machine Learning) | AI の「見え方」と「介入タイミング」の設計軸 | **Visible（見える）vs. Invisible（見えない）**、**Proactive（先回り提案）vs. Reactive（求めに応じて応答）**、**Implicit vs. Explicit Feedback** の 3 軸を定義 |
 | **Google (PAIR)**<br/>People + AI Guidebook | 人間中心の AI 設計プロセスと信頼・制御 | **Implicit（暗黙的）vs. Explicit（明示的）フィードバック** の設計、説明可能性（Explainability）、エラーからの優雅な回復（Graceful Failure） |
-| **Microsoft**<br/>Guidelines for Human-AI Interaction (CHI 2019) & HAX Toolkit | 時間軸に沿った **18 の Human-AI 指針（G1〜G18）** | 初期（何ができるか明示 G1〜G2）→ 操作中（文脈適合 G3〜G6）→ 誤り時（簡単な修正・中止 G7〜G10）→ 継続利用（G11〜G18）。近年は自律エージェント UI にも適用 |
+| **Microsoft**<br/>Guidelines for Human-AI Interaction (CHI 2019) & HAX Toolkit | 時間軸に沿った **18 の Human-AI 指針（G1〜G18）** | 初期（何ができるか明示 G1〜G2）→ 操作中（文脈適合 G3〜G6）→ 誤り・不確実時（呼出・却下・修正・絞込・説明 G7〜G11）→ 継続利用（G12〜G18）。近年は自律エージェント UI にも適用 |
 
 さらに、実在する AI 製品の UI 部品を分解したパターン集として **The Shape of AI（Emily Campbell）** が広く参照されており、スライダーや選択肢などのパラメータ調整部品を **`Tuners`（チューナー＝調整つまみ）**、AI の暴走を防ぐ制御を **`Governors`（ガバナー＝制御弁）** と名付けています。
 
@@ -44,7 +44,7 @@ AI アプリの UI 設計には、業界で広く参照される 4 つの代表�
 - **一次出典**：NN/g / The Shape of AI
 - **どんな UI か**：メッセージ入力欄と会話タイムラインで対話する、もっとも有名な形。
 - **向いている場面**：毎回内容が違う相談、調べもの、ブレインストーミングなど、**ゴールが最初から決まっていない探索作業**。
-- **注意点（NN/g の警告：Conversation Trap）**：定型業務や設定変更まで全部チャットにすると、「毎回文章を打つ認知負荷」と「何ができるか見えない問題」が起きます。**最初の画面にお題ボタン（Wayfinders / Prompt Suggestions）を置く**のが定番の緩和策です。
+- **注意点（NN/g「AI Chat Is Not (Always) the Answer」）**：定型業務や設定変更まで全部チャットにすると、「毎回文章を打つ認知負荷」と「何ができるか見えない問題」が起きます。**最初の画面にお題ボタン（Wayfinders / Prompt Suggestions）を置く**のが定番の緩和策です。
 
 ---
 
@@ -111,7 +111,7 @@ AI アプリの UI 設計には、業界で広く参照される 4 つの代表�
 ### ⑦ Agentic / Multi-step Workspace（自律エージェント・計画＆承認ワークスペース型）
 
 ![⑦ Agentic / Multi-step Workspace（計画＆承認コンソール型）の画面イメージ](assets/ui-p7-agentic.svg)
-- **一次出典**：Microsoft HAX Toolkit（G1・G2・G3・G7・G8・G9・G10 の Agentic UI 適用）/ Google PAIR
+- **一次出典**：Microsoft HAX Toolkit（G1・G2・G3・G8・G9・G10・G11 の Agentic UI 適用）/ Google PAIR
 - **どんな UI か**：AI がツール呼び出しや複数ステップの作業を自律的に進めるアプリで、**① 実行前の計画（Plan）提示 → ② ステップごとの進捗タイムライン → ③ 外部送信・削除など重要操作の前の承認ゲート（Human-in-the-loop）→ ④ 途中停止（Stop）・差し戻し（Rollback）** を可視化する形。
 - **向いている場面**：コーディングエージェント、自動調査レポート作成、複数システムをまたぐ業務自動化など、**数十秒〜数分かけて複数手順を自律実行する** 場面。
 - **注意点（Microsoft HAX）**：途中経過がブラックボックスだとユーザーが過信または不信に陥るため、「今どの外部ツールを使ったか」「どこで失敗したか」を透明に表示し、いつでも介入できるようにします。
@@ -122,7 +122,7 @@ AI アプリの UI 設計には、業界で広く参照される 4 つの代表�
 
 | # | 一次用語（日本語の目安） | 主な提唱元・出典 | チャット欄 | いちばん向いている場面 | 最大の UX リスク |
 |---|---|---|---|---|---|
-| **1** | **Conversational / Chat**（会話型） | NN/g・Shape of AI | 主役 | 自由な相談・探索・ブレインストーミング | 会話の罠（毎回文章を打つ負担・白紙の恐怖） |
+| **1** | **Conversational / Chat**（会話型） | NN/g・Shape of AI | 主役 | 自由な相談・探索・ブレインストーミング | チャット万能主義（毎回文章を打つ負担・白紙の恐怖） |
 | **2** | **Canvas / Artifact**（成果物並列型） | NN/g・OpenAI/Anthropic | 左側など | 文書・コード・企画書の反復作成 | 画面幅の圧迫・版管理の複雑化 |
 | **3** | **Inline / Contextual**（その場補助型） | NN/g・Apple HIG・MS | なし（局所） | 既存エディタやフォーム内での素早い書き直し・要約 | 機能の存在に気づかれにくい |
 | **4** | **Tuners / Structured ＋ Hybrid**（調整UI＋一言） | Shape of AI・NN/g | 補助（任意） | 8割定型＋2割例外の業務アプリ・制作支援 | 部品が増えすぎると画面が煩雑になる |
@@ -141,10 +141,10 @@ Google PAIR・Apple HIG・Microsoft HAX に共通して強調されている原�
 
 1. **できること・限界を最初に伝える（Microsoft G1・G2）**：AI に過大な期待を持たせず、お題チップや初期値で使い方を示す。
 2. **フィードバックは暗黙（Implicit）を主、明示（Explicit）は要所だけ（Google PAIR / Apple HIG）**：毎回「👍/👎 を押してください」と迫ると疲れる（フィードバック疲れ）。編集・採用・スキップなどの自然な行動から学び、明示評価は重要な場面に絞る。
-3. **不確かなときは無理に断定せず聞き返す・絞る（Microsoft G9）**：確信度が低いときは複数候補を出すか確認質問をする。
-4. **取り返しのつかない操作の前に人間の承認を挟む（Human-in-the-loop / Microsoft G3・G7）**：送信・削除・公開・決済の前は必ず確認カードを出す。
-5. **簡単なやり直し（Undo）と手動修正の逃げ道を用意する（Microsoft G8 / Apple HIG）**：AI が 95 点を出したあと、残り 5 点を人間が直接直せるようにする。
-6. **裏側の詳細データは折りたたむ（Progressive Disclosure＝段階的開示）**：思考ログや JSON などの技術情報は最初から全開にせず、「詳細を見る ▼」へ収める。
+3. **不確かなときは無理に断定せず聞き返す・絞る（Microsoft G10：Scope services when in doubt）**：確信度が低いときは複数候補を出すか確認質問をする。
+4. **取り返しのつかない操作の前に人間の承認と即中止を挟む（Human-in-the-loop / Microsoft G3・G8）**：送信・削除・公開・決済の前は必ず確認カードを出し、不要な処理はすぐ却下・中止できる（G8：Support efficient dismissal）ようにする。
+5. **簡単なやり直し（Undo）と手動修正の逃げ道を用意する（Microsoft G9：Support efficient correction / Apple HIG）**：AI が 95 点を出したあと、残り 5 点を人間が直接直せるようにする。
+6. **裏側の根拠や詳細データは折りたたみで説明可能にする（Microsoft G11 / Progressive Disclosure）**：思考ログや JSON などの技術情報は最初から全開にせず、「詳細を見る ▼」へ収め、なぜそう判断したか確認できるようにする。
 
 ---
 

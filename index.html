@@ -264,13 +264,14 @@
         <a href="uml-guide/interactive-guide.html">5. UML・要求図</a>
         <a href="agent-skill/interactive-guide.html">6. スキル</a>
         <a href="ui-guide/interactive-guide.html">7. AI・UI設計</a>
+        <a href="real-lite-mock/interactive-guide.html">8. リアルライトモック</a>
       </nav>
     </div>
   </header>
 
   <main id="top">
     <section class="hero">
-      <span class="hero-badge">ブラウザで開くだけ・外部通信ゼロで学べる 7 つの体験ガイド</span>
+      <span class="hero-badge">ブラウザで開くだけ・外部通信ゼロで学べる 8 つの体験ガイド</span>
       <h1>絵と動きでわかる、AI エージェント＆UI 設計の学び場</h1>
       <p class="lead">
         難しい専門用語やプログラムをいきなり読む必要はありません。
@@ -278,23 +279,23 @@
       </p>
 
       <div class="hero-map-wrap">
-        <img src="assets/portal/hero-map.svg" alt="7つの学びのつながり：AIを賢く動かす、守る・つなぐ・育てる、人に伝わる設計へ" />
+        <img src="assets/portal/hero-map.svg" alt="8つの学びのつながり：AIを賢く動かす、守る・つなぐ・育てる、人に伝わる設計・試作へ" />
       </div>
 
       <div class="filter-box">
         <span class="filter-label">🔎 いま知りたいテーマで絞り込む（どの順番から読んでも大丈夫です）</span>
         <div class="filter-row" id="filterRow">
-          <button type="button" class="filter-btn active" data-cat="all">🌈 すべて見る（7つ）</button>
+          <button type="button" class="filter-btn active" data-cat="all">🌈 すべて見る（8つ）</button>
           <button type="button" class="filter-btn" data-cat="run">🤖 ① AI を賢く動かす（2つ）</button>
           <button type="button" class="filter-btn" data-cat="ops">🛡️ ② 守る・つなぐ・育てる（3つ）</button>
-          <button type="button" class="filter-btn" data-cat="design">🎨 ③ 人に伝わる設計へ（2つ）</button>
+          <button type="button" class="filter-btn" data-cat="design">🎨 ③ 人に伝わる設計・試作（3つ）</button>
         </div>
       </div>
     </section>
 
     <div class="section-head">
-      <h2>📚 7 つのインタラクティブ学習ガイド</h2>
-      <span class="section-count" id="shownCount">全 7 ガイドを表示中</span>
+      <h2>📚 8 つのインタラクティブ学習ガイド</h2>
+      <span class="section-count" id="shownCount">全 8 ガイドを表示中</span>
     </div>
 
     <section class="card-grid" id="cardGrid" aria-label="学習ガイド一覧">
@@ -472,6 +473,31 @@
           </div>
         </div>
       </article>
+
+      <article class="guide-card" data-cat="design" style="--card-color:#c2410c;">
+        <a class="card-illus" href="real-lite-mock/interactive-guide.html">
+          <img src="assets/portal/08-real-lite-mock.svg" alt="単一HTMLの3案とAI CLI・MCP連携から自動デモを経て本番製品基盤へ変換する図" />
+        </a>
+        <div class="card-body">
+          <div class="card-top">
+            <span class="card-no">ガイド 8</span>
+            <span class="card-cat">人に伝わる設計・試作</span>
+          </div>
+          <h3 class="card-title">リアルライトモック（超高速試作 → 本番資産化）</h3>
+          <p class="card-desc">
+            単一 HTML＋ローカル AI CLI＋MCP で<strong>3〜4 日で「本当に動く 3 案」</strong>を作り、使い捨てずに<strong>「動く仕様書」として AI で本番構成へ変換する</strong>手法を学びます。
+          </p>
+          <ul class="learn-list">
+            <li>CAD 3D 生成を題材にした「3 パターン並行試作 × ▶ 自動再生デモ」体験</li>
+            <li>PoC（AI CLI）→ 本番（React＋Python＋Azure）移行と「継ぎ足し NG」の理由</li>
+            <li>業界・学術の 6 大裏付け、3 つの落とし穴対策、コピペ用プロンプト 3 種</li>
+          </ul>
+          <div class="card-actions">
+            <a class="btn-primary" href="real-lite-mock/interactive-guide.html">▶ 動かして学ぶ</a>
+            <a class="btn-secondary" href="real-lite-mock/README.md">📖 Markdown 資料</a>
+          </div>
+        </div>
+      </article>
     </section>
 
     <div class="section-head" style="margin-top:52px;">
@@ -512,9 +538,11 @@
           <a class="course-pill" href="uml-guide/interactive-guide.html">5. UML・要求図</a>
           <span class="course-arrow">→</span>
           <a class="course-pill" href="ui-guide/interactive-guide.html">7. AI・UI設計</a>
+          <span class="course-arrow">→</span>
+          <a class="course-pill" href="real-lite-mock/interactive-guide.html">8. リアルライトモック</a>
         </div>
         <p style="margin:0;font-size:0.88rem;color:var(--ink-sub);">
-          「何を作るか（要求）」を整理し、「どう見せるか（一次情報 AI UI＋UD基礎）」へつなげる設計ルートです。
+          「何を作るか（要求）」を整理し、「UI 設計」を経て「3〜4 日の動く試作 → 本番製品化」までつなげるルートです。
         </p>
       </div>
     </section>
@@ -549,7 +577,7 @@
             if (match) count++;
           });
           shownCount.textContent = cat === "all"
-            ? "全 7 ガイドを表示中"
+            ? "全 8 ガイドを表示中"
             : count + " 件のおすすめガイドを表示中";
         });
       });

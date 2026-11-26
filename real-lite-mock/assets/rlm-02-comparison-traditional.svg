@@ -1,0 +1,94 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 460" role="img" aria-label="従来の開発手法とリアルライトモック手法の比較図">
+  <defs>
+    <marker id="arrRed" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#dc2626"/>
+    </marker>
+    <marker id="arrAmber" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#d97706"/>
+    </marker>
+    <marker id="arrGreen" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#059669"/>
+    </marker>
+  </defs>
+
+  <rect width="960" height="460" rx="18" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+
+  <!-- タイトル -->
+  <text x="480" y="36" text-anchor="middle" font-size="18" font-weight="800" fill="#0f172a" font-family="BIZ UDPGothic, Yu Gothic UI, sans-serif">3つのアプローチ比較：なぜ「リアルライトモック」が近道になるのか？</text>
+  <text x="480" y="58" text-anchor="middle" font-size="12" fill="#475569" font-family="BIZ UDPGothic, Yu Gothic UI, sans-serif">「最初から本番構成」「見た目だけモック」「リアルライトモック」の時間軸と手戻りリスクの違い</text>
+
+  <!-- パターンA：最初から本格開発 -->
+  <rect x="24" y="78" width="912" height="104" rx="12" fill="#fff1f2" stroke="#fca5a5" stroke-width="1.8"/>
+  <rect x="38" y="92" width="194" height="76" rx="10" fill="#dc2626"/>
+  <text x="135" y="122" text-anchor="middle" font-size="12.5" font-weight="800" fill="#ffffff" font-family="BIZ UDPGothic, sans-serif">① 最初から本格構築</text>
+  <text x="135" y="142" text-anchor="middle" font-size="10.5" fill="#fee2e2" font-family="BIZ UDPGothic, sans-serif">React＋API＋DB＋クラウド</text>
+  <text x="135" y="158" text-anchor="middle" font-size="10" fill="#fecaca" font-family="BIZ UDPGothic, sans-serif">（従来の正攻法）</text>
+
+  <rect x="250" y="98" width="210" height="44" rx="8" fill="#ffffff" stroke="#f87171"/>
+  <text x="355" y="117" text-anchor="middle" font-size="10.5" font-weight="700" fill="#991b1b" font-family="BIZ UDPGothic, sans-serif">環境構築・分離設計・認証基盤</text>
+  <text x="355" y="134" text-anchor="middle" font-size="9.5" fill="#7f1d1d" font-family="BIZ UDPGothic, sans-serif">数週間〜数ヶ月（まだ誰も触れない）</text>
+
+  <line x1="460" y1="120" x2="484" y2="120" stroke="#dc2626" stroke-width="2" marker-end="url(#arrRed)"/>
+
+  <rect x="488" y="98" width="190" height="44" rx="8" fill="#ffffff" stroke="#f87171"/>
+  <text x="583" y="117" text-anchor="middle" font-size="10.5" font-weight="700" fill="#991b1b" font-family="BIZ UDPGothic, sans-serif">やっと画面が完成・初試用</text>
+  <text x="583" y="134" text-anchor="middle" font-size="9.5" fill="#7f1d1d" font-family="BIZ UDPGothic, sans-serif">「思っていた使い勝手と違う…」</text>
+
+  <line x1="678" y1="120" x2="702" y2="120" stroke="#dc2626" stroke-width="2" marker-end="url(#arrRed)"/>
+
+  <rect x="706" y="98" width="214" height="44" rx="8" fill="#fee2e2" stroke="#dc2626" stroke-width="1.5"/>
+  <text x="813" y="117" text-anchor="middle" font-size="10.5" font-weight="800" fill="#991b1b" font-family="BIZ UDPGothic, sans-serif">❌ 大規模な手戻り＆時間浪費</text>
+  <text x="813" y="134" text-anchor="middle" font-size="9.5" fill="#7f1d1d" font-family="BIZ UDPGothic, sans-serif">ヒアリング機会が後半まで失われる</text>
+  <text x="252" y="166" font-size="10" font-weight="700" fill="#b91c1c" font-family="BIZ UDPGothic, sans-serif">課題：土台作りに時間を奪われ、肝心の「AI操作体験の検証」が遅れすぎる</text>
+
+  <!-- パターンB：従来の見た目だけモック -->
+  <rect x="24" y="196" width="912" height="104" rx="12" fill="#fffbeb" stroke="#fcd34d" stroke-width="1.8"/>
+  <rect x="38" y="210" width="194" height="76" rx="10" fill="#d97706"/>
+  <text x="135" y="240" text-anchor="middle" font-size="12.5" font-weight="800" fill="#ffffff" font-family="BIZ UDPGothic, sans-serif">② 従来の見た目だけモック</text>
+  <text x="135" y="260" text-anchor="middle" font-size="10.5" fill="#fef3c7" font-family="BIZ UDPGothic, sans-serif">紙芝居・静的ページ</text>
+  <text x="135" y="276" text-anchor="middle" font-size="10" fill="#fde68a" font-family="BIZ UDPGothic, sans-serif">（張りぼて試作）</text>
+
+  <rect x="250" y="216" width="180" height="44" rx="8" fill="#ffffff" stroke="#f59e0b"/>
+  <text x="340" y="235" text-anchor="middle" font-size="10.5" font-weight="700" fill="#92400e" font-family="BIZ UDPGothic, sans-serif">見た目だけ素早く作成</text>
+  <text x="340" y="252" text-anchor="middle" font-size="9.5" fill="#78350f" font-family="BIZ UDPGothic, sans-serif">ダミー応答・実ツール未接続</text>
+
+  <line x1="430" y1="238" x2="454" y2="238" stroke="#d97706" stroke-width="2" marker-end="url(#arrAmber)"/>
+
+  <rect x="458" y="216" width="220" height="44" rx="8" fill="#ffffff" stroke="#f59e0b"/>
+  <text x="568" y="235" text-anchor="middle" font-size="10.5" font-weight="700" fill="#92400e" font-family="BIZ UDPGothic, sans-serif">見た目は確認できたが…</text>
+  <text x="568" y="252" text-anchor="middle" font-size="9.5" fill="#78350f" font-family="BIZ UDPGothic, sans-serif">「AIの待ち時間・精度・実挙動」は不明</text>
+
+  <line x1="678" y1="238" x2="702" y2="238" stroke="#d97706" stroke-width="2" marker-end="url(#arrAmber)"/>
+
+  <rect x="706" y="216" width="214" height="44" rx="8" fill="#fef3c7" stroke="#d97706" stroke-width="1.5"/>
+  <text x="813" y="235" text-anchor="middle" font-size="10.5" font-weight="800" fill="#92400e" font-family="BIZ UDPGothic, sans-serif">⚠️ 使い捨てになりがち</text>
+  <text x="813" y="252" text-anchor="middle" font-size="9.5" fill="#78350f" font-family="BIZ UDPGothic, sans-serif">本番実装で「思わぬ壁」が続出</text>
+  <text x="252" y="284" font-size="10" font-weight="700" fill="#b45309" font-family="BIZ UDPGothic, sans-serif">課題：AI特有の不確実性や応答時間、ツール連携の現実感が検証できず、資産として残らない</text>
+
+  <!-- パターンC：リアルライトモック（推奨） -->
+  <rect x="24" y="314" width="912" height="128" rx="12" fill="#ecfdf5" stroke="#10b981" stroke-width="2.5"/>
+  <rect x="38" y="328" width="194" height="98" rx="10" fill="#059669"/>
+  <text x="135" y="356" text-anchor="middle" font-size="13" font-weight="800" fill="#ffffff" font-family="BIZ UDPGothic, sans-serif">③ リアルライトモック</text>
+  <text x="135" y="376" text-anchor="middle" font-size="10.5" font-weight="700" fill="#d1fae5" font-family="BIZ UDPGothic, sans-serif">単一HTML＋AI CLI＋MCP</text>
+  <text x="135" y="395" text-anchor="middle" font-size="10" fill="#a7f3d0" font-family="BIZ UDPGothic, sans-serif">（AI時代の最短ルート）</text>
+  <rect x="64" y="403" width="142" height="17" rx="8" fill="#ffffff"/>
+  <text x="135" y="415" text-anchor="middle" font-size="9.5" font-weight="800" fill="#047857" font-family="BIZ UDPGothic, sans-serif">★ 3〜4日で実体験まで</text>
+
+  <rect x="250" y="334" width="196" height="54" rx="8" fill="#ffffff" stroke="#059669" stroke-width="1.5"/>
+  <text x="348" y="355" text-anchor="middle" font-size="10.5" font-weight="800" fill="#065f46" font-family="BIZ UDPGothic, sans-serif">単一HTML × 3案を即構築</text>
+  <text x="348" y="374" text-anchor="middle" font-size="9.5" fill="#047857" font-family="BIZ UDPGothic, sans-serif">裏でAI CLI＋MCPがリアルに動く</text>
+
+  <line x1="446" y1="361" x2="470" y2="361" stroke="#059669" stroke-width="2.5" marker-end="url(#arrGreen)"/>
+
+  <rect x="474" y="334" width="204" height="54" rx="8" fill="#ffffff" stroke="#059669" stroke-width="1.5"/>
+  <text x="576" y="355" text-anchor="middle" font-size="10.5" font-weight="800" fill="#065f46" font-family="BIZ UDPGothic, sans-serif">即座に実触り評価＆デモ</text>
+  <text x="576" y="374" text-anchor="middle" font-size="9.5" fill="#047857" font-family="BIZ UDPGothic, sans-serif">同僚FB＋上長説明で仕様が確定</text>
+
+  <line x1="678" y1="361" x2="702" y2="361" stroke="#059669" stroke-width="2.5" marker-end="url(#arrGreen)"/>
+
+  <rect x="706" y="334" width="214" height="54" rx="8" fill="#d1fae5" stroke="#047857" stroke-width="2"/>
+  <text x="813" y="355" text-anchor="middle" font-size="10.5" font-weight="800" fill="#064e3b" font-family="BIZ UDPGothic, sans-serif">✅ 資産としてAIへ渡す</text>
+  <text x="813" y="374" text-anchor="middle" font-size="9.5" fill="#065f46" font-family="BIZ UDPGothic, sans-serif">一気に本番構成へ変換・製品化</text>
+
+  <text x="252" y="416" font-size="10.5" font-weight="800" fill="#065f46" font-family="BIZ UDPGothic, sans-serif">強み：AIが高速生成できる今だからこそ「超軽量に実体験を固める → それを仕様書として一気に本番化」が最短になる！</text>
+</svg>

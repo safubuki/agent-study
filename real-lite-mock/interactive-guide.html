@@ -1,0 +1,1362 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>リアルライトモック わかる動的ガイド — real-lite-mock</title>
+  <style>
+    :root {
+      --bg: #f8fafc;
+      --surface: #ffffff;
+      --surface-soft: #f1f5f9;
+      --border: #e2e8f0;
+      --border-strong: #cbd5e1;
+      --ink: #0f172a;
+      --ink-sub: #334155;
+      --ink-muted: #475569;
+
+      --accent: #c2410c;
+      --accent-hover: #9a3412;
+      --accent-soft: #fff7ed;
+      --accent-border: #fdba74;
+
+      --blue: #1d4ed8;    --blue-soft: #eff6ff;
+      --emerald: #047857; --emerald-soft: #ecfdf5;
+      --violet: #6d28d9;  --violet-soft: #f5f3ff;
+      --amber: #b45309;   --amber-soft: #fffbeb;
+      --rose: #be123c;    --rose-soft: #fff1f2;
+      --teal: #0f766e;    --teal-soft: #f0fdfa;
+
+      --card-shadow: 0 4px 24px -8px rgba(15, 23, 42, 0.08);
+      --btn-shadow: 0 2px 6px rgba(15, 23, 42, 0.08);
+      --primary-shadow: 0 6px 18px -4px rgba(194, 65, 12, 0.36);
+      --ease: cubic-bezier(0.22, 1, 0.36, 1);
+      --font-sans: "BIZ UDPGothic", "Hiragino Kaku Gothic ProN", "Yu Gothic UI", "Meiryo", system-ui, sans-serif;
+      --font-mono: "Cascadia Code", "Fira Code", Consolas, monospace;
+    }
+
+    [data-theme="dark"] {
+      --bg: #0b1120;
+      --surface: #111827;
+      --surface-soft: #1e293b;
+      --border: #1e293b;
+      --border-strong: #334155;
+      --ink: #f8fafc;
+      --ink-sub: #cbd5e1;
+      --ink-muted: #94a3b8;
+
+      --accent: #fb923c;
+      --accent-hover: #f97316;
+      --accent-soft: rgba(249, 115, 22, 0.16);
+      --accent-border: rgba(251, 146, 60, 0.38);
+
+      --blue: #60a5fa;    --blue-soft: rgba(59, 130, 246, 0.16);
+      --emerald: #34d399; --emerald-soft: rgba(16, 185, 129, 0.16);
+      --violet: #a78bfa;  --violet-soft: rgba(139, 92, 246, 0.16);
+      --amber: #fbbf24;   --amber-soft: rgba(245, 158, 11, 0.16);
+      --rose: #fb7185;    --rose-soft: rgba(244, 63, 94, 0.16);
+      --teal: #2dd4bf;    --teal-soft: rgba(20, 184, 166, 0.16);
+
+      --card-shadow: 0 8px 28px -8px rgba(0, 0, 0, 0.5);
+      --btn-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0; font-family: var(--font-sans); font-size: 16px; line-height: 1.85;
+      background: var(--bg); color: var(--ink);
+      transition: background-color 0.3s var(--ease), color 0.3s var(--ease);
+    }
+    .progress-bar { position: fixed; top: 0; left: 0; height: 3px; width: 0%; background: var(--accent); z-index: 200; }
+
+    /* =====================================================================
+       全ページ完全統一ヘッダー
+    ===================================================================== */
+    header.topbar {
+      position: sticky; top: 0; z-index: 100;
+      background: color-mix(in srgb, var(--surface) 94%, transparent);
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .topbar-row1 {
+      max-width: 1040px; margin: 0 auto; padding: 10px 20px 8px;
+      display: flex; align-items: center; justify-content: space-between; gap: 12px;
+    }
+    .brand {
+      display: inline-flex; align-items: center; gap: 9px;
+      font-weight: 800; color: var(--ink); text-decoration: none; white-space: nowrap;
+    }
+    .brand-icon {
+      width: 30px; height: 30px; border-radius: 8px;
+      background: linear-gradient(135deg, #2563eb, #0f766e); color: #fff;
+      display: inline-flex; align-items: center; justify-content: center; font-size: 0.95rem;
+    }
+    .page-chip {
+      border-radius: 99px; font-weight: 800;
+      background: var(--accent-soft); color: var(--accent); border: 1px solid var(--accent-border);
+      white-space: nowrap;
+    }
+    .util-btns { display: flex; gap: 6px; flex-shrink: 0; }
+    .util-btn {
+      border-radius: 8px; border: 1.5px solid var(--border-strong);
+      background: var(--surface); color: var(--ink-sub); font-family: inherit;
+      font-weight: 700; cursor: pointer; box-shadow: var(--btn-shadow);
+      text-decoration: none; white-space: nowrap;
+    }
+    .util-btn:hover { border-color: var(--accent); color: var(--accent); }
+    .topbar-row2 {
+      border-top: 1px solid var(--border);
+      background: color-mix(in srgb, var(--surface-soft) 72%, transparent);
+    }
+    .guide-nav {
+      max-width: 1040px; margin: 0 auto; padding: 6px 20px;
+      display: flex; align-items: center; gap: 4px; overflow-x: auto; scrollbar-width: thin;
+    }
+    .guide-nav a {
+      border-radius: 8px; color: var(--ink-muted); text-decoration: none; white-space: nowrap; flex-shrink: 0;
+      transition: background 0.15s, color 0.15s;
+    }
+    .guide-nav a:hover { color: var(--ink); background: var(--surface); }
+    .guide-nav a.current { color: #fff; background: var(--accent); }
+    [data-theme="dark"] .guide-nav a.current { color: #0b1120; }
+
+    header.topbar, header.topbar * {
+      font-family: "BIZ UDPGothic", "Hiragino Kaku Gothic ProN", "Yu Gothic UI", "Meiryo", system-ui, sans-serif !important;
+      letter-spacing: 0 !important;
+    }
+    header.topbar .topbar-row1 { min-height: 48px; box-sizing: border-box; }
+    header.topbar .brand { font-size: 15px !important; line-height: 1.3 !important; }
+    header.topbar .page-chip { font-size: 12px !important; line-height: 1.4 !important; padding: 3px 10px !important; }
+    header.topbar .util-btn { font-size: 12.5px !important; line-height: 1.3 !important; padding: 6px 11px !important; }
+    header.topbar .guide-nav { gap: 4px !important; min-height: 42px; box-sizing: border-box; }
+    header.topbar .guide-nav a { font-size: 13px !important; line-height: 1.4 !important; padding: 5px 11px !important; font-weight: 700 !important; }
+
+    /* =====================================================================
+       メインレイアウト（余白重視・視線迷子ゼロ）
+    ===================================================================== */
+    main { max-width: 980px; margin: 0 auto; padding: 34px 20px 96px; }
+
+    .hero {
+      background: var(--surface); border: 1px solid var(--border); border-radius: 22px;
+      padding: 34px 32px; margin-bottom: 52px; box-shadow: var(--card-shadow);
+    }
+    .eyebrow { display: inline-block; font-size: 0.82rem; font-weight: 800; color: var(--accent); margin-bottom: 8px; }
+    .hero h1 { margin: 0 0 14px; font-size: clamp(1.55rem, 3vw, 2.08rem); line-height: 1.38; }
+    .hero p.lead { margin: 0 0 20px; color: var(--ink-sub); max-width: 780px; }
+
+    .pillars {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 22px;
+    }
+    .pillar-chip {
+      padding: 12px 14px; border-radius: 12px; background: var(--surface-soft);
+      border: 1px solid var(--border); font-size: 0.84rem; line-height: 1.5;
+    }
+    .pillar-chip strong { display: block; color: var(--ink); font-size: 0.88rem; margin-bottom: 2px; }
+    .pillar-chip span { color: var(--ink-muted); font-size: 0.78rem; }
+
+    .figure-frame {
+      border-radius: 16px; overflow: hidden; border: 1px solid var(--border);
+      background: #ffffff; margin: 18px 0 22px; padding: 8px;
+    }
+    .figure-frame img { display: block; width: 100%; height: auto; }
+
+    .toc-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+    .toc-item {
+      display: flex; align-items: center; gap: 10px; padding: 11px 14px; border-radius: 12px;
+      border: 1.5px solid var(--border); background: var(--surface); color: var(--ink);
+      text-decoration: none; font-size: 0.85rem; font-weight: 700; transition: all 0.2s var(--ease);
+    }
+    .toc-item:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-soft); transform: translateX(2px); }
+    .toc-no {
+      width: 24px; height: 24px; border-radius: 50%; flex-shrink: 0;
+      background: var(--accent); color: #fff; font-size: 0.76rem; font-weight: 800;
+      display: inline-flex; align-items: center; justify-content: center;
+    }
+    [data-theme="dark"] .toc-no { color: #0b1120; }
+
+    section.lesson { margin-bottom: 68px; scroll-margin-top: 112px; }
+    .lesson-kicker { font-size: 0.8rem; font-weight: 800; color: var(--accent); letter-spacing: 0.04em; display: block; margin-bottom: 4px; }
+    .lesson h2 { margin: 0 0 12px; font-size: clamp(1.32rem, 2.3vw, 1.62rem); line-height: 1.38; }
+
+    .story-box {
+      padding: 15px 20px; border-radius: 14px; background: var(--surface-soft);
+      border-left: 4px solid var(--accent); margin-bottom: 18px; font-size: 0.94rem; color: var(--ink-sub);
+    }
+    .story-box strong { color: var(--ink); }
+
+    .exp-card {
+      background: var(--surface); border: 1px solid var(--border); border-radius: 20px;
+      overflow: hidden; box-shadow: var(--card-shadow);
+    }
+    .step-bar { padding: 16px 22px; background: var(--surface-soft); border-bottom: 1px solid var(--border); }
+    .step-label { display: block; font-size: 0.82rem; font-weight: 800; color: var(--ink-muted); margin-bottom: 10px; }
+
+    .select-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+    .select-grid.two { grid-template-columns: repeat(2, 1fr); }
+    .sel-btn {
+      text-align: left; padding: 11px 14px; border-radius: 12px;
+      border: 2px solid var(--border-strong); background: var(--surface);
+      color: var(--ink); font-family: inherit; cursor: pointer;
+      box-shadow: var(--btn-shadow); transition: all 0.2s var(--ease);
+    }
+    .sel-btn:hover { border-color: var(--accent); transform: translateY(-1px); }
+    .sel-btn.active { border-color: var(--accent); background: var(--accent-soft); box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent) 22%, transparent); }
+    .sel-btn .sel-title { display: block; font-size: 0.88rem; font-weight: 800; margin-bottom: 2px; line-height: 1.35; }
+    .sel-btn .sel-sub { display: block; font-size: 0.76rem; color: var(--ink-muted); line-height: 1.4; }
+
+    .stage { padding: 24px; }
+    .takeaway { padding: 18px 24px; background: var(--surface-soft); border-top: 1px solid var(--border); font-size: 0.93rem; }
+    .takeaway-head { font-size: 0.8rem; font-weight: 800; color: var(--accent); display: block; margin-bottom: 4px; }
+
+    .run-btn {
+      display: inline-flex; align-items: center; gap: 7px; padding: 9px 16px; border-radius: 10px;
+      border: 2px solid var(--accent); background: var(--accent); color: #fff; font-family: inherit;
+      font-size: 0.86rem; font-weight: 800; cursor: pointer; box-shadow: var(--primary-shadow);
+      transition: all 0.2s var(--ease);
+    }
+    [data-theme="dark"] .run-btn { color: #0b1120; }
+    .run-btn:hover:not(:disabled) { background: var(--accent-hover); transform: translateY(-1px); }
+    .run-btn:disabled { opacity: 0.55; cursor: not-allowed; }
+    .sub-btn {
+      display: inline-flex; align-items: center; gap: 6px; padding: 8px 13px; border-radius: 10px;
+      border: 1.5px solid var(--border-strong); background: var(--surface); color: var(--ink);
+      font-family: inherit; font-size: 0.82rem; font-weight: 700; cursor: pointer; box-shadow: var(--btn-shadow);
+    }
+    .sub-btn:hover:not(:disabled) { border-color: var(--accent); color: var(--accent); }
+
+    /* =====================================================================
+       STEP 1：アプローチ比較タイムライン
+    ===================================================================== */
+    .timeline-box {
+      padding: 20px; border-radius: 14px; border: 1.5px solid var(--border);
+      background: var(--surface-soft);
+    }
+    .tl-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-bottom: 16px; }
+    .tl-badge {
+      padding: 4px 12px; border-radius: 99px; font-size: 0.8rem; font-weight: 800;
+    }
+    .tl-badge.bad { background: var(--rose-soft); color: var(--rose); border: 1px solid color-mix(in srgb, var(--rose) 35%, transparent); }
+    .tl-badge.warn { background: var(--amber-soft); color: var(--amber); border: 1px solid color-mix(in srgb, var(--amber) 35%, transparent); }
+    .tl-badge.good { background: var(--emerald-soft); color: var(--emerald); border: 1px solid color-mix(in srgb, var(--emerald) 35%, transparent); }
+
+    .tl-track {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 16px;
+    }
+    .tl-phase {
+      padding: 14px; border-radius: 12px; background: var(--surface);
+      border: 1.5px solid var(--border); display: flex; flex-direction: column; gap: 4px;
+    }
+    .tl-day { font-size: 0.74rem; font-weight: 800; color: var(--ink-muted); }
+    .tl-title { font-size: 0.9rem; font-weight: 800; color: var(--ink); }
+    .tl-desc { font-size: 0.8rem; color: var(--ink-sub); line-height: 1.5; }
+    .tl-metrics {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;
+    }
+    .metric-card {
+      padding: 12px 14px; border-radius: 11px; background: var(--surface); border: 1px solid var(--border);
+    }
+    .metric-label { font-size: 0.76rem; font-weight: 700; color: var(--ink-muted); display: block; }
+    .metric-val { font-size: 1rem; font-weight: 800; color: var(--ink); margin-top: 2px; display: block; }
+
+    /* =====================================================================
+       STEP 2：リアルライトモック体験ラボ（ブラウザ枠＋3案＋自動再生デモ）
+    ===================================================================== */
+    .lab-toolbar {
+      display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;
+      margin-bottom: 14px;
+    }
+    .browser-frame {
+      border-radius: 16px; overflow: hidden;
+      border: 1.5px solid var(--border-strong);
+      box-shadow: 0 18px 42px -18px rgba(15, 23, 42, 0.22);
+      background: #ffffff; color: #0f172a;
+    }
+    .browser-chrome {
+      height: 42px; padding: 0 14px;
+      background: #e2e8f0; border-bottom: 1px solid #cbd5e1;
+      display: flex; align-items: center; gap: 12px;
+    }
+    .win-dots { display: flex; gap: 6px; flex-shrink: 0; }
+    .win-dots span { width: 11px; height: 11px; border-radius: 50%; display: block; }
+    .win-dots .d-r { background: #ef4444; }
+    .win-dots .d-y { background: #f59e0b; }
+    .win-dots .d-g { background: #22c55e; }
+    .url-bar {
+      flex: 1; height: 26px; padding: 0 12px; border-radius: 7px;
+      background: #ffffff; border: 1px solid #cbd5e1;
+      display: flex; align-items: center; justify-content: space-between; gap: 8px;
+      font-size: 12px; color: #475569; font-family: var(--font-mono); overflow: hidden;
+    }
+    .demo-status-pill {
+      padding: 2px 10px; border-radius: 99px; font-family: var(--font-sans);
+      font-size: 11px; font-weight: 800; white-space: nowrap;
+      background: #fff7ed; color: #c2410c; border: 1px solid #fdba74;
+    }
+    .demo-status-pill.running { background: #059669; color: #ffffff; border-color: #059669; }
+
+    .mock-app-body {
+      display: grid; grid-template-columns: 1.05fr 0.95fr; min-height: 370px;
+      background: #f8fafc; color: #0f172a; font-size: 14px; line-height: 1.65;
+    }
+    .mock-left {
+      padding: 18px; background: #ffffff; border-right: 1px solid #e2e8f0;
+      display: flex; flex-direction: column; gap: 12px;
+    }
+    .mock-right {
+      padding: 18px; background: #f8fafc;
+      display: flex; flex-direction: column; gap: 12px;
+    }
+    .mock-head {
+      display: flex; align-items: center; justify-content: space-between; gap: 8px;
+      padding-bottom: 10px; border-bottom: 1px solid #e2e8f0;
+    }
+    .mock-head h4 { margin: 0; font-size: 14.5px; color: #0f172a; }
+    .mock-tag {
+      padding: 2px 9px; border-radius: 99px; font-size: 11px; font-weight: 800;
+      background: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe;
+    }
+    .mock-field label { display: block; font-size: 12px; font-weight: 700; color: #334155; margin-bottom: 4px; }
+    .mock-input, .mock-select, .mock-textarea {
+      width: 100%; padding: 8px 10px; border-radius: 8px; border: 1.5px solid #cbd5e1;
+      background: #ffffff; color: #0f172a; font-family: inherit; font-size: 13px;
+    }
+    .mock-textarea { min-height: 70px; resize: vertical; }
+    .mock-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+    .mock-chip {
+      padding: 5px 10px; border-radius: 8px; border: 1.5px solid #cbd5e1;
+      background: #f8fafc; color: #334155; font-size: 12px; font-weight: 700; cursor: pointer;
+    }
+    .mock-chip.selected { border-color: #0f766e; background: #f0fdfa; color: #0f766e; }
+    .mock-range-row { display: flex; align-items: center; gap: 10px; }
+    .mock-range-row input[type="range"] { flex: 1; accent-color: #0f766e; }
+    .mock-val-badge {
+      min-width: 58px; text-align: center; padding: 3px 8px; border-radius: 6px;
+      background: #f1f5f9; font-family: var(--font-mono); font-size: 12px; font-weight: 700; color: #0f172a;
+    }
+    .mock-exec-btn {
+      padding: 9px 14px; border-radius: 9px; border: none; background: #2563eb; color: #ffffff;
+      font-family: inherit; font-size: 13px; font-weight: 800; cursor: pointer;
+    }
+    .mock-exec-btn:hover { background: #1d4ed8; }
+    .mock-exec-btn.teal { background: #0f766e; }
+    .mock-exec-btn.teal:hover { background: #115e59; }
+
+    .cli-log {
+      background: #0f172a; color: #e2e8f0; border-radius: 10px; padding: 12px 14px;
+      font-family: var(--font-mono); font-size: 11.8px; line-height: 1.6;
+      min-height: 120px; max-height: 145px; overflow-y: auto;
+    }
+    .cli-log .c-dim { color: #94a3b8; }
+    .cli-log .c-ok { color: #34d399; }
+    .cli-log .c-cmd { color: #60a5fa; }
+    .cli-log .c-mcp { color: #fbbf24; }
+
+    .cad-preview {
+      flex: 1; background: #ffffff; border: 1.5px solid #cbd5e1; border-radius: 12px;
+      padding: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center;
+      min-height: 175px;
+    }
+    .cad-meta {
+      margin-top: 8px; font-size: 12px; color: #334155; text-align: center; font-weight: 700;
+    }
+    .feedback-note {
+      margin-top: 12px; padding: 12px 16px; border-radius: 12px;
+      background: var(--surface-soft); border: 1px solid var(--border);
+      font-size: 0.86rem; color: var(--ink-sub);
+    }
+    .feedback-note strong { color: var(--ink); }
+
+    /* =====================================================================
+       STEP 3：PoC → 本番製品化＆継ぎ足しNG vs 再構築OK
+    ===================================================================== */
+    .arch-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 20px;
+    }
+    .arch-layer {
+      padding: 16px; border-radius: 14px; background: var(--surface-soft);
+      border: 1.5px solid var(--border);
+    }
+    .arch-layer.prod { border-color: color-mix(in srgb, var(--violet) 45%, transparent); background: var(--violet-soft); }
+    .arch-layer.poc { border-color: color-mix(in srgb, var(--blue) 45%, transparent); background: var(--blue-soft); }
+    .arch-kicker { font-size: 0.74rem; font-weight: 800; color: var(--ink-muted); display: block; margin-bottom: 4px; }
+    .arch-layer h4 { margin: 0 0 6px; font-size: 0.96rem; color: var(--ink); }
+    .arch-layer p { margin: 0; font-size: 0.84rem; color: var(--ink-sub); line-height: 1.55; }
+
+    .route-compare {
+      display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px;
+    }
+    .route-box {
+      padding: 18px; border-radius: 14px; border: 2px solid var(--border); background: var(--surface);
+    }
+    .route-box.ng { border-color: color-mix(in srgb, var(--rose) 48%, transparent); background: var(--rose-soft); }
+    .route-box.ok { border-color: color-mix(in srgb, var(--emerald) 55%, transparent); background: var(--emerald-soft); }
+    .route-box h4 { margin: 0 0 8px; font-size: 0.98rem; }
+    .route-box ul { margin: 0; padding-left: 20px; font-size: 0.86rem; color: var(--ink-sub); }
+    .route-box li { margin-bottom: 5px; }
+
+    /* =====================================================================
+       STEP 4：6大裏付け知見＆3大落とし穴
+    ===================================================================== */
+    .prior-detail {
+      margin-top: 14px; padding: 18px 20px; border-radius: 14px;
+      background: var(--surface-soft); border: 1.5px solid var(--border);
+    }
+    .prior-detail h4 { margin: 0 0 6px; font-size: 1.02rem; color: var(--ink); }
+    .prior-en { font-size: 0.8rem; font-weight: 800; color: var(--accent); margin-bottom: 10px; display: block; }
+    .prior-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 10px; }
+    .prior-col {
+      padding: 12px 14px; border-radius: 10px; background: var(--surface); border: 1px solid var(--border);
+      font-size: 0.86rem; color: var(--ink-sub);
+    }
+    .prior-col strong { display: block; color: var(--ink); margin-bottom: 4px; font-size: 0.84rem; }
+
+    .trap-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 18px; }
+    .trap-card {
+      padding: 15px 16px; border-radius: 14px; background: var(--surface);
+      border: 1.5px solid var(--border); border-top: 4px solid var(--amber);
+    }
+    .trap-card h4 { margin: 0 0 6px; font-size: 0.92rem; color: var(--ink); }
+    .trap-card p { margin: 0 0 8px; font-size: 0.82rem; color: var(--ink-sub); line-height: 1.55; }
+    .trap-fix { font-size: 0.8rem; font-weight: 700; color: var(--emerald); }
+
+    /* =====================================================================
+       STEP 5：実践チェックリスト＆プロンプトコピー
+    ===================================================================== */
+    .check-list { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 22px; }
+    .check-item {
+      display: flex; align-items: flex-start; gap: 10px; padding: 12px 14px;
+      border-radius: 12px; background: var(--surface-soft); border: 1.5px solid var(--border);
+      cursor: pointer; font-size: 0.86rem; color: var(--ink-sub); transition: border-color 0.15s;
+    }
+    .check-item:hover { border-color: var(--accent); }
+    .check-item input { margin-top: 4px; accent-color: var(--accent); width: 16px; height: 16px; flex-shrink: 0; }
+    .check-item.checked { background: var(--emerald-soft); border-color: color-mix(in srgb, var(--emerald) 45%, transparent); color: var(--ink); }
+
+    .prompt-wrap {
+      border-radius: 14px; border: 1.5px solid var(--border); overflow: hidden; background: var(--surface-soft);
+    }
+    .prompt-head {
+      padding: 12px 16px; display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap;
+      border-bottom: 1px solid var(--border); background: var(--surface);
+    }
+    .prompt-tabs { display: flex; gap: 6px; flex-wrap: wrap; }
+    .prompt-tab {
+      padding: 6px 12px; border-radius: 8px; border: 1.5px solid var(--border-strong);
+      background: var(--surface); color: var(--ink-sub); font-family: inherit;
+      font-size: 0.8rem; font-weight: 700; cursor: pointer;
+    }
+    .prompt-tab.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+    [data-theme="dark"] .prompt-tab.active { color: #0b1120; }
+    .prompt-pre {
+      margin: 0; padding: 16px 18px; white-space: pre-wrap; word-break: break-word;
+      font-family: var(--font-mono); font-size: 0.82rem; line-height: 1.65; color: var(--ink);
+    }
+
+    footer.foot {
+      margin-top: 56px; padding-top: 24px; border-top: 1px solid var(--border);
+      text-align: center; font-size: 0.86rem; color: var(--ink-muted);
+    }
+    footer.foot a { color: var(--accent); font-weight: 700; text-decoration: none; }
+
+    @media (max-width: 820px) {
+      .pillars, .toc-grid, .select-grid, .tl-track, .tl-metrics,
+      .mock-app-body, .arch-grid, .route-compare, .prior-cols, .trap-grid, .check-list {
+        grid-template-columns: 1fr;
+      }
+      .hero { padding: 24px 20px; }
+      .stage { padding: 18px; }
+      .mock-left { border-right: none; border-bottom: 1px solid #e2e8f0; }
+    }
+  </style>
+</head>
+<body>
+  <div class="progress-bar" id="progressBar"></div>
+
+  <!-- 全ページ完全統一ヘッダー -->
+  <header class="topbar">
+    <div class="topbar-row1">
+      <div style="display:flex;align-items:center;gap:10px;min-width:0;">
+        <a href="../index.html" class="brand">
+          <span class="brand-icon">🧭</span>
+          <span>agent-study</span>
+        </a>
+        <span class="page-chip">8. リアルライトモック</span>
+      </div>
+      <div class="util-btns">
+        <a href="README.md" class="util-btn">📖 README</a>
+        <button type="button" class="util-btn" id="themeToggle">🌙 ダーク</button>
+      </div>
+    </div>
+    <div class="topbar-row2">
+      <nav class="guide-nav" aria-label="学習ガイド一覧">
+        <a href="../index.html">🏠 トップ</a>
+        <a href="../agent-guide/interactive-guide.html">1. エージェント</a>
+        <a href="../copilot-fusion/interactive-guide.html">2. Fusion</a>
+        <a href="../hook-guide/interactive-guide.html">3. フック</a>
+        <a href="../mcp-guide/interactive-guide.html">4. MCP</a>
+        <a href="../uml-guide/interactive-guide.html">5. UML・要求図</a>
+        <a href="../agent-skill/interactive-guide.html">6. スキル</a>
+        <a href="../ui-guide/interactive-guide.html">7. AI・UI設計</a>
+        <a href="interactive-guide.html" class="current">8. リアルライトモック</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+    <!-- ヒーロー -->
+    <section class="hero">
+      <span class="eyebrow">3〜4日で「本当に動く3案」を作り、使い捨てずに本番製品へつなげる開発手法</span>
+      <h1>リアルライトモック（Real Lite Mock）わかる動的ガイド</h1>
+      <p class="lead">
+        いきなり本格的なフロント・バックエンド構築に入ると時間がかかり、かといって見た目だけの試作は使い捨てになります。
+        このガイドでは、<strong>「単一 HTML ＋ ローカル AI CLI ＋ MCP で3〜4日でリアルに動く3案を作り、体験を詰め込んだモックをそのまま本番化のインプットにする」</strong>進め方を、実際に触りながら 5 ステップで理解できます。
+      </p>
+
+      <div class="pillars">
+        <div class="pillar-chip">
+          <strong>① 単一HTMLで実動作</strong>
+          <span>裏の AI CLI＋MCP で実ツールまで動かす</span>
+        </div>
+        <div class="pillar-chip">
+          <strong>② 3パターン並行試作</strong>
+          <span>現場案×2＋AI UI定石×1を触り比べ</span>
+        </div>
+        <div class="pillar-chip">
+          <strong>③ ▶ 自動再生デモ</strong>
+          <span>ボタン1回で上長説明・社内横展開</span>
+        </div>
+        <div class="pillar-chip">
+          <strong>④ 使い捨てず資産化</strong>
+          <span>動く仕様書として AI で本番再構築</span>
+        </div>
+      </div>
+
+      <div class="figure-frame">
+        <img src="assets/rlm-01-overview-flow.svg" alt="リアルライトモックによる3〜4日超高速試作から本番製品化までの5段階フロー" />
+      </div>
+
+      <div class="toc-grid">
+        <a class="toc-item" href="#step1"><span class="toc-no">1</span>3つの開発手法を比較</a>
+        <a class="toc-item" href="#step2"><span class="toc-no">2</span>3案比較＆自動デモ体験</a>
+        <a class="toc-item" href="#step3"><span class="toc-no">3</span>PoC→本番と資産化の極意</a>
+        <a class="toc-item" href="#step4"><span class="toc-no">4</span>6大裏付け＆3つの注意点</a>
+        <a class="toc-item" href="#step5"><span class="toc-no">5</span>実践チェック＆プロンプト</a>
+        <a class="toc-item" href="README.md"><span class="toc-no">📖</span>Markdown資料一式を見る</a>
+      </div>
+    </section>
+
+    <!-- ================================================================
+         STEP 1：なぜリアルライトモックが「近道」になるのか？
+    ================================================================ -->
+    <section class="lesson" id="step1">
+      <span class="lesson-kicker">STEP 1 — 従来の開発とのちがい</span>
+      <h2>なぜ「モックを作ってから本番化」のほうが近道なのか？</h2>
+      <div class="story-box">
+        <strong>たとえ話：</strong>
+        注文住宅を建てる前に、いきなり基礎工事（React・DB・クラウド環境）を始めると「やっぱりキッチンはこっち」と直すのが大変です。逆に紙の間取り図（見た目だけモック）では暮らし心地が分かりません。AI 時代は、<strong>3〜4 日で「実際に家電が動くモデルルーム」を 3 棟建てて住み心地を確かめ、確定したモデルルームを設計図として本物を建てる</strong>のが最短です。
+      </div>
+
+      <div class="exp-card">
+        <div class="step-bar">
+          <span class="step-label">👇 3つの進め方を切り替えて「いつ初めて触れるか」「手戻りリスク」を比べてみましょう</span>
+          <div class="select-grid" id="approachTabs">
+            <button type="button" class="sel-btn" data-mode="heavy">
+              <span class="sel-title">① 最初から本格構築</span>
+              <span class="sel-sub">React＋API＋DB＋クラウドを最初から分離</span>
+            </button>
+            <button type="button" class="sel-btn" data-mode="paper">
+              <span class="sel-title">② 従来の見た目だけモック</span>
+              <span class="sel-sub">ダミー応答の紙芝居ページで先に確認</span>
+            </button>
+            <button type="button" class="sel-btn active" data-mode="rlm">
+              <span class="sel-title">③ リアルライトモック（推奨）</span>
+              <span class="sel-sub">単一HTML×3案＋AI CLI＋MCPで即体験</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="stage">
+          <div class="timeline-box" id="timelineBox"></div>
+        </div>
+
+        <div class="takeaway">
+          <span class="takeaway-head">💡 STEP 1 の要点</span>
+          AI が高速にコードを書ける今だからこそ、<strong>「土台作りに時間を奪われてヒアリング機会を失う」</strong>のが最大のリスクです。最初はコードが泥臭くても、HTML 1 ファイルに全部詰めて 3〜4 日で実体験まで持っていきます。
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================
+         STEP 2：3パターン並行試作 × ▶ デモモード体験ラボ
+    ================================================================ -->
+    <section class="lesson" id="step2">
+      <span class="lesson-kicker">STEP 2 — 触ってわかる核心体験</span>
+      <h2>3パターン並行試作 × ▶ デモモード（自動再生）を体験しよう</h2>
+      <div class="story-box">
+        <strong>題材（架空の業務 PoC）：</strong>
+        裏側では <strong>ローカル AI CLI（GitHub Copilot CLI 等）＋ MCP 経由で CAD ソフトを操作し、3D パーツを生成できる</strong>状態まで完成済み。
+        次に UI を決めるとき、1 案に絞らず<strong>「現場案①」「現場案②」「AI UI ガイド（7 パターン）最適案」の 3 つの動く HTML</strong>を並べて同僚に触り比べてもらいます。さらに<strong>「▶ デモモード自動再生」</strong>を入れれば、上長説明も 1 クリックで完了します。
+      </div>
+
+      <div class="exp-card">
+        <div class="step-bar">
+          <div class="lab-toolbar">
+            <span class="step-label" style="margin:0;">👇 3つの動く HTML モックを切り替えて操作するか、右の「▶ デモ自動再生」を押してみてください</span>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;">
+              <button type="button" class="run-btn" id="demoPlayBtn">▶ デモモード自動再生（上長説明用）</button>
+              <button type="button" class="sub-btn" id="demoResetBtn">↺ リセット</button>
+            </div>
+          </div>
+          <div class="select-grid" id="mockPatternTabs">
+            <button type="button" class="sel-btn active" data-pat="a">
+              <span class="sel-title">パターン A：現場案①（フォーム型）</span>
+              <span class="sel-sub">いつもの業務画面に近い数値入力中心</span>
+            </button>
+            <button type="button" class="sel-btn" data-pat="b">
+              <span class="sel-title">パターン B：現場案②（チャット型）</span>
+              <span class="sel-sub">AI へ言葉で頼むシンプルな対話画面</span>
+            </button>
+            <button type="button" class="sel-btn" data-pat="c">
+              <span class="sel-title">パターン C：AI UI 定石（調整UI＋承認）</span>
+              <span class="sel-sub">ui-guide の Tuners＋一言＋実行前確認</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="stage">
+          <div class="browser-frame">
+            <div class="browser-chrome">
+              <div class="win-dots"><span class="d-r"></span><span class="d-y"></span><span class="d-g"></span></div>
+              <div class="url-bar">
+                <span id="mockFileUrl">file:///C:/poc/mock-a-form.html（単一HTML・ビルド不要）</span>
+                <span class="demo-status-pill" id="demoStatusPill">実操作モード</span>
+              </div>
+            </div>
+
+            <div class="mock-app-body">
+              <!-- 左：選択中パターンの操作UI -->
+              <div class="mock-left" id="mockUiPanel"></div>
+
+              <!-- 右：裏側のローカルAI CLI＋MCP実行ログ ＆ CAD 3Dプレビュー -->
+              <div class="mock-right">
+                <div class="mock-head">
+                  <h4>⚙️ 裏側の実動作（AI CLI → MCP → CAD）</h4>
+                  <span class="mock-tag" style="background:#ecfdf5;color:#047857;border-color:#a7f3d0;">リアル連動</span>
+                </div>
+                <div class="cli-log" id="cliLog">
+                  <div class="c-dim">// 待機中：左の画面から実行するか「▶ デモモード自動再生」を押してください</div>
+                </div>
+                <div class="cad-preview" id="cadPreview"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="feedback-note" id="patternFeedbackNote"></div>
+        </div>
+
+        <div class="takeaway">
+          <span class="takeaway-head">💡 STEP 2 の要点</span>
+          1 案だけだと「これでいいと思います」で終わりがちですが、<strong>動く 3 案を並べることで「A の入力の速さと C の確認ステップを合体したい！」という具体的な本音</strong>が同僚から出てきます。また<strong>自動再生デモモード</strong>があることで、上位レイヤーへの説明や社内展開のハードルが一気に下がります。
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================
+         STEP 3：PoC から本番製品化への進化と「資産化」の極意
+    ================================================================ -->
+    <section class="lesson" id="step3">
+      <span class="lesson-kicker">STEP 3 — 使い捨てにしないアーキテクチャ設計</span>
+      <h2>ローカル CLI 検証 → クラウド本番化（継ぎ足し NG の理由）</h2>
+      <div class="story-box">
+        <strong>企業内開発のリアル：</strong>
+        社内でいきなり Azure などのクラウド AI を契約・申請・構築すると時間が止まります。まずは<strong>手元の AI CLI（GitHub Copilot CLI 等）</strong>で価値を証明し、体験と要件が固まった段階で、<strong>完成したリアルライトモックを AI へのインプットにして本番構成を一気に生成</strong>します。
+      </div>
+
+      <div class="exp-card">
+        <div class="step-bar">
+          <span class="step-label">👇 フェーズを切り替えて、3つの層（画面・AI・裏側）がどう進化するか確認しましょう</span>
+          <div class="select-grid two" id="phaseTabs">
+            <button type="button" class="sel-btn active" data-phase="poc">
+              <span class="sel-title">Phase 1：リアルライトモック（社内 PoC）</span>
+              <span class="sel-sub">単一 HTML ＋ ローカル AI CLI ＋ MCP（スピード・体験最優先）</span>
+            </button>
+            <button type="button" class="sel-btn" data-phase="prod">
+              <span class="sel-title">Phase 2：顧客提供用の本番基盤（製品化）</span>
+              <span class="sel-sub">React ＋ Python API ＋ DB ＋ Azure 等クラウド AI（安全・保守性）</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="stage">
+          <div class="arch-grid" id="archLayers"></div>
+
+          <h3 style="margin:24px 0 10px;font-size:1.02rem;">⚠️ 本番移行の分かれ道：「使い捨てない」の正しい意味</h3>
+          <div class="route-compare">
+            <div class="route-box ng">
+              <h4 style="color:var(--rose);">❌ NG：モックのコードをそのまま継ぎ足す</h4>
+              <ul>
+                <li>単一 HTML の泥臭いコードに認証や API を無理やり後付けする</li>
+                <li>業界で<strong>「バイブコーディングの二日酔い（Vibe Hangover）」</strong>と呼ばれる破綻パターン</li>
+                <li>セキュリティ穴や例外処理漏れが残り、保守できなくなる</li>
+              </ul>
+            </div>
+            <div class="route-box ok">
+              <h4 style="color:var(--emerald);">✅ OK：モックを「動く仕様書」として AI に渡し再構築</h4>
+              <ul>
+                <li>フィードバックを詰め込んだモックをそのまま AI へのインプットにする</li>
+                <li>画面遷移・入力項目・プロンプト・MCP 仕様を AI に正確に抽出させる</li>
+                <li><strong>React＋Python＋DB＋クラウド AI をゼロから清潔に生成</strong>し、自動テストを付ける</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="takeaway">
+          <span class="takeaway-head">💡 STEP 3 の要点</span>
+          覚えておく合言葉は<strong>「コードは使い捨ててよい。しかしモックに詰まった『体験と仕様』は絶対に捨てず、次の AI への最高インプットにする」</strong>です。
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================
+         STEP 4：有効性の裏付け（6大知見）＆ 3つの落とし穴
+    ================================================================ -->
+    <section class="lesson" id="step4">
+      <span class="lesson-kicker">STEP 4 — 業界・学術のエビデンスと注意点</span>
+      <h2>この手法は本当に有効？ 世の中の 6 つの裏付けと 3 つの落とし穴</h2>
+      <div class="story-box">
+        <strong>調査の結論：</strong>
+        あなたが現場の肌感覚で辿り着いたリアルライトモック手法は、単なる自己流ではなく、<strong>スタンフォード大学の研究から 2025〜2026 年の最新 AI 開発論まで 6 つの実証済み理論</strong>と見事に一致しています。下のカードをクリックして確認できます。
+      </div>
+
+      <div class="exp-card">
+        <div class="step-bar">
+          <span class="step-label">👇 気になる裏付け知見をクリックすると、わかりやすい解説と対応ポイントが表示されます</span>
+          <div class="select-grid" id="priorTabs">
+            <button type="button" class="sel-btn active" data-prior="0">
+              <span class="sel-title">① 単一HTML・コード先行試作</span>
+              <span class="sel-sub">Code-First / Single-File Artifact</span>
+            </button>
+            <button type="button" class="sel-btn" data-prior="1">
+              <span class="sel-title">② 曳光弾開発・歩く骨格</span>
+              <span class="sel-sub">Tracer Bullet / Walking Skeleton</span>
+            </button>
+            <button type="button" class="sel-btn" data-prior="2">
+              <span class="sel-title">③ 並行プロトタイピング</span>
+              <span class="sel-sub">Parallel Prototyping（Stanford研究）</span>
+            </button>
+            <button type="button" class="sel-btn" data-prior="3">
+              <span class="sel-title">④ 動く仕様書としての試作</span>
+              <span class="sel-sub">Prototype as Spec / Executable Spec</span>
+            </button>
+            <button type="button" class="sel-btn" data-prior="4">
+              <span class="sel-title">⑤ 仕様抽出による新規再構築</span>
+              <span class="sel-sub">Clean-Room Rewrite via Spec</span>
+            </button>
+            <button type="button" class="sel-btn" data-prior="5">
+              <span class="sel-title">⑥ AI UI 7 パターン体系</span>
+              <span class="sel-sub">NN/g・Apple HIG・Google・MS</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="stage">
+          <div class="prior-detail" id="priorDetail"></div>
+
+          <h3 style="margin:26px 0 8px;font-size:1.02rem;">🛡️ 企業で実践するときに気をつけたい「3 つの落とし穴」</h3>
+          <div class="trap-grid">
+            <div class="trap-card">
+              <h4>① デモの罠（The Demo Trap）</h4>
+              <p>動きがリアルすぎて、上長や顧客が「もう9割できている！来週出せるね？」と誤解してしまう。</p>
+              <div class="trap-fix">✅ 対策：デモ時に「本番には認証・権限・監査・クラウド移行が別途必要」と必ず明示。</div>
+            </div>
+            <div class="trap-card">
+              <h4>② 継ぎ足し改修の誘惑</h4>
+              <p>「動いているし、このまま少し直して客先に出そう」と妥協し、保守不能・脆弱性の温床になる。</p>
+              <div class="trap-fix">✅ 対策：単一HTMLは PoC 専用と線引きし、Phase 2 は仕様抽出から清潔に新規構築。</div>
+            </div>
+            <div class="trap-card">
+              <h4>③ 社内データとセキュリティ境界</h4>
+              <p>ローカル AI CLI や MCP 検証で、未承認の本番機密データをうっかり流してしまう。</p>
+              <div class="trap-fix">✅ 対策：社内契約済の CLI を使い、PoC 段階はダミーデータ・検証用モデルで安全に実施。</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="takeaway">
+          <span class="takeaway-head">💡 STEP 4 の要点</span>
+          リアルライトモックは<strong>「現場の勘」と「学術・業界の王道理論」が完全に噛み合った手法</strong>です。上の 3 つのガードレールだけ押さえれば、企業内プロジェクトでも安心して横展開できます。
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================
+         STEP 5：すぐ真似できる実践チェックリスト＆AIプロンプト
+    ================================================================ -->
+    <section class="lesson" id="step5">
+      <span class="lesson-kicker">STEP 5 — 次の案件ですぐ使う</span>
+      <h2>3〜4 日スプリント チェックリスト ＆ コピペ用 AI プロンプト</h2>
+      <div class="story-box">
+        <strong>後から見返してすぐ動ける道具箱：</strong>
+        案件ごとに下のチェックリストを順に潰し、用途に合ったプロンプトを 1 クリックでコピーして AI（Copilot や Claude 等）に貼るだけで、リアルライトモック手法をそのまま再現できます。
+      </div>
+
+      <div class="exp-card">
+        <div class="stage">
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:12px;">
+            <h3 style="margin:0;font-size:1rem;">✅ 進行チェックリスト（クリックしてチェックできます）</h3>
+            <span id="checkProgress" style="font-size:0.84rem;font-weight:800;color:var(--accent);">0 / 6 完了</span>
+          </div>
+          <div class="check-list" id="checkList">
+            <label class="check-item"><input type="checkbox" /><span><strong>Day 1：</strong>AI CLI ＋ MCP で実ツール（CAD等）をコマンドから1回動かした</span></label>
+            <label class="check-item"><input type="checkbox" /><span><strong>Day 2：</strong>単一 HTML の動くモックを 3 案（現場×2＋AI UI定石×1）作った</span></label>
+            <label class="check-item"><input type="checkbox" /><span><strong>Day 3：</strong>身近な同僚・メンバーに 3 案を触り比べてもらい意見を集めた</span></label>
+            <label class="check-item"><input type="checkbox" /><span><strong>Day 3：</strong>再生ボタン1回で実演できる「▶ デモモード」を追加した</span></label>
+            <label class="check-item"><input type="checkbox" /><span><strong>Day 4：</strong>上長デモで「Phase 2 工程の必要性」も含めて合意形成した</span></label>
+            <label class="check-item"><input type="checkbox" /><span><strong>Phase 2：</strong>決定版モックを仕様書として AI に渡し、本番基盤を新規生成した</span></label>
+          </div>
+
+          <h3 style="margin:6px 0 10px;font-size:1rem;">📋 そのまま AI に貼れるプロンプト雛形（3 種）</h3>
+          <div class="prompt-wrap">
+            <div class="prompt-head">
+              <div class="prompt-tabs" id="promptTabs">
+                <button type="button" class="prompt-tab active" data-pr="0">① 3パターン単一HTML生成</button>
+                <button type="button" class="prompt-tab" data-pr="1">② ▶ デモモード追加</button>
+                <button type="button" class="prompt-tab" data-pr="2">③ 本番アーキテクチャへ変換</button>
+              </div>
+              <button type="button" class="sub-btn" id="copyPromptBtn">📋 プロンプトをコピー</button>
+            </div>
+            <pre class="prompt-pre" id="promptPre"></pre>
+          </div>
+        </div>
+
+        <div class="takeaway">
+          <span class="takeaway-head">🎉 おつかれさまでした！</span>
+          詳しい図解と文章リファレンスは <a href="README.md" style="color:var(--accent);font-weight:800;">real-lite-mock/README.md</a> にまとめています。3 案目の「AI UI 定石」を選ぶときは、<a href="../ui-guide/interactive-guide.html" style="color:var(--accent);font-weight:800;">7. AI・UI設計ガイド</a> とあわせて活用してください。
+        </div>
+      </div>
+    </section>
+
+    <footer class="foot">
+      agent-study / real-lite-mock — 外部通信なし・単一 HTML で動作する解説ガイドです。
+      <a href="../index.html">🏠 学習ポータルへ戻る</a>
+    </footer>
+  </main>
+
+  <script>
+    (function () {
+      /* ==============================================================
+         共通：ダークモード切替・スクロール進捗バー
+      ============================================================== */
+      const themeBtn = document.getElementById("themeToggle");
+      themeBtn.addEventListener("click", () => {
+        const dark = document.documentElement.getAttribute("data-theme") === "dark";
+        document.documentElement.setAttribute("data-theme", dark ? "light" : "dark");
+        themeBtn.textContent = dark ? "🌙 ダーク" : "☀️ ライト";
+      });
+
+      const progressBar = document.getElementById("progressBar");
+      window.addEventListener("scroll", () => {
+        const h = document.documentElement.scrollHeight - window.innerHeight;
+        progressBar.style.width = h > 0 ? Math.min(100, (window.scrollY / h) * 100) + "%" : "0%";
+      }, { passive: true });
+
+      /* ==============================================================
+         STEP 1：3つのアプローチ比較シミュレーター
+      ============================================================== */
+      const APPROACHES = {
+        heavy: {
+          badgeClass: "bad",
+          badgeText: "❌ 手戻りリスク大・検証が遅い",
+          summary: "土台作り（環境・分離設計・認証）に数週間かかり、現場が初めて触れるころには修正コストが跳ね上がります。",
+          phases: [
+            { day: "Week 1〜2", title: "環境・クラウド構築", desc: "React・Python・DB・Azure 申請と土台整備（画面はまだ空）" },
+            { day: "Week 3〜4", title: "API ＆ 画面分離実装", desc: "フロント・バックの接続開発。同僚はまだ触れない" },
+            { day: "Week 5", title: "やっと初試用", desc: "「思った使い勝手と違う」「AI の待ち時間が長い…」が発覚" },
+            { day: "Week 6〜8", title: "大規模な手戻り", desc: "API 仕様や画面構造をやり直し、開発期間が大幅に膨らむ" }
+          ],
+          metrics: [
+            { label: "同僚が初めて触れるまで", val: "約 1 ヶ月後" },
+            { label: "AI 実体験の検証", val: "後半まで不明" },
+            { label: "試作の再利用価値", val: "手戻りで消耗" }
+          ]
+        },
+        paper: {
+          badgeClass: "warn",
+          badgeText: "⚠️ 使い捨てになりがち・実挙動が不明",
+          summary: "見た目は早く作れますが、裏で AI も実ツールも動かないため、本番実装になってから想定外の壁が続出します。",
+          phases: [
+            { day: "Day 1〜2", title: "静的モック作成", desc: "見た目とダミー文字だけの紙芝居ページを作成" },
+            { day: "Day 3", title: "見た目の確認会議", desc: "「きれいですね」と合意。ただし操作感や精度は未検証" },
+            { day: "Week 2〜4", title: "本番実装で壁に衝突", desc: "AI 出力のブレ・応答時間・ツール連携の制約がここで発覚" },
+            { day: "結果", title: "モックは使い捨て", desc: "仕様書にもコードにもならず、設計やり直しが発生" }
+          ],
+          metrics: [
+            { label: "同僚が初めて触れるまで", val: "2〜3 日（見た目のみ）" },
+            { label: "AI 実体験の検証", val: "できない（ダミー）" },
+            { label: "試作の再利用価値", val: "ほぼ使い捨て" }
+          ]
+        },
+        rlm: {
+          badgeClass: "good",
+          badgeText: "✅ AI 時代の最短ルート（推奨）",
+          summary: "単一 HTML×3案＋ローカル AI CLI＋MCP で3〜4日で実体験まで貫通。意見が出尽くしたモックを仕様書として AI で一気に本番化します。",
+          phases: [
+            { day: "Day 1", title: "AI CLI＋MCP 貫通", desc: "裏側で実ツール（CAD 等）が本当に動く核を最速確認" },
+            { day: "Day 2", title: "単一 HTML×3 案試作", desc: "現場案2＋UIガイド1の動く画面をビルド不要で即作成" },
+            { day: "Day 3〜4", title: "実触り FB ＆ 自動デモ", desc: "同僚の比較意見＋上長デモで「動く仕様書」が確定" },
+            { day: "Phase 2", title: "AI で本番構成へ変換", desc: "完成モックをインプットに React＋Python＋Azure を一括生成" }
+          ],
+          metrics: [
+            { label: "同僚が初めて触れるまで", val: "3〜4 日（実動作！）" },
+            { label: "AI 実体験の検証", val: "初回から本物と同じ" },
+            { label: "試作の再利用価値", val: "本番構築の最高インプット" }
+          ]
+        }
+      };
+
+      const timelineBox = document.getElementById("timelineBox");
+      function renderApproach(mode) {
+        const d = APPROACHES[mode];
+        timelineBox.innerHTML =
+          '<div class="tl-head">' +
+            '<span class="tl-badge ' + d.badgeClass + '">' + d.badgeText + '</span>' +
+            '<span style="font-size:0.86rem;color:var(--ink-sub);">' + d.summary + '</span>' +
+          '</div>' +
+          '<div class="tl-track">' +
+            d.phases.map(p =>
+              '<div class="tl-phase">' +
+                '<span class="tl-day">' + p.day + '</span>' +
+                '<span class="tl-title">' + p.title + '</span>' +
+                '<span class="tl-desc">' + p.desc + '</span>' +
+              '</div>'
+            ).join("") +
+          '</div>' +
+          '<div class="tl-metrics">' +
+            d.metrics.map(m =>
+              '<div class="metric-card">' +
+                '<span class="metric-label">' + m.label + '</span>' +
+                '<span class="metric-val">' + m.val + '</span>' +
+              '</div>'
+            ).join("") +
+          '</div>';
+      }
+      document.querySelectorAll("#approachTabs .sel-btn").forEach(btn => {
+        btn.addEventListener("click", () => {
+          document.querySelectorAll("#approachTabs .sel-btn").forEach(b => b.classList.remove("active"));
+          btn.classList.add("active");
+          renderApproach(btn.dataset.mode);
+        });
+      });
+      renderApproach("rlm");
+
+      /* ==============================================================
+         STEP 2：3パターン並行試作 × ▶ デモモード体験ラボ
+      ============================================================== */
+      const mockUiPanel = document.getElementById("mockUiPanel");
+      const cliLog = document.getElementById("cliLog");
+      const cadPreview = document.getElementById("cadPreview");
+      const mockFileUrl = document.getElementById("mockFileUrl");
+      const patternFeedbackNote = document.getElementById("patternFeedbackNote");
+      const demoStatusPill = document.getElementById("demoStatusPill");
+      const demoPlayBtn = document.getElementById("demoPlayBtn");
+      const demoResetBtn = document.getElementById("demoResetBtn");
+
+      let currentPat = "a";
+      let demoTimers = [];
+
+      function clearDemoTimers() {
+        demoTimers.forEach(t => clearTimeout(t));
+        demoTimers = [];
+        demoPlayBtn.disabled = false;
+        demoStatusPill.classList.remove("running");
+        demoStatusPill.textContent = "実操作モード";
+      }
+
+      function renderCadSvg(state, spec) {
+        if (state === "idle") {
+          cadPreview.innerHTML =
+            '<svg viewBox="0 0 260 135" width="240" height="125" role="img" aria-label="CAD生成待機中">' +
+              '<rect x="10" y="10" width="240" height="115" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-dasharray="5 4"/>' +
+              '<text x="130" y="64" text-anchor="middle" font-size="12" font-weight="700" fill="#64748b" font-family="BIZ UDPGothic, sans-serif">3D CAD プレビュー領域</text>' +
+              '<text x="130" y="84" text-anchor="middle" font-size="10" fill="#94a3b8" font-family="BIZ UDPGothic, sans-serif">実行すると MCP 経由でここに生成結果を表示</text>' +
+            '</svg>';
+          return;
+        }
+        const holeR = spec && spec.hole ? Math.max(8, Math.min(22, Math.round(spec.hole * 0.7))) : 14;
+        const color = spec && spec.material === "アルミ" ? "#0284c7" : "#0f766e";
+        const label = spec
+          ? `生成完了：${spec.shape}（幅 ${spec.w}mm × 穴径 φ${spec.hole}mm ／ ${spec.material}）`
+          : "生成完了：L字ブラケット 3Dモデル（STEP出力済）";
+        cadPreview.innerHTML =
+          '<svg viewBox="0 0 260 135" width="240" height="125" role="img" aria-label="生成された3D CADパーツのワイヤーフレーム">' +
+            '<rect x="8" y="8" width="244" height="119" rx="10" fill="#f0fdfa" stroke="' + color + '" stroke-width="1.5"/>' +
+            '<polygon points="75,32 165,20 198,44 108,56" fill="#ffffff" stroke="' + color + '" stroke-width="2"/>' +
+            '<polygon points="75,32 108,56 108,108 75,84" fill="#e0f2fe" stroke="' + color + '" stroke-width="2"/>' +
+            '<polygon points="108,56 198,44 198,96 108,108" fill="#ccfbf1" stroke="' + color + '" stroke-width="2"/>' +
+            '<ellipse cx="152" cy="76" rx="' + holeR + '" ry="' + Math.round(holeR * 0.75) + '" fill="#ffffff" stroke="' + color + '" stroke-width="2"/>' +
+            '<text x="152" y="121" text-anchor="middle" font-size="9.5" font-weight="700" fill="#0f172a" font-family="BIZ UDPGothic, sans-serif">CAD STEP 出力OK（3Dデータ生成済）</text>' +
+          '</svg>' +
+          '<div class="cad-meta">' + label + '</div>';
+      }
+
+      function runCadSimulation(spec, modeLabel) {
+        cliLog.innerHTML = "";
+        renderCadSvg("idle");
+        const lines = [
+          { t: 0,    cls: "c-cmd", text: "$ copilot-cli --mcp cad-server \"" + modeLabel + "\"" },
+          { t: 450,  cls: "c-dim", text: "[AI CLI] 指示を解析中… パラメータを構造化しました" },
+          { t: 950,  cls: "c-mcp", text: "[MCP -> CAD] tools/call: create_bracket(w=" + spec.w + ", hole=" + spec.hole + ", mat='" + spec.material + "')" },
+          { t: 1550, cls: "c-ok",  text: "[CAD 応答] 3D モデル生成成功 -> output/bracket_v1.step" }
+        ];
+        lines.forEach(item => {
+          const timer = setTimeout(() => {
+            const div = document.createElement("div");
+            div.className = item.cls;
+            div.textContent = item.text;
+            cliLog.appendChild(div);
+            cliLog.scrollTop = cliLog.scrollHeight;
+            if (item.cls === "c-ok") {
+              renderCadSvg("done", spec);
+            }
+          }, item.t);
+          demoTimers.push(timer);
+        });
+      }
+
+      function renderMockPattern(pat) {
+        currentPat = pat;
+        clearDemoTimers();
+        cliLog.innerHTML = '<div class="c-dim">// 待機中：左の画面から実行するか「▶ デモモード自動再生」を押してください</div>';
+        renderCadSvg("idle");
+
+        if (pat === "a") {
+          mockFileUrl.textContent = "file:///C:/poc/mock-a-form.html（現場案①・単一HTML）";
+          mockUiPanel.innerHTML =
+            '<div class="mock-head"><h4>📐 パターン A：数値フォーム型（現場案①）</h4><span class="mock-tag">メンバー想定①</span></div>' +
+            '<div class="mock-field"><label>パーツ形状</label><select class="mock-select" id="aShape"><option>L字ブラケット</option><option>フランジプレート</option></select></div>' +
+            '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">' +
+              '<div class="mock-field"><label>幅 (mm)</label><input class="mock-input" id="aW" type="number" value="120" /></div>' +
+              '<div class="mock-field"><label>穴径 φ (mm)</label><input class="mock-input" id="aHole" type="number" value="20" /></div>' +
+            '</div>' +
+            '<div class="mock-field"><label>材質</label><select class="mock-select" id="aMat"><option>アルミ</option><option>ステンレス</option></select></div>' +
+            '<button type="button" class="mock-exec-btn" id="aRunBtn">⚙️ AI CLI で 3D 生成を実行</button>';
+
+          document.getElementById("aRunBtn").addEventListener("click", () => {
+            runCadSimulation({
+              shape: document.getElementById("aShape").value,
+              w: Number(document.getElementById("aW").value) || 120,
+              hole: Number(document.getElementById("aHole").value) || 20,
+              material: document.getElementById("aMat").value
+            }, "フォーム条件でCAD生成");
+          });
+          patternFeedbackNote.innerHTML =
+            '<strong>同僚からの想定フィードバック例（パターン A）：</strong>「いつもの画面に近くて迷わない！ただ、細かい例外条件（面取り指示など）を言葉で足したくなるときがあるね。」';
+        } else if (pat === "b") {
+          mockFileUrl.textContent = "file:///C:/poc/mock-b-chat.html（現場案②・単一HTML）";
+          mockUiPanel.innerHTML =
+            '<div class="mock-head"><h4>💬 パターン B：チャット相談型（現場案②）</h4><span class="mock-tag">メンバー想定②</span></div>' +
+            '<div class="mock-field"><label>お題チップ（クリックで自動入力）</label>' +
+              '<div class="mock-chips">' +
+                '<button type="button" class="mock-chip" data-txt="幅120mmのアルミ製L字ブラケットを作って。中央にφ20mmの穴を開けて。">アルミ L字ブラケット</button>' +
+                '<button type="button" class="mock-chip" data-txt="幅160mmのステンレス製プレート、φ28mmの取付穴つきで生成して。">SUS プレート</button>' +
+              '</div>' +
+            '</div>' +
+            '<div class="mock-field"><label>AI への指示文</label>' +
+              '<textarea class="mock-textarea" id="bPrompt">幅120mmのアルミ製L字ブラケットを作って。中央にφ20mmの穴を開けて。</textarea>' +
+            '</div>' +
+            '<button type="button" class="mock-exec-btn" id="bRunBtn">💬 AI CLI へ送信して生成</button>';
+
+          mockUiPanel.querySelectorAll(".mock-chip").forEach(chip => {
+            chip.addEventListener("click", () => {
+              document.getElementById("bPrompt").value = chip.dataset.txt;
+            });
+          });
+          document.getElementById("bRunBtn").addEventListener("click", () => {
+            const txt = document.getElementById("bPrompt").value || "";
+            const isSus = txt.includes("ステンレス");
+            const wMatch = txt.match(/(\d+)\s*mm/);
+            const hMatch = txt.match(/φ(\d+)/);
+            runCadSimulation({
+              shape: isSus ? "フランジプレート" : "L字ブラケット",
+              w: wMatch ? Number(wMatch[1]) : 120,
+              hole: hMatch ? Number(hMatch[1]) : 20,
+              material: isSus ? "ステンレス" : "アルミ"
+            }, txt.slice(0, 36));
+          });
+          patternFeedbackNote.innerHTML =
+            '<strong>同僚からの想定フィードバック例（パターン B）：</strong>「例外指示が書けて自由度は高いけど、毎回サイズを文章で打つのはちょっと面倒かも。」';
+        } else {
+          mockFileUrl.textContent = "file:///C:/poc/mock-c-ai-pattern.html（AI UI 定石・単一HTML）";
+          mockUiPanel.innerHTML =
+            '<div class="mock-head"><h4>🎛️ パターン C：Tuners＋一言＋承認（AI UI 定石）</h4><span class="mock-tag" style="background:#f5f3ff;color:#6d28d9;border-color:#ddd6fe;">UIガイド7型より</span></div>' +
+            '<div class="mock-field"><label>材質（ワンクリック切替）</label>' +
+              '<div class="mock-chips" id="cMatChips">' +
+                '<button type="button" class="mock-chip selected" data-mat="アルミ">アルミ</button>' +
+                '<button type="button" class="mock-chip" data-mat="ステンレス">ステンレス</button>' +
+              '</div>' +
+            '</div>' +
+            '<div class="mock-field"><label>穴径スライダー（8割の定型条件を直感調整）</label>' +
+              '<div class="mock-range-row">' +
+                '<input type="range" id="cHole" min="10" max="32" value="20" />' +
+                '<span class="mock-val-badge" id="cHoleVal">φ20mm</span>' +
+              '</div>' +
+            '</div>' +
+            '<div class="mock-field"><label>例外の一言（残り2割の微調整だけ自由記述）</label>' +
+              '<input class="mock-input" id="cNote" value="角は C2 面取りで安全に仕上げて" />' +
+            '</div>' +
+            '<button type="button" class="mock-exec-btn teal" id="cRunBtn">✅ 条件を確認して CAD へ実行</button>';
+
+          let selMat = "アルミ";
+          mockUiPanel.querySelectorAll("#cMatChips .mock-chip").forEach(btn => {
+            btn.addEventListener("click", () => {
+              mockUiPanel.querySelectorAll("#cMatChips .mock-chip").forEach(b => b.classList.remove("selected"));
+              btn.classList.add("selected");
+              selMat = btn.dataset.mat;
+            });
+          });
+          const holeRange = document.getElementById("cHole");
+          const holeVal = document.getElementById("cHoleVal");
+          holeRange.addEventListener("input", () => { holeVal.textContent = "φ" + holeRange.value + "mm"; });
+          document.getElementById("cRunBtn").addEventListener("click", () => {
+            runCadSimulation({
+              shape: "L字ブラケット（面取り付）",
+              w: 140,
+              hole: Number(holeRange.value),
+              material: selMat
+            }, "Tuners条件＋" + (document.getElementById("cNote").value || "標準"));
+          });
+          patternFeedbackNote.innerHTML =
+            '<strong>同僚からの想定フィードバック例（パターン C）：</strong>「これ最高！ボタンとスライダーで8割決めて、細かい例外だけ一言足せるのが一番速い。A の数値直打ちも足して決定版にしよう！」';
+        }
+      }
+
+      document.querySelectorAll("#mockPatternTabs .sel-btn").forEach(btn => {
+        btn.addEventListener("click", () => {
+          document.querySelectorAll("#mockPatternTabs .sel-btn").forEach(b => b.classList.remove("active"));
+          btn.classList.add("active");
+          renderMockPattern(btn.dataset.pat);
+        });
+      });
+
+      demoPlayBtn.addEventListener("click", () => {
+        clearDemoTimers();
+        // パターンCへ切り替えて、一連のユースケースを自動実演
+        document.querySelectorAll("#mockPatternTabs .sel-btn").forEach(b => b.classList.toggle("active", b.dataset.pat === "c"));
+        renderMockPattern("c");
+        demoPlayBtn.disabled = true;
+        demoStatusPill.classList.add("running");
+        demoStatusPill.textContent = "▶ デモ自動再生中 (1/3)";
+
+        demoTimers.push(setTimeout(() => {
+          const hole = document.getElementById("cHole");
+          const val = document.getElementById("cHoleVal");
+          const note = document.getElementById("cNote");
+          if (hole && val && note) {
+            hole.value = "26";
+            val.textContent = "φ26mm";
+            note.value = "上長デモ用：角 C3 面取り＋軽量化リブ追加";
+          }
+          demoStatusPill.textContent = "▶ デモ自動再生中 (2/3：AI CLI実行)";
+        }, 700));
+
+        demoTimers.push(setTimeout(() => {
+          runCadSimulation({ shape: "L字ブラケット（デモ自動生成）", w: 150, hole: 26, material: "アルミ" }, "デモシナリオ自動実行");
+        }, 1300));
+
+        demoTimers.push(setTimeout(() => {
+          demoStatusPill.textContent = "✅ デモ完了（1クリックで価値を伝達）";
+          demoPlayBtn.disabled = false;
+        }, 3200));
+      });
+
+      demoResetBtn.addEventListener("click", () => renderMockPattern(currentPat));
+      renderMockPattern("a");
+
+      /* ==============================================================
+         STEP 3：PoC ⇔ 本番アーキテクチャ比較
+      ============================================================== */
+      const ARCH_DATA = {
+        poc: [
+          { kicker: "UI 層（画面）", title: "📄 単一 HTML ファイル（×3 案）", desc: "HTML＋CSS＋JS を 1 ファイルに全詰め込み。ビルド不要で誰でもブラウザで即起動。自動デモモードも簡単に追加可能。" },
+          { kicker: "AI 実行層", title: "🤖 ローカル／社内 AI CLI", desc: "GitHub Copilot CLI など手元の既存アカウント環境を UI から実行。クラウド申請を待たずに即日で AI 体験を検証できる。" },
+          { kicker: "ツール連携層", title: "🛠️ MCP ＋ 実業務ツール", desc: "MCP（共通接続規格）経由で CAD ソフト等の実ツールを操作。「見た目だけ」ではなく本物の成果物生成まで貫通検証。" }
+        ],
+        prod: [
+          { kicker: "フロントエンド（顧客画面）", title: "🖥️ React / TypeScript 等", desc: "モックで確定した UI パターン・操作フローを、保守しやすいコンポーネント設計とレスポンシブ対応で新規実装。" },
+          { kicker: "バックエンド API", title: "⚙️ Python (FastAPI) ＋ DB", desc: "ユーザー認証・権限管理（RBAC）・入力検証・監査ログ・実行履歴 DB・エラー復旧など、企業導入の必須要件を実装。" },
+          { kicker: "クラウド AI ＆ ツール基盤", title: "☁️ Azure OpenAI 等 ＋ MCP", desc: "企業セキュリティ・SLA 準拠のクラウド AI 基盤へ差し替え。モックで磨いたプロンプトと MCP 仕様をそのまま活かす。" }
+        ]
+      };
+
+      const archLayers = document.getElementById("archLayers");
+      function renderArch(phase) {
+        archLayers.innerHTML = ARCH_DATA[phase].map(item =>
+          '<div class="arch-layer ' + phase + '">' +
+            '<span class="arch-kicker">' + item.kicker + '</span>' +
+            '<h4>' + item.title + '</h4>' +
+            '<p>' + item.desc + '</p>' +
+          '</div>'
+        ).join("");
+      }
+      document.querySelectorAll("#phaseTabs .sel-btn").forEach(btn => {
+        btn.addEventListener("click", () => {
+          document.querySelectorAll("#phaseTabs .sel-btn").forEach(b => b.classList.remove("active"));
+          btn.classList.add("active");
+          renderArch(btn.dataset.phase);
+        });
+      });
+      renderArch("poc");
+
+      /* ==============================================================
+         STEP 4：業界・学術の 6 大裏付け知見
+      ============================================================== */
+      const PRIORS = [
+        {
+          title: "① 単一 HTML ／ コード先行試作",
+          en: "Code-First Prototyping & Single-File HTML Artifacts",
+          what: "デザインツールで静的な絵を描く代わりに、最初から動く単一 HTML を AI で生成して検証する手法。Claude Artifacts や Vercel v0、Bolt.new 等の普及で 2025〜2026 年に主流化しました。ビルド不要で共有でき、AI も依存エラーなく一括生成しやすいのが強みです。",
+          match: "HTML＋CSS＋JS を 1 ファイルに全詰め込みして 3〜4 日で動く試作を作るアプローチそのものです。"
+        },
+        {
+          title: "② 曳光弾開発・歩く骨格",
+          en: "Tracer Bullet（『達人プログラマー』） / Walking Skeleton（アジャイル開発）",
+          what: "「曳光弾（弾道が光る弾）」のように、画面だけを作るのではなく、細くても端から端（UI〜裏側の実処理）まで一気通貫で貫通させて狙いのズレと技術リスクを最速で確かめる古典的な王道手法です。",
+          match: "UI → ローカル AI CLI → MCP → CAD ソフトの実操作まで、見た目だけでなく本物の処理を一気貫通させている点に合致しています。"
+        },
+        {
+          title: "③ 並行プロトタイピング（スタンフォード大学研究）",
+          en: "Parallel Prototyping — Dow et al., Stanford University (2010)",
+          what: "1 案を順番に直していくより、最初から複数案を並べて比較する方が「最終品質が大幅に高く」「最初の案への固執（デザイン固着）を防ぎ」「批判的フィードバックも作り手が前向きに受け取れる」ことが学術的に定量実証されています。",
+          match: "最初から 3 パターン（現場案×2＋AI UI 定石×1）を同時に作り、同僚に触り比べてもらう設計と完全に一致します。"
+        },
+        {
+          title: "④ 動く仕様書としてのプロトタイプ",
+          en: "Prototype as Spec / Executable Specification（仕様駆動開発：SDD）",
+          what: "2025〜2026 年の AI 開発で主流になった考え方。何十ページもの曖昧な文章（要件定義書）を書く代わりに、実際に動く試作品で関係者の認識を揃え、その挙動そのものを「仕様の原本（Source of Truth）」とします。",
+          match: "フィードバックをすべてリアルライトモックに凝縮し、体験ごと仕様として確定させる使い方に合致しています。"
+        },
+        {
+          title: "⑤ 仕様抽出によるクリーンルーム再構築",
+          en: "Clean-Room Rewrite via Spec Extraction",
+          what: "高速な対話試作（Vibe Coding）の泥臭いコードをそのまま継ぎ足して本番化すると破綻する教訓から生まれた企業向けベストプラクティス。試作コードは流用せず、仕様だけ抽出して本番基盤を清潔に新規構築します。",
+          match: "「モックを使い捨てず、インプットとして AI に渡して React＋Python＋DB＋クラウド AI へ変換する」着想と完全一致しています。"
+        },
+        {
+          title: "⑥ AI UI 7 パターン体系",
+          en: "NN/g・Apple HIG・Google PAIR・Microsoft HAX Toolkit",
+          what: "「AI＝チャット欄」という思い込みを避け、業務内容に応じて Chat / Canvas / Inline / Tuners＋Hybrid / Ambient / Generative UI / Agentic の 7 型を使い分ける業界標準の UI 設計ガイドラインです。",
+          match: "3 案のうち 1 枠に意図的に ui-guide の最適パターンを組み込むことで、現場の発想だけでは出ない最適解を引き出せます。"
+        }
+      ];
+
+      const priorDetail = document.getElementById("priorDetail");
+      function renderPrior(idx) {
+        const p = PRIORS[idx];
+        priorDetail.innerHTML =
+          '<h4>' + p.title + '</h4>' +
+          '<span class="prior-en">' + p.en + '</span>' +
+          '<div class="prior-cols">' +
+            '<div class="prior-col"><strong>📖 世の中での意味・背景</strong>' + p.what + '</div>' +
+            '<div class="prior-col"><strong>🔗 リアルライトモックとの一致点</strong>' + p.match + '</div>' +
+          '</div>';
+      }
+      document.querySelectorAll("#priorTabs .sel-btn").forEach(btn => {
+        btn.addEventListener("click", () => {
+          document.querySelectorAll("#priorTabs .sel-btn").forEach(b => b.classList.remove("active"));
+          btn.classList.add("active");
+          renderPrior(Number(btn.dataset.prior));
+        });
+      });
+      renderPrior(0);
+
+      /* ==============================================================
+         STEP 5：チェックリスト ＆ プロンプトコピー
+      ============================================================== */
+      const checkItems = document.querySelectorAll("#checkList .check-item");
+      const checkProgress = document.getElementById("checkProgress");
+      function updateCheckCount() {
+        let done = 0;
+        checkItems.forEach(item => {
+          const cb = item.querySelector("input");
+          item.classList.toggle("checked", cb.checked);
+          if (cb.checked) done++;
+        });
+        checkProgress.textContent = done + " / " + checkItems.length + " 完了";
+      }
+      checkItems.forEach(item => item.querySelector("input").addEventListener("change", updateCheckCount));
+
+      const PROMPTS = [
+        `あなたは UX デザイナー兼フルスタックエンジニアです。
+裏側で動作する「[例：AI CLI ＋ CAD 操作 MCP]」を操作するための Web UI モックを、
+HTML / CSS / JavaScript を 1 ファイルにすべて詰め込んだ「単一 HTML」として 3 パターン作成してください。
+
+【前提・制約】
+- ビルド不要でブラウザで即動く単一 HTML にすること。
+- コードの綺麗さより「実際に操作できるリアルな体験」を最優先すること。
+- 実行ボタンでローカルの橋渡しエンドポイントへ指示を送り、実際の AI 応答とログを表示すること。
+
+【作成する 3 パターン】
+1. mock-a-team1.html（現場案①）：[メンバー想定の画面構成を記載]
+2. mock-b-team2.html（現場案②）：[別アプローチの画面構成を記載]
+3. mock-c-ai-pattern.html（AI UI 定石案）：[Canvas / Tuners＋Hybrid / Agentic 等] を採用した最適画面`,
+
+        `この単一 HTML モック（mock-final.html）に、上長や他部署へのプレゼンで使える
+「▶ デモモード（自動再生）」機能を追加してください。
+
+【要件】
+- 画面右上に「▶ デモ再生」「⏹ 停止」ボタンを追加する。
+- 再生を押すと、以下の一連のユースケースをステップごとに視覚的に自動実演する：
+  1. サンプル条件の自動入力
+  2. AI CLI の思考・MCP ツール呼び出しログの段階表示
+  3. 実ツール実行結果（プレビュー・生成物）の可視化と完了サマリー
+- 通信環境がない場でも説明が止まらないよう、実動作とシナリオ再生を切替可能にする。`,
+
+        `添付する mock-final.html と MCP 連携仕様書は、現場試用とフィードバックをすべて反映した
+「動く仕様書（リアルライトモック）」です。
+
+この単一 HTML のコードをそのまま継ぎ足し改修するのではなく、
+画面構成・状態遷移・入力項目・AI プロンプト・ツール連携仕様を正確に抽出し、
+以下の顧客提供用・本番アーキテクチャでゼロから清潔に再設計してください。
+
+【ターゲット本番構成】
+- フロントエンド：React + TypeScript
+- バックエンド：Python (FastAPI)（入力検証・例外処理・監査ログ）
+- AI 基盤：Azure OpenAI（リトライ・タイムアウト管理）
+- データ層：PostgreSQL（実行履歴・権限管理）
+- 非機能要件：認証・RBAC、機密マスキング、主要フローの自動テスト
+
+まず「① 抽出仕様一覧」「② 画面〜API〜DB〜MCP 設計書」「③ ディレクトリ構成案」を出力してください。`
+      ];
+
+      const promptPre = document.getElementById("promptPre");
+      const copyPromptBtn = document.getElementById("copyPromptBtn");
+      let currentPr = 0;
+
+      function renderPrompt(idx) {
+        currentPr = idx;
+        promptPre.textContent = PROMPTS[idx];
+      }
+      document.querySelectorAll("#promptTabs .prompt-tab").forEach(tab => {
+        tab.addEventListener("click", () => {
+          document.querySelectorAll("#promptTabs .prompt-tab").forEach(t => t.classList.remove("active"));
+          tab.classList.add("active");
+          renderPrompt(Number(tab.dataset.pr));
+        });
+      });
+      copyPromptBtn.addEventListener("click", async () => {
+        try {
+          await navigator.clipboard.writeText(PROMPTS[currentPr]);
+          copyPromptBtn.textContent = "✅ コピーしました！";
+          setTimeout(() => { copyPromptBtn.textContent = "📋 プロンプトをコピー"; }, 1800);
+        } catch {
+          copyPromptBtn.textContent = "⚠️ 手動で選択コピーしてください";
+          setTimeout(() => { copyPromptBtn.textContent = "📋 プロンプトをコピー"; }, 2200);
+        }
+      });
+      renderPrompt(0);
+    })();
+  </script>
+</body>
+</html>

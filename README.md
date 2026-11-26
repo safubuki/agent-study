@@ -5,11 +5,11 @@ AI コーディングエージェント（Claude Code や GitHub Copilot）を�
 ![3つの仕組みの全体像](assets/three-pillars-overview.svg)
 
 > [!TIP]
-> **まずはここから！絵でわかる学習ポータル（全 7 ガイドへ簡単ジャンプ）**
+> **まずはここから！絵でわかる学習ポータル（全 8 ガイドへ簡単ジャンプ）**
 > - **[🏠 学習ポータル（index.html）](index.html)**（ブラウザで開くだけ・外部依存なし。各テーマで何が学べるかを優しいベクターイラストで紹介し、動的ガイド・Markdown資料へ 1 クリックで移動できます）
 >
-> **動かしてすぐ分かる！ブラウザで開く動的インタラクティブガイド（全7本・HTML単一ファイル・外部依存なし）**
-> - [1. エージェント](agent-guide/interactive-guide.html) ／ [2. Copilot Fusion](copilot-fusion/interactive-guide.html) ／ [3. フック](hook-guide/interactive-guide.html) ／ [4. MCP](mcp-guide/interactive-guide.html) ／ [5. UML・要求図](uml-guide/interactive-guide.html) ／ [6. エージェントスキル](agent-skill/interactive-guide.html) ／ [7. AI・UI設計](ui-guide/interactive-guide.html)
+> **動かしてすぐ分かる！ブラウザで開く動的インタラクティブガイド（全8本・HTML単一ファイル・外部依存なし）**
+> - [1. エージェント](agent-guide/interactive-guide.html) ／ [2. Copilot Fusion](copilot-fusion/interactive-guide.html) ／ [3. フック](hook-guide/interactive-guide.html) ／ [4. MCP](mcp-guide/interactive-guide.html) ／ [5. UML・要求図](uml-guide/interactive-guide.html) ／ [6. エージェントスキル](agent-skill/interactive-guide.html) ／ [7. AI・UI設計](ui-guide/interactive-guide.html) ／ [8. リアルライトモック](real-lite-mock/interactive-guide.html)
 >
 > **AI の契約や外部パッケージなしでも、今すぐ手元で試せます（Node.js のみ・約1秒）**
 > - **フックの動きを試す**：`node hook-guide/scripts/test-hooks-locally.js`（模擬入力で各イベントのブロック／自動整形／差し戻しを一括検証）
@@ -28,6 +28,7 @@ AI コーディングエージェント（Claude Code や GitHub Copilot）を�
 | **⑤ 自分の環境で比較実験する** | [agent-guide](agent-guide/README.md) ／ [hook-guide](hook-guide/README.md) ／ [mcp-guide](mcp-guide/README.md) の `run-experiment.ps1` | 「使う／使わない」の差を時間・ターン数・トークン・規約遵守スコア・計算精度で記録 |
 | **⑥ スキルの運用と階層化を考える** | [agent-skill/](agent-skill/README.md) ／ [動的版](agent-skill/interactive-guide.html) ／ [強制力のはしご](agent-skill/assets/sk-16-enforcement-ladder.svg) | スキルの基本、増えたスキルの管理・改善・共有（公式事例と研究の精査）、「全社で絶対・部署だけ・個人だけ」をスキルとそれ以外の仕組みでどう分けるか |
 | **⑦ AI アプリの UI と見やすい画面設計を学ぶ** | [ui-guide/](ui-guide/README.md) ／ [動的版（4パターン体験）](ui-guide/interactive-guide.html) | AI 活用アプリの 4 大 UI 型（チャット／並列／AI裏方／ハイブリッド）、UD フォント・WCAG 配色・親切なエラー表示のセオリーと操作サンプル |
+| **⑧ 超高速な「動くモック」から本番化する手法を学ぶ** | [real-lite-mock/](real-lite-mock/README.md) ／ [動的版（3案比較＆自動デモ体験）](real-lite-mock/interactive-guide.html) | 単一 HTML＋AI CLI＋MCP で 3〜4 日で 3 パターン並行試作し、自動再生デモを経て「動く仕様書」として本番構成へ変換する手法 |
 
 > [!NOTE]
 > **このリポジトリの設計方針**
@@ -48,6 +49,7 @@ AI コーディングエージェント（Claude Code や GitHub Copilot）を�
 | **[agent-skill/](agent-skill/README.md)** | **エージェントスキル**<br/>（基本・管理と改善ループ・階層化・制約と年表・大容量データ） | [00 基本](agent-skill/00_agent-skill-basics.md) ／ [01 管理と改善ループ](agent-skill/01_skill-management-loop.md) ／ [02 階層化と別の方法](agent-skill/02_layered-rules.md) ／ [04 制約と年表](agent-skill/04_instruction-limits-and-timeline.md) ／ [05 大容量データ](agent-skill/05_large-files-outside-git.md) | [Copilot 編](agent-skill/copilot/README.md) ／ [Claude Code 編](agent-skill/claude/README.md) | — | [copilot](agent-skill/copilot/samples/README.md) ／ [claude](agent-skill/claude/samples/README.md) ／ [shared](agent-skill/shared/README.md) | [03 依頼と結果](agent-skill/03_request-and-results.md) |
 | **[uml-guide/req/](uml-guide/req/README.md)** | **UML・SysML と要求図**<br/>（要望 → 要求 → 要件 → 仕様 → 設計） | [00 言葉の定義](uml-guide/req/00_what-is-a-requirement.md) ／ [01 UML と SysML](uml-guide/req/01_uml-vs-sysml.md) ／ [02 要求図の書き方](uml-guide/req/02_requirement-diagram.md) | — | — | — | [03 要求から設計図まで](uml-guide/req/03_requirements-to-design.md) |
 | **[ui-guide/](ui-guide/README.md)** | **AI アプリと普遍的な UI 設計**<br/>（4大AI UI型・UD文字・配色・エラー表示） | [00 AI UI セオリー](ui-guide/00_ai-ui-patterns.md) ／ [01 普遍 UI 基礎](ui-guide/01_universal-ui-basics.md) | — | [02 チェックリスト](ui-guide/02_design-checklist.md) | [4パターン操作体験](ui-guide/interactive-guide.html) | [README](ui-guide/README.md) |
+| **[real-lite-mock/](real-lite-mock/README.md)** | **リアルライトモック開発手法**<br/>（単一HTML×3案・AI CLI＋MCP・自動デモ・本番資産化） | [00 全体像](real-lite-mock/00_concept-and-overview.md) ／ [01 ワークフロー](real-lite-mock/01_workflow-and-architecture.md) ／ [02 有効性と類似手法](real-lite-mock/02_validity-and-prior-art.md) | — | [03 プレイブック＆プロンプト](real-lite-mock/03_playbook-checklist.md) | [3案＆自動デモ体験](real-lite-mock/interactive-guide.html) | [README](real-lite-mock/README.md) |
 
 ---
 
@@ -99,6 +101,11 @@ agent-study/
 │   ├─ 01_universal-ui-basics.md      … 視線誘導・アフォーダンス・UD 文字・WCAG 配色・エラー表示
 │   ├─ 02_design-checklist.md         … 実践チェックリスト＆アンチパターン集
 │   └─ interactive-guide.html         … 4 パターン操作感ミニアプリ＋ビフォー/アフター体験
+│
+├─ real-lite-mock/           ← ⑦ リアルライトモック開発手法（超高速試作 → 本番資産化＋動的版）
+│   ├─ 00〜03 *.md                    … コンセプト・ワークフロー・有効性と類似手法・実践プレイブック
+│   ├─ assets/                        … SVG ベクター図解（6 枚）
+│   └─ interactive-guide.html         … 3 パターン並行試作×▶自動再生デモ体験＆コピペ用プロンプト
 │
 └─ scripts/                  ← 一括検証（npm test）と SVG 図の共通描画キット
 ```

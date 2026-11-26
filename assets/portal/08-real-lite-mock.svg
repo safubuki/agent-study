@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 205" role="img" aria-label="リアルライトモックのイラスト：単一HTML 3案とAI CLI・MCP連携から自動デモを経て本番製品基盤へ変換する図">
+  <defs>
+    <linearGradient id="bg8" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#fff7ed"/>
+      <stop offset="100%" stop-color="#ffedd5"/>
+    </linearGradient>
+    <marker id="arr8" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#c2410c"/>
+    </marker>
+  </defs>
+  <rect width="360" height="205" rx="18" fill="url(#bg8)"/>
+
+  <!-- 左：単一HTML 3案＋CLI・MCP -->
+  <rect x="18" y="18" width="154" height="146" rx="14" fill="#ffffff" stroke="#c2410c" stroke-width="2.2"/>
+  <rect x="18" y="18" width="154" height="24" rx="14" fill="#c2410c"/>
+  <rect x="18" y="30" width="154" height="12" fill="#c2410c"/>
+  <text x="95" y="34" text-anchor="middle" font-size="9" font-weight="700" fill="#ffffff" font-family="BIZ UDPGothic, sans-serif">3〜4日：単一HTML×3案</text>
+
+  <rect x="28" y="50" width="40" height="36" rx="6" fill="#eff6ff" stroke="#2563eb" stroke-width="1.4"/>
+  <text x="48" y="66" text-anchor="middle" font-size="8" font-weight="700" fill="#1e40af" font-family="BIZ UDPGothic, sans-serif">案A</text>
+  <text x="48" y="79" text-anchor="middle" font-size="7" fill="#475569" font-family="BIZ UDPGothic, sans-serif">現場①</text>
+
+  <rect x="75" y="50" width="40" height="36" rx="6" fill="#f0fdfa" stroke="#0f766e" stroke-width="1.4"/>
+  <text x="95" y="66" text-anchor="middle" font-size="8" font-weight="700" fill="#115e59" font-family="BIZ UDPGothic, sans-serif">案B</text>
+  <text x="95" y="79" text-anchor="middle" font-size="7" fill="#475569" font-family="BIZ UDPGothic, sans-serif">現場②</text>
+
+  <rect x="122" y="50" width="40" height="36" rx="6" fill="#f5f3ff" stroke="#7c3aed" stroke-width="1.4"/>
+  <text x="142" y="66" text-anchor="middle" font-size="8" font-weight="700" fill="#5b21b6" font-family="BIZ UDPGothic, sans-serif">案C</text>
+  <text x="142" y="79" text-anchor="middle" font-size="7" fill="#475569" font-family="BIZ UDPGothic, sans-serif">UI定石</text>
+
+  <rect x="28" y="94" width="134" height="24" rx="6" fill="#fff7ed" stroke="#fb923c" stroke-width="1.2"/>
+  <text x="95" y="109" text-anchor="middle" font-size="8.2" font-weight="700" fill="#9a3412" font-family="BIZ UDPGothic, sans-serif">▶ 自動デモ ＋ AI CLI</text>
+
+  <rect x="28" y="124" width="134" height="28" rx="6" fill="#ecfdf5" stroke="#10b981" stroke-width="1.2"/>
+  <text x="95" y="137" text-anchor="middle" font-size="8" font-weight="700" fill="#065f46" font-family="BIZ UDPGothic, sans-serif">MCP → 実ツール連携</text>
+  <text x="95" y="148" text-anchor="middle" font-size="7" fill="#047857" font-family="BIZ UDPGothic, sans-serif">（CAD 3D生成等）</text>
+
+  <!-- 中央矢印 -->
+  <line x1="175" y1="92" x2="205" y2="92" stroke="#c2410c" stroke-width="2.6" marker-end="url(#arr8)"/>
+  <text x="190" y="76" text-anchor="middle" font-size="7.5" font-weight="800" fill="#9a3412" font-family="BIZ UDPGothic, sans-serif">仕様</text>
+  <text x="190" y="85" text-anchor="middle" font-size="7.5" font-weight="800" fill="#9a3412" font-family="BIZ UDPGothic, sans-serif">投入</text>
+
+  <!-- 右：本番製品化 -->
+  <rect x="210" y="18" width="132" height="146" rx="14" fill="#ffffff" stroke="#7c3aed" stroke-width="2.2"/>
+  <rect x="210" y="18" width="132" height="24" rx="14" fill="#7c3aed"/>
+  <rect x="210" y="30" width="132" height="12" fill="#7c3aed"/>
+  <text x="276" y="34" text-anchor="middle" font-size="9" font-weight="700" fill="#ffffff" font-family="BIZ UDPGothic, sans-serif">AIで本番へ一括変換</text>
+
+  <rect x="220" y="52" width="112" height="26" rx="7" fill="#f5f3ff" stroke="#c4b5fd" stroke-width="1.2"/>
+  <text x="276" y="68" text-anchor="middle" font-size="8.5" font-weight="700" fill="#5b21b6" font-family="BIZ UDPGothic, sans-serif">🖥️ React フロント</text>
+
+  <rect x="220" y="86" width="112" height="26" rx="7" fill="#f5f3ff" stroke="#c4b5fd" stroke-width="1.2"/>
+  <text x="276" y="102" text-anchor="middle" font-size="8.5" font-weight="700" fill="#5b21b6" font-family="BIZ UDPGothic, sans-serif">⚙️ Python ＋ DB</text>
+
+  <rect x="220" y="120" width="112" height="32" rx="7" fill="#eff6ff" stroke="#93c5fd" stroke-width="1.2"/>
+  <text x="276" y="134" text-anchor="middle" font-size="8.2" font-weight="700" fill="#1e40af" font-family="BIZ UDPGothic, sans-serif">☁️ Azure クラウドAI</text>
+  <text x="276" y="146" text-anchor="middle" font-size="7" fill="#334155" font-family="BIZ UDPGothic, sans-serif">認証・監査・テスト付</text>
+
+  <text x="180" y="188" text-anchor="middle" font-size="10" font-weight="700" fill="#c2410c" font-family="BIZ UDPGothic, sans-serif">使い捨てず「動く仕様書」として本番製品化へ</text>
+</svg>

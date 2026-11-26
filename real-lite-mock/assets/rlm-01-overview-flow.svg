@@ -1,0 +1,116 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 430" role="img" aria-label="リアルライトモックによる3〜4日超高速試作から本番製品化までの5段階フロー">
+  <defs>
+    <linearGradient id="bgGrad1" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f8fafc"/>
+      <stop offset="100%" stop-color="#eff6ff"/>
+    </linearGradient>
+    <marker id="arrSlate" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#475569"/>
+    </marker>
+    <marker id="arrTeal" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#0f766e"/>
+    </marker>
+    <marker id="arrViolet" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#7c3aed"/>
+    </marker>
+  </defs>
+
+  <rect width="960" height="430" rx="18" fill="url(#bgGrad1)" stroke="#cbd5e1" stroke-width="1.5"/>
+
+  <!-- タイトル -->
+  <text x="480" y="36" text-anchor="middle" font-size="18" font-weight="800" fill="#0f172a" font-family="BIZ UDPGothic, Yu Gothic UI, sans-serif">リアルライトモック（Real Lite Mock）開発フロー全体像</text>
+  <text x="480" y="58" text-anchor="middle" font-size="12" fill="#475569" font-family="BIZ UDPGothic, Yu Gothic UI, sans-serif">「見た目だけ・使い捨て」をやめ、3〜4日でリアルに動く3案を作り、体験を詰め込んだモックをそのまま本番化のインプットにする</text>
+
+  <!-- フェーズ帯：探索・検証（3〜4日） vs 本番製品化 -->
+  <rect x="24" y="76" width="668" height="26" rx="13" fill="#dbeafe" stroke="#2563eb" stroke-width="1.2"/>
+  <text x="358" y="93" text-anchor="middle" font-size="11.5" font-weight="800" fill="#1e40af" font-family="BIZ UDPGothic, sans-serif">⚡ 超高速 PoC フェーズ（目安：3〜4日 ／ 1週間以内・単一HTML＋ローカルAI CLI＋MCP）</text>
+
+  <rect x="704" y="76" width="232" height="26" rx="13" fill="#f5f3ff" stroke="#7c3aed" stroke-width="1.2"/>
+  <text x="820" y="93" text-anchor="middle" font-size="11.5" font-weight="800" fill="#5b21b6" font-family="BIZ UDPGothic, sans-serif">🚀 製品化フェーズ（本番基盤へ変換）</text>
+
+  <!-- Step 1 -->
+  <rect x="24" y="118" width="154" height="192" rx="12" fill="#ffffff" stroke="#0284c7" stroke-width="2"/>
+  <rect x="24" y="118" width="154" height="32" rx="12" fill="#0284c7"/>
+  <rect x="24" y="138" width="154" height="12" fill="#0284c7"/>
+  <text x="101" y="139" text-anchor="middle" font-size="12" font-weight="800" fill="#ffffff" font-family="BIZ UDPGothic, sans-serif">STEP 1：裏側の貫通</text>
+  <text x="101" y="172" text-anchor="middle" font-size="11.5" font-weight="800" fill="#0c4a6e" font-family="BIZ UDPGothic, sans-serif">AI CLI ＋ MCP 接続</text>
+  <text x="101" y="196" text-anchor="middle" font-size="10.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif">ローカルの AI CLI から</text>
+  <text x="101" y="213" text-anchor="middle" font-size="10.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif">MCP 経由で実ツール</text>
+  <text x="101" y="230" text-anchor="middle" font-size="10.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif">（CAD等）を動かす</text>
+  <rect x="36" y="252" width="130" height="44" rx="8" fill="#f0f9ff" stroke="#7dd3fc"/>
+  <text x="101" y="271" text-anchor="middle" font-size="10" font-weight="700" fill="#0369a1" font-family="BIZ UDPGothic, sans-serif">まずはコマンドで</text>
+  <text x="101" y="287" text-anchor="middle" font-size="10" font-weight="700" fill="#0369a1" font-family="BIZ UDPGothic, sans-serif">実動作を確認（核）</text>
+
+  <!-- Arrow 1->2 -->
+  <line x1="178" y1="214" x2="196" y2="214" stroke="#475569" stroke-width="2.2" marker-end="url(#arrSlate)"/>
+
+  <!-- Step 2 -->
+  <rect x="200" y="118" width="154" height="192" rx="12" fill="#ffffff" stroke="#2563eb" stroke-width="2"/>
+  <rect x="200" y="118" width="154" height="32" rx="12" fill="#2563eb"/>
+  <rect x="200" y="138" width="154" height="12" fill="#2563eb"/>
+  <text x="277" y="139" text-anchor="middle" font-size="12" font-weight="800" fill="#ffffff" font-family="BIZ UDPGothic, sans-serif">STEP 2：単一HTML試作</text>
+  <text x="277" y="172" text-anchor="middle" font-size="11.5" font-weight="800" fill="#1e3a8a" font-family="BIZ UDPGothic, sans-serif">3パターンを並行作成</text>
+  <text x="277" y="196" text-anchor="middle" font-size="10.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif">HTML＋CSS＋JS を</text>
+  <text x="277" y="213" text-anchor="middle" font-size="10.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif">1ファイルに全詰め込み</text>
+  <text x="277" y="230" text-anchor="middle" font-size="10.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif">裏で AI CLI を実呼び出し</text>
+  <rect x="212" y="252" width="130" height="44" rx="8" fill="#eff6ff" stroke="#93c5fd"/>
+  <text x="277" y="271" text-anchor="middle" font-size="10" font-weight="700" fill="#1d4ed8" font-family="BIZ UDPGothic, sans-serif">社内案×2 ＋ UIガイド×1</text>
+  <text x="277" y="287" text-anchor="middle" font-size="10" font-weight="700" fill="#1d4ed8" font-family="BIZ UDPGothic, sans-serif">コードの綺麗さは不問</text>
+
+  <!-- Arrow 2->3 -->
+  <line x1="354" y1="214" x2="372" y2="214" stroke="#475569" stroke-width="2.2" marker-end="url(#arrSlate)"/>
+
+  <!-- Step 3 -->
+  <rect x="376" y="118" width="154" height="192" rx="12" fill="#ffffff" stroke="#059669" stroke-width="2"/>
+  <rect x="376" y="118" width="154" height="32" rx="12" fill="#059669"/>
+  <rect x="376" y="138" width="154" height="12" fill="#059669"/>
+  <text x="453" y="139" text-anchor="middle" font-size="12" font-weight="800" fill="#ffffff" font-family="BIZ UDPGothic, sans-serif">STEP 3：実体験＆FB</text>
+  <text x="453" y="172" text-anchor="middle" font-size="11.5" font-weight="800" fill="#065f46" font-family="BIZ UDPGothic, sans-serif">同僚・上位層へ展開</text>
+  <text x="453" y="196" text-anchor="middle" font-size="10.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif">身近なメンバーが実際に</text>
+  <text x="453" y="213" text-anchor="middle" font-size="10.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif">3案を触って比較評価</text>
+  <text x="453" y="230" text-anchor="middle" font-size="10.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif">＋デモモードで上長説明</text>
+  <rect x="388" y="252" width="130" height="44" rx="8" fill="#ecfdf5" stroke="#6ee7b7"/>
+  <text x="453" y="271" text-anchor="middle" font-size="10" font-weight="700" fill="#047857" font-family="BIZ UDPGothic, sans-serif">▶ 自動再生デモで</text>
+  <text x="453" y="287" text-anchor="middle" font-size="10" font-weight="700" fill="#047857" font-family="BIZ UDPGothic, sans-serif">合意形成＆横展開も</text>
+
+  <!-- Arrow 3->4 -->
+  <line x1="530" y1="214" x2="548" y2="214" stroke="#475569" stroke-width="2.2" marker-end="url(#arrSlate)"/>
+
+  <!-- Step 4 -->
+  <rect x="552" y="118" width="140" height="192" rx="12" fill="#ffffff" stroke="#d97706" stroke-width="2"/>
+  <rect x="552" y="118" width="140" height="32" rx="12" fill="#d97706"/>
+  <rect x="552" y="138" width="140" height="12" fill="#d97706"/>
+  <text x="622" y="139" text-anchor="middle" font-size="12" font-weight="800" fill="#ffffff" font-family="BIZ UDPGothic, sans-serif">STEP 4：仕様凝縮</text>
+  <text x="622" y="172" text-anchor="middle" font-size="11.5" font-weight="800" fill="#92400e" font-family="BIZ UDPGothic, sans-serif">モックを資産化</text>
+  <text x="622" y="196" text-anchor="middle" font-size="10.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif">得られた意見や</text>
+  <text x="622" y="213" text-anchor="middle" font-size="10.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif">操作体験の正解を</text>
+  <text x="622" y="230" text-anchor="middle" font-size="10.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif">モックに全反映</text>
+  <rect x="564" y="252" width="116" height="44" rx="8" fill="#fffbeb" stroke="#fcd34d"/>
+  <text x="622" y="271" text-anchor="middle" font-size="10" font-weight="700" fill="#b45309" font-family="BIZ UDPGothic, sans-serif">「動く仕様書」</text>
+  <text x="622" y="287" text-anchor="middle" font-size="10" font-weight="700" fill="#b45309" font-family="BIZ UDPGothic, sans-serif">として完成</text>
+
+  <!-- Arrow 4->5 (強調) -->
+  <line x1="692" y1="214" x2="720" y2="214" stroke="#7c3aed" stroke-width="3" marker-end="url(#arrViolet)"/>
+
+  <!-- Step 5 -->
+  <rect x="724" y="118" width="212" height="192" rx="12" fill="#ffffff" stroke="#7c3aed" stroke-width="2.5"/>
+  <rect x="724" y="118" width="212" height="32" rx="12" fill="#7c3aed"/>
+  <rect x="724" y="138" width="212" height="12" fill="#7c3aed"/>
+  <text x="830" y="139" text-anchor="middle" font-size="12" font-weight="800" fill="#ffffff" font-family="BIZ UDPGothic, sans-serif">STEP 5：AI で本番構成へ変換</text>
+  <text x="830" y="172" text-anchor="middle" font-size="11.5" font-weight="800" fill="#5b21b6" font-family="BIZ UDPGothic, sans-serif">インプットにして一気に製品化</text>
+  <text x="830" y="196" text-anchor="middle" font-size="10.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif">完成モックを AI へ渡し、</text>
+  <text x="830" y="213" text-anchor="middle" font-size="10.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif">顧客提供用の正規基盤を新規生成</text>
+  <rect x="738" y="232" width="184" height="66" rx="8" fill="#f5f3ff" stroke="#c4b5fd"/>
+  <text x="830" y="251" text-anchor="middle" font-size="10" font-weight="700" fill="#5b21b6" font-family="BIZ UDPGothic, sans-serif">・フロント：React 等</text>
+  <text x="830" y="268" text-anchor="middle" font-size="10" font-weight="700" fill="#5b21b6" font-family="BIZ UDPGothic, sans-serif">・バック：Python ＋ DB</text>
+  <text x="830" y="285" text-anchor="middle" font-size="10" font-weight="700" fill="#5b21b6" font-family="BIZ UDPGothic, sans-serif">・AI基盤：Azure 等クラウドAI</text>
+
+  <!-- 反復ループ矢印（STEP 4 -> STEP 2） -->
+  <path d="M 622 310 L 622 346 L 277 346 L 277 314" fill="none" stroke="#0f766e" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#arrTeal)"/>
+  <rect x="330" y="333" width="242" height="24" rx="12" fill="#f0fdfa" stroke="#0f766e" stroke-width="1.2"/>
+  <text x="451" y="349" text-anchor="middle" font-size="10.5" font-weight="800" fill="#115e59" font-family="BIZ UDPGothic, sans-serif">🔁 フィードバックを高速反映（何周でもOK）</text>
+
+  <!-- 最下部メッセージ -->
+  <rect x="24" y="376" width="912" height="36" rx="10" fill="#0f172a"/>
+  <text x="480" y="399" text-anchor="middle" font-size="12" font-weight="700" fill="#ffffff" font-family="BIZ UDPGothic, sans-serif">💡 核心：AI の進化で「動くモックを作ってから本番構成へ変換する」ほうが、最初から本番を作るより圧倒的に速く失敗しない</text>
+</svg>

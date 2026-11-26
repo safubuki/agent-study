@@ -1,0 +1,97 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 470" role="img" aria-label="PoCフェーズの超軽量構成から本番フェーズのクラウド製品構成へのアーキテクチャ移行図">
+  <defs>
+    <marker id="arrBlue3" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#2563eb"/>
+    </marker>
+    <marker id="arrPurple3" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#7c3aed"/>
+    </marker>
+    <marker id="arrTeal3" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#0f766e"/>
+    </marker>
+  </defs>
+
+  <rect width="960" height="470" rx="18" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+
+  <!-- タイトル -->
+  <text x="480" y="36" text-anchor="middle" font-size="18" font-weight="800" fill="#0f172a" font-family="BIZ UDPGothic, Yu Gothic UI, sans-serif">アーキテクチャの進化：PoC（単一HTML＋CLI）→ 本番（クラウド製品基盤）</text>
+  <text x="480" y="58" text-anchor="middle" font-size="12" fill="#475569" font-family="BIZ UDPGothic, Yu Gothic UI, sans-serif">最初はローカル／社内のAI CLIで即体験し、体験と要件が固まったら顧客提供用の本格アーキテクチャへAIで変換する</text>
+
+  <!-- 左パネル：PoC（リアルライトモック） -->
+  <rect x="24" y="78" width="404" height="330" rx="14" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
+  <rect x="24" y="78" width="404" height="36" rx="14" fill="#2563eb"/>
+  <rect x="24" y="100" width="404" height="14" fill="#2563eb"/>
+  <text x="226" y="102" text-anchor="middle" font-size="13" font-weight="800" fill="#ffffff" font-family="BIZ UDPGothic, sans-serif">Phase 1：リアルライトモック（社内・ローカル検証）</text>
+
+  <!-- 単一HTMLボックス -->
+  <rect x="46" y="130" width="360" height="74" rx="10" fill="#ffffff" stroke="#3b82f6" stroke-width="1.8"/>
+  <text x="226" y="153" text-anchor="middle" font-size="12" font-weight="800" fill="#1e3a8a" font-family="BIZ UDPGothic, sans-serif">📄 単一 HTML ファイル（× 3パターン）</text>
+  <text x="226" y="173" text-anchor="middle" font-size="10.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif">HTML ＋ CSS ＋ JS を 1 ファイルに全格納（ビルド不要）</text>
+  <text x="226" y="191" text-anchor="middle" font-size="10" font-weight="700" fill="#2563eb" font-family="BIZ UDPGothic, sans-serif">＋ ▶ デモモード（一連のユースケース自動再生）</text>
+
+  <!-- 矢印 -->
+  <line x1="226" y1="204" x2="226" y2="232" stroke="#2563eb" stroke-width="2.2" marker-end="url(#arrBlue3)"/>
+  <text x="316" y="222" text-anchor="middle" font-size="9.5" font-weight="700" fill="#1d4ed8" font-family="BIZ UDPGothic, sans-serif">軽量ローカル橋渡し（CLI実行）</text>
+
+  <!-- AI CLIボックス -->
+  <rect x="46" y="236" width="360" height="62" rx="10" fill="#ffffff" stroke="#0284c7" stroke-width="1.8"/>
+  <text x="226" y="259" text-anchor="middle" font-size="12" font-weight="800" fill="#0c4a6e" font-family="BIZ UDPGothic, sans-serif">🤖 ローカル／社内 AI CLI 基盤</text>
+  <text x="226" y="280" text-anchor="middle" font-size="10.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif">GitHub Copilot CLI 等（既存アカウントで即AI利用）</text>
+
+  <!-- 矢印 -->
+  <line x1="226" y1="298" x2="226" y2="326" stroke="#0f766e" stroke-width="2.2" marker-end="url(#arrTeal3)"/>
+  <text x="306" y="316" text-anchor="middle" font-size="9.5" font-weight="700" fill="#0f766e" font-family="BIZ UDPGothic, sans-serif">MCP（ツール接続規格）</text>
+
+  <!-- 実ツールボックス -->
+  <rect x="46" y="330" width="360" height="60" rx="10" fill="#f0fdfa" stroke="#0f766e" stroke-width="1.8"/>
+  <text x="226" y="353" text-anchor="middle" font-size="12" font-weight="800" fill="#115e59" font-family="BIZ UDPGothic, sans-serif">🛠️ 実業務ツール・MCP サーバー</text>
+  <text x="226" y="374" text-anchor="middle" font-size="10.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif">例：CAD ソフトを AI が操作し 3D データを実生成</text>
+
+  <!-- 中央：変換ブリッジ -->
+  <rect x="442" y="168" width="96" height="150" rx="12" fill="#f5f3ff" stroke="#7c3aed" stroke-width="2"/>
+  <text x="490" y="196" text-anchor="middle" font-size="11" font-weight="800" fill="#5b21b6" font-family="BIZ UDPGothic, sans-serif">モックを</text>
+  <text x="490" y="213" text-anchor="middle" font-size="11" font-weight="800" fill="#5b21b6" font-family="BIZ UDPGothic, sans-serif">インプット</text>
+  <text x="490" y="230" text-anchor="middle" font-size="11" font-weight="800" fill="#5b21b6" font-family="BIZ UDPGothic, sans-serif">として</text>
+  <text x="490" y="247" text-anchor="middle" font-size="11" font-weight="800" fill="#5b21b6" font-family="BIZ UDPGothic, sans-serif">AIへ投入</text>
+  <line x1="454" y1="268" x2="526" y2="268" stroke="#7c3aed" stroke-width="3" marker-end="url(#arrPurple3)"/>
+  <text x="490" y="294" text-anchor="middle" font-size="9.5" font-weight="700" fill="#6d28d9" font-family="BIZ UDPGothic, sans-serif">仕様抽出＆</text>
+  <text x="490" y="308" text-anchor="middle" font-size="9.5" font-weight="700" fill="#6d28d9" font-family="BIZ UDPGothic, sans-serif">新規再構築</text>
+
+  <!-- 右パネル：本番製品基盤 -->
+  <rect x="552" y="78" width="384" height="330" rx="14" fill="#faf5ff" stroke="#7c3aed" stroke-width="2"/>
+  <rect x="552" y="78" width="384" height="36" rx="14" fill="#7c3aed"/>
+  <rect x="552" y="100" width="384" height="14" fill="#7c3aed"/>
+  <text x="744" y="102" text-anchor="middle" font-size="13" font-weight="800" fill="#ffffff" font-family="BIZ UDPGothic, sans-serif">Phase 2：顧客提供用の本番アーキテクチャ</text>
+
+  <!-- フロントエンド -->
+  <rect x="574" y="130" width="340" height="58" rx="10" fill="#ffffff" stroke="#7c3aed" stroke-width="1.8"/>
+  <text x="744" y="153" text-anchor="middle" font-size="12" font-weight="800" fill="#5b21b6" font-family="BIZ UDPGothic, sans-serif">🖥️ フロントエンド（React / TypeScript 等）</text>
+  <text x="744" y="173" text-anchor="middle" font-size="10.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif">確定した UI パターン・操作感を部品化して実装</text>
+
+  <line x1="744" y1="188" x2="744" y2="210" stroke="#7c3aed" stroke-width="2.2" marker-end="url(#arrPurple3)"/>
+
+  <!-- バックエンド -->
+  <rect x="574" y="214" width="340" height="62" rx="10" fill="#ffffff" stroke="#7c3aed" stroke-width="1.8"/>
+  <text x="744" y="237" text-anchor="middle" font-size="12" font-weight="800" fill="#5b21b6" font-family="BIZ UDPGothic, sans-serif">⚙️ バックエンド API（Python / FastAPI 等）</text>
+  <text x="744" y="257" text-anchor="middle" font-size="10.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif">認証・権限管理・入力検証・監査ログ・エラー制御</text>
+
+  <line x1="654" y1="276" x2="654" y2="302" stroke="#7c3aed" stroke-width="2" marker-end="url(#arrPurple3)"/>
+  <line x1="834" y1="276" x2="834" y2="302" stroke="#7c3aed" stroke-width="2" marker-end="url(#arrPurple3)"/>
+
+  <!-- クラウドAI & DB -->
+  <rect x="574" y="306" width="164" height="84" rx="10" fill="#ffffff" stroke="#0284c7" stroke-width="1.8"/>
+  <text x="656" y="328" text-anchor="middle" font-size="11.5" font-weight="800" fill="#0c4a6e" font-family="BIZ UDPGothic, sans-serif">☁️ クラウド AI</text>
+  <text x="656" y="348" text-anchor="middle" font-size="10" fill="#334155" font-family="BIZ UDPGothic, sans-serif">Azure OpenAI 等</text>
+  <text x="656" y="365" text-anchor="middle" font-size="10" fill="#334155" font-family="BIZ UDPGothic, sans-serif">企業セキュリティ</text>
+  <text x="656" y="381" text-anchor="middle" font-size="10" fill="#334155" font-family="BIZ UDPGothic, sans-serif">＆ SLA 準拠</text>
+
+  <rect x="750" y="306" width="164" height="84" rx="10" fill="#ffffff" stroke="#059669" stroke-width="1.8"/>
+  <text x="832" y="328" text-anchor="middle" font-size="11.5" font-weight="800" fill="#065f46" font-family="BIZ UDPGothic, sans-serif">🗄️ DB ＋ 実ツール</text>
+  <text x="832" y="348" text-anchor="middle" font-size="10" fill="#334155" font-family="BIZ UDPGothic, sans-serif">履歴・ユーザーDB</text>
+  <text x="832" y="365" text-anchor="middle" font-size="10" fill="#334155" font-family="BIZ UDPGothic, sans-serif">MCP サーバー群</text>
+  <text x="832" y="381" text-anchor="middle" font-size="10" fill="#334155" font-family="BIZ UDPGothic, sans-serif">（CAD・業務連携）</text>
+
+  <!-- 下部まとめ -->
+  <rect x="24" y="422" width="912" height="32" rx="10" fill="#0f172a"/>
+  <text x="480" y="442" text-anchor="middle" font-size="11.5" font-weight="700" fill="#ffffff" font-family="BIZ UDPGothic, sans-serif">🔑 企業開発の現実解：クラウド稟議やインフラ構築を待たず、まず社内 CLI で価値実証し、確証を得てから Azure 等へ展開する</text>
+</svg>

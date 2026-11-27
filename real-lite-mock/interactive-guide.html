@@ -630,7 +630,7 @@
               <div class="win-dots"><span class="d-r"></span><span class="d-y"></span><span class="d-g"></span></div>
               <div class="url-bar">
                 <span id="mockFileUrl">file:///C:/poc/mock-a-form.html（単一HTML・ビルド不要）</span>
-                <span class="demo-status-pill" id="demoStatusPill">実操作モード</span>
+                <span class="demo-status-pill" id="demoStatusPill">手動操作イメージ</span>
               </div>
             </div>
 
@@ -641,11 +641,11 @@
               <!-- 右：裏側のローカルAI CLI＋MCP実行ログ ＆ CAD 3Dプレビュー -->
               <div class="mock-right">
                 <div class="mock-head">
-                  <h4>⚙️ 裏側の実動作（AI CLI → MCP → CAD）</h4>
-                  <span class="mock-tag" style="background:#ecfdf5;color:#047857;border-color:#a7f3d0;">リアル連動</span>
+                  <h4>⚙️ 裏側の動き（AI CLI → MCP → CAD）</h4>
+                  <span class="mock-tag" style="background:#ecfdf5;color:#047857;border-color:#a7f3d0;">解説用シミュレーション</span>
                 </div>
                 <div class="cli-log" id="cliLog">
-                  <div class="c-dim">// 待機中：左の画面から実行するか「▶ デモモード自動再生」を押してください</div>
+                  <div class="c-dim">// 待機中：左の画面から実行するか「▶ デモモード自動再生」を押してください（※本ガイド内はシミュレーション）</div>
                 </div>
                 <div class="cad-preview" id="cadPreview"></div>
               </div>
@@ -752,7 +752,7 @@
             </button>
             <button type="button" class="sel-btn" data-prior="4">
               <span class="sel-title">⑤ 使い捨て試作と新規再構築</span>
-              <span class="sel-sub">人月の神話・達人プログラマー・英国指針</span>
+              <span class="sel-sub">『達人プログラマー』・英国試作指針</span>
             </button>
             <button type="button" class="sel-btn" data-prior="5">
               <span class="sel-title">⑥ AI UI 7 パターンの活用</span>
@@ -784,7 +784,7 @@
             <div class="trap-card">
               <h4>③ 社内ルールとデータの扱い</h4>
               <p>手元の AI CLI だからと安心し、未承認の本番機密データをうっかり入力してしまう。</p>
-              <div class="trap-fix">✅ 対策：設定により社外クラウドへ送られるため、会社許可の CLI 環境＋ダミーデータで試す。</div>
+              <div class="trap-fix">✅ 対策：標準では社外クラウドで処理されるため、会社許可の CLI 環境＋ダミーデータで試す。</div>
             </div>
           </div>
         </div>
@@ -976,7 +976,7 @@
         demoTimers = [];
         demoPlayBtn.disabled = false;
         demoStatusPill.classList.remove("running");
-        demoStatusPill.textContent = "実操作モード";
+        demoStatusPill.textContent = "手動操作イメージ";
       }
 
       function renderCadSvg(state, spec) {
@@ -1010,7 +1010,7 @@
         cliLog.innerHTML = "";
         renderCadSvg("idle");
         const lines = [
-          { t: 0,    cls: "c-cmd", text: "$ copilot-cli --mcp cad-server \"" + modeLabel + "\"" },
+          { t: 0,    cls: "c-cmd", text: "# [イメージ] 中継サーバー経由で AI CLI と CAD MCP を呼び出し: \"" + modeLabel + "\"" },
           { t: 450,  cls: "c-dim", text: "[AI CLI] 指示を解析中… パラメータを構造化しました" },
           { t: 950,  cls: "c-mcp", text: "[MCP -> CAD] tools/call: create_bracket(w=" + spec.w + ", hole=" + spec.hole + ", mat='" + spec.material + "')" },
           { t: 1550, cls: "c-ok",  text: "[CAD 応答] 3D モデル生成成功 -> output/bracket_v1.step" }
@@ -1033,7 +1033,7 @@
       function renderMockPattern(pat) {
         currentPat = pat;
         clearDemoTimers();
-        cliLog.innerHTML = '<div class="c-dim">// 待機中：左の画面から実行するか「▶ デモモード自動再生」を押してください</div>';
+        cliLog.innerHTML = '<div class="c-dim">// 待機中：左の画面から実行するか「▶ デモモード自動再生」を押してください（※本ガイド内はシミュレーション）</div>';
         renderCadSvg("idle");
 
         if (pat === "a") {
@@ -1233,26 +1233,26 @@
         {
           title: "③ 複数案を並べて比べる（並行プロトタイピング）",
           en: "Parallel Prototyping — Dow ら (2010) ／ Tohidi ら (2006)",
-          what: "スタンフォード大学の実験（Dow ら 2010）では、1 案ずつ講評を受けるより複数案を作って比較したほうが案の多様性や評価が高まりました。また Tohidi ら（2006）の実験では、1 案だけ見せると遠慮して褒めがちになる一方、3 案並べると褒めすぎが減り弱い案への指摘が出やすくなることが示されています（改善策自体は作り手が考えます）。",
+          what: "スタンフォード大学の実験（Dow ら 2010）では、1 案ずつ講評を受けるより複数案を作ってからまとめて講評を受けたほうが案の多様性や評価が高まりました。また Tohidi ら（2006）の実験では、1 案だけだと評価が甘くなりがちな一方、3 案並べると褒めすぎが減り弱い案への否定的な指摘が出やすくなることが示されています（改善策自体は作り手が考えます）。",
           match: "1 案に絞らず、最初から 3 パターンを並べて同僚に触り比べてもらう設計に対応しています。"
         },
         {
           title: "④ 試作での合意と、仕様駆動開発（SDD）",
           en: "試作による認識合わせ（Uber 実践例等） ＋ SDD（GitHub Spec Kit・Kiro 等）",
-          what: "動く試作で関係者の認識を揃えつつ仕様文書も併用する実践や、実装前に文章の仕様書・設計計画を整えてから AI に実装させる「仕様駆動開発（SDD）」が広がっています。",
+          what: "動く試作で関係者の認識を揃えつつ仕様文書も併用する事例や、実装前に文章の仕様書・設計計画を整えてから AI に実装させる「仕様駆動開発（SDD）」が登場しています。",
           match: "動くモックで体験の認識を揃え（STEP 4）、本番化の前にモックから文章の仕様書・設計案を抜き出して実装する流れ（STEP 5）とつながります。"
         },
         {
           title: "⑤ 使い捨て試作からの新規再構築",
-          en: "Throwaway Prototyping — 『人月の神話』・『達人プログラマー』・英国政府試作指針",
-          what: "古典から公的機関の設計マニュアルまで共通する「試作のコードは本番の土台に流用しない」という原則です。また Vibe Coding（対話任せの高速試作）も提唱者自身が「使い捨て向き」と述べています。",
+          en: "Throwaway Prototyping — 『達人プログラマー』・英国政府試作指針",
+          what: "『達人プログラマー』や英国政府のサービス設計マニュアル（Alpha 段階指針）などにある「試作のコードは本番の土台に流用しない」という原則です。また Vibe Coding（対話任せの高速試作）も提唱者自身が「使い捨て向き」と述べています。",
           match: "単一 HTML は試作用と割り切り、細かい仕様が抜け落ちないよう先に仕様書へ書き出してから本番構成を新しく作る点に対応しています。"
         },
         {
           title: "⑥ AI UI 7 パターンの活用",
-          en: "Microsoft HAX・Google PAIR・Apple HIG・NN/g・The Shape of AI を基にした整理",
-          what: "複数の一次ガイドラインでは、「AI＝チャット欄だけ」に頼らず、業務に合わせて調整つまみ（Tuners）や成果物並列（Canvas）、承認ゲートなどの画面形式を選ぶことが推奨されています。",
-          match: "3 案のうち 1 枠に、本リポジトリの ui-guide で整理した 7 パターンから業務に合う型を入れる工夫に対応しています。"
+          en: "NN/g・Microsoft HAX・Google PAIR・Apple HIG・The Shape of AI を参考にした整理",
+          what: "NN/g は「AI＝チャット」だけが答えではないと論じています。ほかにも Microsoft HAX・Google PAIR・Apple HIG・The Shape of AI などが、AI 機能の画面設計の指針やパターン集を公開しており、本リポジトリの ui-guide はこれらを参考に 7 パターンへ整理しています。",
+          match: "3 案のうち 1 枠に、ui-guide の 7 パターンから業務に合う型を入れる工夫に対応しています。"
         }
       ];
 

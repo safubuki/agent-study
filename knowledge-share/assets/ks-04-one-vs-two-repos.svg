@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 450" role="img" aria-label="1リポジトリ構成と2リポジトリ構成の権限境界・履歴・運用の比較図">
+  <rect width="960" height="450" rx="18" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+
+  <!-- タイトル -->
+  <text x="480" y="36" text-anchor="middle" font-size="18" font-weight="800" fill="#0f172a" font-family="BIZ UDPGothic, Yu Gothic UI, sans-serif">GitHub 構成の選び方：1 リポジトリ（同居）vs. 2 リポジトリ（分離）</text>
+  <text x="480" y="58" text-anchor="middle" font-size="12" fill="#475569" font-family="BIZ UDPGothic, Yu Gothic UI, sans-serif">ファイルで自動保存するなら、最初からナレッジ専用リポを分ける（空の Private リポを 1 つ作るだけ）</text>
+
+  <!-- 左：1リポジトリ構成 -->
+  <rect x="24" y="78" width="446" height="316" rx="14" fill="#ffffff" stroke="#2563eb" stroke-width="2"/>
+  <rect x="24" y="78" width="446" height="36" rx="14" fill="#2563eb"/>
+  <rect x="24" y="100" width="446" height="14" fill="#2563eb"/>
+  <text x="247" y="102" text-anchor="middle" font-size="13" font-weight="800" fill="#ffffff" font-family="BIZ UDPGothic, sans-serif">パターン 1：1 リポジトリ構成（アプリと同居）</text>
+
+  <rect x="44" y="128" width="406" height="106" rx="10" fill="#eff6ff" stroke="#93c5fd" stroke-width="1.5"/>
+  <text x="60" y="150" font-size="11.5" font-weight="800" fill="#1e3a8a" font-family="BIZ UDPGothic, sans-serif">📦 my-cad-ai-app/（1 つに集約）</text>
+  <text x="64" y="172" font-size="10.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif">├─ src/ ＆ .github/skills/（アプリ本体＋AIスキル）</text>
+  <text x="64" y="192" font-size="10.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif">├─ Issues（実行記録の受け皿）</text>
+  <text x="64" y="212" font-size="10.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif">└─ runs/（自動保存する場合はここ）</text>
+
+  <text x="46" y="258" font-size="11" font-weight="800" fill="#059669" font-family="BIZ UDPGothic, sans-serif">◎ メリット</text>
+  <text x="46" y="276" font-size="10" fill="#334155" font-family="BIZ UDPGothic, sans-serif">・管理先が 1 つだけ。Issue だけで回すなら最速</text>
+  <text x="46" y="294" font-size="10" fill="#334155" font-family="BIZ UDPGothic, sans-serif">・Issue だけなら、コードへの書き込み権限は要らない</text>
+
+  <text x="46" y="324" font-size="11" font-weight="800" fill="#be123c" font-family="BIZ UDPGothic, sans-serif">△ 注意点</text>
+  <text x="46" y="342" font-size="10" fill="#334155" font-family="BIZ UDPGothic, sans-serif">・自動保存すると、送る人にコードの書き込み権限が要る</text>
+  <text x="46" y="360" font-size="10" fill="#334155" font-family="BIZ UDPGothic, sans-serif">・記録が git log に混ざり、pull で全員分が届く</text>
+  <text x="46" y="376" font-size="10" fill="#334155" font-family="BIZ UDPGothic, sans-serif">・Private なので、Issue を書く人もコードを全部読める</text>
+
+  <!-- 右：2リポジトリ構成 -->
+  <rect x="490" y="78" width="446" height="316" rx="14" fill="#ffffff" stroke="#9d174d" stroke-width="2.4"/>
+  <rect x="490" y="78" width="446" height="36" rx="14" fill="#9d174d"/>
+  <rect x="490" y="100" width="446" height="14" fill="#9d174d"/>
+  <text x="713" y="102" text-anchor="middle" font-size="13" font-weight="800" fill="#ffffff" font-family="BIZ UDPGothic, sans-serif">パターン 2：2 リポジトリ構成（蓄積専用を分離）</text>
+
+  <rect x="510" y="128" width="194" height="106" rx="10" fill="#f8fafc" stroke="#64748b" stroke-width="1.5"/>
+  <text x="524" y="150" font-size="11" font-weight="800" fill="#0f172a" font-family="BIZ UDPGothic, sans-serif">📦 ① アプリ用リポ</text>
+  <text x="524" y="172" font-size="10" fill="#334155" font-family="BIZ UDPGothic, sans-serif">・ソースコード</text>
+  <text x="524" y="191" font-size="10" fill="#334155" font-family="BIZ UDPGothic, sans-serif">・AI スキル正本</text>
+  <text x="524" y="210" font-size="10" fill="#059669" font-weight="700" font-family="BIZ UDPGothic, sans-serif">🔒 開発者のみ書込可</text>
+
+  <rect x="722" y="128" width="194" height="106" rx="10" fill="#fdf2f8" stroke="#9d174d" stroke-width="1.8"/>
+  <text x="736" y="150" font-size="11" font-weight="800" fill="#831843" font-family="BIZ UDPGothic, sans-serif">📚 ② ナレッジ専用リポ</text>
+  <text x="736" y="172" font-size="10" fill="#334155" font-family="BIZ UDPGothic, sans-serif">・runs/2026-11/…/</text>
+  <text x="736" y="191" font-size="10" fill="#334155" font-family="BIZ UDPGothic, sans-serif">・ボタンから自動保存</text>
+  <text x="736" y="210" font-size="10" fill="#9d174d" font-weight="700" font-family="BIZ UDPGothic, sans-serif">🔓 送る人はここだけ書込可</text>
+
+  <text x="512" y="258" font-size="11" font-weight="800" fill="#059669" font-family="BIZ UDPGothic, sans-serif">◎ メリット（本ガイドの基本形）</text>
+  <text x="512" y="276" font-size="10" fill="#334155" font-family="BIZ UDPGothic, sans-serif">・権限分離：送る人にアプリのコードの権限を渡さない</text>
+  <text x="512" y="294" font-size="10" fill="#334155" font-family="BIZ UDPGothic, sans-serif">・履歴清潔：アプリ側の git log・CI・clone 容量を汚さない</text>
+  <text x="512" y="312" font-size="10" fill="#334155" font-family="BIZ UDPGothic, sans-serif">・横展開：複数ツールの実行記録も 1 か所で横断分析できる</text>
+
+  <text x="512" y="342" font-size="11" font-weight="800" fill="#b45309" font-family="BIZ UDPGothic, sans-serif">△ 注意点</text>
+  <text x="512" y="360" font-size="10" fill="#334155" font-family="BIZ UDPGothic, sans-serif">・リポが 2 つになるので、run.json にアプリとスキルの版を</text>
+  <text x="512" y="376" font-size="10" fill="#334155" font-family="BIZ UDPGothic, sans-serif">　必ず記録し、どの版の結果か追えるようにする</text>
+
+  <!-- 下部まとめ -->
+  <rect x="24" y="406" width="912" height="30" rx="10" fill="#0f172a"/>
+  <text x="480" y="425" text-anchor="middle" font-size="11" font-weight="700" fill="#ffffff" font-family="BIZ UDPGothic, sans-serif">🧭 迷ったら：ファイルで自動保存するなら「2 リポ」。Issue だけ・開発メンバーだけで回すなら「1 リポ」でも可</text>
+</svg>

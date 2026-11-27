@@ -1,0 +1,114 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 460" role="img" aria-label="開発初期から成長期までのナレッジ蓄積方法5案の比較マップ">
+  <defs>
+    <marker id="ksArr2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#9d174d"/>
+    </marker>
+  </defs>
+
+  <rect width="960" height="460" rx="18" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+
+  <!-- タイトル -->
+  <text x="480" y="36" text-anchor="middle" font-size="18" font-weight="800" fill="#0f172a" font-family="BIZ UDPGothic, Yu Gothic UI, sans-serif">ナレッジ蓄積 5 つの選択肢：小規模チームはどこから始めるか？</text>
+  <text x="480" y="58" text-anchor="middle" font-size="12" fill="#475569" font-family="BIZ UDPGothic, Yu Gothic UI, sans-serif">おすすめは「② リポジトリへ自動保存」。ほかの案は事情に合わせて組み合わせ、必要になったら移る</text>
+
+  <!-- 5つのカード（横並び） -->
+  <!-- 案1 -->
+  <rect x="22" y="80" width="176" height="248" rx="12" fill="#ffffff" stroke="#059669" stroke-width="2.2"/>
+  <rect x="22" y="80" width="176" height="32" rx="12" fill="#059669"/>
+  <rect x="22" y="100" width="176" height="12" fill="#059669"/>
+  <text x="110" y="101" text-anchor="middle" font-size="11.5" font-weight="800" fill="#ffffff" font-family="BIZ UDPGothic, sans-serif">案① GitHub Issue</text>
+  <text x="110" y="132" text-anchor="middle" font-size="10.5" font-weight="800" fill="#065f46" font-family="BIZ UDPGothic, sans-serif">URL 事前入力</text>
+  <text x="34" y="156" font-size="9.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif">・追加インフラ：不要</text>
+  <text x="34" y="174" font-size="9.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif">・認証：ブラウザのみ</text>
+  <text x="34" y="192" font-size="9.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif">・検索/議論：◎（画面あり）</text>
+  <text x="34" y="210" font-size="9.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif">・機械集計：○（gh で JSON）</text>
+  <rect x="32" y="232" width="156" height="84" rx="8" fill="#ecfdf5" stroke="#6ee7b7"/>
+  <text x="110" y="252" text-anchor="middle" font-size="10" font-weight="800" fill="#047857" font-family="BIZ UDPGothic, sans-serif">人が読む・話し合う向き</text>
+  <text x="110" y="271" text-anchor="middle" font-size="9" fill="#334155" font-family="BIZ UDPGothic, sans-serif">送信前に人が中身を確認</text>
+  <text x="110" y="287" text-anchor="middle" font-size="9" fill="#334155" font-family="BIZ UDPGothic, sans-serif">トークンなしで送れる</text>
+  <text x="110" y="303" text-anchor="middle" font-size="9" fill="#334155" font-family="BIZ UDPGothic, sans-serif">長い途中ログは載らない</text>
+
+  <!-- 案2 -->
+  <rect x="208" y="80" width="176" height="248" rx="12" fill="#ffffff" stroke="#9d174d" stroke-width="2.4"/>
+  <rect x="208" y="80" width="176" height="32" rx="12" fill="#9d174d"/>
+  <rect x="208" y="100" width="176" height="12" fill="#9d174d"/>
+  <text x="296" y="101" text-anchor="middle" font-size="11.5" font-weight="800" fill="#ffffff" font-family="BIZ UDPGothic, sans-serif">案② リポへ自動保存</text>
+  <text x="296" y="132" text-anchor="middle" font-size="10.5" font-weight="800" fill="#831843" font-family="BIZ UDPGothic, sans-serif">ボタン → API で書込</text>
+  <text x="220" y="156" font-size="9.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif">・追加インフラ：不要</text>
+  <text x="220" y="174" font-size="9.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif">・認証：各自のトークン</text>
+  <text x="220" y="192" font-size="9.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif">・途中ログ：◎（全部残せる）</text>
+  <text x="220" y="210" font-size="9.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif">・機械集計：◎（ファイル直読）</text>
+  <rect x="218" y="232" width="156" height="84" rx="8" fill="#fdf2f8" stroke="#f9a8d4"/>
+  <text x="296" y="252" text-anchor="middle" font-size="10" font-weight="800" fill="#9d174d" font-family="BIZ UDPGothic, sans-serif">★ 本ガイドの基本形</text>
+  <text x="296" y="271" text-anchor="middle" font-size="9" fill="#334155" font-family="BIZ UDPGothic, sans-serif">1 実行 1 フォルダで蓄積</text>
+  <text x="296" y="287" text-anchor="middle" font-size="9" fill="#334155" font-family="BIZ UDPGothic, sans-serif">スクリプトや AI に</text>
+  <text x="296" y="303" text-anchor="middle" font-size="9" fill="#334155" font-family="BIZ UDPGothic, sans-serif">そのまま渡せる（専用リポ）</text>
+
+  <!-- 案3 -->
+  <rect x="394" y="80" width="176" height="248" rx="12" fill="#ffffff" stroke="#2563eb" stroke-width="2"/>
+  <rect x="394" y="80" width="176" height="32" rx="12" fill="#2563eb"/>
+  <rect x="394" y="100" width="176" height="12" fill="#2563eb"/>
+  <text x="482" y="101" text-anchor="middle" font-size="11.5" font-weight="800" fill="#ffffff" font-family="BIZ UDPGothic, sans-serif">案③ PR 自動作成</text>
+  <text x="482" y="132" text-anchor="middle" font-size="10.5" font-weight="800" fill="#1e40af" font-family="BIZ UDPGothic, sans-serif">ブランチ作成 → PR 審査</text>
+  <text x="406" y="156" font-size="9.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif">・追加インフラ：不要</text>
+  <text x="406" y="174" font-size="9.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif">・認証：案②と同じ</text>
+  <text x="406" y="192" font-size="9.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif">・機密混入防止：◎（審査）</text>
+  <text x="406" y="210" font-size="9.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif">・運用手間：△（承認要）</text>
+  <rect x="404" y="232" width="156" height="84" rx="8" fill="#eff6ff" stroke="#93c5fd"/>
+  <text x="482" y="252" text-anchor="middle" font-size="10" font-weight="800" fill="#1d4ed8" font-family="BIZ UDPGothic, sans-serif">厳選ナレッジの登録向き</text>
+  <text x="482" y="271" text-anchor="middle" font-size="9" fill="#334155" font-family="BIZ UDPGothic, sans-serif">CI チェック＆人レビューで</text>
+  <text x="482" y="287" text-anchor="middle" font-size="9" fill="#334155" font-family="BIZ UDPGothic, sans-serif">機密混入をしっかり止めたい</text>
+  <text x="482" y="303" text-anchor="middle" font-size="9" fill="#334155" font-family="BIZ UDPGothic, sans-serif">成功事例・スキル昇格に◎</text>
+
+  <!-- 案4 -->
+  <rect x="580" y="80" width="176" height="248" rx="12" fill="#ffffff" stroke="#d97706" stroke-width="2"/>
+  <rect x="580" y="80" width="176" height="32" rx="12" fill="#d97706"/>
+  <rect x="580" y="100" width="176" height="12" fill="#d97706"/>
+  <text x="668" y="101" text-anchor="middle" font-size="11.5" font-weight="800" fill="#ffffff" font-family="BIZ UDPGothic, sans-serif">案④ 共有フォルダ</text>
+  <text x="668" y="132" text-anchor="middle" font-size="10.5" font-weight="800" fill="#92400e" font-family="BIZ UDPGothic, sans-serif">Box / NAS ＋ JSONL</text>
+  <text x="592" y="156" font-size="9.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif">・追加インフラ：既設活用</text>
+  <text x="592" y="174" font-size="9.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif">・社外送信：不要（社内）</text>
+  <text x="592" y="192" font-size="9.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif">・大きな CAD 実体：◎</text>
+  <text x="592" y="210" font-size="9.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif">・差分/レビュー：△</text>
+  <rect x="590" y="232" width="156" height="84" rx="8" fill="#fffbeb" stroke="#fcd34d"/>
+  <text x="668" y="252" text-anchor="middle" font-size="10" font-weight="800" fill="#b45309" font-family="BIZ UDPGothic, sans-serif">大容量 CAD の相棒に</text>
+  <text x="668" y="271" text-anchor="middle" font-size="9" fill="#334155" font-family="BIZ UDPGothic, sans-serif">GitHub へ出せない機密や</text>
+  <text x="668" y="287" text-anchor="middle" font-size="9" fill="#334155" font-family="BIZ UDPGothic, sans-serif">3D CAD 実体の置き場として</text>
+  <text x="668" y="303" text-anchor="middle" font-size="9" fill="#334155" font-family="BIZ UDPGothic, sans-serif">GitHub 案と併用が強力</text>
+
+  <!-- 案5 -->
+  <rect x="766" y="80" width="172" height="248" rx="12" fill="#ffffff" stroke="#64748b" stroke-width="1.8" stroke-dasharray="5 3"/>
+  <rect x="766" y="80" width="172" height="32" rx="12" fill="#475569"/>
+  <rect x="766" y="100" width="172" height="12" fill="#475569"/>
+  <text x="852" y="101" text-anchor="middle" font-size="11.5" font-weight="800" fill="#ffffff" font-family="BIZ UDPGothic, sans-serif">案⑤ クラウド DB</text>
+  <text x="852" y="132" text-anchor="middle" font-size="10.5" font-weight="800" fill="#334155" font-family="BIZ UDPGothic, sans-serif">DB / LLMOps 基盤</text>
+  <text x="778" y="156" font-size="9.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif">・追加インフラ：構築必須</text>
+  <text x="778" y="174" font-size="9.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif">・費用/保守：継続発生</text>
+  <text x="778" y="192" font-size="9.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif">・大量/高速集計：◎</text>
+  <text x="778" y="210" font-size="9.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif">・初期コスト：重い</text>
+  <rect x="776" y="232" width="152" height="84" rx="8" fill="#f1f5f9" stroke="#cbd5e1"/>
+  <text x="852" y="252" text-anchor="middle" font-size="10" font-weight="800" fill="#475569" font-family="BIZ UDPGothic, sans-serif">成長後の移行先</text>
+  <text x="852" y="271" text-anchor="middle" font-size="9" fill="#334155" font-family="BIZ UDPGothic, sans-serif">利用者が数十人〜・日次</text>
+  <text x="852" y="287" text-anchor="middle" font-size="9" fill="#334155" font-family="BIZ UDPGothic, sans-serif">数百件超になってから移行</text>
+  <text x="852" y="303" text-anchor="middle" font-size="9" fill="#334155" font-family="BIZ UDPGothic, sans-serif">しても遅くない</text>
+
+  <!-- 下段：おすすめの段階的ステップ -->
+  <rect x="22" y="346" width="916" height="96" rx="14" fill="#ffffff" stroke="#9d174d" stroke-width="1.8"/>
+  <text x="42" y="372" font-size="12.5" font-weight="800" fill="#831843" font-family="BIZ UDPGothic, sans-serif">🚀 小規模チームのおすすめ進化ステップ（無理なく育て、必要になったら移行）</text>
+
+  <rect x="42" y="386" width="246" height="42" rx="9" fill="#ecfdf5" stroke="#059669"/>
+  <text x="165" y="404" text-anchor="middle" font-size="10.5" font-weight="800" fill="#065f46" font-family="BIZ UDPGothic, sans-serif">Step A（2〜3 人・今週すぐ）</text>
+  <text x="165" y="420" text-anchor="middle" font-size="9.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif">案② 専用リポ＋ボタンで API 書込</text>
+
+  <line x1="288" y1="407" x2="328" y2="407" stroke="#9d174d" stroke-width="2.4" marker-end="url(#ksArr2)"/>
+
+  <rect x="332" y="386" width="276" height="42" rx="9" fill="#fdf2f8" stroke="#9d174d"/>
+  <text x="470" y="404" text-anchor="middle" font-size="10.5" font-weight="800" fill="#831843" font-family="BIZ UDPGothic, sans-serif">Step B（試用メンバーが加わったら）</text>
+  <text x="470" y="420" text-anchor="middle" font-size="9.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif">Issue・Actions 経由を追加＋案④ Box</text>
+
+  <line x1="608" y1="407" x2="648" y2="407" stroke="#9d174d" stroke-width="2.4" marker-end="url(#ksArr2)"/>
+
+  <rect x="652" y="386" width="266" height="42" rx="9" fill="#f1f5f9" stroke="#64748b"/>
+  <text x="785" y="404" text-anchor="middle" font-size="10.5" font-weight="800" fill="#334155" font-family="BIZ UDPGothic, sans-serif">Step C（1 日数百件を超えたら）</text>
+  <text x="785" y="420" text-anchor="middle" font-size="9.5" fill="#475569" font-family="BIZ UDPGothic, sans-serif">記録の形のまま案⑤ クラウド DB へ</text>
+</svg>

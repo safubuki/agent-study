@@ -1,0 +1,1512 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ナレッジシェア わかる動的ガイド — knowledge-share</title>
+  <style>
+    :root {
+      --bg: #f8fafc;
+      --surface: #ffffff;
+      --surface-soft: #f1f5f9;
+      --border: #e2e8f0;
+      --border-strong: #cbd5e1;
+      --ink: #0f172a;
+      --ink-sub: #334155;
+      --ink-muted: #475569;
+
+      --accent: #9d174d;
+      --accent-hover: #831843;
+      --accent-soft: #fdf2f8;
+      --accent-border: #f9a8d4;
+
+      --blue: #1d4ed8;    --blue-soft: #eff6ff;
+      --emerald: #047857; --emerald-soft: #ecfdf5;
+      --violet: #6d28d9;  --violet-soft: #f5f3ff;
+      --amber: #b45309;   --amber-soft: #fffbeb;
+      --rose: #be123c;    --rose-soft: #fff1f2;
+      --teal: #0f766e;    --teal-soft: #f0fdfa;
+
+      --card-shadow: 0 4px 24px -8px rgba(15, 23, 42, 0.08);
+      --btn-shadow: 0 2px 6px rgba(15, 23, 42, 0.08);
+      --primary-shadow: 0 6px 18px -4px rgba(157, 23, 77, 0.34);
+      --ease: cubic-bezier(0.22, 1, 0.36, 1);
+      --font-sans: "BIZ UDPGothic", "Hiragino Kaku Gothic ProN", "Yu Gothic UI", "Meiryo", system-ui, sans-serif;
+      --font-mono: "Cascadia Code", "Fira Code", Consolas, monospace;
+    }
+
+    [data-theme="dark"] {
+      --bg: #0b1120;
+      --surface: #111827;
+      --surface-soft: #1e293b;
+      --border: #1e293b;
+      --border-strong: #334155;
+      --ink: #f8fafc;
+      --ink-sub: #cbd5e1;
+      --ink-muted: #94a3b8;
+
+      --accent: #f472b6;
+      --accent-hover: #ec4899;
+      --accent-soft: rgba(236, 72, 153, 0.16);
+      --accent-border: rgba(244, 114, 182, 0.38);
+
+      --blue: #60a5fa;    --blue-soft: rgba(59, 130, 246, 0.16);
+      --emerald: #34d399; --emerald-soft: rgba(16, 185, 129, 0.16);
+      --violet: #a78bfa;  --violet-soft: rgba(139, 92, 246, 0.16);
+      --amber: #fbbf24;   --amber-soft: rgba(245, 158, 11, 0.16);
+      --rose: #fb7185;    --rose-soft: rgba(244, 63, 94, 0.16);
+      --teal: #2dd4bf;    --teal-soft: rgba(20, 184, 166, 0.16);
+
+      --card-shadow: 0 8px 28px -8px rgba(0, 0, 0, 0.5);
+      --btn-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0; font-family: var(--font-sans); font-size: 16px; line-height: 1.85;
+      background: var(--bg); color: var(--ink);
+      transition: background-color 0.3s var(--ease), color 0.3s var(--ease);
+    }
+    :not(pre) > code {
+      font-family: var(--font-mono); font-size: 0.86em; padding: 1px 6px; border-radius: 6px;
+      background: var(--surface-soft); border: 1px solid var(--border); color: var(--ink);
+    }
+    .story-box code, .takeaway code, .diag-result code, .opt-card code, .step-detail code, .diag-row code {
+      background: var(--surface);
+    }
+    .progress-bar { position: fixed; top: 0; left: 0; height: 3px; width: 0%; background: var(--accent); z-index: 200; }
+
+    /* =====================================================================
+       全ページ完全統一ヘッダー
+    ===================================================================== */
+    header.topbar {
+      position: sticky; top: 0; z-index: 100;
+      background: color-mix(in srgb, var(--surface) 94%, transparent);
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .topbar-row1 {
+      max-width: 1040px; margin: 0 auto; padding: 10px 20px 8px;
+      display: flex; align-items: center; justify-content: space-between; gap: 12px;
+    }
+    .brand {
+      display: inline-flex; align-items: center; gap: 9px;
+      font-weight: 800; color: var(--ink); text-decoration: none; white-space: nowrap;
+    }
+    .brand-icon {
+      width: 30px; height: 30px; border-radius: 8px;
+      background: linear-gradient(135deg, #2563eb, #0f766e); color: #fff;
+      display: inline-flex; align-items: center; justify-content: center; font-size: 0.95rem;
+    }
+    .page-chip {
+      border-radius: 99px; font-weight: 800;
+      background: var(--accent-soft); color: var(--accent); border: 1px solid var(--accent-border);
+      white-space: nowrap;
+    }
+    .util-btns { display: flex; gap: 6px; flex-shrink: 0; }
+    .util-btn {
+      border-radius: 8px; border: 1.5px solid var(--border-strong);
+      background: var(--surface); color: var(--ink-sub); font-family: inherit;
+      font-weight: 700; cursor: pointer; box-shadow: var(--btn-shadow);
+      text-decoration: none; white-space: nowrap;
+    }
+    .util-btn:hover { border-color: var(--accent); color: var(--accent); }
+    .topbar-row2 {
+      border-top: 1px solid var(--border);
+      background: color-mix(in srgb, var(--surface-soft) 72%, transparent);
+    }
+    .guide-nav {
+      max-width: 1040px; margin: 0 auto; padding: 6px 20px;
+      display: flex; align-items: center; gap: 4px; overflow-x: auto; scrollbar-width: thin;
+    }
+    .guide-nav a {
+      border-radius: 8px; color: var(--ink-muted); text-decoration: none; white-space: nowrap; flex-shrink: 0;
+      transition: background 0.15s, color 0.15s;
+    }
+    .guide-nav a:hover { color: var(--ink); background: var(--surface); }
+    .guide-nav a.current { color: #fff; background: var(--accent); }
+    [data-theme="dark"] .guide-nav a.current { color: #0b1120; }
+
+    header.topbar, header.topbar * {
+      font-family: "BIZ UDPGothic", "Hiragino Kaku Gothic ProN", "Yu Gothic UI", "Meiryo", system-ui, sans-serif !important;
+      letter-spacing: 0 !important;
+    }
+    header.topbar .topbar-row1 { min-height: 48px; box-sizing: border-box; }
+    header.topbar .brand { font-size: 15px !important; line-height: 1.3 !important; }
+    header.topbar .page-chip { font-size: 12px !important; line-height: 1.4 !important; padding: 3px 10px !important; }
+    header.topbar .util-btn { font-size: 12.5px !important; line-height: 1.3 !important; padding: 6px 11px !important; }
+    header.topbar .guide-nav { gap: 4px !important; min-height: 42px; box-sizing: border-box; }
+    header.topbar .guide-nav a { font-size: 13px !important; line-height: 1.4 !important; padding: 5px 11px !important; font-weight: 700 !important; }
+
+    /* =====================================================================
+       メインレイアウト（余白重視・視認性優先）
+    ===================================================================== */
+    main { max-width: 980px; margin: 0 auto; padding: 34px 20px 96px; }
+
+    .hero {
+      background: var(--surface); border: 1px solid var(--border); border-radius: 22px;
+      padding: 34px 32px; margin-bottom: 52px; box-shadow: var(--card-shadow);
+    }
+    .eyebrow { display: inline-block; font-size: 0.82rem; font-weight: 800; color: var(--accent); margin-bottom: 8px; }
+    .hero h1 { margin: 0 0 14px; font-size: clamp(1.55rem, 3vw, 2.08rem); line-height: 1.38; }
+    .hero p.lead { margin: 0 0 20px; color: var(--ink-sub); max-width: 780px; }
+
+    .pillars { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 22px; }
+    .pillar-chip {
+      padding: 12px 14px; border-radius: 12px; background: var(--surface-soft);
+      border: 1px solid var(--border); font-size: 0.84rem; line-height: 1.5;
+    }
+    .pillar-chip strong { display: block; color: var(--ink); font-size: 0.88rem; margin-bottom: 2px; }
+    .pillar-chip span { color: var(--ink-muted); font-size: 0.78rem; }
+
+    .figure-frame {
+      border-radius: 16px; overflow: hidden; border: 1px solid var(--border);
+      background: #ffffff; margin: 18px 0 22px; padding: 8px;
+    }
+    .figure-frame img { display: block; width: 100%; height: auto; }
+
+    .toc-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+    .toc-item {
+      display: flex; align-items: center; gap: 10px; padding: 11px 14px; border-radius: 12px;
+      border: 1.5px solid var(--border); background: var(--surface); color: var(--ink);
+      text-decoration: none; font-size: 0.85rem; font-weight: 700; transition: all 0.2s var(--ease);
+    }
+    .toc-item:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-soft); transform: translateX(2px); }
+    .toc-no {
+      width: 24px; height: 24px; border-radius: 50%; flex-shrink: 0;
+      background: var(--accent); color: #fff; font-size: 0.76rem; font-weight: 800;
+      display: inline-flex; align-items: center; justify-content: center;
+    }
+    [data-theme="dark"] .toc-no { color: #0b1120; }
+
+    section.lesson { margin-bottom: 68px; scroll-margin-top: 112px; }
+    .lesson-kicker { font-size: 0.8rem; font-weight: 800; color: var(--accent); letter-spacing: 0.04em; display: block; margin-bottom: 4px; }
+    .lesson h2 { margin: 0 0 12px; font-size: clamp(1.32rem, 2.3vw, 1.62rem); line-height: 1.38; }
+
+    .story-box {
+      padding: 15px 20px; border-radius: 14px; background: var(--surface-soft);
+      border-left: 4px solid var(--accent); margin-bottom: 18px; font-size: 0.94rem; color: var(--ink-sub);
+    }
+    .story-box strong { color: var(--ink); }
+
+    .exp-card {
+      background: var(--surface); border: 1px solid var(--border); border-radius: 20px;
+      overflow: hidden; box-shadow: var(--card-shadow);
+    }
+    .step-bar { padding: 16px 22px; background: var(--surface-soft); border-bottom: 1px solid var(--border); }
+    .step-label { display: block; font-size: 0.82rem; font-weight: 800; color: var(--ink-muted); margin-bottom: 10px; }
+
+    .select-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+    .select-grid.five { grid-template-columns: repeat(5, 1fr); }
+    .select-grid.four { grid-template-columns: repeat(4, 1fr); }
+    .select-grid.two { grid-template-columns: repeat(2, 1fr); }
+    .sel-btn {
+      text-align: left; padding: 10px 12px; border-radius: 12px;
+      border: 2px solid var(--border-strong); background: var(--surface);
+      color: var(--ink); font-family: inherit; cursor: pointer;
+      box-shadow: var(--btn-shadow); transition: all 0.2s var(--ease);
+    }
+    .sel-btn:hover { border-color: var(--accent); transform: translateY(-1px); }
+    .sel-btn.active { border-color: var(--accent); background: var(--accent-soft); box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent) 22%, transparent); }
+    .sel-btn .sel-title { display: block; font-size: 0.85rem; font-weight: 800; margin-bottom: 2px; line-height: 1.35; }
+    .sel-btn .sel-sub { display: block; font-size: 0.74rem; color: var(--ink-muted); line-height: 1.38; }
+
+    .stage { padding: 24px; }
+    .takeaway { padding: 18px 24px; background: var(--surface-soft); border-top: 1px solid var(--border); font-size: 0.93rem; }
+    .takeaway-head { font-size: 0.8rem; font-weight: 800; color: var(--accent); display: block; margin-bottom: 4px; }
+
+    .run-btn {
+      display: inline-flex; align-items: center; gap: 7px; padding: 9px 16px; border-radius: 10px;
+      border: 2px solid var(--accent); background: var(--accent); color: #fff; font-family: inherit;
+      font-size: 0.86rem; font-weight: 800; cursor: pointer; box-shadow: var(--primary-shadow);
+      transition: all 0.2s var(--ease);
+    }
+    [data-theme="dark"] .run-btn { color: #0b1120; }
+    .run-btn:hover:not(:disabled) { background: var(--accent-hover); transform: translateY(-1px); }
+    .sub-btn {
+      display: inline-flex; align-items: center; gap: 6px; padding: 8px 13px; border-radius: 10px;
+      border: 1.5px solid var(--border-strong); background: var(--surface); color: var(--ink);
+      font-family: inherit; font-size: 0.82rem; font-weight: 700; cursor: pointer; box-shadow: var(--btn-shadow);
+    }
+    .sub-btn:hover:not(:disabled) { border-color: var(--accent); color: var(--accent); }
+
+    /* STEP 1：5案比較パネル */
+    .opt-card {
+      padding: 20px; border-radius: 14px; background: var(--surface-soft); border: 1.5px solid var(--border);
+    }
+    .opt-top { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; margin-bottom: 12px; }
+    .opt-badge {
+      padding: 4px 12px; border-radius: 99px; font-size: 0.78rem; font-weight: 800;
+      background: var(--accent-soft); color: var(--accent); border: 1px solid var(--accent-border);
+    }
+    .metric-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 14px 0; }
+    .metric-box {
+      padding: 12px 14px; border-radius: 11px; background: var(--surface); border: 1px solid var(--border);
+    }
+    .metric-box .ml { font-size: 0.74rem; font-weight: 700; color: var(--ink-muted); display: block; }
+    .metric-box .mv { font-size: 0.94rem; font-weight: 800; color: var(--ink); margin-top: 2px; display: block; }
+    .opt-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .opt-col {
+      padding: 13px 15px; border-radius: 11px; background: var(--surface); border: 1px solid var(--border);
+      font-size: 0.86rem; color: var(--ink-sub);
+    }
+    .opt-col strong { display: block; color: var(--ink); margin-bottom: 4px; font-size: 0.84rem; }
+
+    /* STEP 2：UI 共有シミュレーション枠 */
+    .browser-frame {
+      border-radius: 16px; overflow: hidden; border: 1.5px solid var(--border-strong);
+      box-shadow: 0 18px 42px -18px rgba(15, 23, 42, 0.22);
+      background: #ffffff; color: #0f172a;
+    }
+    .browser-chrome {
+      height: 42px; padding: 0 14px; background: #e2e8f0; border-bottom: 1px solid #cbd5e1;
+      display: flex; align-items: center; gap: 12px;
+    }
+    .win-dots { display: flex; gap: 6px; flex-shrink: 0; }
+    .win-dots span { width: 11px; height: 11px; border-radius: 50%; display: block; }
+    .win-dots .d-r { background: #ef4444; }
+    .win-dots .d-y { background: #f59e0b; }
+    .win-dots .d-g { background: #22c55e; }
+    .url-bar {
+      flex: 1; height: 26px; padding: 0 12px; border-radius: 7px;
+      background: #ffffff; border: 1px solid #cbd5e1;
+      display: flex; align-items: center; justify-content: space-between; gap: 8px;
+      font-size: 12px; color: #475569; font-family: var(--font-mono); overflow: hidden;
+    }
+    .sim-pill {
+      padding: 2px 10px; border-radius: 99px; font-family: var(--font-sans);
+      font-size: 11px; font-weight: 800; white-space: nowrap;
+      background: #fdf2f8; color: #9d174d; border: 1px solid #f9a8d4;
+    }
+    .sim-body {
+      display: grid; grid-template-columns: 0.95fr 1.05fr; min-height: 360px;
+      background: #f8fafc; color: #0f172a; font-size: 14px; line-height: 1.65;
+    }
+    .sim-left {
+      padding: 18px; background: #ffffff; border-right: 1px solid #e2e8f0;
+      display: flex; flex-direction: column; gap: 11px;
+    }
+    .sim-right {
+      padding: 18px; background: #f8fafc;
+      display: flex; flex-direction: column; gap: 11px;
+    }
+    .sim-head { display: flex; align-items: center; justify-content: space-between; padding-bottom: 8px; border-bottom: 1px solid #e2e8f0; }
+    .sim-head h4 { margin: 0; font-size: 14px; color: #0f172a; }
+    .sim-field label { display: block; font-size: 12px; font-weight: 700; color: #334155; margin-bottom: 4px; }
+    .sim-input, .sim-select {
+      width: 100%; padding: 8px 10px; border-radius: 8px; border: 1.5px solid #cbd5e1;
+      background: #ffffff; color: #0f172a; font-family: inherit; font-size: 13px;
+    }
+    .sim-check { display: flex; align-items: center; gap: 8px; font-size: 12.5px; color: #334155; font-weight: 700; }
+    .sim-log {
+      background: #0f172a; color: #e2e8f0; border-radius: 10px; padding: 12px 14px;
+      font-family: var(--font-mono); font-size: 11.6px; line-height: 1.6;
+      min-height: 135px; max-height: 165px; overflow-y: auto;
+    }
+    .sim-log .c-dim { color: #94a3b8; }
+    .sim-log .c-ok { color: #34d399; }
+    .sim-log .c-cmd { color: #60a5fa; }
+    .sim-log .c-warn { color: #fbbf24; }
+    .json-box {
+      background: #ffffff; border: 1.5px solid #cbd5e1; border-radius: 10px; padding: 10px 12px;
+      font-family: var(--font-mono); font-size: 11.2px; line-height: 1.5; color: #0f172a;
+      max-height: 160px; overflow-y: auto; white-space: pre-wrap; margin: 0;
+    }
+
+    /* STEP 3：1リポ vs 2リポ診断 */
+    .diag-list { display: grid; gap: 10px; margin-bottom: 18px; }
+    .diag-row {
+      display: flex; flex-direction: column; gap: 9px;
+      padding: 13px 16px; border-radius: 12px; background: var(--surface-soft); border: 1.5px solid var(--border);
+    }
+    .diag-q { font-size: 0.9rem; font-weight: 800; color: var(--ink); }
+    .yn-group { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .yn-btn {
+      padding: 9px 13px; border-radius: 9px; border: 1.5px solid var(--border-strong);
+      background: var(--surface); color: var(--ink-sub); font-family: inherit;
+      font-size: 0.82rem; font-weight: 700; cursor: pointer; text-align: left; line-height: 1.45;
+      transition: all 0.18s var(--ease);
+    }
+    .yn-btn:hover { border-color: var(--ink-muted); color: var(--ink); }
+    .yn-btn:first-child.active { background: var(--teal); border-color: var(--teal); color: #fff; font-weight: 800; }
+    .yn-btn:last-child.active { background: var(--accent); border-color: var(--accent); color: #fff; font-weight: 800; }
+    [data-theme="dark"] .yn-btn.active { color: #0b1120; }
+    .yn-btn.active code { background: rgba(255, 255, 255, 0.22); border-color: transparent; color: inherit; }
+    [data-theme="dark"] .yn-btn.active code { background: rgba(11, 17, 32, 0.18); }
+    .diag-result {
+      padding: 18px 20px; border-radius: 14px; border: 2px solid var(--accent-border);
+      background: var(--accent-soft); transition: background-color 0.25s var(--ease), border-color 0.25s var(--ease);
+    }
+    .diag-result.is-one { border-color: var(--teal); background: var(--teal-soft); }
+    .diag-result.is-both { border-color: var(--amber); background: var(--amber-soft); }
+    .diag-result.is-two { border-color: var(--accent-border); background: var(--accent-soft); }
+    .diag-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; margin-bottom: 10px; }
+    .diag-result h4 { margin: 0; font-size: 1.05rem; color: var(--ink); }
+    .diag-badge {
+      padding: 3px 11px; border-radius: 99px; font-size: 0.76rem; font-weight: 800;
+      background: var(--surface); color: var(--ink); border: 1px solid var(--border-strong); white-space: nowrap;
+    }
+    .diag-meter-wrap { margin: 10px 0 12px; }
+    .diag-meter-labels {
+      display: flex; justify-content: space-between; font-size: 0.74rem; font-weight: 800; color: var(--ink-muted); margin-bottom: 4px;
+    }
+    .diag-meter-track {
+      position: relative; height: 10px; border-radius: 99px;
+      background: linear-gradient(90deg, var(--teal) 0%, var(--amber) 45%, var(--accent) 100%);
+      opacity: 0.85;
+    }
+    .diag-meter-pin {
+      position: absolute; top: 50%; width: 18px; height: 18px; border-radius: 50%;
+      background: var(--surface); border: 3px solid var(--ink);
+      transform: translate(-50%, -50%); transition: left 0.28s var(--ease);
+      box-shadow: 0 2px 6px rgba(15, 23, 42, 0.25);
+    }
+    .diag-factors { display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0 12px; }
+    .diag-chip {
+      padding: 3px 9px; border-radius: 8px; font-size: 0.76rem; font-weight: 700;
+      background: var(--surface); border: 1px solid var(--border-strong); color: var(--ink-sub);
+    }
+    .diag-chip.c-one { border-color: var(--teal); color: var(--teal); }
+    .diag-chip.c-two { border-color: var(--accent); color: var(--accent); }
+    .diag-result p { margin: 0 0 8px; font-size: 0.88rem; color: var(--ink-sub); }
+
+    /* STEP 4：還元ステップ＆ガードレール */
+    .step-detail {
+      padding: 18px 20px; border-radius: 14px; background: var(--surface-soft); border: 1.5px solid var(--border);
+    }
+    .step-detail h4 { margin: 0 0 6px; font-size: 1.02rem; color: var(--ink); }
+    .step-src { font-size: 0.8rem; font-weight: 800; color: var(--accent); display: block; margin-bottom: 8px; }
+    .guard-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 18px; }
+    .guard-card {
+      padding: 15px 16px; border-radius: 14px; background: var(--surface);
+      border: 1.5px solid var(--border); border-top: 4px solid var(--accent);
+    }
+    .guard-card h4 { margin: 0 0 6px; font-size: 0.92rem; color: var(--ink); }
+    .guard-card p { margin: 0; font-size: 0.83rem; color: var(--ink-sub); line-height: 1.55; }
+
+    /* STEP 5：コピペ雛形 */
+    .prompt-wrap { border-radius: 14px; border: 1.5px solid var(--border); overflow: hidden; background: var(--surface-soft); }
+    .prompt-head {
+      padding: 12px 16px; display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap;
+      border-bottom: 1px solid var(--border); background: var(--surface);
+    }
+    .prompt-tabs { display: flex; gap: 6px; flex-wrap: wrap; }
+    .prompt-tab {
+      padding: 6px 12px; border-radius: 8px; border: 1.5px solid var(--border-strong);
+      background: var(--surface); color: var(--ink-sub); font-family: inherit;
+      font-size: 0.8rem; font-weight: 700; cursor: pointer;
+    }
+    .prompt-tab.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+    [data-theme="dark"] .prompt-tab.active { color: #0b1120; }
+    .prompt-pre {
+      margin: 0; padding: 16px 18px; white-space: pre-wrap; word-break: break-word;
+      font-family: var(--font-mono); font-size: 0.8rem; line-height: 1.62; color: var(--ink);
+      max-height: 410px; overflow-y: auto;
+    }
+
+    footer.foot {
+      margin-top: 56px; padding-top: 24px; border-top: 1px solid var(--border);
+      text-align: center; font-size: 0.86rem; color: var(--ink-muted);
+    }
+    footer.foot a { color: var(--accent); font-weight: 700; text-decoration: none; }
+
+    @media (max-width: 820px) {
+      .pillars, .toc-grid, .select-grid, .select-grid.five, .select-grid.four, .select-grid.two,
+      .metric-row, .opt-cols, .sim-body, .guard-grid, .yn-group {
+        grid-template-columns: 1fr;
+      }
+      .hero { padding: 24px 20px; }
+      .stage { padding: 18px; }
+      .sim-left { border-right: none; border-bottom: 1px solid #e2e8f0; }
+    }
+  </style>
+</head>
+<body>
+  <div class="progress-bar" id="progressBar"></div>
+
+  <!-- 全ページ統一ヘッダー -->
+  <header class="topbar">
+    <div class="topbar-row1">
+      <div style="display:flex;align-items:center;gap:10px;min-width:0;">
+        <a href="../index.html" class="brand">
+          <span class="brand-icon">🧭</span>
+          <span>agent-study</span>
+        </a>
+        <span class="page-chip">📚 ナレッジシェア</span>
+      </div>
+      <div class="util-btns">
+        <a href="README.md" class="util-btn">📖 README</a>
+        <a href="sources.md" class="util-btn">🔎 出典一覧</a>
+        <button type="button" class="util-btn" id="themeToggle">🌙 ダーク</button>
+      </div>
+    </div>
+    <div class="topbar-row2">
+      <nav class="guide-nav" aria-label="学習ガイド一覧">
+        <a href="../index.html">🏠 トップ</a>
+        <a href="../agent-guide/interactive-guide.html">1. エージェント</a>
+        <a href="../copilot-fusion/interactive-guide.html">2. Fusion</a>
+        <a href="../hook-guide/interactive-guide.html">3. フック</a>
+        <a href="../mcp-guide/interactive-guide.html">4. MCP</a>
+        <a href="../uml-guide/interactive-guide.html">5. UML・要求図</a>
+        <a href="../agent-skill/interactive-guide.html">6. スキル</a>
+        <a href="../ui-guide/interactive-guide.html">7. AI・UI設計</a>
+        <a href="../real-lite-mock/interactive-guide.html">8. リアルライトモック</a>
+        <a href="interactive-guide.html" class="current">9. ナレッジシェア</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+    <!-- ヒーロー -->
+    <section class="hero">
+      <span class="eyebrow">専用クラウド DB 不要！ボタン 1 つで GitHub に実行記録を溜めて AI を育てる</span>
+      <h1>ナレッジシェア（Knowledge Share）わかる動的ガイド</h1>
+      <p class="lead">
+        2〜3 人の立ち上げ初期プロジェクトで、ローカル AI アプリ（例：CAD 操作 AI）の<strong>結果と途中経過のログを、共有ボタン 1 つで GitHub に溜めていき、どこで・何回・なぜ失敗しているかを数えて AI のスキル・ルールを直す</strong>ための実践ガイドです。5 つのステップで、仕組みの組み方を体験できます。
+      </p>
+
+      <div class="pillars">
+        <div class="pillar-chip">
+          <strong>① ボタン 1 つで溜まる</strong>
+          <span>結果も途中ログも GitHub へ自動保存</span>
+        </div>
+        <div class="pillar-chip">
+          <strong>② 生ログが主役</strong>
+          <span>事実は全部、AI の解釈は少しだけ</span>
+        </div>
+        <div class="pillar-chip">
+          <strong>③ 20〜50 件で数える</strong>
+          <span>どこで・何回・なぜ失敗したかを表に</span>
+        </div>
+        <div class="pillar-chip">
+          <strong>④ 人が 1 項目ずつ直す</strong>
+          <span>改善案は AI、採用は人が PR で</span>
+        </div>
+      </div>
+
+      <div class="figure-frame">
+        <img src="assets/ks-01-knowledge-flywheel.svg" alt="ローカルAIの実行結果をGitHubへライトに蓄積し分析してスキルへ還元する改善ループの全体像" />
+      </div>
+
+      <div class="toc-grid">
+        <a class="toc-item" href="#step1"><span class="toc-no">1</span>ライトな蓄積方法 5 選を比較</a>
+        <a class="toc-item" href="#step2"><span class="toc-no">2</span>記録の形と共有ボタンの動き</a>
+        <a class="toc-item" href="#step3"><span class="toc-no">3</span>1リポ vs 2リポ かんたん診断</a>
+        <a class="toc-item" href="#step4"><span class="toc-no">4</span>数えて直す 4 ステップ＆安全策</a>
+        <a class="toc-item" href="#step5"><span class="toc-no">5</span>すぐ使える雛形 6 種</a>
+        <a class="toc-item" href="sources.md"><span class="toc-no">🔎</span>出典一覧を見る</a>
+      </div>
+    </section>
+
+    <!-- ================================================================
+         STEP 1：開発初期にライトに始められる 5 つの蓄積方法を比較
+    ================================================================ -->
+    <section class="lesson" id="step1">
+      <span class="lesson-kicker">STEP 1 — 世の中の選択肢と成長ステップ</span>
+      <h2>専用クラウド DB の前に選べる「5 つの蓄積方法」を比べる</h2>
+      <div class="story-box">
+        <strong>まずは軽く始めて、増えたら移せばよい：</strong>
+        世の中には、データを Git リポジトリへ自動コミットし続ける <strong>Git scraping（Simon Willison）</strong> や、GitHub Issues／Discussions を保存先にする <strong>Utterances／Giscus</strong> のように、専用 DB なしで GitHub を活かす実績ある工夫があります。下の 5 案をクリックして見比べてみましょう。おすすめは<strong>「② リポジトリへ自動保存」</strong>です。
+      </div>
+
+      <div class="exp-card">
+        <div class="step-bar">
+          <span class="step-label">👇 5 つの蓄積方法をクリックして、導入の軽さ・認証・向く場面を比較</span>
+          <div class="select-grid five" id="optTabs">
+            <button type="button" class="sel-btn active" data-opt="0">
+              <span class="sel-title">① GitHub Issue</span>
+              <span class="sel-sub">URL事前入力で人が送る</span>
+            </button>
+            <button type="button" class="sel-btn" data-opt="1">
+              <span class="sel-title">② リポへ自動保存</span>
+              <span class="sel-sub">★ ボタン→API で書込</span>
+            </button>
+            <button type="button" class="sel-btn" data-opt="2">
+              <span class="sel-title">③ PR自動作成</span>
+              <span class="sel-sub">ブランチ作成→審査</span>
+            </button>
+            <button type="button" class="sel-btn" data-opt="3">
+              <span class="sel-title">④ 共有フォルダ</span>
+              <span class="sel-sub">Box / NAS ＋ JSONL</span>
+            </button>
+            <button type="button" class="sel-btn" data-opt="4">
+              <span class="sel-title">⑤ クラウドDB</span>
+              <span class="sel-sub">大規模化後の移行先</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="stage">
+          <div class="opt-card" id="optDetail"></div>
+        </div>
+
+        <div class="takeaway">
+          <span class="takeaway-head">💡 STEP 1 の要点</span>
+          2〜3 人の立ち上げ初期は<strong>「② リポジトリへ自動保存（ボタン → API で直接書き込み）」</strong>から始め、CAD などの大きな実体ファイルだけ<strong>「④ Box 等の共有フォルダ」</strong>へ外置きする組み合わせが軽くて安全です。トークンを渡せない人が加わったら「① Issue」の経路を足します。
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================
+         STEP 2：UI「共有ボタン」→ GitHub 自動蓄積シミュレーション
+    ================================================================ -->
+    <section class="lesson" id="step2">
+      <span class="lesson-kicker">STEP 2 — 何を残し、どう送るか</span>
+      <h2>1 回の実行を「1 フォルダ」で残し、ボタン 1 つで GitHub へ送る</h2>
+      <div class="story-box">
+        <strong>事実は全部、解釈は少し：</strong>
+        アプリは毎回の実行を自動で記録します。<code>run.json</code>（成否・止まった手順・エラー・版）と <code>steps.jsonl</code>（AI が呼んだ CAD コマンドと結果を 1 行ずつ）が事実、<code>notes.md</code> や <code>why</code>（AI の一言メモ）は解釈です。集計には事実だけを使い、「単位ミス」のような分類は 20〜50 件たまってから付けます。
+      </div>
+
+      <div class="figure-frame">
+        <img src="assets/ks-07-run-record-shape.svg" alt="1回の実行を1フォルダで残し、事実（run.jsonとsteps.jsonl）と解釈（notes.md）を分けて、どこで・何回・なぜ失敗したかを集計する図" />
+      </div>
+
+      <div class="story-box">
+        <strong>送り方の安全ルール：</strong>
+        ブラウザ側の HTML／JS に GitHub のトークンを書いてはいけません。基本は<strong>「経路 A：アプリが API で直接書き込む（clone 不要）」</strong>。トークンを用意しない人には<strong>「経路 B：Issue 画面（＋経路 C で runs/ に保存）」</strong>、書き込み権限を配りたくないときは<strong>「経路 D：dispatch → Actions」</strong>を使います。切り替えて動きを見てみましょう。
+      </div>
+
+      <div class="exp-card">
+        <div class="step-bar">
+          <span class="step-label">👇 送り方を選んで、左のローカル UI から「📤 GitHub へ共有」を押してみてください</span>
+          <div class="select-grid" id="routeTabs">
+            <button type="button" class="sel-btn active" data-route="git">
+              <span class="sel-title">経路 A：API で直接書込（おすすめ）</span>
+              <span class="sel-sub">途中ログごと・clone 不要</span>
+            </button>
+            <button type="button" class="sel-btn" data-route="issue">
+              <span class="sel-title">経路 B＋C：Issue 画面</span>
+              <span class="sel-sub">トークン不要・人が確認して送る</span>
+            </button>
+            <button type="button" class="sel-btn" data-route="dispatch">
+              <span class="sel-title">経路 D：dispatch → Actions</span>
+              <span class="sel-sub">書き込み権限を配らずに自動で</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="stage">
+          <div class="browser-frame">
+            <div class="browser-chrome">
+              <div class="win-dots"><span class="d-r"></span><span class="d-y"></span><span class="d-g"></span></div>
+              <div class="url-bar">
+                <span>localhost:3000 — ローカル CAD AI ツール（実行結果の共有画面）</span>
+                <span class="sim-pill">解説用シミュレーション</span>
+              </div>
+            </div>
+
+            <div class="sim-body">
+              <div class="sim-left">
+                <div class="sim-head">
+                  <h4>🛠️ 今回の AI 実行結果</h4>
+                  <span style="font-size:11px;font-weight:700;color:#64748b;">送信前プレビュー</span>
+                </div>
+                <div class="sim-field">
+                  <label>結果（成功／失敗）</label>
+                  <select class="sim-select" id="simOutcome">
+                    <option value="failure">失敗（改善したい）</option>
+                    <option value="success">成功（お手本にしたい）</option>
+                    <option value="partial">部分的に成功（手直しが必要）</option>
+                  </select>
+                </div>
+                <div class="sim-field">
+                  <label>作業の種類（アプリが自動で記録）</label>
+                  <input class="sim-input" id="simCategory" value="bracket_hole" />
+                </div>
+                <div class="sim-field">
+                  <label>止まった手順とエラー（アプリが自動で記録）</label>
+                  <input class="sim-input" id="simFailedTool" value="cad.create_hole / ReferenceNotFound" />
+                </div>
+                <div class="sim-field">
+                  <label>気づき（任意・notes.md に入る）</label>
+                  <input class="sim-input" id="simNote" value="面取りの前に穴をあけると成功した" />
+                </div>
+                <label class="sim-check">
+                  <input type="checkbox" id="simMaskOk" checked />
+                  プレビューを見て、伏せ字（顧客名・図番）と機密が残っていないことを確認した
+                </label>
+                <button type="button" class="run-btn" id="simSendBtn">📤 GitHub へ共有（動作イメージ）</button>
+              </div>
+
+              <div class="sim-right">
+                <div class="sim-head">
+                  <h4 id="simRightTitle">⚙️ 経路 A の動き（アプリが API で直接書き込む）</h4>
+                  <span style="font-size:11px;font-weight:800;color:#047857;" id="simPermBadge">各自のトークン（② の Write）</span>
+                </div>
+                <div class="sim-log" id="simLog">
+                  <div class="c-dim">// 待機中：左の「📤 GitHub へ共有」ボタンを押してください（※本ガイド内は解説用シミュレーション）</div>
+                </div>
+                <pre class="json-box" id="simJson">{ "ここに送られる run.json の中身が表示されます" }</pre>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="takeaway">
+          <span class="takeaway-head">💡 STEP 2 の要点</span>
+          基本は<strong>経路 A（API で直接書き込み）</strong>です。途中ログまで全部送れて、利用者の PC にナレッジ専用リポを clone する必要も、Actions もありません。1 実行 1 フォルダなので、同時に押しても他の人の記録は消えません。経路 B の Issue は URL に載る<strong>要約だけ</strong>、経路 D の dispatch は<strong>64 KB 未満・最上位 10 項目まで</strong>で、中継側に <code>Contents: write</code> のトークンが要ります。
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================
+         STEP 3：1 リポジトリ vs 2 リポジトリ かんたん診断
+    ================================================================ -->
+    <section class="lesson" id="step3">
+      <span class="lesson-kicker">STEP 3 — GitHub のリポジトリ構成を決める</span>
+      <h2>1 リポジトリ（同居）か、2 リポジトリ（分離）か？ かんたん診断</h2>
+      <div class="story-box">
+        <strong>権限と履歴のキレイさで選ぶ：</strong>
+        アプリ本体と同じリポジトリに置く「1 リポ」は管理が 1 か所で手軽ですが、ファイルで自動保存すると開発の履歴に混ざり、送る人にアプリのコードの書き込み権限が要ります。下の 4 つの条件を切り替えて、今の状況に合う構成と理由を確かめてみましょう。
+      </div>
+
+      <div class="figure-frame">
+        <img src="assets/ks-08-two-repo-flow.svg" alt="2リポジトリ構成の全体の流れ：利用者はアプリ用リポをcloneして動かし、記録はAPIでナレッジ専用リポに直接書き込む。分析する人だけがナレッジ専用リポを取得して集計し、スキルを直してアプリ用リポにPRする" />
+      </div>
+      <p style="margin:-6px 0 18px;font-size:0.86rem;color:var(--ink-sub);">1 リポ構成で同じ流れを行う場合と、その注意点は <a href="assets/ks-09-one-repo-flow.svg" style="color:var(--accent);font-weight:800;">ks-09（1 リポの流れ）</a> を見てください。</p>
+
+      <div class="exp-card">
+        <div class="stage">
+          <div class="diag-list" id="diagList">
+            <div class="diag-row" data-q="q1">
+              <span class="diag-q">Q1. ナレッジをどうやって蓄積する予定ですか？</span>
+              <div class="yn-group">
+                <button type="button" class="yn-btn active" data-val="auto">ファイルで自動保存（API / Actions）</button>
+                <button type="button" class="yn-btn" data-val="issue">Issue だけで貯める（URL 事前入力）</button>
+              </div>
+            </div>
+            <div class="diag-row" data-q="q2">
+              <span class="diag-q">Q2. 共有機能を使うのは誰ですか？</span>
+              <div class="yn-group">
+                <button type="button" class="yn-btn active" data-val="dev">開発メンバー中心（2〜3 人の身内）</button>
+                <button type="button" class="yn-btn" data-val="trial">開発以外の試用メンバーにも使ってもらう</button>
+              </div>
+            </div>
+            <div class="diag-row" data-q="q3">
+              <span class="diag-q">Q3. どの範囲の AI ナレッジを蓄積しますか？</span>
+              <div class="yn-group">
+                <button type="button" class="yn-btn active" data-val="single">まずはこの 1 アプリだけ</button>
+                <button type="button" class="yn-btn" data-val="multi">複数ツール・チーム分を横断して貯めたい</button>
+              </div>
+            </div>
+            <div class="diag-row" data-q="q4">
+              <span class="diag-q">Q4. 立ち上げ時点で、どちらをより重視しますか？</span>
+              <div class="yn-group">
+                <button type="button" class="yn-btn active" data-val="fast">管理先 1 箇所の手軽さ（今日すぐ開始）</button>
+                <button type="button" class="yn-btn" data-val="clean">権限分離と <code>git log</code> のキレイさ（長期前提）</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="diag-result" id="diagResult"></div>
+        </div>
+
+        <div class="takeaway">
+          <span class="takeaway-head">💡 STEP 3 の要点</span>
+          迷ったら<strong>「ファイルで自動保存するなら 2 リポ。Issue だけ・開発メンバーだけなら 1 リポでも可」</strong>です。2 リポにするときは、<code>run.json</code> に <strong><code>app_version</code>（アプリの版）と <code>skill</code>（スキルの版）</strong>を必ず入れておくと、どの版で失敗したか、直した後に失敗率が下がったかを追えます。
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================
+         STEP 4：分析 → AI スキルへ還元する 4 ステップ＆4つの安全策
+    ================================================================ -->
+    <section class="lesson" id="step4">
+      <span class="lesson-kicker">STEP 4 — 貯めた記録を AI の精度に変える</span>
+      <h2>数えて直す 4 ステップ ＆ 自動保存を壊さない 4 つの工夫</h2>
+      <div class="story-box">
+        <strong>「貯めっぱなし」も「AI に丸投げ」も効かない：</strong>
+        20〜50 件たまったら、<strong>「どこで・何回・なぜ」を数え、上位の失敗の生ログを読み、人が 1 項目ずつスキルに足す</strong>。これを週 1 回 30 分（目安）くり返します。AI に任せるのは「数える・まとめる・改善案の下書き」までです。
+      </div>
+
+      <div class="exp-card">
+        <div class="step-bar">
+          <span class="step-label">👇 4 つのステップをクリックして、具体的な進め方と参考にした資料を確認</span>
+          <div class="select-grid four" id="loopTabs">
+            <button type="button" class="sel-btn active" data-lp="0">
+              <span class="sel-title">1. 自動で貯める</span>
+              <span class="sel-sub">成功も失敗も全部</span>
+            </button>
+            <button type="button" class="sel-btn" data-lp="1">
+              <span class="sel-title">2. 数えて、読む</span>
+              <span class="sel-sub">どこで・何回・なぜ</span>
+            </button>
+            <button type="button" class="sel-btn" data-lp="2">
+              <span class="sel-title">3. 人が 1 項目ずつ直す</span>
+              <span class="sel-sub">改善案は AI・採用は PR</span>
+            </button>
+            <button type="button" class="sel-btn" data-lp="3">
+              <span class="sel-title">4. 確かめる</span>
+              <span class="sel-sub">版ごとの失敗率・評価ケース</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="stage">
+          <div class="step-detail" id="loopDetail"></div>
+
+          <h3 style="margin:24px 0 8px;font-size:1.02rem;">🛡️ 自動保存を壊さない「4 つの工夫」</h3>
+          <div class="guard-grid">
+            <div class="guard-card">
+              <h4>① 1 実行 1 フォルダ（衝突しない）</h4>
+              <p>フォルダ名を「日時＋ランダム 4 文字」にすれば、2 人が同時に押しても同じファイルには触りません。先に誰かが書き込んでいたら、最新の状態から作り直して送り直すだけで通ります。</p>
+            </div>
+            <div class="guard-card">
+              <h4>② 送る前に伏せ字＋プレビュー</h4>
+              <p>依頼文も途中ログも残すぶん、顧客名・図番などの伏せ字リストと API キーらしき文字列を自動で置き換え、送る内容を画面で見せます。送り先は Private のナレッジ専用リポだけにします。</p>
+            </div>
+            <div class="guard-card">
+              <h4>③ テキストだけ送る（CAD 実体は Box へ）</h4>
+              <p>GitHub は <strong>50 MiB で警告・100 MiB で拒否</strong>、リポジトリは 1 GB 未満が理想です。CAD 実体や画像は Box などに置き、<code>run.json</code> には保存先とハッシュ値だけを書きます。</p>
+            </div>
+            <div class="guard-card">
+              <h4>④ Actions を使うなら <code>queue: max</code></h4>
+              <p>経路 C・D で Actions を使うとき、既定（<code>queue: single</code>）のままだと待っている実行が置き換えられて消えます。<code>queue: max</code> なら最大 100 件まで待てます。</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="takeaway">
+          <span class="takeaway-head">💡 STEP 4 の要点</span>
+          週 1 回 30 分（目安）、集計表で上位の失敗を見つけ、生ログを読んでスキルの「落とし穴（Gotchas）」に 1 行足す。直した後はスキルの版ごとの失敗率で効果を確かめる。これだけで、チーム全体の AI が着実に育ちます。
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================
+         STEP 5：そのままコピーして使える 4 種のテンプレート
+    ================================================================ -->
+    <section class="lesson" id="step5">
+      <span class="lesson-kicker">STEP 5 — 今日からすぐ試せる道具箱</span>
+      <h2>コピペで使える 6 種の雛形</h2>
+      <div class="story-box">
+        <strong>最初に要るのは ①〜④ だけ：</strong>
+        「② 記録＆共有モジュール」をアプリに入れれば、ボタン 1 つで <code>runs/</code> に溜まり始めます。20 件くらいたまったら「③ 集計スクリプト」で表にし、「④ 分析プロンプト」で AI に改善案を出させます。⑤⑥ は、トークンを用意しない人が加わってから足します。
+      </div>
+
+      <div class="exp-card">
+        <div class="stage">
+          <div class="prompt-wrap">
+            <div class="prompt-head">
+              <div class="prompt-tabs" id="tplTabs">
+                <button type="button" class="prompt-tab active" data-tpl="0">① 記録の形（run.json / steps.jsonl）</button>
+                <button type="button" class="prompt-tab" data-tpl="1">② 記録＆共有モジュール（API で書込）</button>
+                <button type="button" class="prompt-tab" data-tpl="2">③ 集計スクリプト</button>
+                <button type="button" class="prompt-tab" data-tpl="3">④ 分析プロンプト</button>
+                <button type="button" class="prompt-tab" data-tpl="4">⑤ Issue Form（経路 B）</button>
+                <button type="button" class="prompt-tab" data-tpl="5">⑥ Actions（経路 C・D）</button>
+              </div>
+              <button type="button" class="sub-btn" id="copyTplBtn">📋 コピー</button>
+            </div>
+            <pre class="prompt-pre" id="tplPre"></pre>
+          </div>
+        </div>
+
+        <div class="takeaway">
+          <span class="takeaway-head">🎉 おつかれさまでした！</span>
+          詳しい解説は <a href="README.md" style="color:var(--accent);font-weight:800;">knowledge-share/README.md</a>、出典は <a href="sources.md" style="color:var(--accent);font-weight:800;">sources.md</a> にまとめています。スキルの評価ループや大容量 CAD の目録管理は <a href="../agent-skill/interactive-guide.html" style="color:var(--accent);font-weight:800;">6. スキルガイド</a> もあわせてご活用ください。
+        </div>
+      </div>
+    </section>
+
+    <footer class="foot">
+      agent-study / knowledge-share — ビルド・外部通信不要で動作する解説ガイドです（図も表示する場合はフォルダごと利用してください）。
+      <a href="../index.html">🏠 学習ポータルへ戻る</a>
+    </footer>
+  </main>
+
+  <!-- STEP 5 の雛形の本文（03_analyze-to-skills.md と同じ内容） -->
+  <script type="text/plain" id="tpl-src-0">
+// runs/2026-11/20261128-091522_a1b2/run.json（その実行の要約。集計に使う）
+{
+  "schema_version": 1,
+  "run_id": "20261128-091522_a1b2",
+  "started_at": "2026-11-28T09:15:22+09:00",
+  "duration_sec": 48,
+  "app_version": "0.2.0+abc1234",
+  "skill": "cad-bracket-generator@1.3.0",
+  "model": "model-name",
+  "task_category": "bracket_hole",
+  "request": "L 字ブラケットの中央に φ20 の貫通穴をあけて",
+  "outcome": "failure",
+  "steps_total": 9,
+  "failed_step": { "index": 7, "tool": "cad.create_hole" },
+  "error": { "type": "ReferenceNotFound", "message": "Reference face F3 not found" },
+  "retries": 1,
+  "artifacts": [
+    { "kind": "step", "storage": "box", "path": "poc-cad/2026-11/20261128-091522_a1b2.step", "sha256": "（任意）" }
+  ]
+}
+
+// runs/2026-11/20261128-091522_a1b2/steps.jsonl（途中経過の生ログ。1 行 1 手順）
+{"i":5,"at":"2026-11-28T09:15:51+09:00","tool":"cad.chamfer","args":{"edges":["E12"],"size_mm":2},"ok":true,"ms":820}
+{"i":6,"at":"2026-11-28T09:15:53+09:00","tool":"cad.create_hole","args":{"face":"F3","diameter_mm":20,"through":true},"ok":false,"error":"Reference face F3 not found","error_type":"ReferenceNotFound","ms":310,"why":"上面 F3 の中心に穴をあける"}
+{"i":7,"at":"2026-11-28T09:15:58+09:00","tool":"cad.create_hole","args":{"face":"F3","diameter_mm":20,"through":true},"ok":false,"error":"Reference face F3 not found","error_type":"ReferenceNotFound","ms":295,"retry_of":6}
+</script>
+  <script type="text/plain" id="tpl-src-1">
+// 保存先の例：アプリの src/knowledge-log.mjs
+// knowledge-log.mjs — アプリに入れる「自動記録」と「共有ボタン」のモジュール（Node.js 20 以降・追加ライブラリ不要）
+// 共有は GitHub API でナレッジ専用リポに直接書き込む（clone 不要）。送る人にはナレッジ専用リポの Write 権限が必要。
+import { execFileSync } from "node:child_process";
+import { randomBytes } from "node:crypto";
+import { appendFileSync, existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
+import path from "node:path";
+
+const LOCAL_RUNS_DIR = process.env.LOCAL_RUNS_DIR ?? "./runs-local";           // 手元の記録置き場
+const KNOWLEDGE_REPO = process.env.KNOWLEDGE_REPO ?? "my-org/cad-ai-knowledge";   // ナレッジ専用リポ（owner/name）
+const API = process.env.GITHUB_API_URL ?? "https://api.github.com";
+const MASK_WORDS = ["顧客A社", "図番-1234"];                                    // チームで決めた伏せ字リスト
+const jstIso = (d = new Date()) => new Date(d.getTime() + 9 * 3600e3).toISOString().slice(0, 19) + "+09:00";
+
+// ── 1. 自動記録：実行を始めたら startRun、AI が CAD を操作するたびに step、終わったら finish ──
+export function startRun({ request, taskCategory, skill, appVersion, model }) {
+  const started = new Date();
+  const jst = jstIso(started);                                                  // 例：2026-11-28T09:15:22+09:00
+  const runId = jst.slice(0, 10).replaceAll("-", "") + "-" + jst.slice(11, 19).replaceAll(":", "")
+    + "_" + randomBytes(2).toString("hex");                                     // 例：20261128-091522_a1b2
+  const dir = path.join(LOCAL_RUNS_DIR, runId);
+  mkdirSync(dir, { recursive: true });
+  const steps = [];
+
+  return {
+    runId,
+    dir,
+    // entry の例：{ tool: "cad.create_hole", args: {...}, ok: false, error: "…", error_type: "ReferenceNotFound", ms: 310, why: "…" }
+    step(entry) {
+      const s = { i: steps.length + 1, at: jstIso(), ...entry };
+      steps.push(s);
+      appendFileSync(path.join(dir, "steps.jsonl"), JSON.stringify(s) + "\n");
+    },
+    // outcome は "success" / "failure" / "partial" のどれか
+    finish(outcome) {
+      const failed = outcome === "success" ? null : steps.findLast((s) => s.ok === false);
+      const run = {
+        schema_version: 1,
+        run_id: runId,
+        started_at: jst,
+        duration_sec: Math.round((Date.now() - started.getTime()) / 1000),
+        app_version: appVersion,
+        skill,
+        model,
+        task_category: taskCategory,
+        request,
+        outcome,
+        steps_total: steps.length,
+        failed_step: failed ? { index: failed.i, tool: failed.tool } : null,
+        error: failed ? { type: failed.error_type ?? "unknown", message: failed.error } : null,
+        retries: steps.filter((s) => s.retry_of).length,
+      };
+      writeFileSync(path.join(dir, "run.json"), JSON.stringify(run, null, 2) + "\n");
+      return run;
+    },
+  };
+}
+
+// ── 2. 共有ボタン：1 実行 1 フォルダを、GitHub API でナレッジ専用リポに 1 コミットで書き込む（clone 不要）──
+function mask(text) {
+  let t = text.replace(/\b(sk|ghp|gho|github_pat)[-_][A-Za-z0-9_-]{16,}/g, "[MASKED]");  // API キーらしき文字列
+  for (const w of MASK_WORDS) t = t.split(w).join("[MASKED]");
+  return t;
+}
+
+// トークン：ナレッジ専用リポだけに絞った Fine-grained PAT（Contents：Read and write）を KNOWLEDGE_TOKEN に置く。
+// 未設定なら、gh にログイン済みの人は gh のトークンを使う。
+function getToken() {
+  return process.env.KNOWLEDGE_TOKEN ?? execFileSync("gh", ["auth", "token"]).toString().trim();
+}
+
+async function api(token, method, url, body) {
+  const res = await fetch(API + "/repos/" + KNOWLEDGE_REPO + url, {
+    method,
+    headers: { Authorization: "Bearer " + token, Accept: "application/vnd.github+json" },
+    body: body && JSON.stringify(body),
+  });
+  if (!res.ok) throw new Error(method + " " + url + " -> " + res.status);
+  return res.json();
+}
+
+export async function shareRun(runId) {
+  const src = path.join(LOCAL_RUNS_DIR, runId);
+  if (existsSync(path.join(src, ".shared"))) return "already-shared";
+  const dir = "runs/" + runId.slice(0, 4) + "-" + runId.slice(4, 6) + "/" + runId;   // runs/2026-11/<runId>
+  const files = readdirSync(src)
+    .filter((name) => /\.(json|jsonl|md)$/.test(name))                             // CAD 実体や画像は送らない（Box などへ）
+    .map((name) => ({ path: dir + "/" + name, mode: "100644", type: "blob",
+                      content: mask(readFileSync(path.join(src, name), "utf8")) }));
+  const token = getToken();
+  for (let i = 1; i <= 3; i++) {
+    try {
+      const head = (await api(token, "GET", "/git/ref/heads/main")).object.sha;          // いまの最新コミット
+      const base = (await api(token, "GET", "/git/commits/" + head)).tree.sha;
+      const tree = (await api(token, "POST", "/git/trees", { base_tree: base, tree: files })).sha;   // 最新 ＋ このフォルダ
+      const commit = (await api(token, "POST", "/git/commits", { message: "run: " + runId, tree, parents: [head] })).sha;
+      await api(token, "PATCH", "/git/refs/heads/main", { sha: commit });               // 先に誰かが書いていたら失敗 → やり直す
+      writeFileSync(path.join(src, ".shared"), new Date().toISOString());
+      return "sent";
+    } catch {
+      if (i === 3) return "saved-locally";   // オフラインなど：手元に残り、shareAllPending() で後から送れる
+      await new Promise((r) => setTimeout(r, 1000 * i + Math.random() * 1000));    // 少し待ってやり直す
+    }
+  }
+}
+
+// まだ送れていない記録をまとめて送る（アプリの起動時などに呼ぶ）
+export async function shareAllPending() {
+  for (const runId of readdirSync(LOCAL_RUNS_DIR)) {
+    const dir = path.join(LOCAL_RUNS_DIR, runId);
+    if (existsSync(path.join(dir, "run.json")) && !existsSync(path.join(dir, ".shared"))) await shareRun(runId);
+  }
+}
+
+// ===== 使い方の例（アプリ側の別ファイル）=====
+import { startRun, shareRun, shareAllPending } from "./knowledge-log.mjs";
+
+const run = startRun({ request, taskCategory: "bracket_hole", skill: "cad-bracket-generator@1.3.0",
+                       appVersion: "0.2.0+abc1234", model: "model-name" });
+// AI が CAD のツールを呼ぶたびに 1 行記録する
+run.step({ tool: "cad.create_hole", args, ok: false, error: e.message, error_type: e.name, ms: 310 });
+const summary = run.finish("failure");   // ← この内容を画面にプレビュー表示する
+
+// 「共有」ボタンが押されたら（開発メンバーは finish の直後に自動で呼んでもよい）
+const result = await shareRun(run.runId); // "sent" / "saved-locally"（あとで送る）/ "already-shared"
+
+// アプリの起動時などに、送れていなかった記録をまとめて送る
+await shareAllPending();
+</script>
+  <script type="text/plain" id="tpl-src-2">
+// 保存先：ナレッジ専用リポの scripts/summarize-runs.mjs
+// summarize-runs.mjs — runs/ の run.json を集めて「どこで・何回・なぜ」を Markdown の表にする（Node.js 20 以降）
+// 使い方（ナレッジ専用リポで）：node scripts/summarize-runs.mjs > summary.md
+import { readdirSync, readFileSync } from "node:fs";
+import path from "node:path";
+
+const root = process.argv[2] ?? "runs";
+const runs = readdirSync(root, { recursive: true })
+  .filter((p) => path.basename(p) === "run.json")
+  .map((p) => JSON.parse(readFileSync(path.join(root, p), "utf8")));
+const isFail = (r) => r.outcome !== "success";
+const pct = (a, b) => (b ? Math.round((a / b) * 100) + "%" : "-");
+
+// 失敗を key ごとに数え、多い順に「件数」と「例（run_id）」を出す
+function countTable(title, keyOf, list) {
+  const m = new Map();
+  for (const r of list) {
+    const k = keyOf(r) ?? "(不明)";
+    const v = m.get(k) ?? { n: 0, ids: [] };
+    v.n++;
+    if (v.ids.length < 3) v.ids.push(r.run_id);
+    m.set(k, v);
+  }
+  console.log("\n## " + title + "\n\n| 項目 | 件数 | 例（run_id） |\n|---|---|---|");
+  for (const [k, v] of [...m].sort((a, b) => b[1].n - a[1].n).slice(0, 10)) {
+    console.log("| " + k + " | " + v.n + " | " + v.ids.join(", ") + " |");
+  }
+}
+
+// 全実行を key ごとに分け、失敗率を出す
+function rateTable(title, keyOf) {
+  const m = new Map();
+  for (const r of runs) {
+    const k = keyOf(r) ?? "(不明)";
+    const v = m.get(k) ?? { n: 0, f: 0 };
+    v.n++;
+    if (isFail(r)) v.f++;
+    m.set(k, v);
+  }
+  console.log("\n## " + title + "\n\n| 項目 | 実行 | 失敗 | 失敗率 |\n|---|---|---|---|");
+  for (const [k, v] of [...m].sort((a, b) => b[1].f - a[1].f)) {
+    console.log("| " + k + " | " + v.n + " | " + v.f + " | " + pct(v.f, v.n) + " |");
+  }
+}
+
+const fails = runs.filter(isFail);
+console.log("# 実行記録のまとめ（全 " + runs.length + " 件）\n");
+console.log("- 失敗・部分成功：" + fails.length + " 件（失敗率 " + pct(fails.length, runs.length) + "）");
+console.log("- リトライの合計：" + runs.reduce((s, r) => s + (r.retries ?? 0), 0) + " 回");
+countTable("どこで・なぜ失敗したか（止まった手順 × エラーの種類）",
+  (r) => (r.failed_step ? r.failed_step.tool + " × " + (r.error?.type ?? "?") : null), fails);
+countTable("なぜ失敗したか（エラーの種類）", (r) => r.error?.type, fails);
+rateTable("作業の種類ごとの失敗率", (r) => r.task_category);
+rateTable("スキルの版ごとの失敗率（直した効果の確認）", (r) => r.skill);
+</script>
+  <script type="text/plain" id="tpl-src-3">
+添付の「実行記録のまとめ（summary.md）」、上位の失敗の生ログ（runs/.../run.json と steps.jsonl）、現在の SKILL.md を読んで、改善点を整理してください。
+
+【やってほしいこと】
+1. まとめの表から、失敗の多い「止まった手順 × エラーの種類」を上位 3 つ選んでください。
+2. それぞれについて steps.jsonl を読み、なぜ失敗したかを 2〜3 行で説明してください。推測の場合は「推測」と書いてください。
+3. 失敗をいくつかの分類（例：単位の指定漏れ、面の番号ずれ、手順の順序）にまとめ、分類ごとの件数を表にしてください。
+4. 上位 3 つの対策を出してください。
+   - 文章で防げるもの → SKILL.md の「Gotchas（落とし穴）」に足す 1〜2 行の追記案
+   - 毎回同じ計算・確認で起きるもの → scripts/ に置く補助スクリプトの案
+5. 代表的な失敗 3 件を、evals/evals.json に入れる試験ケース案にしてください（判定は、寸法・穴の数など機械的に確かめられる条件で）。
+
+【守ってほしいこと】
+- SKILL.md を丸ごと書き直さず、追記・修正の差分だけを出してください。
+- すべての提案に、根拠にした run_id を添えてください（採用は人が PR で決めます）。
+</script>
+  <script type="text/plain" id="tpl-src-4">
+# 保存先：ナレッジ専用リポの .github/ISSUE_TEMPLATE/ai-run.yml
+name: AI 実行記録
+description: アプリの「共有」ボタンから開く、実行記録の共有画面です
+labels: ["ai-run"]
+body:
+  - type: markdown
+    attributes:
+      value: 送信する前に、顧客名・図番・機密の寸法が入っていないか確認してください。
+  - type: textarea
+    id: run_json
+    attributes:
+      label: 実行記録（アプリが自動で入力します）
+      render: json
+    validations:
+      required: true
+  - type: textarea
+    id: comment
+    attributes:
+      label: 気づき・補足（任意）
+      placeholder: "例：面取りの前に穴をあけると成功した"
+
+# アプリが開く URL の例（run_json に run.json の中身を URL エンコードして入れる）
+# https://github.com/my-org/cad-ai-knowledge/issues/new?template=ai-run.yml&title=run%3A+20261128-091522_a1b2&run_json=<URL エンコードした run.json>
+</script>
+  <script type="text/plain" id="tpl-src-5">
+# 保存先：ナレッジ専用リポのデフォルトブランチ .github/workflows/save-run.yml
+# 経路 C（Issue で届いた記録）と経路 D（repository_dispatch）を、runs/ に 1 実行 1 フォルダで保存する
+name: Save AI run
+
+on:
+  issues:
+    types: [opened]
+  repository_dispatch:
+    types: [ai_run]
+
+# 同時に届いても待機列で順番に処理する（既定の single だと、待っている実行が置き換えられて消える）
+concurrency:
+  group: save-ai-run
+  queue: max
+
+permissions:
+  contents: write
+
+jobs:
+  save:
+    if: github.event_name == 'repository_dispatch' || contains(github.event.issue.labels.*.name, 'ai-run')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      # Issue の本文は誰でも書ける入力なので、Actions の式でコマンドに埋め込まず、イベントのファイルから読む
+      - name: Write run.json (and steps.jsonl)
+        run: |
+          node -e '
+            const fs = require("node:fs");
+            const crypto = require("node:crypto");
+            const ev = JSON.parse(fs.readFileSync(process.env.GITHUB_EVENT_PATH, "utf8"));
+            let run, steps = null, source;
+            if (ev.client_payload) {                                   // 経路 D：{ "run": {...}, "steps": [...] }
+              run = ev.client_payload.run;
+              steps = ev.client_payload.steps;
+              source = { via: "dispatch" };
+            } else {                                                   // 経路 C：Issue 本文の json ブロック
+              const m = (ev.issue.body || "").match(/```json\s*([\s\S]*?)```/);
+              if (!m) { console.log("json ブロックがないのでスキップ"); process.exit(0); }
+              run = JSON.parse(m[1]);
+              source = { via: "issue", issue: ev.issue.number };
+            }
+            if (!run || !["success", "failure", "partial"].includes(run.outcome)) {
+              console.error("outcome（success / failure / partial）がありません"); process.exit(1);
+            }
+            const jst = new Date(Date.now() + 9 * 3600e3).toISOString();         // 日本時間でフォルダを決める
+            const newId = jst.slice(0, 10).replace(/-/g, "") + "-" + jst.slice(11, 19).replace(/:/g, "") + "_" + crypto.randomBytes(2).toString("hex");
+            const id = /^[0-9A-Za-z_-]{1,64}$/.test(run.run_id || "") ? run.run_id : newId;   // フォルダ名に使えない ID は作り直す
+            const dir = "runs/" + jst.slice(0, 7) + "/" + id;
+            fs.mkdirSync(dir, { recursive: true });
+            const record = { ...run, run_id: id, received_at: new Date().toISOString(), source };  // 受信側の項目は後ろに置き、上書きさせない
+            fs.writeFileSync(dir + "/run.json", JSON.stringify(record, null, 2) + "\n");
+            if (Array.isArray(steps)) fs.writeFileSync(dir + "/steps.jsonl", steps.map((s) => JSON.stringify(s)).join("\n") + "\n");
+            console.log("saved:", dir);
+          '
+
+      - name: Commit and push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add runs/
+          git diff --staged --quiet || (git commit -m "run: add record" && git push)
+</script>
+
+  <script>
+    (function () {
+      /* 共通：ダークモード＆進捗バー */
+      const themeBtn = document.getElementById("themeToggle");
+      themeBtn.addEventListener("click", () => {
+        const dark = document.documentElement.getAttribute("data-theme") === "dark";
+        document.documentElement.setAttribute("data-theme", dark ? "light" : "dark");
+        themeBtn.textContent = dark ? "🌙 ダーク" : "☀️ ライト";
+      });
+
+      const progressBar = document.getElementById("progressBar");
+      window.addEventListener("scroll", () => {
+        const h = document.documentElement.scrollHeight - window.innerHeight;
+        progressBar.style.width = h > 0 ? Math.min(100, (window.scrollY / h) * 100) + "%" : "0%";
+      }, { passive: true });
+
+      /* STEP 1：5つの蓄積方法比較 */
+      const OPTIONS = [
+        {
+          title: "案① GitHub Issue（URL 事前入力）",
+          badge: "人が読む・話し合う記録向き",
+          summary: "共有ボタンで、実行記録を入れた Issue 作成画面を開き、人が確認して送る方法。Utterances など、GitHub Issues を保存先にする OSS と同じ発想です。",
+          metrics: [
+            { l: "導入の手軽さ", v: "◎ 数時間〜即開始" },
+            { l: "認証", v: "◎ ブラウザのログインだけ" },
+            { l: "集計のしやすさ", v: "○ gh issue list --json で取得" }
+          ],
+          pros: "・送る前に利用者が画面で機密が入っていないか確かめられる<br>・トークンを用意しなくても、ブラウザのログインだけで送れる<br>・一覧・検索・ラベル・コメントでの議論が最初から使える",
+          cons: "・URL が長すぎると 414 エラーになるので、載せられるのは要約だけ（途中ログは載らない）<br>・本文は文章なので、項目の取り出しにひと手間（Actions で runs/ に保存すれば解消）"
+        },
+        {
+          title: "案② GitHub リポジトリへ自動保存（1 実行 1 フォルダ）",
+          badge: "★ おすすめ・本ガイドの基本形",
+          summary: "共有ボタンで、アプリが 1 回の実行（run.json ＋ steps.jsonl）を、GitHub API でナレッジ専用リポに直接書き込みます（clone 不要）。Simon Willison の Git scraping と同じく、Git の履歴を軽量な保存先にします。",
+          metrics: [
+            { l: "導入の手軽さ", v: "○ アプリに数十行＋専用リポ" },
+            { l: "認証", v: "○ 各自のトークン（② の Write）" },
+            { l: "集計のしやすさ", v: "◎ ファイルをそのまま分析" }
+          ],
+          pros: "・結果だけでなく途中経過のログまで、全部そのまま残せる<br>・1 実行 1 フォルダなので、同時に押しても衝突しない。オフラインでも次回まとめて送れる<br>・Actions もトークン配布も不要。将来のクラウド DB 移行時もそのまま取り込める",
+          cons: "・送る人ごとにトークン（専用リポだけに絞った PAT か gh のログイン）が必要（渡せない人は ① や Actions 経由で）<br>・送る前の伏せ字とプレビューはアプリ側で用意する"
+        },
+        {
+          title: "案③ GitHub PR 自動作成（ブランチ → 審査）",
+          badge: "厳選ナレッジ・スキル昇格向き",
+          summary: "直接 main ブランチへ積まず、自動でブランチを作って Pull Request を立てる方式です。CI による機密チェックや人の確認を通してから取り込めます。",
+          metrics: [
+            { l: "導入の手軽さ", v: "○ 軽い" },
+            { l: "機密混入の防止", v: "◎ PR 審査＋CI で確認" },
+            { l: "運用の手間", v: "△ 毎回マージ確認が必要" }
+          ],
+          pros: "・成功事例のお手本やスキル追記案を安全にレビューして取り込める<br>・CODEOWNERS や必須チェックをそのまま品質関所にできる",
+          cons: "・細かい失敗ログまで全部 PR にすると承認作業が重くなる（生ログは案①②、厳選ナレッジは案③と使い分けるのが現実的）"
+        },
+        {
+          title: "案④ 共有フォルダ＋JSONL（Box / OneDrive / 社内 NAS）",
+          badge: "大容量 CAD 実体の保管に必須の相棒",
+          summary: "社内の既存クラウドストレージや共有フォルダに JSONL や CAD ファイル（.step 等）を置く方法。GitHub の 100 MiB ファイル制限を補う組み合わせ先として強力です。",
+          metrics: [
+            { l: "導入の手軽さ", v: "◎ 既存フォルダ活用" },
+            { l: "社外送信リスク", v: "◎ 社内管理下に留まる" },
+            { l: "大きな CAD 実体", v: "◎ 容量を気にせず保管" }
+          ],
+          pros: "・GitHub に置けない 3D CAD 実体や機密データの安全な保管場所になる<br>・既存の社内アクセス権限をそのまま活かせる",
+          cons: "・同じ JSONL へ複数人が同時書き込みすると衝突しやすい<br>・PR レビューや変更差分の追跡は GitHub の方が得意"
+        },
+        {
+          title: "案⑤ 専用クラウド DB ／ LLMOps 基盤",
+          badge: "チーム拡大・大規模運用後の移行先",
+          summary: "PostgreSQL 等のクラウド DB＋API サーバーや、OpenTelemetry 対応の専用 LLMOps ツールへ全トレースをリアルタイム保存する本格構成です。",
+          metrics: [
+            { l: "導入の手軽さ", v: "△ 構築・契約が重い" },
+            { l: "継続費用・保守", v: "△ サーバー費用と運用要" },
+            { l: "大量ログの集計", v: "◎ リアルタイム検索に強い" }
+          ],
+          pros: "・数十人以上・日次数百件以上のログでも高速に検索・可視化できる<br>・細かいロール別アクセス制御や SLA 設計がしやすい",
+          cons: "・2〜3 人の立ち上げ期には費用・申請・構築の手間が見合いにくい（まず案①②でデータ形式を固めてから移行するのが安全）"
+        }
+      ];
+
+      const optDetail = document.getElementById("optDetail");
+      function renderOpt(idx) {
+        const o = OPTIONS[idx];
+        optDetail.innerHTML =
+          '<div class="opt-top"><h4 style="margin:0;font-size:1.05rem;">' + o.title + '</h4><span class="opt-badge">' + o.badge + '</span></div>' +
+          '<p style="margin:0;font-size:0.88rem;color:var(--ink-sub);">' + o.summary + '</p>' +
+          '<div class="metric-row">' +
+            o.metrics.map(m => '<div class="metric-box"><span class="ml">' + m.l + '</span><span class="mv">' + m.v + '</span></div>').join("") +
+          '</div>' +
+          '<div class="opt-cols">' +
+            '<div class="opt-col"><strong>◎ 強み・向いている点</strong>' + o.pros + '</div>' +
+            '<div class="opt-col"><strong>⚠️ 注意点・限界</strong>' + o.cons + '</div>' +
+          '</div>';
+      }
+      document.querySelectorAll("#optTabs .sel-btn").forEach(btn => {
+        btn.addEventListener("click", () => {
+          document.querySelectorAll("#optTabs .sel-btn").forEach(b => b.classList.remove("active"));
+          btn.classList.add("active");
+          renderOpt(Number(btn.dataset.opt));
+        });
+      });
+      renderOpt(0);
+
+      /* STEP 2：UI 共有シミュレーション */
+      let currentRoute = "git";
+      let simTimers = [];
+      const simRightTitle = document.getElementById("simRightTitle");
+      const simPermBadge = document.getElementById("simPermBadge");
+      const simLog = document.getElementById("simLog");
+      const simJson = document.getElementById("simJson");
+      const simSendBtn = document.getElementById("simSendBtn");
+
+      const ROUTE_META = {
+        git: { title: "⚙️ 経路 A の動き（アプリが API で直接書き込む）", badge: "各自のトークン（② の Write）" },
+        issue: { title: "⚙️ 経路 B＋C の動き（Issue 画面 → Actions で保存）", badge: "トークン不要（ブラウザのログイン）" },
+        dispatch: { title: "⚙️ 経路 D の動き（dispatch → Actions で保存）", badge: "中継側に PAT（Contents: write）" }
+      };
+
+      function clearSim() {
+        simTimers.forEach(t => clearTimeout(t));
+        simTimers = [];
+      }
+
+      document.querySelectorAll("#routeTabs .sel-btn").forEach(btn => {
+        btn.addEventListener("click", () => {
+          clearSim();
+          document.querySelectorAll("#routeTabs .sel-btn").forEach(b => b.classList.remove("active"));
+          btn.classList.add("active");
+          currentRoute = btn.dataset.route;
+          simRightTitle.textContent = ROUTE_META[currentRoute].title;
+          simPermBadge.textContent = ROUTE_META[currentRoute].badge;
+          simLog.innerHTML = '<div class="c-dim">// 待機中：「📤 GitHub へ共有」ボタンを押すと動きを再現します（※解説用シミュレーション）</div>';
+        });
+      });
+
+      simSendBtn.addEventListener("click", () => {
+        clearSim();
+        if (!document.getElementById("simMaskOk").checked) {
+          simLog.innerHTML = '<div class="c-warn">⚠️ 送る前の確認が未チェックです。プレビューを見て、伏せ字と機密を確かめてください。</div>';
+          return;
+        }
+        const outcome = document.getElementById("simOutcome").value;
+        const cat = document.getElementById("simCategory").value.trim() || "cad_task";
+        const failedRaw = document.getElementById("simFailedTool").value.trim() || "cad.create_hole / ReferenceNotFound";
+        const note = document.getElementById("simNote").value.trim();
+        const [failedTool, errType] = failedRaw.split("/").map(x => x.trim());
+        const id = "20261128-091522_a1b2";
+        const isOk = outcome === "success";
+
+        const record = {
+          schema_version: 1,
+          run_id: id,
+          started_at: "2026-11-28T09:15:22+09:00",
+          app_version: "0.2.0+abc1234",
+          skill: "cad-bracket-generator@1.3.0",
+          task_category: cat,
+          request: "L 字ブラケットの中央に φ20 の貫通穴をあけて",
+          outcome,
+          steps_total: 9,
+          failed_step: isOk ? null : { index: 7, tool: failedTool || "cad.create_hole" },
+          error: isOk ? null : { type: errType || "unknown", message: "Reference face F3 not found" },
+          retries: isOk ? 0 : 1
+        };
+        simJson.textContent = JSON.stringify(record, null, 2);
+        simLog.innerHTML = "";
+        const files = "run.json ＋ steps.jsonl（途中ログ 9 行）" + (note ? " ＋ notes.md" : "");
+
+        let steps = [];
+        if (currentRoute === "git") {
+          steps = [
+            { t: 0,    cls: "c-cmd",  text: "# [イメージ] 伏せ字：顧客名リスト・API キーらしき文字列を置換（テキストだけ送り、.step 等は Box へ）" },
+            { t: 450,  cls: "c-dim",  text: "GET /git/ref/heads/main → いまの最新コミットを確認（clone はしない）" },
+            { t: 950,  cls: "c-dim",  text: "POST /git/trees・/git/commits → runs/2026-11/" + id + "/ を足した 1 コミットを作る" },
+            { t: 1450, cls: "c-warn", text: "PATCH /git/refs/heads/main → 先に誰かが書いていたら断られるので、作り直して再送" },
+            { t: 1950, cls: "c-ok",   text: "[完了] GitHub に 1 件追加：" + files }
+          ];
+        } else if (currentRoute === "issue") {
+          const q = "https://github.com/my-org/cad-ai-knowledge/issues/new?template=ai-run.yml&run_json=" + encodeURIComponent(JSON.stringify(record));
+          steps = [
+            { t: 0,    cls: "c-cmd",  text: "# [イメージ] run.json を URL に入れて Issue 作成画面を開く（トークン不要）" },
+            { t: 450,  cls: "c-dim",  text: "URL（" + q.length + " 文字）: " + q.slice(0, 90) + "..." },
+            { t: 950,  cls: "c-warn", text: "[ブラウザ] Issue 画面が開く → 人が中身を確認して Submit（途中ログは URL に載らないので要約だけ）" },
+            { t: 1450, cls: "c-dim",  text: "[経路 C の Actions] Issue 作成を合図に、本文の json を runs/2026-11/" + id + "/run.json に保存" },
+            { t: 1950, cls: "c-ok",   text: "[完了] Issue #42 ＋ runs/ の run.json（経路 A と同じ形で集計できる）" }
+          ];
+        } else {
+          const payloadKb = (JSON.stringify({ run: record, steps: new Array(9).fill({ i: 1, tool: "cad.x", ok: true, ms: 100 }) }).length / 1024).toFixed(1);
+          steps = [
+            { t: 0,    cls: "c-cmd",  text: "# [イメージ] 中継 → POST /repos/my-org/cad-ai-knowledge/dispatches（PAT は中継側にだけ置く）" },
+            { t: 450,  cls: "c-dim",  text: "[チェック] client_payload = { run, steps }：最上位 2 項目（≤10）・約 " + payloadKb + " KB（<64KB）" },
+            { t: 950,  cls: "c-warn", text: "[Actions] concurrency の queue: max で順番待ち → run.json と steps.jsonl を書き出し" },
+            { t: 1450, cls: "c-dim",  text: "[Actions] GITHUB_TOKEN で commit & push（別のワークフローは連鎖起動しない）" },
+            { t: 1950, cls: "c-ok",   text: "[完了] runs/2026-11/" + id + "/ に保存：run.json ＋ steps.jsonl（途中ログ 9 行）" }
+          ];
+        }
+
+        steps.forEach(st => {
+          simTimers.push(setTimeout(() => {
+            const d = document.createElement("div");
+            d.className = st.cls;
+            d.textContent = st.text;
+            simLog.appendChild(d);
+            simLog.scrollTop = simLog.scrollHeight;
+          }, st.t));
+        });
+      });
+
+      /* STEP 3：1リポ vs 2リポ診断（4 条件・16 通り） */
+      const diagState = { q1: "auto", q2: "dev", q3: "single", q4: "fast" };
+      const diagResult = document.getElementById("diagResult");
+
+      function renderDiag() {
+        const isAuto = diagState.q1 === "auto";
+        const isTrial = diagState.q2 === "trial";
+        const isMulti = diagState.q3 === "multi";
+        const isClean = diagState.q4 === "clean";
+
+        // 0〜7 点（0 に近いほど 1 リポ寄り、7 に近いほど 2 リポ寄り）
+        const score = (isAuto ? 3 : 0) + (isTrial ? 2 : 0) + (isMulti ? 1 : 0) + (isClean ? 1 : 0);
+        const pct = Math.round((score / 7) * 100);
+
+        const chips = [
+          isAuto
+            ? '<span class="diag-chip c-two">保存方法：ファイルで自動保存（2リポ寄り +3）</span>'
+            : '<span class="diag-chip c-one">保存方法：Issue だけ（1リポ寄り）</span>',
+          isTrial
+            ? '<span class="diag-chip c-two">使う人：試用メンバーにも（2リポ寄り +2）</span>'
+            : '<span class="diag-chip c-one">使う人：開発メンバーだけ（1リポ寄り）</span>',
+          isMulti
+            ? '<span class="diag-chip c-two">範囲：複数ツールを横断（2リポ寄り +1）</span>'
+            : '<span class="diag-chip c-one">範囲：この 1 アプリだけ（1リポ寄り）</span>',
+          isClean
+            ? '<span class="diag-chip c-two">重視：権限と履歴の分離（2リポ寄り +1）</span>'
+            : '<span class="diag-chip c-one">重視：今日すぐ始める手軽さ（1リポ寄り）</span>'
+        ].join("");
+
+        let cls, badge, title, reason, point;
+
+        if (isAuto) {
+          cls = "is-two";
+          badge = "2 リポ推奨（スコア " + score + "/7）";
+          title = "📚 おすすめ：2 リポジトリ構成（アプリ用 ＋ ナレッジ専用）";
+          const reasons = [
+            "ファイルで自動保存すると、送る人に書き込み権限が要ります。ナレッジ専用リポなら、アプリのコードの権限を渡さずに済みます",
+            "自動コミットがアプリの <code>git log</code> や CI に混ざりません"
+          ];
+          if (isTrial) reasons.push("試用メンバーにはナレッジ専用リポの権限だけを渡せます（トークンを渡したくない人は経路 B＋C や経路 D で送ります）");
+          if (isMulti) reasons.push("複数ツールの実行記録も、同じ <code>runs/</code> の形で横断して集計できます");
+          if (isClean) reasons.push("最初から権限と履歴の境界をきれいに保てます");
+          reason = reasons.join("。") + "。手間は、空の Private リポを 1 つ作るだけです。";
+          point = "おすすめ経路：送る人にナレッジ専用リポの Write を付け、STEP 2 の「経路 A（API で直接書き込み）」で送ります（利用者の PC に clone は不要）。<code>run.json</code> にはアプリとスキルの版を必ず入れます。";
+        } else if (!isTrial && !isMulti) {
+          cls = "is-one";
+          badge = "1 リポで十分（スコア " + score + "/7）";
+          title = "📦 おすすめ：1 リポジトリ構成（アプリと同居 ＋ Issue）";
+          reason = "開発メンバーだけで Issue に貯めるなら、管理先が 1 つの 1 リポがいちばん手軽です。Issue はコミットを作らないので、開発の <code>git log</code> も汚れません。";
+          if (isClean) reason += " Issue だけなら履歴も混ざらないので、1 リポのままでも十分きれいに保てます。";
+          point = "おすすめ経路：STEP 2 の「経路 B（Issue 画面）」で始め、途中ログまで残したくなったら、ナレッジ専用リポを作って経路 A に移ります。";
+        } else if (isTrial && !isMulti) {
+          cls = "is-both";
+          badge = "境界ケース（スコア " + score + "/7）";
+          title = "⚖️ コードを見せてよいなら「1 リポ＋Issue」、見せたくないなら「2 リポ」";
+          reason = "Private リポで Issue を書くには、そのリポジトリを読む権限が要ります。つまり 1 リポだと、試用メンバーはアプリのコードも全部読めます。社内で問題なければ 1 リポで十分ですが、見せたくないならナレッジ専用リポを 1 つ作ります。";
+          point = "実践ポイント：どちらでも、試用メンバーはトークン不要の「経路 B（Issue 画面）」から始められます。";
+        } else {
+          cls = score >= 3 ? "is-two" : "is-both";
+          badge = (score >= 3 ? "2 リポ寄り" : "境界ケース") + "（スコア " + score + "/7）";
+          title = "⚖️ 複数ツールで使うなら、ナレッジ専用リポに集めると集計しやすい";
+          reason = "Issue だけなら 1 リポでも回せますが、複数のツールの記録を横断して見るなら、ナレッジ専用リポに集めたほうが 1 か所で集計できます。" + (isTrial ? " 試用メンバーにアプリのコードを見せずに済む点も、2 リポの利点です。" : "");
+          point = "実践ポイント：2 つ目のツールがもう動いているなら 2 リポ、まだ構想段階なら 1 リポから始めても手戻りは小さめです。";
+        }
+
+        diagResult.className = "diag-result " + cls;
+        diagResult.innerHTML =
+          '<div class="diag-head"><h4>' + title + '</h4><span class="diag-badge">' + badge + '</span></div>' +
+          '<div class="diag-meter-wrap">' +
+            '<div class="diag-meter-labels"><span>📦 1 リポ寄り（手軽さ優先）</span><span>バランス</span><span>📚 2 リポ寄り（権限・履歴分離）</span></div>' +
+            '<div class="diag-meter-track"><div class="diag-meter-pin" style="left:' + pct + '%;"></div></div>' +
+          '</div>' +
+          '<div class="diag-factors">' + chips + '</div>' +
+          '<p><strong>診断理由：</strong>' + reason + '</p>' +
+          '<p style="margin:0;font-weight:700;color:var(--ink);">✅ ' + point + '</p>';
+      }
+
+      document.querySelectorAll("#diagList .diag-row").forEach(row => {
+        const qKey = row.dataset.q;
+        row.querySelectorAll(".yn-btn").forEach(btn => {
+          btn.addEventListener("click", () => {
+            row.querySelectorAll(".yn-btn").forEach(b => b.classList.remove("active"));
+            btn.classList.add("active");
+            diagState[qKey] = btn.dataset.val;
+            renderDiag();
+          });
+        });
+      });
+      renderDiag();
+
+      /* STEP 4：分析 → スキル還元 4 ステップ */
+      const LOOP_STEPS = [
+        {
+          title: "1. 成功も失敗も、ボタン 1 つで自動で貯める",
+          src: "目安：20〜50 件で傾向が見え始める",
+          body: "アプリが毎回の実行を run.json（要約）と steps.jsonl（途中ログ）で記録し、共有ボタン（または自動送信）でナレッジ専用リポの runs/ に送ります。成功も残すので失敗率が出せます。Anthropic も、評価のテストケースは実際の失敗 20〜50 件から始めれば十分としています。"
+        },
+        {
+          title: "2. 「どこで・何回・なぜ」を数え、上位の生ログを読む",
+          src: "参考：Hamel Husain「A Field Guide to Rapidly Improving AI Products」（2025-03）",
+          body: "集計スクリプトで「止まった手順 × エラーの種類」ごとの件数と失敗率を表にします。表だけで決めず、上位の失敗は steps.jsonl を実際に読んで原因を一言メモします。「単位の指定漏れ」「面の番号ずれ」のような分類はこの段階で付けます。多いものから直すのが一番効率的です。"
+        },
+        {
+          title: "3. AI に改善案を出させ、人が PR で 1 項目ずつ直す",
+          src: "参考：SkillsBench（2026）／ ACE（2025）／ Anthropic「How we use skills」（2026-06）",
+          body: "集計表と上位の失敗ログを AI に渡して、改善案（Gotchas への 1〜2 行の追記案や補助スクリプト案）を出させ、採用は人が PR で決めます。実データなしに AI が自分で書いたスキルは平均で効果がなかったという研究（SkillsBench）や、全文の書き直しを繰り返すと細部が消えるという研究（ACE）があるため、差分で少しずつ足します。"
+        },
+        {
+          title: "4. 直した効果を確かめ、再発を防ぐ",
+          src: "参考：Anthropic「Demystifying evals for AI agents」（2026-01）／ agentskills.io",
+          body: "スキルの版ごとの失敗率を集計スクリプトで比べ、直した後に下がったかを確かめます。代表的な失敗は evals/evals.json に試験ケースとして残します。CAD の場合は、穴の数・径・位置・外形寸法を CAD 側に問い合わせて機械的に判定すると、毎回同じ基準で確かめられます。"
+        }
+      ];
+
+      const loopDetail = document.getElementById("loopDetail");
+      function renderLoop(idx) {
+        const s = LOOP_STEPS[idx];
+        loopDetail.innerHTML =
+          '<h4>' + s.title + '</h4>' +
+          '<span class="step-src">' + s.src + '</span>' +
+          '<p style="margin:0;font-size:0.88rem;color:var(--ink-sub);">' + s.body + '</p>';
+      }
+      document.querySelectorAll("#loopTabs .sel-btn").forEach(btn => {
+        btn.addEventListener("click", () => {
+          document.querySelectorAll("#loopTabs .sel-btn").forEach(b => b.classList.remove("active"));
+          btn.classList.add("active");
+          renderLoop(Number(btn.dataset.lp));
+        });
+      });
+      renderLoop(0);
+
+      /* STEP 5：4種のテンプレート＆コピー */
+      /* 雛形の本文はページ内の <script type="text/plain" id="tpl-src-N"> から読む（03 章の md と同じ内容） */
+      const TEMPLATES = [0, 1, 2, 3, 4, 5].map(i => document.getElementById("tpl-src-" + i).textContent.replace(/^\n/, "").replace(/\s+$/, ""));
+
+      const tplPre = document.getElementById("tplPre");
+      const copyTplBtn = document.getElementById("copyTplBtn");
+      let currentTpl = 0;
+
+      function renderTpl(idx) {
+        currentTpl = idx;
+        tplPre.textContent = TEMPLATES[idx];
+      }
+      document.querySelectorAll("#tplTabs .prompt-tab").forEach(tab => {
+        tab.addEventListener("click", () => {
+          document.querySelectorAll("#tplTabs .prompt-tab").forEach(t => t.classList.remove("active"));
+          tab.classList.add("active");
+          renderTpl(Number(tab.dataset.tpl));
+        });
+      });
+      copyTplBtn.addEventListener("click", async () => {
+        try {
+          await navigator.clipboard.writeText(TEMPLATES[currentTpl]);
+          copyTplBtn.textContent = "✅ コピーしました！";
+          setTimeout(() => { copyTplBtn.textContent = "📋 コピー"; }, 1800);
+        } catch {
+          copyTplBtn.textContent = "⚠️ 手動で選択コピーしてください";
+          setTimeout(() => { copyTplBtn.textContent = "📋 コピー"; }, 2200);
+        }
+      });
+      renderTpl(0);
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,92 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 440" role="img" aria-label="1回の実行を1フォルダで残し、事実（run.jsonとsteps.jsonl）と解釈（notes.md）を分けて、どこで・何回・なぜ失敗したかを集計する構成図">
+  <defs>
+    <marker id="ksArr7" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#475569"/>
+    </marker>
+  </defs>
+
+  <rect width="960" height="440" rx="18" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+
+  <!-- タイトル -->
+  <text x="480" y="36" text-anchor="middle" font-size="18" font-weight="800" fill="#0f172a" font-family="BIZ UDPGothic, Yu Gothic UI, sans-serif">1 回の実行を「1 フォルダ」で残す — 事実（生ログ）と解釈（メモ）を分ける</text>
+  <text x="480" y="58" text-anchor="middle" font-size="12" fill="#475569" font-family="BIZ UDPGothic, Yu Gothic UI, sans-serif">集計に使うのは事実だけ。AI の判断メモは控えめに添え、失敗の分類は 20〜50 件たまってから付ける</text>
+
+  <!-- 左：フォルダ -->
+  <rect x="24" y="80" width="300" height="262" rx="14" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
+  <text x="174" y="104" text-anchor="middle" font-size="12.5" font-weight="800" fill="#1e3a8a" font-family="BIZ UDPGothic, sans-serif">📁 1 回の実行 = 1 フォルダ</text>
+  <text x="174" y="124" text-anchor="middle" font-size="9.5" fill="#1d4ed8" font-family="Consolas, monospace">runs/2026-11/20261128-091522_a1b2/</text>
+
+  <rect x="40" y="136" width="268" height="52" rx="9" fill="#ffffff" stroke="#93c5fd"/>
+  <text x="54" y="158" font-size="11" font-weight="800" fill="#0f172a" font-family="Consolas, monospace">run.json</text>
+  <rect x="206" y="145" width="92" height="20" rx="10" fill="#dbeafe"/>
+  <text x="252" y="159" text-anchor="middle" font-size="9.5" font-weight="800" fill="#1e3a8a" font-family="BIZ UDPGothic, sans-serif">事実：要約</text>
+  <text x="54" y="178" font-size="9.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif">成否・止まった手順・エラー・版</text>
+
+  <rect x="40" y="196" width="268" height="52" rx="9" fill="#ffffff" stroke="#93c5fd"/>
+  <text x="54" y="218" font-size="11" font-weight="800" fill="#0f172a" font-family="Consolas, monospace">steps.jsonl</text>
+  <rect x="206" y="205" width="92" height="20" rx="10" fill="#dbeafe"/>
+  <text x="252" y="219" text-anchor="middle" font-size="9.5" font-weight="800" fill="#1e3a8a" font-family="BIZ UDPGothic, sans-serif">事実：生ログ</text>
+  <text x="54" y="238" font-size="9.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif">AI が呼んだ CAD コマンドと結果を 1 行ずつ</text>
+
+  <rect x="40" y="256" width="268" height="52" rx="9" fill="#ffffff" stroke="#fcd34d" stroke-dasharray="5 3"/>
+  <text x="54" y="278" font-size="11" font-weight="800" fill="#0f172a" font-family="Consolas, monospace">notes.md<tspan font-size="9.5" font-weight="700" fill="#92400e" font-family="BIZ UDPGothic, sans-serif">（任意）</tspan></text>
+  <rect x="206" y="265" width="92" height="20" rx="10" fill="#fef3c7"/>
+  <text x="252" y="279" text-anchor="middle" font-size="9.5" font-weight="800" fill="#92400e" font-family="BIZ UDPGothic, sans-serif">解釈：メモ</text>
+  <text x="54" y="298" font-size="9.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif">AI の振り返り・利用者の気づき</text>
+
+  <text x="174" y="330" text-anchor="middle" font-size="9.5" font-weight="700" fill="#475569" font-family="BIZ UDPGothic, sans-serif">📦 CAD 実体・画像は Box へ（run.json には参照だけ）</text>
+
+  <line x1="324" y1="211" x2="336" y2="211" stroke="#475569" stroke-width="2.2" marker-end="url(#ksArr7)"/>
+
+  <!-- 中央：中身の例 -->
+  <rect x="340" y="80" width="372" height="262" rx="14" fill="#fdf2f8" stroke="#9d174d" stroke-width="2"/>
+
+  <rect x="352" y="92" width="348" height="112" rx="9" fill="#ffffff" stroke="#f9a8d4"/>
+  <text x="364" y="111" font-size="10.5" font-weight="800" fill="#9d174d" font-family="BIZ UDPGothic, sans-serif">run.json の例（集計に使う）</text>
+  <text x="364" y="131" font-size="9.5" fill="#334155" font-family="Consolas, monospace">"outcome": "failure",</text>
+  <text x="364" y="147" font-size="9.5" fill="#334155" font-family="Consolas, monospace">"failed_step": { "index": 7, "tool": "cad.create_hole" },</text>
+  <text x="364" y="163" font-size="9.5" fill="#334155" font-family="Consolas, monospace">"error": { "type": "ReferenceNotFound", … },</text>
+  <text x="364" y="179" font-size="9.5" fill="#334155" font-family="Consolas, monospace">"retries": 1,</text>
+  <text x="364" y="195" font-size="9.5" fill="#334155" font-family="Consolas, monospace">"skill": "cad-bracket-generator@1.3.0"</text>
+
+  <rect x="352" y="214" width="348" height="118" rx="9" fill="#ffffff" stroke="#f9a8d4"/>
+  <text x="364" y="233" font-size="10.5" font-weight="800" fill="#9d174d" font-family="BIZ UDPGothic, sans-serif">steps.jsonl の例（原因を読むとき）</text>
+  <text x="364" y="253" font-size="9.5" fill="#334155" font-family="Consolas, monospace">{"i":5,"tool":"cad.chamfer","ok":true}</text>
+  <text x="364" y="269" font-size="9.5" fill="#334155" font-family="Consolas, monospace">{"i":6,"tool":"cad.create_hole","ok":false,</text>
+  <text x="372" y="285" font-size="9.5" fill="#334155" font-family="Consolas, monospace">"error":"Reference face F3 not found",</text>
+  <text x="372" y="301" font-size="9.5" fill="#b45309" font-family="Consolas, BIZ UDPGothic, monospace">"why":"上面 F3 の中心に穴をあける"}</text>
+  <text x="364" y="322" font-size="9" font-weight="700" fill="#b45309" font-family="BIZ UDPGothic, sans-serif">↑ why は任意の 1 行メモ。AI の解釈なので集計には使わない</text>
+
+  <line x1="712" y1="211" x2="736" y2="211" stroke="#475569" stroke-width="2.2" marker-end="url(#ksArr7)"/>
+
+  <!-- 右：集計でわかること -->
+  <rect x="740" y="80" width="196" height="262" rx="14" fill="#ecfdf5" stroke="#059669" stroke-width="2"/>
+  <text x="838" y="104" text-anchor="middle" font-size="12.5" font-weight="800" fill="#065f46" font-family="BIZ UDPGothic, sans-serif">📊 集計でわかること</text>
+
+  <rect x="752" y="116" width="172" height="44" rx="8" fill="#ffffff" stroke="#6ee7b7"/>
+  <text x="764" y="134" font-size="10.5" font-weight="800" fill="#047857" font-family="BIZ UDPGothic, sans-serif">どこで</text>
+  <text x="764" y="151" font-size="9.5" fill="#334155" font-family="Consolas, monospace">failed_step.tool</text>
+
+  <rect x="752" y="166" width="172" height="44" rx="8" fill="#ffffff" stroke="#6ee7b7"/>
+  <text x="764" y="184" font-size="10.5" font-weight="800" fill="#047857" font-family="BIZ UDPGothic, sans-serif">何回</text>
+  <text x="764" y="201" font-size="9.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif">件数・失敗率・retries</text>
+
+  <rect x="752" y="216" width="172" height="44" rx="8" fill="#ffffff" stroke="#6ee7b7"/>
+  <text x="764" y="234" font-size="10.5" font-weight="800" fill="#047857" font-family="BIZ UDPGothic, sans-serif">なぜ</text>
+  <text x="764" y="251" font-size="9.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif">error.type ＋ 生ログを読む</text>
+
+  <rect x="752" y="266" width="172" height="44" rx="8" fill="#ffffff" stroke="#6ee7b7"/>
+  <text x="764" y="284" font-size="10.5" font-weight="800" fill="#047857" font-family="BIZ UDPGothic, sans-serif">直した効果</text>
+  <text x="764" y="301" font-size="9.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif">スキルの版ごとの失敗率</text>
+
+  <text x="838" y="330" text-anchor="middle" font-size="9" font-weight="700" fill="#065f46" font-family="BIZ UDPGothic, sans-serif">成功も記録するから失敗率が出せる</text>
+
+  <!-- 下部：2 つの原則 -->
+  <rect x="24" y="356" width="912" height="34" rx="10" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5"/>
+  <text x="252" y="378" text-anchor="middle" font-size="11" font-weight="800" fill="#1e3a8a" font-family="BIZ UDPGothic, sans-serif">✅ 事実は全部：あとで誰が集計しても同じ結果になる</text>
+  <text x="708" y="378" text-anchor="middle" font-size="11" font-weight="800" fill="#92400e" font-family="BIZ UDPGothic, sans-serif">✍️ 解釈は少し：失敗の分類は 20〜50 件たまってから付ける</text>
+
+  <!-- 最下部まとめ -->
+  <rect x="24" y="398" width="912" height="30" rx="10" fill="#0f172a"/>
+  <text x="480" y="417" text-anchor="middle" font-size="11" font-weight="700" fill="#ffffff" font-family="BIZ UDPGothic, sans-serif">💡 生ログさえ残っていれば、分類の軸を変えても何度でも数え直せる</text>
+</svg>

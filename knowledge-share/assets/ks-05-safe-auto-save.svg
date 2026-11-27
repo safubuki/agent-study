@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 440" role="img" aria-label="アプリが毎回の実行を自動記録し、共有ボタンで伏せ字をかけてからナレッジ専用リポジトリへAPIで直接書き込む、壊れない自動保存の設計図">
+  <defs>
+    <marker id="ksArr5" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#475569"/>
+    </marker>
+  </defs>
+
+  <rect width="960" height="440" rx="18" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+
+  <!-- タイトル -->
+  <text x="480" y="36" text-anchor="middle" font-size="18" font-weight="800" fill="#0f172a" font-family="BIZ UDPGothic, Yu Gothic UI, sans-serif">自動保存を壊さない設計（衝突しない・取りこぼさない・肥大化させない）</text>
+  <text x="480" y="58" text-anchor="middle" font-size="12" fill="#475569" font-family="BIZ UDPGothic, Yu Gothic UI, sans-serif">1 実行 1 フォルダ ＋ 送る前の伏せ字 ＋ テキストだけ送る、の組み合わせで小さく安全に回す</text>
+
+  <!-- 左：ローカルPC -->
+  <rect x="24" y="80" width="234" height="232" rx="14" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
+  <text x="141" y="106" text-anchor="middle" font-size="12.5" font-weight="800" fill="#1e3a8a" font-family="BIZ UDPGothic, sans-serif">💻 利用者 PC（ローカル）</text>
+
+  <rect x="38" y="120" width="206" height="82" rx="10" fill="#ffffff" stroke="#93c5fd"/>
+  <text x="141" y="141" text-anchor="middle" font-size="11" font-weight="800" fill="#1d4ed8" font-family="BIZ UDPGothic, sans-serif">アプリが毎回自動で記録</text>
+  <text x="141" y="160" text-anchor="middle" font-size="9.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif">・手順ごとに steps.jsonl へ 1 行</text>
+  <text x="141" y="177" text-anchor="middle" font-size="9.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif">・終わったら run.json に要約</text>
+  <text x="141" y="194" text-anchor="middle" font-size="9.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif">・成功も失敗も残す</text>
+
+  <rect x="38" y="216" width="206" height="82" rx="10" fill="#ffffff" stroke="#93c5fd"/>
+  <text x="141" y="237" text-anchor="middle" font-size="11" font-weight="800" fill="#0c4a6e" font-family="BIZ UDPGothic, sans-serif">「共有」ボタン（または自動送信）</text>
+  <text x="141" y="256" text-anchor="middle" font-size="9.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif">・伏せ字リストで自動置換</text>
+  <text x="141" y="273" text-anchor="middle" font-size="9.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif">・送る内容をプレビュー</text>
+  <text x="141" y="290" text-anchor="middle" font-size="9.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif">・テキストだけ API で送る</text>
+
+  <line x1="258" y1="196" x2="294" y2="196" stroke="#475569" stroke-width="2.4" marker-end="url(#ksArr5)"/>
+
+  <!-- 中央：壊れない工夫 -->
+  <rect x="298" y="80" width="320" height="232" rx="14" fill="#fdf2f8" stroke="#9d174d" stroke-width="2.2"/>
+  <text x="458" y="106" text-anchor="middle" font-size="12.5" font-weight="800" fill="#831843" font-family="BIZ UDPGothic, sans-serif">🛡️ 壊れない 3 つの工夫</text>
+
+  <rect x="314" y="120" width="288" height="52" rx="9" fill="#ffffff" stroke="#f9a8d4"/>
+  <text x="326" y="140" font-size="10.5" font-weight="800" fill="#9d174d" font-family="BIZ UDPGothic, sans-serif">① 衝突しない：1 実行 1 フォルダ</text>
+  <text x="326" y="159" font-size="9.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif">日時＋ランダム 4 文字の名前。同時に押しても別ファイル</text>
+
+  <rect x="314" y="182" width="288" height="52" rx="9" fill="#ffffff" stroke="#f9a8d4"/>
+  <text x="326" y="202" font-size="10.5" font-weight="800" fill="#9d174d" font-family="BIZ UDPGothic, sans-serif">② 取りこぼさない：弾かれたら再送</text>
+  <text x="326" y="221" font-size="9.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif">先を越されたら作り直して再送。オフラインは後で送る</text>
+
+  <rect x="314" y="244" width="288" height="54" rx="9" fill="#ffffff" stroke="#f9a8d4"/>
+  <text x="326" y="264" font-size="10.5" font-weight="800" fill="#9d174d" font-family="BIZ UDPGothic, sans-serif">③ Actions 経由なら：queue: max</text>
+  <text x="326" y="283" font-size="9.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif">既定(single)では待機中が消える → max なら100件まで待機</text>
+
+  <line x1="618" y1="196" x2="654" y2="196" stroke="#475569" stroke-width="2.4" marker-end="url(#ksArr5)"/>
+
+  <!-- 右：ナレッジ専用リポジトリ -->
+  <rect x="658" y="80" width="278" height="232" rx="14" fill="#ecfdf5" stroke="#059669" stroke-width="2"/>
+  <text x="797" y="106" text-anchor="middle" font-size="12.5" font-weight="800" fill="#065f46" font-family="BIZ UDPGothic, sans-serif">📚 ナレッジ専用リポジトリ</text>
+
+  <rect x="674" y="122" width="246" height="114" rx="10" fill="#ffffff" stroke="#6ee7b7"/>
+  <text x="686" y="143" font-size="10.5" font-weight="800" fill="#047857" font-family="BIZ UDPGothic, sans-serif">runs/2026-11/（1 実行 1 フォルダ）</text>
+  <text x="688" y="162" font-size="9.5" fill="#334155" font-family="Consolas, monospace">├─ 20261128-091522_a1b2/</text>
+  <text x="688" y="178" font-size="9.5" fill="#334155" font-family="Consolas, monospace">│   ├─ run.json</text>
+  <text x="688" y="194" font-size="9.5" fill="#334155" font-family="Consolas, monospace">│   └─ steps.jsonl</text>
+  <text x="688" y="210" font-size="9.5" fill="#334155" font-family="Consolas, monospace">├─ 20261128-104010_c3d4/</text>
+  <text x="688" y="226" font-size="9.5" fill="#334155" font-family="Consolas, monospace">└─ 20261128-142033_e5f6/</text>
+
+  <rect x="674" y="246" width="246" height="52" rx="9" fill="#d1fae5" stroke="#059669"/>
+  <text x="797" y="266" text-anchor="middle" font-size="10" font-weight="800" fill="#064e3b" font-family="BIZ UDPGothic, sans-serif">GitHub 推奨：リポ 1GB 未満が理想</text>
+  <text x="797" y="284" text-anchor="middle" font-size="9" fill="#065f46" font-family="BIZ UDPGothic, sans-serif">テキストだけなら 1 件数十 KB 程度（目安）</text>
+
+  <!-- 下部：大容量 CAD 実体の外置き連携 -->
+  <rect x="24" y="328" width="912" height="56" rx="12" fill="#fffbeb" stroke="#d97706" stroke-width="1.8"/>
+  <text x="42" y="351" font-size="11.5" font-weight="800" fill="#92400e" font-family="BIZ UDPGothic, sans-serif">📦 CAD などの大きな成果物ファイル（.step 等）の扱い：Git には入れず外置き（Box・共有フォルダ等）</text>
+  <text x="42" y="372" font-size="10" fill="#78350f" font-family="BIZ UDPGothic, sans-serif">GitHub は 50 MiB で警告・100 MiB で拒否。実体ファイルは Box 等に保存し、run.json には「保存先とハッシュ値」だけを記録する。</text>
+
+  <!-- 最下部まとめ -->
+  <rect x="24" y="396" width="912" height="30" rx="10" fill="#0f172a"/>
+  <text x="480" y="415" text-anchor="middle" font-size="11" font-weight="700" fill="#ffffff" font-family="BIZ UDPGothic, sans-serif">💡 1 実行 1 フォルダの JSON で貯めておけば、将来クラウド DB へ移すときもそのまま取り込める</text>
+</svg>

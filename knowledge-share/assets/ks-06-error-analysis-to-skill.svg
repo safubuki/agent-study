@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 430" role="img" aria-label="蓄積した実行ログを分析し人のレビューを経てAIスキルへ還元する4ステップ図">
+  <defs>
+    <marker id="ksArr6" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#475569"/>
+    </marker>
+  </defs>
+
+  <rect width="960" height="430" rx="18" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+
+  <!-- タイトル -->
+  <text x="480" y="36" text-anchor="middle" font-size="18" font-weight="800" fill="#0f172a" font-family="BIZ UDPGothic, Yu Gothic UI, sans-serif">貯めたナレッジを「分析 → AI スキルへ還元」する 4 ステップ</text>
+  <text x="480" y="58" text-anchor="middle" font-size="12" fill="#475569" font-family="BIZ UDPGothic, Yu Gothic UI, sans-serif">AI に任せるのは「数える・まとめる・改善案の下書き」まで。直すのは人が 1 項目ずつ</text>
+
+  <!-- Step 1 -->
+  <rect x="24" y="82" width="212" height="202" rx="12" fill="#ffffff" stroke="#0284c7" stroke-width="2"/>
+  <rect x="24" y="82" width="212" height="32" rx="12" fill="#0284c7"/>
+  <rect x="24" y="102" width="212" height="12" fill="#0284c7"/>
+  <text x="130" y="103" text-anchor="middle" font-size="11.5" font-weight="800" fill="#ffffff" font-family="BIZ UDPGothic, sans-serif">1. 自動で貯める</text>
+  <text x="38" y="136" font-size="10.5" font-weight="800" fill="#0c4a6e" font-family="BIZ UDPGothic, sans-serif">成功も失敗も全部</text>
+  <text x="38" y="158" font-size="10" fill="#334155" font-family="BIZ UDPGothic, sans-serif">・ボタン 1 つ（または自動）で</text>
+  <text x="38" y="175" font-size="10" fill="#334155" font-family="BIZ UDPGothic, sans-serif">　runs/ に 1 実行 1 フォルダ</text>
+  <text x="38" y="192" font-size="10" fill="#334155" font-family="BIZ UDPGothic, sans-serif">　（CAD 実体は Box へ）</text>
+  <text x="38" y="216" font-size="10" fill="#334155" font-family="BIZ UDPGothic, sans-serif">・成功も残すので</text>
+  <text x="38" y="233" font-size="10" fill="#334155" font-family="BIZ UDPGothic, sans-serif">　失敗率が出せる</text>
+  <text x="38" y="266" font-size="9" font-weight="700" fill="#0369a1" font-family="BIZ UDPGothic, sans-serif">目安：20〜50 件で傾向が見える</text>
+
+  <line x1="236" y1="183" x2="256" y2="183" stroke="#475569" stroke-width="2.2" marker-end="url(#ksArr6)"/>
+
+  <!-- Step 2 -->
+  <rect x="260" y="82" width="212" height="202" rx="12" fill="#ffffff" stroke="#d97706" stroke-width="2"/>
+  <rect x="260" y="82" width="212" height="32" rx="12" fill="#d97706"/>
+  <rect x="260" y="102" width="212" height="12" fill="#d97706"/>
+  <text x="366" y="103" text-anchor="middle" font-size="11.5" font-weight="800" fill="#ffffff" font-family="BIZ UDPGothic, sans-serif">2. 数えて、読む</text>
+  <text x="274" y="136" font-size="10.5" font-weight="800" fill="#92400e" font-family="BIZ UDPGothic, sans-serif">どこで・何回・なぜ</text>
+  <text x="274" y="158" font-size="10" fill="#334155" font-family="BIZ UDPGothic, sans-serif">・集計スクリプトで</text>
+  <text x="274" y="175" font-size="10" fill="#334155" font-family="BIZ UDPGothic, sans-serif">　「手順 × エラー」を表に</text>
+  <text x="274" y="192" font-size="10" fill="#334155" font-family="BIZ UDPGothic, sans-serif">・上位の失敗は生ログ</text>
+  <text x="274" y="209" font-size="10" fill="#334155" font-family="BIZ UDPGothic, sans-serif">　（steps.jsonl）を読む</text>
+  <text x="274" y="233" font-size="10" fill="#334155" font-family="BIZ UDPGothic, sans-serif">・多いものから直す</text>
+  <text x="274" y="266" font-size="9" font-weight="700" fill="#b45309" font-family="BIZ UDPGothic, sans-serif">参考：Hamel Husain (2025-03)</text>
+
+  <line x1="472" y1="183" x2="492" y2="183" stroke="#475569" stroke-width="2.2" marker-end="url(#ksArr6)"/>
+
+  <!-- Step 3 -->
+  <rect x="496" y="82" width="212" height="202" rx="12" fill="#ffffff" stroke="#9d174d" stroke-width="2.2"/>
+  <rect x="496" y="82" width="212" height="32" rx="12" fill="#9d174d"/>
+  <rect x="496" y="102" width="212" height="12" fill="#9d174d"/>
+  <text x="602" y="103" text-anchor="middle" font-size="11.5" font-weight="800" fill="#ffffff" font-family="BIZ UDPGothic, sans-serif">3. 人が PR で 1 項目ずつ追記</text>
+  <text x="510" y="136" font-size="10.5" font-weight="800" fill="#831843" font-family="BIZ UDPGothic, sans-serif">全文の自動書き直しは NG</text>
+  <text x="510" y="158" font-size="10" fill="#334155" font-family="BIZ UDPGothic, sans-serif">・AI に改善案を出させ、</text>
+  <text x="510" y="175" font-size="10" fill="#334155" font-family="BIZ UDPGothic, sans-serif">　人が PR レビューで採否判断</text>
+  <text x="510" y="198" font-size="10" fill="#334155" font-family="BIZ UDPGothic, sans-serif">・落とし穴（Gotchas）を</text>
+  <text x="510" y="215" font-size="10" fill="#334155" font-family="BIZ UDPGothic, sans-serif">　1 項目ずつ差分追加</text>
+  <text x="510" y="233" font-size="10" fill="#334155" font-family="BIZ UDPGothic, sans-serif">・定型計算はスクリプト化</text>
+  <text x="510" y="266" font-size="9" font-weight="700" fill="#9d174d" font-family="BIZ UDPGothic, sans-serif">参考：SkillsBench・ACE</text>
+
+  <line x1="708" y1="183" x2="728" y2="183" stroke="#475569" stroke-width="2.2" marker-end="url(#ksArr6)"/>
+
+  <!-- Step 4 -->
+  <rect x="732" y="82" width="204" height="202" rx="12" fill="#ffffff" stroke="#059669" stroke-width="2"/>
+  <rect x="732" y="82" width="204" height="32" rx="12" fill="#059669"/>
+  <rect x="732" y="102" width="204" height="12" fill="#059669"/>
+  <text x="834" y="103" text-anchor="middle" font-size="11.5" font-weight="800" fill="#ffffff" font-family="BIZ UDPGothic, sans-serif">4. 確かめて再発を防ぐ</text>
+  <text x="746" y="136" font-size="10.5" font-weight="800" fill="#065f46" font-family="BIZ UDPGothic, sans-serif">直して良くなったか確かめる</text>
+  <text x="746" y="158" font-size="10" fill="#334155" font-family="BIZ UDPGothic, sans-serif">・スキルの版ごとに</text>
+  <text x="746" y="175" font-size="10" fill="#334155" font-family="BIZ UDPGothic, sans-serif">　失敗率を比べる</text>
+  <text x="746" y="198" font-size="10" fill="#334155" font-family="BIZ UDPGothic, sans-serif">・代表的な失敗を</text>
+  <text x="746" y="215" font-size="10" fill="#334155" font-family="BIZ UDPGothic, sans-serif">　evals.json の試験ケースに</text>
+  <text x="746" y="233" font-size="10" fill="#334155" font-family="BIZ UDPGothic, sans-serif">・CAD は寸法・穴数で機械判定</text>
+  <text x="746" y="266" font-size="9" font-weight="700" fill="#047857" font-family="BIZ UDPGothic, sans-serif">参考：Anthropic・agentskills.io</text>
+
+  <!-- 下段：なぜ「人レビュー＋1項目ずつ」が大事か -->
+  <rect x="24" y="302" width="912" height="72" rx="12" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5"/>
+  <text x="42" y="326" font-size="11.5" font-weight="800" fill="#0f172a" font-family="BIZ UDPGothic, sans-serif">🔍 研究からわかっている 2 つのこと（詳しくは agent-skill ガイド）</text>
+  <text x="42" y="347" font-size="10" fill="#334155" font-family="BIZ UDPGothic, sans-serif">① SkillsBench (2026)：人が整えたスキルは平均 +16.2pt 改善。一方、実データなしに AI が自分で書いたスキルは平均で効果がなかった。</text>
+  <text x="42" y="365" font-size="10" fill="#334155" font-family="BIZ UDPGothic, sans-serif">② ACE (2025)：全文の書き直しを繰り返すと、大事な細部が消えていく（context collapse）。項目ごとに差分で足すほうがよい。</text>
+
+  <!-- 最下部 -->
+  <rect x="24" y="386" width="912" height="30" rx="10" fill="#0f172a"/>
+  <text x="480" y="405" text-anchor="middle" font-size="11" font-weight="700" fill="#ffffff" font-family="BIZ UDPGothic, sans-serif">🎯 週 1 回 30 分（目安）、集計表を見て上位の失敗を 1 つ直すだけでも、同じミスの再発を減らしやすい</text>
+</svg>

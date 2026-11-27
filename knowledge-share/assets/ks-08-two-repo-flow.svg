@@ -1,0 +1,147 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 680" role="img" aria-label="2リポジトリ構成の全体の流れ：利用者はアプリ用リポをcloneして動かし、実行記録はGitHub APIでナレッジ専用リポに直接書き込む。分析する人はナレッジ専用リポを取得して集計し、スキルを直してアプリ用リポにPRする">
+  <defs>
+    <marker id="ks8Blue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#1d4ed8"/>
+    </marker>
+    <marker id="ks8Rose" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#9d174d"/>
+    </marker>
+    <marker id="ks8Gray" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#64748b"/>
+    </marker>
+  </defs>
+
+  <rect width="960" height="680" rx="18" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+
+  <!-- タイトル -->
+  <text x="480" y="36" text-anchor="middle" font-size="18" font-weight="800" fill="#0f172a" font-family="BIZ UDPGothic, Yu Gothic UI, sans-serif">2 リポジトリ構成：だれが・どの順番で・どこに読み書きするか</text>
+  <text x="480" y="58" text-anchor="middle" font-size="12" fill="#475569" font-family="BIZ UDPGothic, Yu Gothic UI, sans-serif">利用者はアプリ用リポを取ってきて動かし、結果はナレッジ専用リポへ API で直接書き込む（ナレッジ専用リポの clone は不要）</text>
+
+  <!-- ===== 左：利用者の PC ===== -->
+  <rect x="24" y="80" width="256" height="370" rx="14" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
+  <text x="152" y="103" text-anchor="middle" font-size="12.5" font-weight="800" fill="#1e3a8a" font-family="BIZ UDPGothic, sans-serif">💻 利用者の PC（各自）</text>
+
+  <rect x="40" y="118" width="224" height="62" rx="9" fill="#ffffff" stroke="#93c5fd"/>
+  <text x="52" y="138" font-size="10.5" font-weight="800" fill="#1d4ed8" font-family="BIZ UDPGothic, sans-serif">① アプリ（my-cad-ai-app）を取得</text>
+  <text x="52" y="156" font-size="9.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif">clone（2 回目からは git pull）</text>
+  <text x="52" y="172" font-size="9.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif">→ 環境を作って動かせる状態に</text>
+
+  <line x1="152" y1="180" x2="152" y2="194" stroke="#64748b" stroke-width="2" marker-end="url(#ks8Gray)"/>
+
+  <rect x="40" y="196" width="224" height="52" rx="9" fill="#ffffff" stroke="#93c5fd"/>
+  <text x="52" y="216" font-size="10.5" font-weight="800" fill="#1d4ed8" font-family="BIZ UDPGothic, sans-serif">② アプリを実行</text>
+  <text x="52" y="236" font-size="9.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif">AI が CAD を操作し、手順ごとに記録</text>
+
+  <line x1="152" y1="248" x2="152" y2="262" stroke="#64748b" stroke-width="2" marker-end="url(#ks8Gray)"/>
+
+  <rect x="40" y="264" width="224" height="96" rx="9" fill="#ffffff" stroke="#93c5fd"/>
+  <text x="52" y="284" font-size="10.5" font-weight="800" fill="#1d4ed8" font-family="BIZ UDPGothic, sans-serif">③ 出力（手元にできる）</text>
+  <text x="52" y="302" font-size="9.5" fill="#334155" font-family="Consolas, monospace">runs-local/20261128-…/</text>
+  <text x="52" y="318" font-size="9.5" fill="#334155" font-family="Consolas, BIZ UDPGothic, monospace">├ run.json（要約）</text>
+  <text x="52" y="334" font-size="9.5" fill="#334155" font-family="Consolas, BIZ UDPGothic, monospace">└ steps.jsonl（途中ログ）</text>
+  <text x="52" y="351" font-size="9.5" font-weight="700" fill="#b45309" font-family="BIZ UDPGothic, sans-serif">bracket.step（CAD 実体）→ Box へ</text>
+
+  <line x1="152" y1="360" x2="152" y2="376" stroke="#64748b" stroke-width="2" marker-end="url(#ks8Gray)"/>
+
+  <rect x="40" y="378" width="224" height="58" rx="9" fill="#fdf2f8" stroke="#9d174d" stroke-width="1.6"/>
+  <text x="52" y="400" font-size="10.5" font-weight="800" fill="#9d174d" font-family="BIZ UDPGothic, sans-serif">📤 ④ 共有ボタン</text>
+  <text x="52" y="420" font-size="9.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif">伏せ字 → プレビュー → 送信</text>
+
+  <!-- ===== 中央：GitHub ===== -->
+  <rect x="344" y="80" width="272" height="370" rx="14" fill="#f1f5f9" stroke="#64748b" stroke-width="1.8" stroke-dasharray="6 4"/>
+  <text x="480" y="103" text-anchor="middle" font-size="12.5" font-weight="800" fill="#334155" font-family="BIZ UDPGothic, sans-serif">☁️ GitHub（Web 上・Private）</text>
+
+  <!-- ① アプリ用リポ -->
+  <rect x="356" y="118" width="248" height="140" rx="10" fill="#ffffff" stroke="#1d4ed8" stroke-width="2"/>
+  <rect x="356" y="118" width="248" height="28" rx="10" fill="#1d4ed8"/>
+  <rect x="356" y="134" width="248" height="12" fill="#1d4ed8"/>
+  <text x="480" y="137" text-anchor="middle" font-size="11.5" font-weight="800" fill="#ffffff" font-family="BIZ UDPGothic, sans-serif">📦 ① アプリ用リポ</text>
+  <text x="368" y="164" font-size="9.5" font-weight="700" fill="#0f172a" font-family="Consolas, monospace">my-cad-ai-app/</text>
+  <text x="368" y="181" font-size="9.5" fill="#334155" font-family="Consolas, BIZ UDPGothic, monospace">├ src/（アプリ本体）</text>
+  <text x="368" y="198" font-size="9.5" fill="#334155" font-family="Consolas, BIZ UDPGothic, monospace">└ skills/…/SKILL.md（AI スキル）</text>
+  <rect x="366" y="216" width="112" height="28" rx="14" fill="#dcfce7"/>
+  <text x="422" y="234" text-anchor="middle" font-size="9.5" font-weight="800" fill="#065f46" font-family="BIZ UDPGothic, sans-serif">開発者：Write</text>
+  <rect x="484" y="216" width="110" height="28" rx="14" fill="#dbeafe"/>
+  <text x="539" y="234" text-anchor="middle" font-size="9.5" font-weight="800" fill="#1e3a8a" font-family="BIZ UDPGothic, sans-serif">利用者：Read</text>
+
+  <!-- ② ナレッジ専用リポ -->
+  <rect x="356" y="286" width="248" height="154" rx="10" fill="#ffffff" stroke="#9d174d" stroke-width="2"/>
+  <rect x="356" y="286" width="248" height="28" rx="10" fill="#9d174d"/>
+  <rect x="356" y="302" width="248" height="12" fill="#9d174d"/>
+  <text x="480" y="305" text-anchor="middle" font-size="11.5" font-weight="800" fill="#ffffff" font-family="BIZ UDPGothic, sans-serif">📚 ② ナレッジ専用リポ</text>
+  <text x="368" y="332" font-size="9.5" font-weight="700" fill="#0f172a" font-family="Consolas, monospace">my-cad-ai-knowledge/</text>
+  <text x="368" y="349" font-size="9.5" fill="#334155" font-family="Consolas, monospace">├ runs/2026-11/&lt;run_id&gt;/</text>
+  <text x="368" y="365" font-size="9.5" fill="#334155" font-family="Consolas, BIZ UDPGothic, monospace">│   run.json・steps.jsonl</text>
+  <text x="368" y="381" font-size="9.5" fill="#334155" font-family="Consolas, monospace">└ scripts/summarize-runs.mjs</text>
+  <rect x="366" y="398" width="112" height="28" rx="14" fill="#fce7f3"/>
+  <text x="422" y="416" text-anchor="middle" font-size="9.5" font-weight="800" fill="#9d174d" font-family="BIZ UDPGothic, sans-serif">利用者：Write</text>
+  <rect x="484" y="398" width="110" height="28" rx="14" fill="#dcfce7"/>
+  <text x="539" y="416" text-anchor="middle" font-size="9.5" font-weight="800" fill="#065f46" font-family="BIZ UDPGothic, sans-serif">分析する人：Write</text>
+
+  <!-- ===== 右：分析する人の PC ===== -->
+  <rect x="680" y="80" width="256" height="370" rx="14" fill="#ecfdf5" stroke="#059669" stroke-width="2"/>
+  <text x="808" y="103" text-anchor="middle" font-size="12.5" font-weight="800" fill="#065f46" font-family="BIZ UDPGothic, sans-serif">🔍 分析する人（開発者）の PC</text>
+
+  <rect x="696" y="118" width="224" height="82" rx="9" fill="#ffffff" stroke="#6ee7b7"/>
+  <text x="708" y="138" font-size="10.5" font-weight="800" fill="#047857" font-family="BIZ UDPGothic, sans-serif">⑥ スキルを直す</text>
+  <text x="708" y="156" font-size="9.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif">Gotchas に 1 項目足す／scripts 化</text>
+  <text x="708" y="172" font-size="9.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif">→ ① に PR → レビュー → マージ</text>
+  <text x="708" y="190" font-size="9.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif">（skill の版が上がる）</text>
+
+  <line x1="808" y1="218" x2="808" y2="202" stroke="#64748b" stroke-width="2" marker-end="url(#ks8Gray)"/>
+
+  <rect x="696" y="218" width="224" height="54" rx="9" fill="#ffffff" stroke="#6ee7b7"/>
+  <text x="708" y="238" font-size="10.5" font-weight="800" fill="#047857" font-family="BIZ UDPGothic, sans-serif">集計 → AI に改善案</text>
+  <text x="708" y="258" font-size="9.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif">どこで・何回・なぜ を表に（雛形③④）</text>
+
+  <line x1="808" y1="290" x2="808" y2="274" stroke="#64748b" stroke-width="2" marker-end="url(#ks8Gray)"/>
+
+  <rect x="696" y="290" width="224" height="72" rx="9" fill="#ffffff" stroke="#6ee7b7"/>
+  <text x="708" y="310" font-size="10.5" font-weight="800" fill="#047857" font-family="BIZ UDPGothic, sans-serif">⑤ 全員の記録を取得</text>
+  <text x="708" y="330" font-size="9.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif">② を clone（2 回目からは git pull）</text>
+  <text x="708" y="348" font-size="9.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif">（全員の記録を持つのは、この人だけ）</text>
+
+  <rect x="696" y="376" width="224" height="60" rx="9" fill="#ffffff" stroke="#94a3b8" stroke-dasharray="5 3"/>
+  <text x="808" y="400" text-anchor="middle" font-size="9.5" font-weight="700" fill="#475569" font-family="BIZ UDPGothic, sans-serif">※ 利用者の PC には</text>
+  <text x="808" y="418" text-anchor="middle" font-size="9.5" font-weight="700" fill="#475569" font-family="BIZ UDPGothic, sans-serif">② の clone は要らない</text>
+
+  <!-- ===== 列をまたぐ矢印 ===== -->
+  <!-- ① / ⑦ アプリ用リポ → 利用者 -->
+  <line x1="354" y1="150" x2="268" y2="150" stroke="#1d4ed8" stroke-width="2.4" marker-end="url(#ks8Blue)"/>
+  <text x="310" y="142" text-anchor="middle" font-size="10" font-weight="800" fill="#1d4ed8" font-family="BIZ UDPGothic, sans-serif">① clone</text>
+  <text x="310" y="168" text-anchor="middle" font-size="10" font-weight="800" fill="#1d4ed8" font-family="BIZ UDPGothic, sans-serif">⑦ pull</text>
+
+  <!-- ④ 利用者 → ナレッジ専用リポ -->
+  <line x1="264" y1="408" x2="352" y2="408" stroke="#9d174d" stroke-width="2.4" marker-end="url(#ks8Rose)"/>
+  <text x="310" y="400" text-anchor="middle" font-size="10" font-weight="800" fill="#9d174d" font-family="BIZ UDPGothic, sans-serif">④ API で</text>
+  <text x="310" y="426" text-anchor="middle" font-size="10" font-weight="800" fill="#9d174d" font-family="BIZ UDPGothic, sans-serif">直接書込</text>
+
+  <!-- ⑤ ナレッジ専用リポ → 分析する人 -->
+  <line x1="604" y1="326" x2="692" y2="326" stroke="#9d174d" stroke-width="2.4" marker-end="url(#ks8Rose)"/>
+  <text x="648" y="318" text-anchor="middle" font-size="10" font-weight="800" fill="#9d174d" font-family="BIZ UDPGothic, sans-serif">⑤ clone</text>
+  <text x="648" y="344" text-anchor="middle" font-size="10" font-weight="800" fill="#9d174d" font-family="BIZ UDPGothic, sans-serif">/ pull</text>
+
+  <!-- ⑥ 分析する人 → アプリ用リポ -->
+  <line x1="696" y1="160" x2="608" y2="160" stroke="#1d4ed8" stroke-width="2.4" marker-end="url(#ks8Blue)"/>
+  <text x="652" y="152" text-anchor="middle" font-size="10" font-weight="800" fill="#1d4ed8" font-family="BIZ UDPGothic, sans-serif">⑥ PR</text>
+
+  <!-- ===== 一連の流れ ===== -->
+  <rect x="24" y="464" width="912" height="118" rx="12" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5"/>
+  <text x="40" y="486" font-size="11.5" font-weight="800" fill="#0f172a" font-family="BIZ UDPGothic, sans-serif">🔢 一連の流れ（① → ⑦ をくり返す）</text>
+  <text x="40" y="508" font-size="10" fill="#334155" font-family="BIZ UDPGothic, sans-serif">① 利用者：① を clone（2 回目からは git pull）し、手元で動く環境を作る</text>
+  <text x="40" y="527" font-size="10" fill="#334155" font-family="BIZ UDPGothic, sans-serif">② アプリを動かす：AI が CAD を操作し、手順ごとに自動で記録</text>
+  <text x="40" y="546" font-size="10" fill="#334155" font-family="BIZ UDPGothic, sans-serif">③ 出力：run.json・steps.jsonl が手元にできる（CAD 実体は Box へ）</text>
+  <text x="40" y="565" font-size="10" font-weight="700" fill="#9d174d" font-family="BIZ UDPGothic, sans-serif">④ 共有ボタン：伏せ字 → GitHub API で ② の runs/ に直接書き込む</text>
+  <text x="490" y="508" font-size="10" fill="#334155" font-family="BIZ UDPGothic, sans-serif">⑤ 分析する人：② を clone / pull し、集計で「どこで・何回・なぜ」</text>
+  <text x="490" y="527" font-size="10" fill="#334155" font-family="BIZ UDPGothic, sans-serif">⑥ AI に改善案を出させ、人が SKILL.md を直して ① に PR → マージ</text>
+  <text x="490" y="546" font-size="10" fill="#334155" font-family="BIZ UDPGothic, sans-serif">⑦ 利用者：① を git pull すると、新しいスキルで動く</text>
+  <text x="490" y="565" font-size="10" fill="#334155" font-family="BIZ UDPGothic, sans-serif">→ スキルの版ごとの失敗率で、直した効果を確かめる</text>
+
+  <!-- 権限 -->
+  <rect x="24" y="594" width="912" height="32" rx="10" fill="#fffbeb" stroke="#d97706" stroke-width="1.5"/>
+  <text x="480" y="615" text-anchor="middle" font-size="11" font-weight="800" fill="#92400e" font-family="BIZ UDPGothic, sans-serif">🔑 権限：利用者 ＝ ① Read・② Write ／ 開発者・分析する人 ＝ ① Write・② Write　※ Write は読み書きの両方（書き込みだけの権限はない）</text>
+
+  <!-- 最下部まとめ -->
+  <rect x="24" y="636" width="912" height="30" rx="10" fill="#0f172a"/>
+  <text x="480" y="655" text-anchor="middle" font-size="11" font-weight="700" fill="#ffffff" font-family="BIZ UDPGothic, sans-serif">💡 利用者の PC に置くのは ① の clone と自分の実行記録だけ。全員の記録は、分析する人だけが ② から取ってくる</text>
+</svg>

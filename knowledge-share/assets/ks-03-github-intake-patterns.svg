@@ -1,0 +1,92 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 460" role="img" aria-label="共有ボタンからGitHubへ送る4つの経路（APIで直接書き込み・Issue画面・Issueから Actions・dispatchから Actions）と認証のちがいの比較図">
+  <defs>
+    <marker id="ksArr3" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#334155"/>
+    </marker>
+  </defs>
+
+  <rect width="960" height="460" rx="18" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+
+  <!-- タイトル -->
+  <text x="480" y="36" text-anchor="middle" font-size="18" font-weight="800" fill="#0f172a" font-family="BIZ UDPGothic, Yu Gothic UI, sans-serif">共有ボタンから GitHub へ送る 4 つの経路と認証のちがい</text>
+  <text x="480" y="58" text-anchor="middle" font-size="12" fill="#475569" font-family="BIZ UDPGothic, Yu Gothic UI, sans-serif">基本は経路 A（アプリが API で直接書き込む・clone 不要）。トークンを渡せない人がいるときに B〜D を足す</text>
+
+  <!-- 経路 A -->
+  <rect x="24" y="78" width="912" height="76" rx="12" fill="#ecfdf5" stroke="#10b981" stroke-width="2.4"/>
+  <rect x="36" y="90" width="166" height="52" rx="9" fill="#059669"/>
+  <text x="119" y="112" text-anchor="middle" font-size="11.5" font-weight="800" fill="#ffffff" font-family="BIZ UDPGothic, sans-serif">経路 A：API で直接書込</text>
+  <text x="119" y="131" text-anchor="middle" font-size="9.5" fill="#d1fae5" font-family="BIZ UDPGothic, sans-serif">★ おすすめ・clone 不要</text>
+
+  <rect x="218" y="92" width="170" height="48" rx="8" fill="#ffffff" stroke="#6ee7b7"/>
+  <text x="303" y="112" text-anchor="middle" font-size="10" font-weight="700" fill="#065f46" font-family="BIZ UDPGothic, sans-serif">ボタン → 伏せ字をかける</text>
+  <text x="303" y="129" text-anchor="middle" font-size="9" fill="#475569" font-family="BIZ UDPGothic, sans-serif">テキストだけ（CAD 実体は Box）</text>
+
+  <line x1="388" y1="116" x2="416" y2="116" stroke="#334155" stroke-width="2" marker-end="url(#ksArr3)"/>
+
+  <rect x="420" y="92" width="212" height="48" rx="8" fill="#ffffff" stroke="#6ee7b7"/>
+  <text x="526" y="112" text-anchor="middle" font-size="10" font-weight="700" fill="#065f46" font-family="BIZ UDPGothic, sans-serif">API で ② に 1 コミット書込</text>
+  <text x="526" y="129" text-anchor="middle" font-size="9" fill="#475569" font-family="BIZ UDPGothic, sans-serif">先を越されたら作り直して再送</text>
+
+  <line x1="632" y1="116" x2="660" y2="116" stroke="#334155" stroke-width="2" marker-end="url(#ksArr3)"/>
+
+  <rect x="664" y="92" width="256" height="48" rx="8" fill="#d1fae5" stroke="#059669"/>
+  <text x="792" y="112" text-anchor="middle" font-size="10" font-weight="800" fill="#064e3b" font-family="BIZ UDPGothic, sans-serif">認証：各自のトークン（② の Write）</text>
+  <text x="792" y="129" text-anchor="middle" font-size="9" fill="#065f46" font-family="BIZ UDPGothic, sans-serif">途中ログも全部・オフライン時は後で送る</text>
+
+  <!-- 経路 B -->
+  <rect x="24" y="166" width="912" height="76" rx="12" fill="#eff6ff" stroke="#3b82f6" stroke-width="1.8"/>
+  <rect x="36" y="178" width="166" height="52" rx="9" fill="#2563eb"/>
+  <text x="119" y="200" text-anchor="middle" font-size="11.5" font-weight="800" fill="#ffffff" font-family="BIZ UDPGothic, sans-serif">経路 B：Issue 画面</text>
+  <text x="119" y="219" text-anchor="middle" font-size="9.5" fill="#dbeafe" font-family="BIZ UDPGothic, sans-serif">トークン不要・人が確認</text>
+
+  <rect x="218" y="180" width="170" height="48" rx="8" fill="#ffffff" stroke="#93c5fd"/>
+  <text x="303" y="200" text-anchor="middle" font-size="10" font-weight="700" fill="#1e3a8a" font-family="BIZ UDPGothic, sans-serif">アプリが Issue URL を生成</text>
+  <text x="303" y="217" text-anchor="middle" font-size="9" fill="#475569" font-family="BIZ UDPGothic, sans-serif">…/issues/new?run_json=…</text>
+
+  <line x1="388" y1="204" x2="416" y2="204" stroke="#334155" stroke-width="2" marker-end="url(#ksArr3)"/>
+
+  <rect x="420" y="180" width="212" height="48" rx="8" fill="#ffffff" stroke="#93c5fd"/>
+  <text x="526" y="200" text-anchor="middle" font-size="10" font-weight="700" fill="#1e3a8a" font-family="BIZ UDPGothic, sans-serif">ブラウザで Issue 画面が開く</text>
+  <text x="526" y="217" text-anchor="middle" font-size="9" fill="#475569" font-family="BIZ UDPGothic, sans-serif">利用者が中身を確認して Submit</text>
+
+  <line x1="632" y1="204" x2="660" y2="204" stroke="#334155" stroke-width="2" marker-end="url(#ksArr3)"/>
+
+  <rect x="664" y="180" width="256" height="48" rx="8" fill="#dbeafe" stroke="#2563eb"/>
+  <text x="792" y="200" text-anchor="middle" font-size="10" font-weight="800" fill="#1e3a8a" font-family="BIZ UDPGothic, sans-serif">認証：ブラウザのログインだけ</text>
+  <text x="792" y="217" text-anchor="middle" font-size="9" fill="#1d4ed8" font-family="BIZ UDPGothic, sans-serif">注意：長い URL は 414。載るのは要約だけ</text>
+
+  <!-- 経路 C -->
+  <rect x="24" y="254" width="912" height="76" rx="12" fill="#fdf2f8" stroke="#db2777" stroke-width="1.8"/>
+  <rect x="36" y="266" width="166" height="52" rx="9" fill="#9d174d"/>
+  <text x="119" y="288" text-anchor="middle" font-size="11.5" font-weight="800" fill="#ffffff" font-family="BIZ UDPGothic, sans-serif">経路 C：Issue → Actions</text>
+  <text x="119" y="307" text-anchor="middle" font-size="9.5" fill="#fce7f3" font-family="BIZ UDPGothic, sans-serif">B の記録もファイルに</text>
+
+  <rect x="218" y="268" width="170" height="48" rx="8" fill="#ffffff" stroke="#f9a8d4"/>
+  <text x="303" y="288" text-anchor="middle" font-size="10" font-weight="700" fill="#831843" font-family="BIZ UDPGothic, sans-serif">Issue 作成を合図に</text>
+  <text x="303" y="305" text-anchor="middle" font-size="9" fill="#475569" font-family="BIZ UDPGothic, sans-serif">GitHub Actions が起動</text>
+
+  <line x1="388" y1="292" x2="416" y2="292" stroke="#334155" stroke-width="2" marker-end="url(#ksArr3)"/>
+
+  <rect x="420" y="268" width="212" height="48" rx="8" fill="#ffffff" stroke="#f9a8d4"/>
+  <text x="526" y="288" text-anchor="middle" font-size="10" font-weight="700" fill="#831843" font-family="BIZ UDPGothic, sans-serif">本文の json を runs/ に保存</text>
+  <text x="526" y="305" text-anchor="middle" font-size="9" fill="#475569" font-family="BIZ UDPGothic, sans-serif">本文はイベントのファイルから読む</text>
+
+  <line x1="632" y1="292" x2="660" y2="292" stroke="#334155" stroke-width="2" marker-end="url(#ksArr3)"/>
+
+  <rect x="664" y="268" width="256" height="48" rx="8" fill="#fce7f3" stroke="#9d174d"/>
+  <text x="792" y="288" text-anchor="middle" font-size="10" font-weight="800" fill="#831843" font-family="BIZ UDPGothic, sans-serif">送る人の権限：Issue を書けるだけ</text>
+  <text x="792" y="305" text-anchor="middle" font-size="9" fill="#9d174d" font-family="BIZ UDPGothic, sans-serif">経路 A と同じ形で集計できる</text>
+
+  <!-- 経路 D -->
+  <rect x="24" y="342" width="912" height="62" rx="12" fill="#fffbeb" stroke="#f59e0b" stroke-width="1.8"/>
+  <rect x="36" y="352" width="166" height="42" rx="9" fill="#d97706"/>
+  <text x="119" y="370" text-anchor="middle" font-size="11.5" font-weight="800" fill="#ffffff" font-family="BIZ UDPGothic, sans-serif">経路 D：dispatch API</text>
+  <text x="119" y="386" text-anchor="middle" font-size="9.5" fill="#fef3c7" font-family="BIZ UDPGothic, sans-serif">書き込み権限を配らない</text>
+
+  <text x="220" y="370" font-size="10.5" font-weight="700" fill="#92400e" font-family="BIZ UDPGothic, sans-serif">アプリの中継から POST /repos/…/dispatches → Actions が runs/ に保存（64 KB 未満・最上位 10 項目まで）</text>
+  <text x="220" y="389" font-size="10" fill="#475569" font-family="BIZ UDPGothic, sans-serif">→ 中継側に Fine-grained PAT（Contents: write・ナレッジ専用リポだけ）を置く。Actions は queue: max で順番待ち</text>
+
+  <!-- 下部警告 -->
+  <rect x="24" y="416" width="912" height="30" rx="10" fill="#0f172a"/>
+  <text x="480" y="435" text-anchor="middle" font-size="11" font-weight="700" fill="#ffffff" font-family="BIZ UDPGothic, sans-serif">🛡️ 鉄則：ブラウザの HTML／JS にトークンを書かない（トークンはアプリの裏側〈Node など〉や gh に持たせる）</text>
+</svg>

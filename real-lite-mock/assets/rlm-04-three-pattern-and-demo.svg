@@ -9,7 +9,7 @@
 
   <!-- タイトル -->
   <text x="480" y="36" text-anchor="middle" font-size="18" font-weight="800" fill="#0f172a" font-family="BIZ UDPGothic, Yu Gothic UI, sans-serif">3パターン並行試作 × デモモード（自動再生）の活用設計</text>
-  <text x="480" y="58" text-anchor="middle" font-size="12" fill="#475569" font-family="BIZ UDPGothic, Yu Gothic UI, sans-serif">「1案に絞らない」から比較で本音が引き出せ、「自動再生デモ」があるから上位層への説明や横展開まで一気に進む</text>
+  <text x="480" y="58" text-anchor="middle" font-size="12" fill="#475569" font-family="BIZ UDPGothic, Yu Gothic UI, sans-serif">1案に絞らず比べるから率直な意見が出やすく、自動再生デモがあるから上位層への説明もスムーズに進む</text>
 
   <!-- 上段：3パターン並行試作 -->
   <rect x="24" y="78" width="912" height="170" rx="14" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5"/>
@@ -35,9 +35,9 @@
   <rect x="640" y="118" width="276" height="114" rx="10" fill="#f5f3ff" stroke="#7c3aed" stroke-width="1.8"/>
   <rect x="652" y="128" width="136" height="22" rx="11" fill="#7c3aed"/>
   <text x="720" y="143" text-anchor="middle" font-size="10.5" font-weight="800" fill="#ffffff" font-family="BIZ UDPGothic, sans-serif">パターン C（AI UI 定石）</text>
-  <text x="654" y="172" font-size="11.5" font-weight="800" fill="#5b21b6" font-family="BIZ UDPGothic, sans-serif">UI ガイド 7 パターンから選定</text>
+  <text x="654" y="172" font-size="11.5" font-weight="800" fill="#5b21b6" font-family="BIZ UDPGothic, sans-serif">ui-guide 整理の 7 パターンより</text>
   <text x="654" y="193" font-size="10.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif">・Canvas / Tuners / Agentic 等から</text>
-  <text x="654" y="210" font-size="10.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif">　セオリー最適解をぶつけて視野拡大</text>
+  <text x="654" y="210" font-size="10.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif">　業務に合う型を 1 枠入れて視野拡大</text>
 
   <!-- 矢印：上段から下段へ2方向 -->
   <line x1="260" y1="248" x2="260" y2="274" stroke="#334155" stroke-width="2.2" marker-end="url(#arrDark)"/>
@@ -45,19 +45,19 @@
 
   <!-- 下段左：メンバー・同僚への活用 -->
   <rect x="24" y="278" width="444" height="142" rx="14" fill="#ecfdf5" stroke="#059669" stroke-width="2"/>
-  <text x="44" y="306" font-size="13" font-weight="800" fill="#065f46" font-family="BIZ UDPGothic, sans-serif">② 身近な同僚・メンバー向け【実操作モード】</text>
-  <text x="44" y="330" font-size="11" fill="#1f2937" font-family="BIZ UDPGothic, sans-serif">・3つの HTML を実際に触り比べてもらう</text>
-  <text x="44" y="352" font-size="11" fill="#1f2937" font-family="BIZ UDPGothic, sans-serif">・「Aのここが良い」「Cの承認画面が安心」など具体的FBを獲得</text>
-  <text x="44" y="374" font-size="11" fill="#1f2937" font-family="BIZ UDPGothic, sans-serif">・複数案あるため、作り手への遠慮なく本音の意見が出やすい</text>
+  <text x="44" y="306" font-size="13" font-weight="800" fill="#065f46" font-family="BIZ UDPGothic, sans-serif">② 身近な同僚・メンバー向け【実操作で比較】</text>
+  <text x="44" y="330" font-size="11" fill="#1f2937" font-family="BIZ UDPGothic, sans-serif">・実動作を確認済みの 3 つの HTML を触り比べてもらう</text>
+  <text x="44" y="352" font-size="11" fill="#1f2937" font-family="BIZ UDPGothic, sans-serif">・複数案あると遠慮や褒めすぎが減り、弱い案がわかる</text>
+  <text x="44" y="374" font-size="11" fill="#1f2937" font-family="BIZ UDPGothic, sans-serif">・「Aは速い」「Bは手間」などの指摘を集めて比較検討</text>
   <rect x="44" y="388" width="404" height="22" rx="8" fill="#d1fae5"/>
-  <text x="246" y="403" text-anchor="middle" font-size="10" font-weight="800" fill="#047857" font-family="BIZ UDPGothic, sans-serif">効果：いいとこ取り（ハイブリッド統合）で最適 UI が即座に決まる</text>
+  <text x="246" y="403" text-anchor="middle" font-size="10" font-weight="800" fill="#047857" font-family="BIZ UDPGothic, sans-serif">効果：集まった指摘をもとに、作り手が良い点を統合・改善できる</text>
 
   <!-- 下段右：上位レイヤー・横展開への活用 -->
   <rect x="492" y="278" width="444" height="142" rx="14" fill="#fffbeb" stroke="#d97706" stroke-width="2"/>
   <text x="512" y="306" font-size="13" font-weight="800" fill="#92400e" font-family="BIZ UDPGothic, sans-serif">③ 上位レイヤー・社内展開向け【▶ デモモード】</text>
   <text x="512" y="330" font-size="11" fill="#1f2937" font-family="BIZ UDPGothic, sans-serif">・再生ボタン 1 回で一連のユースケースを自動実演＆可視化</text>
-  <text x="512" y="352" font-size="11" fill="#1f2937" font-family="BIZ UDPGothic, sans-serif">・入力ミスや通信待ちの事故なく、1〜2分で価値を直感伝達</text>
-  <text x="512" y="374" font-size="11" fill="#1f2937" font-family="BIZ UDPGothic, sans-serif">・上長承認・予算獲得・他部署への取り組み布教にそのまま使える</text>
+  <text x="512" y="352" font-size="11" fill="#1f2937" font-family="BIZ UDPGothic, sans-serif">・入力ミスや通信待ちの事故なく、1〜2分（目安）で実演</text>
+  <text x="512" y="374" font-size="11" fill="#1f2937" font-family="BIZ UDPGothic, sans-serif">・上長説明・予算相談・他部署への紹介に活用（※未完成範囲も明示）</text>
   <rect x="512" y="388" width="404" height="22" rx="8" fill="#fef3c7"/>
-  <text x="714" y="403" text-anchor="middle" font-size="10" font-weight="800" fill="#b45309" font-family="BIZ UDPGothic, sans-serif">効果：スライド10枚より「1分の動くデモ」が意思決定を劇的に速める</text>
+  <text x="714" y="403" text-anchor="middle" font-size="10" font-weight="800" fill="#b45309" font-family="BIZ UDPGothic, sans-serif">効果：口頭や資料だけよりイメージが伝わり、合意形成を助ける</text>
 </svg>

@@ -1,15 +1,15 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 460" role="img" aria-label="リアルライトモックを裏付ける業界・学術の6つの先例と関連概念マップ">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 460" role="img" aria-label="リアルライトモックを支える6つの関連する考え方と研究のマップ">
   <rect width="960" height="460" rx="18" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
 
   <!-- タイトル -->
-  <text x="480" y="36" text-anchor="middle" font-size="18" font-weight="800" fill="#0f172a" font-family="BIZ UDPGothic, Yu Gothic UI, sans-serif">業界・学術の知見との対応：リアルライトモックを支える6つの裏付け</text>
-  <text x="480" y="58" text-anchor="middle" font-size="12" fill="#475569" font-family="BIZ UDPGothic, Yu Gothic UI, sans-serif">現場の実感から生まれた手法は、古典的ソフトウェア工学から2025〜2026年の最新AI開発論まで見事に合致している</text>
+  <text x="480" y="36" text-anchor="middle" font-size="18" font-weight="800" fill="#0f172a" font-family="BIZ UDPGothic, Yu Gothic UI, sans-serif">関連する考え方・研究：リアルライトモックを支える6つの視点</text>
+  <text x="480" y="58" text-anchor="middle" font-size="12" fill="#475569" font-family="BIZ UDPGothic, Yu Gothic UI, sans-serif">各ステップの工夫には、古典的な開発原則・UX研究・近年のAI実践と重なる裏付けがある</text>
 
   <!-- 中央ハブ -->
   <rect x="330" y="182" width="300" height="106" rx="16" fill="#0f172a" stroke="#2563eb" stroke-width="3"/>
   <text x="480" y="216" text-anchor="middle" font-size="15" font-weight="800" fill="#ffffff" font-family="BIZ UDPGothic, sans-serif">リアルライトモック手法</text>
   <text x="480" y="238" text-anchor="middle" font-size="11" font-weight="700" fill="#93c5fd" font-family="BIZ UDPGothic, sans-serif">Real Lite Mock</text>
-  <text x="480" y="262" text-anchor="middle" font-size="10" fill="#cbd5e1" font-family="BIZ UDPGothic, sans-serif">6つの実証済み理論を AI 時代に統合</text>
+  <text x="480" y="262" text-anchor="middle" font-size="10" fill="#cbd5e1" font-family="BIZ UDPGothic, sans-serif">古典原則・UX研究 × AIの試作速度</text>
 
   <!-- 接続線 -->
   <line x1="330" y1="205" x2="294" y2="148" stroke="#2563eb" stroke-width="2"/>
@@ -19,61 +19,61 @@
   <line x1="630" y1="235" x2="666" y2="235" stroke="#d97706" stroke-width="2"/>
   <line x1="630" y1="265" x2="666" y2="335" stroke="#0f766e" stroke-width="2"/>
 
-  <!-- 左上：1. Code-First / Single-File HTML -->
+  <!-- 左上：1. 単一HTMLによる軽量試作 -->
   <rect x="24" y="84" width="270" height="100" rx="12" fill="#ffffff" stroke="#2563eb" stroke-width="2"/>
   <rect x="24" y="84" width="270" height="26" rx="12" fill="#2563eb"/>
   <rect x="24" y="98" width="270" height="12" fill="#2563eb"/>
-  <text x="159" y="102" text-anchor="middle" font-size="11" font-weight="800" fill="#ffffff" font-family="BIZ UDPGothic, sans-serif">① 単一HTML／コード先行試作</text>
-  <text x="36" y="128" font-size="10" font-weight="700" fill="#1e40af" font-family="BIZ UDPGothic, sans-serif">Code-First / Single-File Artifact</text>
-  <text x="36" y="147" font-size="10" fill="#334155" font-family="BIZ UDPGothic, sans-serif">Claude Artifacts・v0 等で主流化。</text>
-  <text x="36" y="164" font-size="10" fill="#334155" font-family="BIZ UDPGothic, sans-serif">ビルド不要でAI生成エラーも最小。</text>
+  <text x="159" y="102" text-anchor="middle" font-size="11" font-weight="800" fill="#ffffff" font-family="BIZ UDPGothic, sans-serif">① 単一HTMLによる軽量試作</text>
+  <text x="36" y="128" font-size="10" font-weight="700" fill="#1e40af" font-family="BIZ UDPGothic, sans-serif">Claude Artifacts ／ HTML tools</text>
+  <text x="36" y="147" font-size="10" fill="#334155" font-family="BIZ UDPGothic, sans-serif">HTML1枚にまとめビルド不要で共有。</text>
+  <text x="36" y="164" font-size="10" fill="#334155" font-family="BIZ UDPGothic, sans-serif">LLMで小さな道具を作る実践例あり。</text>
 
   <!-- 左中：2. 曳光弾 / 歩く骨格 -->
   <rect x="24" y="196" width="270" height="100" rx="12" fill="#ffffff" stroke="#0284c7" stroke-width="2"/>
   <rect x="24" y="196" width="270" height="26" rx="12" fill="#0284c7"/>
   <rect x="24" y="210" width="270" height="12" fill="#0284c7"/>
-  <text x="159" y="214" text-anchor="middle" font-size="11" font-weight="800" fill="#ffffff" font-family="BIZ UDPGothic, sans-serif">② 曳光弾開発・歩く骨格</text>
-  <text x="36" y="240" font-size="10" font-weight="700" fill="#0369a1" font-family="BIZ UDPGothic, sans-serif">Tracer Bullet / Walking Skeleton</text>
-  <text x="36" y="259" font-size="10" fill="#334155" font-family="BIZ UDPGothic, sans-serif">『達人プログラマー』発。細くても</text>
-  <text x="36" y="276" font-size="10" fill="#334155" font-family="BIZ UDPGothic, sans-serif">UI〜AI〜MCP〜実ツールを一気貫通。</text>
+  <text x="159" y="214" text-anchor="middle" font-size="11" font-weight="800" fill="#ffffff" font-family="BIZ UDPGothic, sans-serif">② 端から端まで先に通す</text>
+  <text x="36" y="240" font-size="10" font-weight="700" fill="#0369a1" font-family="BIZ UDPGothic, sans-serif">曳光弾（達人プログラマー）／歩く骨格</text>
+  <text x="36" y="259" font-size="10" fill="#334155" font-family="BIZ UDPGothic, sans-serif">画面だけでなく裏の実処理まで貫通。</text>
+  <text x="36" y="276" font-size="10" fill="#334155" font-family="BIZ UDPGothic, sans-serif">※コードを捨てる点は「試作」側の性質。</text>
 
   <!-- 左下：3. 並行プロトタイピング -->
   <rect x="24" y="308" width="270" height="100" rx="12" fill="#ffffff" stroke="#059669" stroke-width="2"/>
   <rect x="24" y="308" width="270" height="26" rx="12" fill="#059669"/>
   <rect x="24" y="322" width="270" height="12" fill="#059669"/>
-  <text x="159" y="326" text-anchor="middle" font-size="11" font-weight="800" fill="#ffffff" font-family="BIZ UDPGothic, sans-serif">③ 並行プロトタイピング</text>
-  <text x="36" y="352" font-size="10" font-weight="700" fill="#047857" font-family="BIZ UDPGothic, sans-serif">Parallel Prototyping（Stanford研究）</text>
-  <text x="36" y="371" font-size="10" fill="#334155" font-family="BIZ UDPGothic, sans-serif">複数案の同時試作が品質向上・固着</text>
-  <text x="36" y="388" font-size="10" fill="#334155" font-family="BIZ UDPGothic, sans-serif">防止・素直なFB獲得を生むと実証済。</text>
+  <text x="159" y="326" text-anchor="middle" font-size="11" font-weight="800" fill="#ffffff" font-family="BIZ UDPGothic, sans-serif">③ 複数案を並べて比べる</text>
+  <text x="36" y="352" font-size="10" font-weight="700" fill="#047857" font-family="BIZ UDPGothic, sans-serif">並行試作（Dow 2010 ／ Tohidi 2006）</text>
+  <text x="36" y="371" font-size="10" fill="#334155" font-family="BIZ UDPGothic, sans-serif">複数案の比較で案の幅や質が高まり、</text>
+  <text x="36" y="388" font-size="10" fill="#334155" font-family="BIZ UDPGothic, sans-serif">褒めすぎが減って弱い案が見えやすい。</text>
 
-  <!-- 右上：4. 動く仕様書 -->
+  <!-- 右上：4. 試作で合意→仕様書で実装 -->
   <rect x="666" y="84" width="270" height="100" rx="12" fill="#ffffff" stroke="#7c3aed" stroke-width="2"/>
   <rect x="666" y="84" width="270" height="26" rx="12" fill="#7c3aed"/>
   <rect x="666" y="98" width="270" height="12" fill="#7c3aed"/>
-  <text x="801" y="102" text-anchor="middle" font-size="11" font-weight="800" fill="#ffffff" font-family="BIZ UDPGothic, sans-serif">④ 動く仕様書としての試作</text>
-  <text x="678" y="128" font-size="10" font-weight="700" fill="#5b21b6" font-family="BIZ UDPGothic, sans-serif">Prototype as Spec / Executable Spec</text>
-  <text x="678" y="147" font-size="10" fill="#334155" font-family="BIZ UDPGothic, sans-serif">2025〜2026年の仕様駆動開発の核。</text>
-  <text x="678" y="164" font-size="10" fill="#334155" font-family="BIZ UDPGothic, sans-serif">文章より動く試作を「仕様の原本」に。</text>
+  <text x="801" y="102" text-anchor="middle" font-size="11" font-weight="800" fill="#ffffff" font-family="BIZ UDPGothic, sans-serif">④ 試作で合意→仕様書で実装</text>
+  <text x="678" y="128" font-size="10" font-weight="700" fill="#5b21b6" font-family="BIZ UDPGothic, sans-serif">試作での認識合わせ ＋ 仕様駆動開発</text>
+  <text x="678" y="147" font-size="10" fill="#334155" font-family="BIZ UDPGothic, sans-serif">動く試作で認識を揃え、本番化では</text>
+  <text x="678" y="164" font-size="10" fill="#334155" font-family="BIZ UDPGothic, sans-serif">文章の仕様書を抜き出して実装（SDD）。</text>
 
-  <!-- 右中：5. クリーンルーム再構築 -->
+  <!-- 右中：5. 使い捨て試作と新規再構築 -->
   <rect x="666" y="196" width="270" height="100" rx="12" fill="#ffffff" stroke="#d97706" stroke-width="2"/>
   <rect x="666" y="196" width="270" height="26" rx="12" fill="#d97706"/>
   <rect x="666" y="210" width="270" height="12" fill="#d97706"/>
-  <text x="801" y="214" text-anchor="middle" font-size="11" font-weight="800" fill="#ffffff" font-family="BIZ UDPGothic, sans-serif">⑤ 仕様抽出による新規再構築</text>
-  <text x="678" y="240" font-size="10" font-weight="700" fill="#b45309" font-family="BIZ UDPGothic, sans-serif">Clean-Room Rewrite via Spec</text>
-  <text x="678" y="259" font-size="10" fill="#334155" font-family="BIZ UDPGothic, sans-serif">試作コードを継ぎ足さず仕様だけ抽出、</text>
-  <text x="678" y="276" font-size="10" fill="#334155" font-family="BIZ UDPGothic, sans-serif">本番基盤をゼロから清潔に再構築。</text>
+  <text x="801" y="214" text-anchor="middle" font-size="11" font-weight="800" fill="#ffffff" font-family="BIZ UDPGothic, sans-serif">⑤ 使い捨て試作と新規再構築</text>
+  <text x="678" y="240" font-size="10" font-weight="700" fill="#b45309" font-family="BIZ UDPGothic, sans-serif">人月の神話・達人プログラマー・英国指針</text>
+  <text x="678" y="259" font-size="10" fill="#334155" font-family="BIZ UDPGothic, sans-serif">試作コードは本番に流用しない原則。</text>
+  <text x="678" y="276" font-size="10" fill="#334155" font-family="BIZ UDPGothic, sans-serif">仕様を書き出してから清潔に作り直す。</text>
 
-  <!-- 右下：6. AI UI パターン体系 -->
+  <!-- 右下：6. AI UI パターン活用 -->
   <rect x="666" y="308" width="270" height="100" rx="12" fill="#ffffff" stroke="#0f766e" stroke-width="2"/>
   <rect x="666" y="308" width="270" height="26" rx="12" fill="#0f766e"/>
   <rect x="666" y="322" width="270" height="12" fill="#0f766e"/>
-  <text x="801" y="326" text-anchor="middle" font-size="11" font-weight="800" fill="#ffffff" font-family="BIZ UDPGothic, sans-serif">⑥ AI 特有の UI パターン体系</text>
-  <text x="678" y="352" font-size="10" font-weight="700" fill="#115e59" font-family="BIZ UDPGothic, sans-serif">NN/g・Apple HIG・MS HAX・PAIR</text>
-  <text x="678" y="371" font-size="10" fill="#334155" font-family="BIZ UDPGothic, sans-serif">チャット一辺倒を避け、7つのAI UI型</text>
-  <text x="678" y="388" font-size="10" fill="#334155" font-family="BIZ UDPGothic, sans-serif">から最適案を1枠組み込むことで差別化。</text>
+  <text x="801" y="326" text-anchor="middle" font-size="11" font-weight="800" fill="#ffffff" font-family="BIZ UDPGothic, sans-serif">⑥ AI UI 7パターンの活用</text>
+  <text x="678" y="352" font-size="10" font-weight="700" fill="#115e59" font-family="BIZ UDPGothic, sans-serif">MS HAX・PAIR・HIG・NN/g・Shape of AI</text>
+  <text x="678" y="371" font-size="10" fill="#334155" font-family="BIZ UDPGothic, sans-serif">複数の一次指針を基に本リポジトリの</text>
+  <text x="678" y="388" font-size="10" fill="#334155" font-family="BIZ UDPGothic, sans-serif">ui-guideで整理した7分類から1案選定。</text>
 
   <!-- 下部まとめ -->
   <rect x="24" y="420" width="912" height="28" rx="10" fill="#e0f2fe" stroke="#0284c7"/>
-  <text x="480" y="438" text-anchor="middle" font-size="11" font-weight="800" fill="#0c4a6e" font-family="BIZ UDPGothic, sans-serif">結論：単なる自己流の思いつきではなく、AI 時代のソフトウェア開発・UX 研究のベストプラクティスがすべて噛み合った王道手法！</text>
+  <text x="480" y="438" text-anchor="middle" font-size="11" font-weight="800" fill="#0c4a6e" font-family="BIZ UDPGothic, sans-serif">ポイント：個々の工夫には研究・実務の裏付けがあり、それらをAI時代に組み合わせた実践手法</text>
 </svg>

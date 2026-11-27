@@ -411,7 +411,7 @@
     }
     .prior-col strong { display: block; color: var(--ink); margin-bottom: 4px; font-size: 0.84rem; }
 
-    .trap-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 18px; }
+    .trap-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 18px; }
     .trap-card {
       padding: 15px 16px; border-radius: 14px; background: var(--surface);
       border: 1.5px solid var(--border); border-top: 4px solid var(--amber);
@@ -506,17 +506,17 @@
   <main id="top">
     <!-- ヒーロー -->
     <section class="hero">
-      <span class="eyebrow">3〜4日で「本当に動く3案」を作り、使い捨てずに本番製品へつなげる開発手法</span>
+      <span class="eyebrow">目安3〜4日で「本当に動く3案」を作り、使い捨てずに本番構築へつなげる開発手法</span>
       <h1>リアルライトモック（Real Lite Mock）わかる動的ガイド</h1>
       <p class="lead">
-        いきなり本格的なフロント・バックエンド構築に入ると時間がかかり、かといって見た目だけの試作は使い捨てになります。
-        このガイドでは、<strong>「単一 HTML ＋ ローカル AI CLI ＋ MCP で3〜4日でリアルに動く3案を作り、体験を詰め込んだモックをそのまま本番化のインプットにする」</strong>進め方を、実際に触りながら 5 ステップで理解できます。
+        いきなり本格的なフロント・バックエンド構築に入ると時間がかかり、かといって見た目だけの試作は使い捨てになりがちです。
+        このガイドでは、<strong>「単一 HTML（＋小さな中継プログラム）＋ 手元の AI CLI ＋ MCP でリアルに動く3案を作り、体験を固めたモックから仕様を抜き出して本番を作る」</strong>進め方を、触りながら 5 ステップで理解できます。
       </p>
 
       <div class="pillars">
         <div class="pillar-chip">
           <strong>① 単一HTMLで実動作</strong>
-          <span>裏の AI CLI＋MCP で実ツールまで動かす</span>
+          <span>中継経由で AI CLI＋MCP と実ツールを動かす</span>
         </div>
         <div class="pillar-chip">
           <strong>② 3パターン並行試作</strong>
@@ -528,19 +528,19 @@
         </div>
         <div class="pillar-chip">
           <strong>④ 使い捨てず資産化</strong>
-          <span>動く仕様書として AI で本番再構築</span>
+          <span>仕様書を抜き出し本番構成を新規構築</span>
         </div>
       </div>
 
       <div class="figure-frame">
-        <img src="assets/rlm-01-overview-flow.svg" alt="リアルライトモックによる3〜4日超高速試作から本番製品化までの5段階フロー" />
+        <img src="assets/rlm-01-overview-flow.svg" alt="リアルライトモックによる超高速試作から本番製品化までの5段階フロー" />
       </div>
 
       <div class="toc-grid">
         <a class="toc-item" href="#step1"><span class="toc-no">1</span>3つの開発手法を比較</a>
         <a class="toc-item" href="#step2"><span class="toc-no">2</span>3案比較＆自動デモ体験</a>
         <a class="toc-item" href="#step3"><span class="toc-no">3</span>PoC→本番と資産化の極意</a>
-        <a class="toc-item" href="#step4"><span class="toc-no">4</span>6大裏付け＆3つの注意点</a>
+        <a class="toc-item" href="#step4"><span class="toc-no">4</span>6つの関連知見＆注意点</a>
         <a class="toc-item" href="#step5"><span class="toc-no">5</span>実践チェック＆プロンプト</a>
         <a class="toc-item" href="README.md"><span class="toc-no">📖</span>Markdown資料一式を見る</a>
       </div>
@@ -551,22 +551,22 @@
     ================================================================ -->
     <section class="lesson" id="step1">
       <span class="lesson-kicker">STEP 1 — 従来の開発とのちがい</span>
-      <h2>なぜ「モックを作ってから本番化」のほうが近道なのか？</h2>
+      <h2>なぜ「モックを作ってから本番化」のほうが近道になるのか？</h2>
       <div class="story-box">
         <strong>たとえ話：</strong>
-        注文住宅を建てる前に、いきなり基礎工事（React・DB・クラウド環境）を始めると「やっぱりキッチンはこっち」と直すのが大変です。逆に紙の間取り図（見た目だけモック）では暮らし心地が分かりません。AI 時代は、<strong>3〜4 日で「実際に家電が動くモデルルーム」を 3 棟建てて住み心地を確かめ、確定したモデルルームを設計図として本物を建てる</strong>のが最短です。
+        注文住宅を建てる前に、いきなり基礎工事（React・DB・クラウド環境）を始めると「やっぱりキッチンはこっち」と直すのが大変です。逆に紙の間取り図（見た目だけモック）では暮らし心地までは分かりにくいもの。AI で素早く作って手直しできる今は、<strong>まず数日で「実際に家電が動くモデルルーム」を 3 棟建てて住み心地を確かめ、確定した設計図から本物を建てる</strong>ほうが大きな手戻りを減らせます。
       </div>
 
       <div class="exp-card">
         <div class="step-bar">
-          <span class="step-label">👇 3つの進め方を切り替えて「いつ初めて触れるか」「手戻りリスク」を比べてみましょう</span>
+          <span class="step-label">👇 3つの進め方を切り替えて「いつ初めて触れるか」「手戻りリスク」のイメージを比べてみましょう</span>
           <div class="select-grid" id="approachTabs">
             <button type="button" class="sel-btn" data-mode="heavy">
               <span class="sel-title">① 最初から本格構築</span>
               <span class="sel-sub">React＋API＋DB＋クラウドを最初から分離</span>
             </button>
             <button type="button" class="sel-btn" data-mode="paper">
-              <span class="sel-title">② 従来の見た目だけモック</span>
+              <span class="sel-title">② よくある見た目だけモック</span>
               <span class="sel-sub">ダミー応答の紙芝居ページで先に確認</span>
             </button>
             <button type="button" class="sel-btn active" data-mode="rlm">
@@ -582,7 +582,7 @@
 
         <div class="takeaway">
           <span class="takeaway-head">💡 STEP 1 の要点</span>
-          AI が高速にコードを書ける今だからこそ、<strong>「土台作りに時間を奪われてヒアリング機会を失う」</strong>のが最大のリスクです。最初はコードが泥臭くても、HTML 1 ファイルに全部詰めて 3〜4 日で実体験まで持っていきます。
+          一番もったいないのは<strong>「土台作りに時間を奪われて、同僚に触ってもらう機会が遅れること」</strong>です。最初はコードが泥臭くても、HTML 1 ファイルに詰めて素早く実体験まで持っていきます（※一発で完璧には動かないため、動かして手直しするループを速く回すのがコツです）。
         </div>
       </div>
     </section>
@@ -594,15 +594,15 @@
       <span class="lesson-kicker">STEP 2 — 触ってわかる核心体験</span>
       <h2>3パターン並行試作 × ▶ デモモード（自動再生）を体験しよう</h2>
       <div class="story-box">
-        <strong>題材（架空の業務 PoC）：</strong>
-        裏側では <strong>ローカル AI CLI（GitHub Copilot CLI 等）＋ MCP 経由で CAD ソフトを操作し、3D パーツを生成できる</strong>状態まで完成済み。
-        次に UI を決めるとき、1 案に絞らず<strong>「現場案①」「現場案②」「AI UI ガイド（7 パターン）最適案」の 3 つの動く HTML</strong>を並べて同僚に触り比べてもらいます。さらに<strong>「▶ デモモード自動再生」</strong>を入れれば、上長説明も 1 クリックで完了します。
+        <strong>題材（架空の業務 PoC シミュレーション）：</strong>
+        裏側では <strong>手元の AI CLI（GitHub Copilot CLI 等）＋ MCP 経由で CAD ソフトを操作し、3D パーツを生成できる</strong>状態まで確認済みとします。
+        次に UI を決めるとき、1 案に絞らず<strong>「現場案①」「現場案②」「AI UI ガイド（7 パターン）選定案」の 3 つの動く HTML</strong>を並べて同僚に触り比べてもらいます。さらに<strong>「▶ デモモード自動再生」</strong>を入れれば、上長説明も 1 クリックで実演できます。
       </div>
 
       <div class="exp-card">
         <div class="step-bar">
           <div class="lab-toolbar">
-            <span class="step-label" style="margin:0;">👇 3つの動く HTML モックを切り替えて操作するか、右の「▶ デモ自動再生」を押してみてください</span>
+            <span class="step-label" style="margin:0;">👇 3つの HTML モックを切り替えて操作するか、右の「▶ デモ自動再生」を押してみてください</span>
             <div style="display:flex;gap:8px;flex-wrap:wrap;">
               <button type="button" class="run-btn" id="demoPlayBtn">▶ デモモード自動再生（上長説明用）</button>
               <button type="button" class="sub-btn" id="demoResetBtn">↺ リセット</button>
@@ -657,7 +657,7 @@
 
         <div class="takeaway">
           <span class="takeaway-head">💡 STEP 2 の要点</span>
-          1 案だけだと「これでいいと思います」で終わりがちですが、<strong>動く 3 案を並べることで「A の入力の速さと C の確認ステップを合体したい！」という具体的な本音</strong>が同僚から出てきます。また<strong>自動再生デモモード</strong>があることで、上位レイヤーへの説明や社内展開のハードルが一気に下がります。
+          1 案だけだと相手が遠慮して「これでいいと思います」で終わりがちですが、<strong>3 案を並べることで褒めすぎが減り、弱い案や使いにくい点がはっきり見えます</strong>（集まった指摘をもとに、どう良い点を統合するかは作り手が考えます）。なお実務では、<strong>同僚に見せる前に「ダミー動作やエラー隠しがないか」を必ず自分で確かめて手直し</strong>しておきます。
         </div>
       </div>
     </section>
@@ -667,10 +667,10 @@
     ================================================================ -->
     <section class="lesson" id="step3">
       <span class="lesson-kicker">STEP 3 — 使い捨てにしないアーキテクチャ設計</span>
-      <h2>ローカル CLI 検証 → クラウド本番化（継ぎ足し NG の理由）</h2>
+      <h2>手元の CLI 検証 → クラウド本番化（継ぎ足し NG の理由）</h2>
       <div class="story-box">
         <strong>企業内開発のリアル：</strong>
-        社内でいきなり Azure などのクラウド AI を契約・申請・構築すると時間が止まります。まずは<strong>手元の AI CLI（GitHub Copilot CLI 等）</strong>で価値を証明し、体験と要件が固まった段階で、<strong>完成したリアルライトモックを AI へのインプットにして本番構成を一気に生成</strong>します。
+        社内でいきなり自前の Azure などのクラウド環境を新規申請・構築すると時間が止まります。まずは<strong>社内で許可された既存の AI CLI（GitHub Copilot CLI 等）</strong>で価値を確かめ、体験と要件が固まった段階で、<strong>完成モックから仕様書を抜き出して本番構成を新しく構築</strong>します。
       </div>
 
       <div class="exp-card">
@@ -679,7 +679,7 @@
           <div class="select-grid two" id="phaseTabs">
             <button type="button" class="sel-btn active" data-phase="poc">
               <span class="sel-title">Phase 1：リアルライトモック（社内 PoC）</span>
-              <span class="sel-sub">単一 HTML ＋ ローカル AI CLI ＋ MCP（スピード・体験最優先）</span>
+              <span class="sel-sub">単一 HTML ＋ 小さな中継 ＋ AI CLI ＋ MCP（体験確認を優先）</span>
             </button>
             <button type="button" class="sel-btn" data-phase="prod">
               <span class="sel-title">Phase 2：顧客提供用の本番基盤（製品化）</span>
@@ -697,16 +697,16 @@
               <h4 style="color:var(--rose);">❌ NG：モックのコードをそのまま継ぎ足す</h4>
               <ul>
                 <li>単一 HTML の泥臭いコードに認証や API を無理やり後付けする</li>
-                <li>業界で<strong>「バイブコーディングの二日酔い（Vibe Hangover）」</strong>と呼ばれる破綻パターン</li>
-                <li>セキュリティ穴や例外処理漏れが残り、保守できなくなる</li>
+                <li>AI 生成コードをそのまま本番にして保守で行き詰まる状態（海外メディアで <strong>vibe coding hangover</strong> とも表現）に陥りやすい</li>
+                <li>セキュリティ穴や例外処理漏れが残り、保守しにくくなる</li>
               </ul>
             </div>
             <div class="route-box ok">
-              <h4 style="color:var(--emerald);">✅ OK：モックを「動く仕様書」として AI に渡し再構築</h4>
+              <h4 style="color:var(--emerald);">✅ OK：モックから「仕様書」を抜き出して新規構築</h4>
               <ul>
-                <li>フィードバックを詰め込んだモックをそのまま AI へのインプットにする</li>
-                <li>画面遷移・入力項目・プロンプト・MCP 仕様を AI に正確に抽出させる</li>
-                <li><strong>React＋Python＋DB＋クラウド AI をゼロから清潔に生成</strong>し、自動テストを付ける</li>
+                <li>フィードバックを詰め込んだモックを AI へのインプットにする</li>
+                <li>まず画面遷移・入力項目・プロンプト・MCP 仕様を<strong>文章の仕様書・設計案として整理</strong>させる</li>
+                <li><strong>React＋Python＋DB＋クラウド AI をゼロから清潔に実装</strong>し、自動テストを付ける</li>
               </ul>
             </div>
           </div>
@@ -720,43 +720,43 @@
     </section>
 
     <!-- ================================================================
-         STEP 4：有効性の裏付け（6大知見）＆ 3つの落とし穴
+         STEP 4：関連する考え方・研究（6つの視点）＆ 4つの注意点
     ================================================================ -->
     <section class="lesson" id="step4">
-      <span class="lesson-kicker">STEP 4 — 業界・学術のエビデンスと注意点</span>
-      <h2>この手法は本当に有効？ 世の中の 6 つの裏付けと 3 つの落とし穴</h2>
+      <span class="lesson-kicker">STEP 4 — 裏付けとなる考え方と注意点</span>
+      <h2>世の中の似た考え方・研究（6 つの視点）と、企業実践の注意点</h2>
       <div class="story-box">
-        <strong>調査の結論：</strong>
-        あなたが現場の肌感覚で辿り着いたリアルライトモック手法は、単なる自己流ではなく、<strong>スタンフォード大学の研究から 2025〜2026 年の最新 AI 開発論まで 6 つの実証済み理論</strong>と見事に一致しています。下のカードをクリックして確認できます。
+        <strong>どんな裏付けがあるの？：</strong>
+        リアルライトモックの各ステップには、<strong>古典的なソフトウェア開発の原則・UX（使い勝手）の実験研究・近年の AI 開発の実践</strong>と重なる裏付けがあります（詳しい出典検証は <a href="evidence.md" style="color:var(--accent);font-weight:800;">evidence.md</a> に収録）。下のカードをクリックして確認できます。
       </div>
 
       <div class="exp-card">
         <div class="step-bar">
-          <span class="step-label">👇 気になる裏付け知見をクリックすると、わかりやすい解説と対応ポイントが表示されます</span>
+          <span class="step-label">👇 気になるカードをクリックすると、わかりやすい背景と対応ポイントが表示されます</span>
           <div class="select-grid" id="priorTabs">
             <button type="button" class="sel-btn active" data-prior="0">
-              <span class="sel-title">① 単一HTML・コード先行試作</span>
-              <span class="sel-sub">Code-First / Single-File Artifact</span>
+              <span class="sel-title">① 単一HTMLによる軽量試作</span>
+              <span class="sel-sub">Claude Artifacts ／ HTML tools</span>
             </button>
             <button type="button" class="sel-btn" data-prior="1">
-              <span class="sel-title">② 曳光弾開発・歩く骨格</span>
-              <span class="sel-sub">Tracer Bullet / Walking Skeleton</span>
+              <span class="sel-title">② 端から端まで先に通す</span>
+              <span class="sel-sub">曳光弾（達人プログラマー）／歩く骨格</span>
             </button>
             <button type="button" class="sel-btn" data-prior="2">
-              <span class="sel-title">③ 並行プロトタイピング</span>
-              <span class="sel-sub">Parallel Prototyping（Stanford研究）</span>
+              <span class="sel-title">③ 複数案を並べて比べる</span>
+              <span class="sel-sub">並行試作（Dow 2010 ／ Tohidi 2006）</span>
             </button>
             <button type="button" class="sel-btn" data-prior="3">
-              <span class="sel-title">④ 動く仕様書としての試作</span>
-              <span class="sel-sub">Prototype as Spec / Executable Spec</span>
+              <span class="sel-title">④ 試作で合意→仕様書で実装</span>
+              <span class="sel-sub">試作での認識合わせ ＋ 仕様駆動開発</span>
             </button>
             <button type="button" class="sel-btn" data-prior="4">
-              <span class="sel-title">⑤ 仕様抽出による新規再構築</span>
-              <span class="sel-sub">Clean-Room Rewrite via Spec</span>
+              <span class="sel-title">⑤ 使い捨て試作と新規再構築</span>
+              <span class="sel-sub">人月の神話・達人プログラマー・英国指針</span>
             </button>
             <button type="button" class="sel-btn" data-prior="5">
-              <span class="sel-title">⑥ AI UI 7 パターン体系</span>
-              <span class="sel-sub">NN/g・Apple HIG・Google・MS</span>
+              <span class="sel-title">⑥ AI UI 7 パターンの活用</span>
+              <span class="sel-sub">一次ガイドラインに基づく ui-guide 整理</span>
             </button>
           </div>
         </div>
@@ -764,29 +764,34 @@
         <div class="stage">
           <div class="prior-detail" id="priorDetail"></div>
 
-          <h3 style="margin:26px 0 8px;font-size:1.02rem;">🛡️ 企業で実践するときに気をつけたい「3 つの落とし穴」</h3>
+          <h3 style="margin:26px 0 8px;font-size:1.02rem;">🛡️ 企業で実践するときに押さえたい「4 つの注意点」</h3>
           <div class="trap-grid">
             <div class="trap-card">
-              <h4>① デモの罠（The Demo Trap）</h4>
-              <p>動きがリアルすぎて、上長や顧客が「もう9割できている！来週出せるね？」と誤解してしまう。</p>
-              <div class="trap-fix">✅ 対策：デモ時に「本番には認証・権限・監査・クラウド移行が別途必要」と必ず明示。</div>
+              <h4>⓪ 前提：動いているふり（ダミー）を見抜く</h4>
+              <p>AI が固定データやタイマーで「動いているふり」をするコードを作っても気づかず、偽物の動作で評価を進めてしまう。</p>
+              <div class="trap-fix">✅ 対策：応答時間（1秒など速すぎないか）・ログ・エラー表示・実ファイル生成を業務の目で必ず確認。</div>
+            </div>
+            <div class="trap-card">
+              <h4>① デモの罠（画面完成度の誤解）</h4>
+              <p>画面が整っているため、上長や顧客が「もう9割完成している！来週出せるね？」と誤解してしまう（Spolsky が指摘した現象）。</p>
+              <div class="trap-fix">✅ 対策：デモ時に「本番には認証・権限・監査・クラウド構築（Phase 2）が別途必要」と明示。</div>
             </div>
             <div class="trap-card">
               <h4>② 継ぎ足し改修の誘惑</h4>
-              <p>「動いているし、このまま少し直して客先に出そう」と妥協し、保守不能・脆弱性の温床になる。</p>
-              <div class="trap-fix">✅ 対策：単一HTMLは PoC 専用と線引きし、Phase 2 は仕様抽出から清潔に新規構築。</div>
+              <p>「動いているし、このまま少し直して客先に出そう」と妥協し、保守難やセキュリティ穴の温床になる。</p>
+              <div class="trap-fix">✅ 対策：単一HTMLは PoC 専用と線引きし、Phase 2 は仕様書を抜き出して清潔に新規構築。</div>
             </div>
             <div class="trap-card">
-              <h4>③ 社内データとセキュリティ境界</h4>
-              <p>ローカル AI CLI や MCP 検証で、未承認の本番機密データをうっかり流してしまう。</p>
-              <div class="trap-fix">✅ 対策：社内契約済の CLI を使い、PoC 段階はダミーデータ・検証用モデルで安全に実施。</div>
+              <h4>③ 社内ルールとデータの扱い</h4>
+              <p>手元の AI CLI だからと安心し、未承認の本番機密データをうっかり入力してしまう。</p>
+              <div class="trap-fix">✅ 対策：設定により社外クラウドへ送られるため、会社許可の CLI 環境＋ダミーデータで試す。</div>
             </div>
           </div>
         </div>
 
         <div class="takeaway">
           <span class="takeaway-head">💡 STEP 4 の要点</span>
-          リアルライトモックは<strong>「現場の勘」と「学術・業界の王道理論」が完全に噛み合った手法</strong>です。上の 3 つのガードレールだけ押さえれば、企業内プロジェクトでも安心して横展開できます。
+          従来はコスト面で同時に満たしにくかった「動く・複数案・使い捨て」を AI で組み合わせやすくなったのがリアルライトモックの強みです。とくに<strong>「⓪ 動いているふりを見抜く確認」</strong>を挟むことで、安心して周囲を巻き込めます。
         </div>
       </div>
     </section>
@@ -796,10 +801,10 @@
     ================================================================ -->
     <section class="lesson" id="step5">
       <span class="lesson-kicker">STEP 5 — 次の案件ですぐ使う</span>
-      <h2>3〜4 日スプリント チェックリスト ＆ コピペ用 AI プロンプト</h2>
+      <h2>実践チェックリスト（目安 3〜4 日）＆ コピペ用 AI プロンプト</h2>
       <div class="story-box">
         <strong>後から見返してすぐ動ける道具箱：</strong>
-        案件ごとに下のチェックリストを順に潰し、用途に合ったプロンプトを 1 クリックでコピーして AI（Copilot や Claude 等）に貼るだけで、リアルライトモック手法をそのまま再現できます。
+        案件ごとに下のチェックリストを順に確認し、用途に合ったプロンプトを 1 クリックでコピーして AI（Copilot や Claude 等）に貼るだけで、リアルライトモックの進め方を再現できます。
       </div>
 
       <div class="exp-card">
@@ -809,12 +814,12 @@
             <span id="checkProgress" style="font-size:0.84rem;font-weight:800;color:var(--accent);">0 / 6 完了</span>
           </div>
           <div class="check-list" id="checkList">
-            <label class="check-item"><input type="checkbox" /><span><strong>Day 1：</strong>AI CLI ＋ MCP で実ツール（CAD等）をコマンドから1回動かした</span></label>
-            <label class="check-item"><input type="checkbox" /><span><strong>Day 2：</strong>単一 HTML の動くモックを 3 案（現場×2＋AI UI定石×1）作った</span></label>
-            <label class="check-item"><input type="checkbox" /><span><strong>Day 3：</strong>身近な同僚・メンバーに 3 案を触り比べてもらい意見を集めた</span></label>
-            <label class="check-item"><input type="checkbox" /><span><strong>Day 3：</strong>再生ボタン1回で実演できる「▶ デモモード」を追加した</span></label>
-            <label class="check-item"><input type="checkbox" /><span><strong>Day 4：</strong>上長デモで「Phase 2 工程の必要性」も含めて合意形成した</span></label>
-            <label class="check-item"><input type="checkbox" /><span><strong>Phase 2：</strong>決定版モックを仕様書として AI に渡し、本番基盤を新規生成した</span></label>
+            <label class="check-item"><input type="checkbox" /><span><strong>Day 1：</strong>社内ルールを確認し、AI CLI＋MCP で実ツールをコマンドから1回動かした</span></label>
+            <label class="check-item"><input type="checkbox" /><span><strong>Day 2：</strong>単一 HTML（＋中継）のモックを 3 案（現場×2＋UI定石×1）作った</span></label>
+            <label class="check-item"><input type="checkbox" /><span><strong>Day 2：</strong>ダミー動作やエラー隠しがないか確かめ、問題を Issue 化して手直しした</span></label>
+            <label class="check-item"><input type="checkbox" /><span><strong>Day 3：</strong>利用者に近い同僚に 3 案を触り比べてもらい、「▶ デモモード」も追加した</span></label>
+            <label class="check-item"><input type="checkbox" /><span><strong>Day 4：</strong>上長デモで「Phase 2（認証・監査等）の必要性」も含めて合意形成した</span></label>
+            <label class="check-item"><input type="checkbox" /><span><strong>Phase 2：</strong>決定版モックから文章の仕様書・設計案を抜き出し、本番基盤を新規実装した</span></label>
           </div>
 
           <h3 style="margin:6px 0 10px;font-size:1rem;">📋 そのまま AI に貼れるプロンプト雛形（3 種）</h3>
@@ -823,7 +828,7 @@
               <div class="prompt-tabs" id="promptTabs">
                 <button type="button" class="prompt-tab active" data-pr="0">① 3パターン単一HTML生成</button>
                 <button type="button" class="prompt-tab" data-pr="1">② ▶ デモモード追加</button>
-                <button type="button" class="prompt-tab" data-pr="2">③ 本番アーキテクチャへ変換</button>
+                <button type="button" class="prompt-tab" data-pr="2">③ 仕様抽出→本番設計</button>
               </div>
               <button type="button" class="sub-btn" id="copyPromptBtn">📋 プロンプトをコピー</button>
             </div>
@@ -839,7 +844,7 @@
     </section>
 
     <footer class="foot">
-      agent-study / real-lite-mock — 外部通信なし・単一 HTML で動作する解説ガイドです。
+      agent-study / real-lite-mock — ビルド・外部通信不要で動作する解説ガイドです（図も表示する場合はフォルダごと利用してください）。
       <a href="../index.html">🏠 学習ポータルへ戻る</a>
     </footer>
   </main>
@@ -863,55 +868,55 @@
       }, { passive: true });
 
       /* ==============================================================
-         STEP 1：3つのアプローチ比較シミュレーター
+         STEP 1：3つのアプローチ比較シミュレーター（比較イメージ・目安）
       ============================================================== */
       const APPROACHES = {
         heavy: {
           badgeClass: "bad",
-          badgeText: "❌ 手戻りリスク大・検証が遅い",
-          summary: "土台作り（環境・分離設計・認証）に数週間かかり、現場が初めて触れるころには修正コストが跳ね上がります。",
+          badgeText: "❌ 手戻りリスク大・検証が遅れやすい",
+          summary: "土台作り（環境・分離設計・認証）に時間がかかり、現場が初めて触れるころには修正の手間が大きくなりがちです（比較イメージ）。",
           phases: [
-            { day: "Week 1〜2", title: "環境・クラウド構築", desc: "React・Python・DB・Azure 申請と土台整備（画面はまだ空）" },
-            { day: "Week 3〜4", title: "API ＆ 画面分離実装", desc: "フロント・バックの接続開発。同僚はまだ触れない" },
-            { day: "Week 5", title: "やっと初試用", desc: "「思った使い勝手と違う」「AI の待ち時間が長い…」が発覚" },
-            { day: "Week 6〜8", title: "大規模な手戻り", desc: "API 仕様や画面構造をやり直し、開発期間が大幅に膨らむ" }
+            { day: "Week 1〜2（例）", title: "環境・クラウド構築", desc: "React・Python・DB・Azure 申請と土台整備（画面はまだ空）" },
+            { day: "Week 3〜4（例）", title: "API ＆ 画面分離実装", desc: "フロント・バックの接続開発。同僚はまだ触れない" },
+            { day: "Week 5（例）", title: "やっと初試用", desc: "「思った使い勝手と違う」「AI の待ち時間が長い…」が発覚" },
+            { day: "Week 6〜8（例）", title: "大きな手戻り", desc: "API 仕様や画面構造をやり直し、開発期間が膨らみやすい" }
           ],
           metrics: [
-            { label: "同僚が初めて触れるまで", val: "約 1 ヶ月後" },
-            { label: "AI 実体験の検証", val: "後半まで不明" },
-            { label: "試作の再利用価値", val: "手戻りで消耗" }
+            { label: "同僚が初めて触れるまで（目安）", val: "数週間〜1 ヶ月後" },
+            { label: "AI 実体験の確認", val: "後半まで遅れやすい" },
+            { label: "試作の活かし方", val: "手戻りで消耗しやすい" }
           ]
         },
         paper: {
           badgeClass: "warn",
-          badgeText: "⚠️ 使い捨てになりがち・実挙動が不明",
-          summary: "見た目は早く作れますが、裏で AI も実ツールも動かないため、本番実装になってから想定外の壁が続出します。",
+          badgeText: "⚠️ 使い捨てになりやすい・実挙動は未確認",
+          summary: "見た目は早く作れますが、裏で AI や実ツールが動かないため、本番実装になってから想定外の癖や制約にぶつかりやすくなります。",
           phases: [
-            { day: "Day 1〜2", title: "静的モック作成", desc: "見た目とダミー文字だけの紙芝居ページを作成" },
-            { day: "Day 3", title: "見た目の確認会議", desc: "「きれいですね」と合意。ただし操作感や精度は未検証" },
-            { day: "Week 2〜4", title: "本番実装で壁に衝突", desc: "AI 出力のブレ・応答時間・ツール連携の制約がここで発覚" },
-            { day: "結果", title: "モックは使い捨て", desc: "仕様書にもコードにもならず、設計やり直しが発生" }
+            { day: "Day 1〜2（例）", title: "静的モック作成", desc: "見た目とダミー文字だけの紙芝居ページを作成" },
+            { day: "Day 3（例）", title: "見た目の確認会議", desc: "画面イメージは共有できるが、実際の応答感や精度は未確認" },
+            { day: "Week 2〜4（例）", title: "本番実装で壁に直面", desc: "AI 出力のブレ・応答時間・ツール連携の癖にここで気づく" },
+            { day: "結果", title: "使い捨てになりやすい", desc: "本番実装の段階で画面や仕様の見直しが発生しやすい" }
           ],
           metrics: [
-            { label: "同僚が初めて触れるまで", val: "2〜3 日（見た目のみ）" },
-            { label: "AI 実体験の検証", val: "できない（ダミー）" },
-            { label: "試作の再利用価値", val: "ほぼ使い捨て" }
+            { label: "同僚が初めて触れるまで（目安）", val: "2〜3 日（見た目のみ）" },
+            { label: "AI 実体験の確認", val: "想定外のブレは未確認" },
+            { label: "試作の活かし方", val: "使い捨てになりやすい" }
           ]
         },
         rlm: {
           badgeClass: "good",
-          badgeText: "✅ AI 時代の最短ルート（推奨）",
-          summary: "単一 HTML×3案＋ローカル AI CLI＋MCP で3〜4日で実体験まで貫通。意見が出尽くしたモックを仕様書として AI で一気に本番化します。",
+          badgeText: "✅ 手戻りを減らす近道（筆者の実践提案）",
+          summary: "単一 HTML×3案＋AI CLI＋MCP で素早く実動作まで通し、動作確認・手直しと同僚比較を経て、固まった仕様から本番構成を新しく作ります。",
           phases: [
-            { day: "Day 1", title: "AI CLI＋MCP 貫通", desc: "裏側で実ツール（CAD 等）が本当に動く核を最速確認" },
-            { day: "Day 2", title: "単一 HTML×3 案試作", desc: "現場案2＋UIガイド1の動く画面をビルド不要で即作成" },
-            { day: "Day 3〜4", title: "実触り FB ＆ 自動デモ", desc: "同僚の比較意見＋上長デモで「動く仕様書」が確定" },
-            { day: "Phase 2", title: "AI で本番構成へ変換", desc: "完成モックをインプットに React＋Python＋Azure を一括生成" }
+            { day: "Day 1（目安）", title: "AI CLI＋MCP 貫通", desc: "裏側で実ツール（CAD 等）が本当に動く核を先に確認" },
+            { day: "Day 2（目安）", title: "単一 HTML×3 案＆検証", desc: "3 案を作り、ダミー動作でないか確かめて AI で手直し" },
+            { day: "Day 3〜4（目安）", title: "実触り比較 ＆ 自動デモ", desc: "同僚の比較意見＋上長デモで「動く仕様書」を固める" },
+            { day: "Phase 2", title: "仕様抽出 → 本番構築", desc: "モックから仕様書を抜き出し React＋Python＋Azure 等を新規実装" }
           ],
           metrics: [
-            { label: "同僚が初めて触れるまで", val: "3〜4 日（実動作！）" },
-            { label: "AI 実体験の検証", val: "初回から本物と同じ" },
-            { label: "試作の再利用価値", val: "本番構築の最高インプット" }
+            { label: "同僚が初めて触れるまで（目安）", val: "3〜4 日（実動作を確認済）" },
+            { label: "AI 実体験の確認", val: "初期から実物で確かめられる" },
+            { label: "試作の活かし方", val: "本番設計のインプットになる" }
           ]
         }
       };
@@ -1179,14 +1184,14 @@
       ============================================================== */
       const ARCH_DATA = {
         poc: [
-          { kicker: "UI 層（画面）", title: "📄 単一 HTML ファイル（×3 案）", desc: "HTML＋CSS＋JS を 1 ファイルに全詰め込み。ビルド不要で誰でもブラウザで即起動。自動デモモードも簡単に追加可能。" },
-          { kicker: "AI 実行層", title: "🤖 ローカル／社内 AI CLI", desc: "GitHub Copilot CLI など手元の既存アカウント環境を UI から実行。クラウド申請を待たずに即日で AI 体験を検証できる。" },
-          { kicker: "ツール連携層", title: "🛠️ MCP ＋ 実業務ツール", desc: "MCP（共通接続規格）経由で CAD ソフト等の実ツールを操作。「見た目だけ」ではなく本物の成果物生成まで貫通検証。" }
+          { kicker: "UI 層＋小さな中継", title: "📄 単一 HTML（×3 案）＋中継サーバー", desc: "HTML＋CSS＋JS を 1 ファイルに格納（ビルド不要）。ブラウザから CLI を呼ぶための小さなローカル中継プログラムを 1 つ添える。" },
+          { kicker: "AI 実行層", title: "🤖 社内で使える既存の AI CLI", desc: "GitHub Copilot CLI など許可された既存環境を中継経由で呼び出す。自前クラウド新設の前に操作感を試せる（※送信先やルールは事前確認）。" },
+          { kicker: "ツール連携層", title: "🛠️ MCP ＋ 実業務ツール", desc: "MCP（共通接続規格）経由で CAD ソフト等の実ツールを操作。「見た目だけ」ではなく本物の成果物生成まで貫通確認。" }
         ],
         prod: [
-          { kicker: "フロントエンド（顧客画面）", title: "🖥️ React / TypeScript 等", desc: "モックで確定した UI パターン・操作フローを、保守しやすいコンポーネント設計とレスポンシブ対応で新規実装。" },
-          { kicker: "バックエンド API", title: "⚙️ Python (FastAPI) ＋ DB", desc: "ユーザー認証・権限管理（RBAC）・入力検証・監査ログ・実行履歴 DB・エラー復旧など、企業導入の必須要件を実装。" },
-          { kicker: "クラウド AI ＆ ツール基盤", title: "☁️ Azure OpenAI 等 ＋ MCP", desc: "企業セキュリティ・SLA 準拠のクラウド AI 基盤へ差し替え。モックで磨いたプロンプトと MCP 仕様をそのまま活かす。" }
+          { kicker: "フロントエンド（顧客画面）", title: "🖥️ React / TypeScript 等", desc: "モックで固めた UI パターン・操作フローを、保守しやすいコンポーネント設計とレスポンシブ対応で新規実装。" },
+          { kicker: "バックエンド API", title: "⚙️ Python (FastAPI) ＋ DB", desc: "ユーザー認証・権限管理（RBAC）・入力検証・監査ログ・実行履歴 DB・エラー対策など、企業導入の必須要件を実装。" },
+          { kicker: "クラウド AI ＆ ツール基盤", title: "☁️ Azure OpenAI 等 ＋ MCP", desc: "会社のセキュリティ基準に合わせてクラウド AI 基盤を構築・設定し、モックで磨いたプロンプトと MCP 連携仕様を組み込む。" }
         ]
       };
 
@@ -1210,44 +1215,44 @@
       renderArch("poc");
 
       /* ==============================================================
-         STEP 4：業界・学術の 6 大裏付け知見
+         STEP 4：関連する考え方・研究（6 つの視点）
       ============================================================== */
       const PRIORS = [
         {
-          title: "① 単一 HTML ／ コード先行試作",
-          en: "Code-First Prototyping & Single-File HTML Artifacts",
-          what: "デザインツールで静的な絵を描く代わりに、最初から動く単一 HTML を AI で生成して検証する手法。Claude Artifacts や Vercel v0、Bolt.new 等の普及で 2025〜2026 年に主流化しました。ビルド不要で共有でき、AI も依存エラーなく一括生成しやすいのが強みです。",
-          match: "HTML＋CSS＋JS を 1 ファイルに全詰め込みして 3〜4 日で動く試作を作るアプローチそのものです。"
+          title: "① 単一 HTML による軽量試作",
+          en: "Claude Artifacts（2024年〜） ／ Simon Willison「HTML tools」の実践など",
+          what: "AI で動く画面を直接作る流れのなかでも、HTML・CSS・JS を 1 ファイルにまとめるやり方です（例：Claude Artifacts や、Simon Willison が LLM で 150 個以上作った単一 HTML ツールの実践）。ビルド環境が要らず、配りやすく手直しも速いのが利点です。",
+          match: "HTML 1 ファイルに画面と処理を詰め込んで素早く試作するアプローチに対応しています。"
         },
         {
-          title: "② 曳光弾開発・歩く骨格",
-          en: "Tracer Bullet（『達人プログラマー』） / Walking Skeleton（アジャイル開発）",
-          what: "「曳光弾（弾道が光る弾）」のように、画面だけを作るのではなく、細くても端から端（UI〜裏側の実処理）まで一気通貫で貫通させて狙いのズレと技術リスクを最速で確かめる古典的な王道手法です。",
-          match: "UI → ローカル AI CLI → MCP → CAD ソフトの実操作まで、見た目だけでなく本物の処理を一気貫通させている点に合致しています。"
+          title: "② 端から端まで先に通す（曳光弾・歩く骨格）",
+          en: "Tracer Bullet（『達人プログラマー』） ／ Walking Skeleton（Alistair Cockburn）",
+          what: "画面だけ先に作るのではなく、細くても主要な構成要素を端から端までつないで動かすことで、技術リスクを最初に確かめる考え方です。※原典の曳光弾はコードを捨てずに育てますが、コードを捨てる場合は同書が区別する「プロトタイプ（試作）」にあたります。",
+          match: "先に AI CLI → MCP → CAD 実操作を通し（STEP 1）、続けて UI までつなぐ点（STEP 2）と重なります（試作コードを捨てる点はプロトタイプ側の性質です）。"
         },
         {
-          title: "③ 並行プロトタイピング（スタンフォード大学研究）",
-          en: "Parallel Prototyping — Dow et al., Stanford University (2010)",
-          what: "1 案を順番に直していくより、最初から複数案を並べて比較する方が「最終品質が大幅に高く」「最初の案への固執（デザイン固着）を防ぎ」「批判的フィードバックも作り手が前向きに受け取れる」ことが学術的に定量実証されています。",
-          match: "最初から 3 パターン（現場案×2＋AI UI 定石×1）を同時に作り、同僚に触り比べてもらう設計と完全に一致します。"
+          title: "③ 複数案を並べて比べる（並行プロトタイピング）",
+          en: "Parallel Prototyping — Dow ら (2010) ／ Tohidi ら (2006)",
+          what: "スタンフォード大学の実験（Dow ら 2010）では、1 案ずつ講評を受けるより複数案を作って比較したほうが案の多様性や評価が高まりました。また Tohidi ら（2006）の実験では、1 案だけ見せると遠慮して褒めがちになる一方、3 案並べると褒めすぎが減り弱い案への指摘が出やすくなることが示されています（改善策自体は作り手が考えます）。",
+          match: "1 案に絞らず、最初から 3 パターンを並べて同僚に触り比べてもらう設計に対応しています。"
         },
         {
-          title: "④ 動く仕様書としてのプロトタイプ",
-          en: "Prototype as Spec / Executable Specification（仕様駆動開発：SDD）",
-          what: "2025〜2026 年の AI 開発で主流になった考え方。何十ページもの曖昧な文章（要件定義書）を書く代わりに、実際に動く試作品で関係者の認識を揃え、その挙動そのものを「仕様の原本（Source of Truth）」とします。",
-          match: "フィードバックをすべてリアルライトモックに凝縮し、体験ごと仕様として確定させる使い方に合致しています。"
+          title: "④ 試作での合意と、仕様駆動開発（SDD）",
+          en: "試作による認識合わせ（Uber 実践例等） ＋ SDD（GitHub Spec Kit・Kiro 等）",
+          what: "動く試作で関係者の認識を揃えつつ仕様文書も併用する実践や、実装前に文章の仕様書・設計計画を整えてから AI に実装させる「仕様駆動開発（SDD）」が広がっています。",
+          match: "動くモックで体験の認識を揃え（STEP 4）、本番化の前にモックから文章の仕様書・設計案を抜き出して実装する流れ（STEP 5）とつながります。"
         },
         {
-          title: "⑤ 仕様抽出によるクリーンルーム再構築",
-          en: "Clean-Room Rewrite via Spec Extraction",
-          what: "高速な対話試作（Vibe Coding）の泥臭いコードをそのまま継ぎ足して本番化すると破綻する教訓から生まれた企業向けベストプラクティス。試作コードは流用せず、仕様だけ抽出して本番基盤を清潔に新規構築します。",
-          match: "「モックを使い捨てず、インプットとして AI に渡して React＋Python＋DB＋クラウド AI へ変換する」着想と完全一致しています。"
+          title: "⑤ 使い捨て試作からの新規再構築",
+          en: "Throwaway Prototyping — 『人月の神話』・『達人プログラマー』・英国政府試作指針",
+          what: "古典から公的機関の設計マニュアルまで共通する「試作のコードは本番の土台に流用しない」という原則です。また Vibe Coding（対話任せの高速試作）も提唱者自身が「使い捨て向き」と述べています。",
+          match: "単一 HTML は試作用と割り切り、細かい仕様が抜け落ちないよう先に仕様書へ書き出してから本番構成を新しく作る点に対応しています。"
         },
         {
-          title: "⑥ AI UI 7 パターン体系",
-          en: "NN/g・Apple HIG・Google PAIR・Microsoft HAX Toolkit",
-          what: "「AI＝チャット欄」という思い込みを避け、業務内容に応じて Chat / Canvas / Inline / Tuners＋Hybrid / Ambient / Generative UI / Agentic の 7 型を使い分ける業界標準の UI 設計ガイドラインです。",
-          match: "3 案のうち 1 枠に意図的に ui-guide の最適パターンを組み込むことで、現場の発想だけでは出ない最適解を引き出せます。"
+          title: "⑥ AI UI 7 パターンの活用",
+          en: "Microsoft HAX・Google PAIR・Apple HIG・NN/g・The Shape of AI を基にした整理",
+          what: "複数の一次ガイドラインでは、「AI＝チャット欄だけ」に頼らず、業務に合わせて調整つまみ（Tuners）や成果物並列（Canvas）、承認ゲートなどの画面形式を選ぶことが推奨されています。",
+          match: "3 案のうち 1 枠に、本リポジトリの ui-guide で整理した 7 パターンから業務に合う型を入れる工夫に対応しています。"
         }
       ];
 
@@ -1259,7 +1264,7 @@
           '<span class="prior-en">' + p.en + '</span>' +
           '<div class="prior-cols">' +
             '<div class="prior-col"><strong>📖 世の中での意味・背景</strong>' + p.what + '</div>' +
-            '<div class="prior-col"><strong>🔗 リアルライトモックとの一致点</strong>' + p.match + '</div>' +
+            '<div class="prior-col"><strong>🔗 リアルライトモックとの対応</strong>' + p.match + '</div>' +
           '</div>';
       }
       document.querySelectorAll("#priorTabs .sel-btn").forEach(btn => {
@@ -1293,31 +1298,32 @@
 HTML / CSS / JavaScript を 1 ファイルにすべて詰め込んだ「単一 HTML」として 3 パターン作成してください。
 
 【前提・制約】
-- ビルド不要でブラウザで即動く単一 HTML にすること。
+- ビルド不要でブラウザで開いてすぐ動く単一 HTML にすること。
 - コードの綺麗さより「実際に操作できるリアルな体験」を最優先すること。
-- 実行ボタンでローカルの橋渡しエンドポイントへ指示を送り、実際の AI 応答とログを表示すること。
+- 実行ボタンでローカルの中継エンドポイント（例: http://localhost:3000/run-cli）へ指示を送り、
+  実際の AI 応答と処理ログ・エラーを表示すること（ダミーの固定応答でごまかさないこと）。
 
 【作成する 3 パターン】
 1. mock-a-team1.html（現場案①）：[メンバー想定の画面構成を記載]
 2. mock-b-team2.html（現場案②）：[別アプローチの画面構成を記載]
-3. mock-c-ai-pattern.html（AI UI 定石案）：[Canvas / Tuners＋Hybrid / Agentic 等] を採用した最適画面`,
+3. mock-c-ai-pattern.html（AI UI 定石案）：[Canvas / Tuners＋Hybrid / Agentic 等] を採用した画面`,
 
-        `この単一 HTML モック（mock-final.html）に、上長や他部署へのプレゼンで使える
+        `この単一 HTML モック（mock-final.html）に、上長や他部署への説明で使える
 「▶ デモモード（自動再生）」機能を追加してください。
 
 【要件】
 - 画面右上に「▶ デモ再生」「⏹ 停止」ボタンを追加する。
 - 再生を押すと、以下の一連のユースケースをステップごとに視覚的に自動実演する：
   1. サンプル条件の自動入力
-  2. AI CLI の思考・MCP ツール呼び出しログの段階表示
+  2. AI CLI の処理・MCP ツール呼び出しログの段階表示
   3. 実ツール実行結果（プレビュー・生成物）の可視化と完了サマリー
-- 通信環境がない場でも説明が止まらないよう、実動作とシナリオ再生を切替可能にする。`,
+- 通信環境がない場でも説明できるよう、「実動作モード」と「プレゼン用シナリオ再生」を明示的に切替可能にする。`,
 
-        `添付する mock-final.html と MCP 連携仕様書は、現場試用とフィードバックをすべて反映した
+        `添付する mock-final.html と MCP 連携メモは、現場試用とフィードバックを反映した
 「動く仕様書（リアルライトモック）」です。
 
 この単一 HTML のコードをそのまま継ぎ足し改修するのではなく、
-画面構成・状態遷移・入力項目・AI プロンプト・ツール連携仕様を正確に抽出し、
+画面構成・状態遷移・入力項目・AI プロンプト・エラー時の振る舞い・ツール連携仕様を正確に抜き出し、
 以下の顧客提供用・本番アーキテクチャでゼロから清潔に再設計してください。
 
 【ターゲット本番構成】
@@ -1327,7 +1333,7 @@ HTML / CSS / JavaScript を 1 ファイルにすべて詰め込んだ「単一 H
 - データ層：PostgreSQL（実行履歴・権限管理）
 - 非機能要件：認証・RBAC、機密マスキング、主要フローの自動テスト
 
-まず「① 抽出仕様一覧」「② 画面〜API〜DB〜MCP 設計書」「③ ディレクトリ構成案」を出力してください。`
+実装に入る前の土台として、まず「① 抽出した機能仕様一覧」「② 画面〜API〜DB〜MCP 設計書」「③ ディレクトリ構成案」を出力してください。`
       ];
 
       const promptPre = document.getElementById("promptPre");

@@ -1,0 +1,10 @@
+{
+  "servers": {
+    "order-app": {
+      "type": "stdio",
+      "command": "node",
+      "args": ["${workspaceFolder}/../order-mcp.js"],
+      "env": { "ORDER_APP_URL": "http://127.0.0.1:3939" }
+    }
+  }
+}

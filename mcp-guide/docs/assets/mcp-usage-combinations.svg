@@ -1,0 +1,139 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 680" font-family="Meiryo, 'Yu Gothic UI', 'Noto Sans JP', sans-serif" role="img" aria-label="現場でのMCPの使い方の4つの組み合わせ：既製のAIツールか自作アプリか、ローカルのMCPサーバーかリモートのMCPサーバーか">
+  <defs>
+    <style>
+      .h{font-size:14px;font-weight:700}
+      .b{font-size:11.5px;fill:#374151}
+      .s{font-size:11px;fill:#6b7280}
+      .t{font-size:13px;font-weight:700}
+      .w{font-size:11px;font-weight:700}
+    </style>
+  </defs>
+  <rect x="0.5" y="0.5" width="899" height="679" rx="14" fill="#ffffff" stroke="#e5e7eb"/>
+  <text x="30" y="42" font-size="20" font-weight="700" fill="#111827">現場での使い方：AI 側 2 通り × MCP 側 2 通り</text>
+  <text x="30" y="64" class="s" font-size="12.5">どの組み合わせかで、設定のしかた・データの行き先・気をつけることが変わる</text>
+
+  <!-- 列見出し：MCP 側 -->
+  <rect x="214" y="84" width="326" height="50" rx="10" fill="#10b981"/>
+  <text x="377" y="105" text-anchor="middle" class="h" fill="#ffffff">MCP ① ローカル</text>
+  <text x="377" y="124" text-anchor="middle" font-size="11" fill="#d1fae5">自分の PC の中で動く（stdio）</text>
+  <rect x="550" y="84" width="326" height="50" rx="10" fill="#0891b2"/>
+  <text x="713" y="105" text-anchor="middle" class="h" fill="#ffffff">MCP ② リモート</text>
+  <text x="713" y="124" text-anchor="middle" font-size="11" fill="#cffafe">ネット越しのサーバーにつなぐ（HTTP）</text>
+
+  <!-- 行見出し：AI 側 -->
+  <rect x="24" y="144" width="180" height="204" rx="10" fill="#2563eb"/>
+  <text x="114" y="200" text-anchor="middle" class="h" fill="#ffffff">AI ① 既製の AI ツール</text>
+  <text x="114" y="226" text-anchor="middle" font-size="11" fill="#dbeafe">CLI・IDE をそのまま使う</text>
+  <text x="114" y="256" text-anchor="middle" font-size="11" fill="#dbeafe">Claude Code</text>
+  <text x="114" y="274" text-anchor="middle" font-size="11" fill="#dbeafe">GitHub Copilot</text>
+  <text x="114" y="292" text-anchor="middle" font-size="11" fill="#dbeafe">（VS Code・CLI）など</text>
+
+  <rect x="24" y="358" width="180" height="204" rx="10" fill="#7c3aed"/>
+  <text x="114" y="414" text-anchor="middle" class="h" fill="#ffffff">AI ② 自作アプリ</text>
+  <text x="114" y="440" text-anchor="middle" font-size="11" fill="#ede9fe">LLM の API を自分の</text>
+  <text x="114" y="458" text-anchor="middle" font-size="11" fill="#ede9fe">アプリから呼ぶ</text>
+  <text x="114" y="488" text-anchor="middle" font-size="11" fill="#ede9fe">Claude API</text>
+  <text x="114" y="506" text-anchor="middle" font-size="11" fill="#ede9fe">クラウドの LLM サービス など</text>
+
+  <!-- A：AI① × MCP① -->
+  <rect x="214" y="144" width="326" height="204" rx="10" fill="#f0fdf4" stroke="#86efac" stroke-width="1.5"/>
+  <text x="230" y="170" class="t" fill="#166534">A. いちばん手軽（このガイドの実験）</text>
+  <text x="230" y="196" class="b">例：Claude Code ＋ cafe-catalog、Playwright</text>
+  <text x="230" y="218" class="b">設定：.mcp.json に起動コマンドを書く</text>
+  <text x="230" y="240" class="b">動き：ホストが PC 内でサーバーを自動起動</text>
+  <text x="230" y="262" class="b">データ：PC 内で完結（結果は LLM へ渡る）</text>
+  <rect x="230" y="290" width="294" height="40" rx="8" fill="#fef2f2" stroke="#fca5a5"/>
+  <text x="377" y="315" text-anchor="middle" class="w" fill="#b91c1c">⚠ 自分の権限で何でも実行できる → 出所を確認</text>
+
+  <!-- B：AI① × MCP② -->
+  <rect x="550" y="144" width="326" height="204" rx="10" fill="#ecfeff" stroke="#67e8f9" stroke-width="1.5"/>
+  <text x="566" y="170" class="t" fill="#155e75">B. SaaS・社内サービスをつなぐ</text>
+  <text x="566" y="196" class="b">例：GitHub・Notion・Sentry の公式 MCP</text>
+  <text x="566" y="218" class="b">設定：type: "http" ＋ url（OAuth でログイン）</text>
+  <text x="566" y="240" class="b">動き：ホストがネット越しにサーバーへ接続</text>
+  <text x="566" y="262" class="b">データ：引数と結果がそのサーバーを通る</text>
+  <rect x="566" y="290" width="294" height="40" rx="8" fill="#fef2f2" stroke="#fca5a5"/>
+  <text x="713" y="315" text-anchor="middle" class="w" fill="#b91c1c">⚠ 公式か・権限の範囲・データの送り先を確認</text>
+
+  <!-- C：AI② × MCP① -->
+  <rect x="214" y="358" width="326" height="204" rx="10" fill="#f5f3ff" stroke="#c4b5fd" stroke-width="1.5"/>
+  <text x="230" y="384" class="t" fill="#5b21b6">C. 自作アプリに組み込む</text>
+  <text x="230" y="410" class="b">例：自作アプリ ＋ 手元の MCP サーバー</text>
+  <text x="230" y="432" class="b">作り方：MCP 対応の SDK を使う</text>
+  <text x="230" y="454" class="b">　　　（例：Claude Agent SDK）</text>
+  <text x="230" y="476" class="b">役割：アプリ自身がホスト役になる</text>
+  <rect x="230" y="504" width="294" height="40" rx="8" fill="#fef2f2" stroke="#fca5a5"/>
+  <text x="377" y="529" text-anchor="middle" class="w" fill="#b91c1c">⚠ 承認と権限の確認をアプリ側で作る必要がある</text>
+
+  <!-- D：AI② × MCP② -->
+  <rect x="550" y="358" width="326" height="204" rx="10" fill="#faf5ff" stroke="#d8b4fe" stroke-width="1.5"/>
+  <text x="566" y="384" class="t" fill="#6b21a8">D. API 側から直接つなぐ</text>
+  <text x="566" y="410" class="b">例：Claude API の MCP コネクター</text>
+  <text x="566" y="432" class="b">作り方：リクエストにサーバーの URL を書く</text>
+  <text x="566" y="454" class="b">動き：LLM の提供元がサーバーを呼びに行く</text>
+  <text x="566" y="476" class="b">条件：ネットに公開されたサーバーだけ</text>
+  <rect x="566" y="504" width="294" height="40" rx="8" fill="#fef2f2" stroke="#fca5a5"/>
+  <text x="713" y="529" text-anchor="middle" class="w" fill="#b91c1c">⚠ ローカル（stdio）や社内だけのサーバーは不可</text>
+
+  <rect x="24" y="576" width="760" height="40" rx="10" fill="#fff7ed" stroke="#fdba74"/>
+  <text x="404" y="601" text-anchor="middle" class="b" font-weight="700" fill="#9a3412">💡 迷ったら A から。業務で B を使うのは会社が承認したサーバーだけ。C・D は「アプリを作る側」の選択肢</text>
+
+  <text x="30" y="640" class="s">出典：Claude Code・VS Code・Claude API（MCP connector）公式ドキュメント（2026-11 取得）をもとに筆者作成</text>
+  <!-- 作者サイン：右下から図を見上げる亀（横向き） -->
+  <g transform="translate(794 614) scale(0.78)">
+  <g id="kame-mark" opacity="0.94">
+    <defs>
+      <linearGradient id="kameShell" x1="0.3" y1="0" x2="0.6" y2="1">
+        <stop offset="0" stop-color="#c9f1e0"/>
+        <stop offset="1" stop-color="#86d3b4"/>
+      </linearGradient>
+      <linearGradient id="kameScute" x1="0.3" y1="0" x2="0.6" y2="1">
+        <stop offset="0" stop-color="#ecfbf4"/>
+        <stop offset="1" stop-color="#b3e6d0"/>
+      </linearGradient>
+      <radialGradient id="kameSkin" cx="0.38" cy="0.32" r="0.8">
+        <stop offset="0" stop-color="#e6f7c2"/>
+        <stop offset="1" stop-color="#b3df86"/>
+      </radialGradient>
+      <linearGradient id="kameRim" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#fff1cf"/>
+        <stop offset="1" stop-color="#fbd79b"/>
+      </linearGradient>
+      <filter id="kameSoft" x="-20%" y="-50%" width="140%" height="200%"><feGaussianBlur stdDeviation="2.2"/></filter>
+      <filter id="kameGlow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="1.6"/></filter>
+      <clipPath id="kameDome"><path d="M34 58 C34 31 51 17 71 17 C92 17 108 32 108 58 Z"/></clipPath>
+    </defs>
+    <ellipse cx="68" cy="73" rx="44" ry="3.6" fill="#5b8f7b" opacity="0.22" filter="url(#kameSoft)"/>
+    <ellipse cx="56" cy="66" rx="5.5" ry="6.5" fill="#a4d47a"/>
+    <ellipse cx="84" cy="66" rx="5.5" ry="6.5" fill="#a4d47a"/>
+    <path d="M106 57 C112 57 116 60 116 63 C112 64.5 107 63.5 104 61 Z" fill="url(#kameSkin)" stroke="#a2d27a" stroke-width="1.2" stroke-linejoin="round"/>
+    <path d="M42 60 C36 58 30 54 26 47" fill="none" stroke="url(#kameSkin)" stroke-width="13" stroke-linecap="round"/>
+    <rect x="37" y="57" width="13" height="15" rx="6.5" fill="url(#kameSkin)" stroke="#a2d27a" stroke-width="1.2"/>
+    <rect x="91" y="57" width="13" height="15" rx="6.5" fill="url(#kameSkin)" stroke="#a2d27a" stroke-width="1.2"/>
+    <path d="M34 58 C34 31 51 17 71 17 C92 17 108 32 108 58 Z" fill="url(#kameShell)" stroke="#7fcaa9" stroke-width="1.4"/>
+    <g clip-path="url(#kameDome)" fill="url(#kameScute)" stroke="#a9e0c8" stroke-width="5" stroke-linejoin="round">
+      <path d="M60 27 L82 27 L88 38 L82 48 L60 48 L54 38 Z"/>
+      <path d="M31 60 L38 40 L49 34 L54 38 L60 48 L56 60 Z"/>
+      <path d="M111 60 L104 40 L93 34 L88 38 L82 48 L86 60 Z"/>
+      <path d="M60 48 L82 48 L86 60 L56 60 Z"/>
+    </g>
+    <ellipse cx="54" cy="29" rx="10" ry="4.5" fill="#ffffff" opacity="0.7" transform="rotate(-28 54 29)" filter="url(#kameGlow)"/>
+    <rect x="30" y="54" width="82" height="9.5" rx="4.75" fill="url(#kameRim)" stroke="#f3c57e" stroke-width="1.2"/>
+    <g fill="#f6cf8f" opacity="0.8">
+      <circle cx="45" cy="58.8" r="1.2"/><circle cx="58" cy="58.8" r="1.2"/><circle cx="71" cy="58.8" r="1.2"/>
+      <circle cx="84" cy="58.8" r="1.2"/><circle cx="97" cy="58.8" r="1.2"/>
+    </g>
+    <circle cx="23" cy="40" r="15.5" fill="url(#kameSkin)" stroke="#a2d27a" stroke-width="1.2"/>
+    <ellipse cx="20" cy="31" rx="6" ry="3" fill="#ffffff" opacity="0.6" transform="rotate(-20 20 31)" filter="url(#kameGlow)"/>
+    <ellipse cx="16.2" cy="38.5" rx="2.9" ry="3.6" fill="#3d3a4a"/>
+    <circle cx="15.3" cy="37.2" r="1.25" fill="#ffffff"/>
+    <circle cx="17" cy="40" r="0.55" fill="#ffffff" opacity="0.9"/>
+    <ellipse cx="24" cy="46" rx="4" ry="2.6" fill="#ffb3c1" opacity="0.75" filter="url(#kameGlow)"/>
+    <path d="M9.5 44.5 Q12.5 47.8 16 46" fill="none" stroke="#6f8f56" stroke-width="1.4" stroke-linecap="round"/>
+    <g fill="#ffffff" opacity="0.65">
+      <circle cx="40.5" cy="69.6" r="1.1"/><circle cx="44" cy="70.2" r="1.1"/>
+      <circle cx="94.5" cy="69.6" r="1.1"/><circle cx="98" cy="70.2" r="1.1"/>
+    </g>
+  </g>
+  </g>
+</svg>

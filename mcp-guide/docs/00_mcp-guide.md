@@ -1,31 +1,72 @@
 # MCP（Model Context Protocol）入門 — ベクター図解でわかる仕組みと3つの使い方
 
 > 「MCP って結局なに？Web API とどう違う？ローカルとクラウドでどう使い分ける？」という疑問に、**ベクター図解（SVG）を中心**に最短で答える入門ガイドです。
-> 対象は Claude Code（2026年11月時点）。最新仕様は [Claude Code 公式ドキュメント](https://code.claude.com/docs/en/mcp)および [MCP 公式仕様](https://modelcontextprotocol.io/specification/)を参照してください。出典一覧は [info/](../info/README.md)、動くサンプルは [samples/](../samples/README.md) にあります。
+> 対象は Claude Code（2026年11月時点）。最新仕様は [Claude Code 公式ドキュメント](https://code.claude.com/docs/en/mcp)および [MCP 公式仕様](https://modelcontextprotocol.io/specification/)を参照してください。出典一覧は [info/](../info/README.md)、動くサンプルは [samples/](../samples/README.md)、安全に使うための注意点と職場のルールは [03](03_mcp-security-and-rules.md) にあります。
 
 ---
 
-## 30秒でわかる！この記事の4つの結論
+## 30秒でわかる！この記事の7つの結論
 
 | 疑問 | 結論 |
 |---|---|
 | **① MCP とは？** | AI アプリ（Claude Code / VS Code）と外部ツールをつなぐ「**AI 用の USB-C 規格**」（通信の共通ルール）です。 |
-| **② Web API との違いは？** | Web API の競合ではなく、各社でバラバラな API や DB を「**どの AI からでも同じ手順で呼べる形に包む変換アダプター**」です。 |
-| **③ 自分でサーバーを起動しっぱなしにする？** | **不要です**。ローカル利用でも、AI アプリの起動時（セッション開始時）に裏で自動起動し、AI アプリを閉じれば自動で終了します。 |
-| **④ どうやって使うの？** | **①公開ツールを PC 内で動かす**、**②自作スクリプトを PC 内で動かす**、**③クラウドの URL につなぐ** の3通りです。 |
+| **② Web API との違いは？** | Web API の競合ではなく、各社でバラバラな API や DB を「**どの AI からでも同じ手順で呼べる形に包む変換アダプター**」です。中では同じ API を呼んでいます（[1.4 節](#14-普通の-api-と何が違うのか同じ作業で比べる)）。 |
+| **③ MCP サーバーは何をしている？** | 「道具の一覧」を見せ、呼ばれたら**その先のファイル・Web API・DB を読み書きして**、結果を決まった形で返す小さなプログラムです。その先のアプリは MCP を知らなくて構いません（[1.3 節](#13-mcp-サーバーの中身何を受け取り何をして何を返すのか)）。 |
+| **④ 自分でサーバーを起動しっぱなしにする？** | **不要です**。ローカル利用でも、AI アプリの起動時（セッション開始時）に裏で自動起動し、AI アプリを閉じれば自動で終了します。 |
+| **⑤ どうやって使うの？** | **①公開ツールを PC 内で動かす**、**②自作スクリプトを PC 内で動かす**、**③クラウドの URL につなぐ** の3通りです。 |
+| **⑥ AI・MCP・アプリの関係は？** | 道具を「選ぶ」のは LLM、実際に「呼ぶ」のは AI アプリ（ホスト）です。MCP はホストと MCP サーバーの間の約束で、その先の DB やアプリの操作はサーバーの中身しだいです（[0 章](#0-まず全体像人ai-アプリllmmcp-サーバーその先のアプリ)）。 |
+| **⑦ 安全に使うには？** | 入れる前に出所・説明文・権限を点検し、組織・AI アプリ・サーバー・人の 4 層で守ります。職場では承認済みのものだけを使います（[03](03_mcp-security-and-rules.md)）。 |
 
 ---
 
 ## 目次
 
+0. [まず全体像：人・AI アプリ・LLM・MCP サーバー・その先のアプリ](#0-まず全体像人ai-アプリllmmcp-サーバーその先のアプリ)
 1. [そもそも MCP とは何か？（Web API との関係・いつ使うか）](#1-そもそも-mcp-とは何かweb-api-との関係いつ使うか)
+   - 1.3 [MCP サーバーの中身：何を受け取り、何をして、何を返すのか](#13-mcp-サーバーの中身何を受け取り何をして何を返すのか)
+   - 1.4 [普通の API と何が違うのか（同じ作業で比べる）](#14-普通の-api-と何が違うのか同じ作業で比べる)
 2. [MCP サーバーの「3つの使い方」（ローカル vs クラウド）](#2-mcp-サーバーの3つの使い方ローカル-vs-クラウド)
+   - 2.4 [現場での使い方の組み合わせ（AI 側 × MCP 側）](#24-現場での使い方の組み合わせai-側--mcp-側)
+   - 2.5 [どこで動き、どこでデータが外に出るか](#25-どこで動きどこでデータが外に出るか)
 3. [全体構造と「3つの機能」・裏側の通信ステップ](#3-全体構造と3つの機能裏側の通信ステップ)
 4. [CLI・Skills・Subagents・Hooks との使い分け](#4-cliskillssubagentshooks-との使い分け)
 5. [設定ファイル（`.mcp.json`）とコマンド操作](#5-設定ファイルmcpjsonとコマンド操作)
 6. [実践：60行の最小サーバーと 0.1秒テスト](#6-実践60行の最小サーバーと-01秒テスト)
-7. [知っておくべき2大注意点（トークン消費とセキュリティ）](#7-知っておくべき2大注意点トークン消費とセキュリティ)
+   - 6.1 [既存のアプリに MCP の口を付ける 5 ステップ](#61-既存のアプリに-mcp-の口を付ける-5-ステップ)
+7. [知っておくべき2大注意点（トークン消費とセキュリティ）](#7-知っておくべき2大注意点トークン消費とセキュリティ)（詳しくは [03 安全に使うための注意点と対策](03_mcp-security-and-rules.md)）
 8. [参考文献](#8-参考文献)
+
+---
+
+## 0. まず全体像：人・AI アプリ・LLM・MCP サーバー・その先のアプリ
+
+![MCP の全体像：人・AI アプリ・LLM・MCP サーバー・その先のアプリ](assets/mcp-big-picture.svg)
+
+MCP を使うときには、5 つの登場人物がいます。特に **AI アプリ**（あなたが操作するソフト）と **LLM**（AI そのもの）は別物です。図の**灰色の枠は自分の PC の中**、**青い枠はインターネットの先**を表しています。
+
+| 登場人物 | 役割 | 例 |
+|---|---|---|
+| **人（利用者）** | 依頼する。実行してよいかを承認する | あなた |
+| **AI アプリ（ホスト）** | あなたが操作するソフト。会話を管理し、LLM と MCP サーバーの間に立つ。中に、サーバーごとの接続係（**MCP クライアント**）を持つ。PC の中で動く | VS Code の GitHub Copilot、Claude Code、Claude Desktop、Antigravity、自作アプリ |
+| **LLM（AI そのもの）** | 文章を受け取り、どの道具をどの引数で使うかを決めて返す。**自分では道具を呼ばない** | Claude・GPT・Gemini などのモデル。多くは提供元のサーバー（インターネットの先）で動く |
+| **MCP サーバー** | 道具（Tools）・参考資料（Resources）・定型文（Prompts）を出す窓口。ローカル（PC の中）とリモート（インターネットの先）がある | ローカル：このガイドの cafe-catalog／リモート：GitHub の MCP |
+| **その先のアプリ・データ** | MCP サーバーが実際に操作する相手 | DB、ファイル、Web API・SaaS、PC 内のアプリ（CAD など） |
+
+**1 回の依頼で起きること**
+
+1. 人が AI アプリに依頼する（例：「小麦を含まないメニューを出して」）
+2. AI アプリが LLM に「依頼 ＋ 使える道具の一覧」を送る（🌐 ネット越し。道具の一覧は、つないだときの `tools/list` で取得済み）
+3. LLM が「`search_menu` をこの引数で使いたい」と返す（ここで人の承認が入ることもある）
+4. AI アプリの MCP クライアントが、MCP サーバーに `tools/call` を送る
+5. MCP サーバーが、その先の DB・アプリ・Web API を操作して結果を返す
+6. AI アプリが結果を LLM に渡す（🌐 ネット越し。PC の中で動いた道具の結果も、ここで外に出る。必要なら 3〜6 をくり返す）
+7. LLM がまとめた答えを、AI アプリが人に見せる
+
+> [!IMPORTANT]
+> **ここだけ押さえれば迷いません**
+> - **道具を選ぶのは LLM、実際に呼ぶのは AI アプリ（ホスト）**です。LLM が MCP サーバーに直接つながっているわけではありません（例外は、クラウドの API 側から MCP サーバーを呼ぶ機能。[2.4 節](#24-現場での使い方の組み合わせai-側--mcp-側)の D）。
+> - **MCP が決めているのは「AI アプリ ↔ MCP サーバー」の間の約束だけ**です。サーバーの先（API・DB・アプリ）をどう操作するかは、それぞれのサーバーの作り次第です。
+> - **ローカルの MCP サーバーでも、道具の結果は LLM に送られます**。LLM がクラウドにあれば、結果も社外に出ます（[2.5 節](#25-どこで動きどこでデータが外に出るか)）。
 
 ---
 
@@ -47,6 +88,100 @@
 
 - **ローカル作業に MCP は不要**：手元のファイル編集（`Read` / `Edit`）や `git`・`npm` の実行（`Bash`）は、最初から AI アプリに備わっています。
 - **MCP が輝く4つの場面**：① **Figma / Notion** 等のデザイン・仕様書参照、② **Sentry / Linear** 等の本番エラー・チケット取得、③ **Playwright** 等の開いたままのブラウザ操作、④ **社内 DB** の安全な絞り込みと正確な計算です。
+
+---
+
+### 1.3 MCP サーバーの中身：何を受け取り、何をして、何を返すのか
+
+![MCP サーバーの中身：受け取る → 処理する → 返す](assets/mcp-inside-server.svg)
+
+MCP サーバーは特別な装置ではなく、**小さなプログラム**です。このガイドのカフェ用サーバー（[servers/cafe-catalog-mcp.js](../servers/cafe-catalog-mcp.js)）を開けてみると、やっていることは 3 つだけです。
+
+**Ⓐ 道具の一覧を見せる（`tools/list` への返事）**：名前・説明・引数の形を返します。LLM はこの説明を読んで、どの道具をどの引数で使うかを決めます。
+
+```json
+{
+  "name": "check_allergens",
+  "description": "除外したいアレルゲン（例：[\"乳\", \"卵\", \"小麦\"]）を指定し、該当アレルゲンを含まない安全なメニュー一覧と、除外されたメニューの理由を正確に判定して返します。",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "excludeAllergens": { "type": "array", "items": { "type": "string" }, "description": "除外したいアレルゲン名の配列" },
+      "strictCrossContamination": { "type": "boolean", "description": "true（既定）なら製造ラインの微量混入がある商品も除外する" }
+    },
+    "required": ["excludeAllergens"]
+  }
+}
+```
+
+**Ⓑ 呼ばれたら処理する（`tools/call` を受けたとき）**：中身は MCP と関係のない、普通のプログラムです。この例では、その先のデータ（[data/menu-catalog.json](../data/menu-catalog.json)）を読み、16 品を 1 件ずつ照合しています（抜粋）。
+
+```javascript
+for (const item of catalog.items) {                       // menu-catalog.json の 16 品
+  const hitDirect = item.allergens.filter((a) => excludeList.includes(a));          // 原材料に入っているか
+  const hitCross = item.crossContamination.filter((a) => excludeList.includes(a));  // 製造ラインで混ざるか
+  if (hitDirect.length === 0 && hitCross.length === 0) safeItems.push(item);       // 安全
+  else excludedItems.push({ id: item.id, matchedDirectAllergens: hitDirect, matchedCrossContamination: hitCross });
+}
+```
+
+**Ⓒ 結果を決まった形で返す**：「乳・卵を除外して」と呼ばれたときの実際の結果です（抜粋）。
+
+```json
+{
+  "safeCount": 7,
+  "excludedCount": 9,
+  "excludedItems": [
+    { "id": "DR-003", "name": "宇治抹茶ソイラテ（黒蜜仕立て）", "matchedDirectAllergens": [], "matchedCrossContamination": ["乳"] },
+    { "id": "DR-004", "name": "焦がしキャラメル・マキアート", "matchedDirectAllergens": ["乳"], "matchedCrossContamination": [] }
+  ]
+}
+```
+
+DR-003 は、原材料には乳が入っていません（大豆だけ）。それでも、製造ラインで乳が混ざるので除外されています。AI が暗算で見落としやすいところを、プログラムが確実に拾っています。
+
+**よくある疑問**
+
+| 疑問 | 答え |
+|---|---|
+| **その先のアプリは、なぜ情報を返せるの？** | アプリやデータが**元から持っている口**（ファイル・Web API・DB・SDK）を、MCP サーバーが呼んでいるからです。アプリの側は MCP を知らなくて構いません。カフェの例ではファイル、[samples/06](../samples/06-wrap-existing-app/) では注文アプリの Web API を呼んでいます。 |
+| **MCP サーバーは何を返せばいいの？** | 2 つだけです。**道具の一覧**（名前・説明・引数の形）と、呼ばれたときの**結果**（文章や JSON）。やり取りの形は MCP の仕様で決まっています（3.2 節の JSON-RPC）。中身はその先の口から取れるものなら自由です。 |
+| **MCP サーバーには何ができるの？** | その先の口が許すことだけです。読む（検索・取得）、計算する、書く（登録・更新）、操作する（アプリやブラウザを動かす）。口がなければ MCP サーバーも作れません（画面の操作で代用する方法はあります）。 |
+
+---
+
+### 1.4 普通の API と何が違うのか（同じ作業で比べる）
+
+![普通の API と何が違う？](assets/mcp-vs-direct-api.svg)
+
+MCP は Web API の代わりではありません。**MCP サーバーの中では、同じ Web API を呼んでいます**。違うのは「AI から見た使いやすさ」と「安全の作りやすさ」です。[samples/06](../samples/06-wrap-existing-app/) の注文アプリ（在庫確認と注文の Web API）で比べると、次のようになります。
+
+| 比べる点 | MCP なし（AI に Web API を直接使わせる） | MCP あり（MCP サーバーを挟む） |
+|---|---|---|
+| **使い方の伝え方** | API の仕様書をプロンプトに貼って説明する | つないだ瞬間に `tools/list` で説明書が届く |
+| **呼び出し方** | AI が URL・ヘッダー・JSON を組み立てる | 道具の名前と引数だけ（`place_order { itemId, qty }`） |
+| **手順** | 「在庫確認 → 注文」を AI が正しい順で呼ぶ | サーバーが 1 つの道具にまとめる（在庫がなければ注文しない） |
+| **鍵（API キー）** | AI アプリの設定や会話に渡すことになる | キーはサーバーの中だけ。AI は URL もキーも知らない |
+| **安全の柵** | 「999 個」のような頼み間違いも送られうる | サーバーで範囲を確かめ、アプリに届く前に止める |
+| **ほかの AI アプリ** | Claude Code・Copilot・自作アプリごとに作り直し | 設定 1 つで、どの AI アプリからも同じ道具が使える |
+
+実際に動かすと、AI アプリ（の代わりのスクリプト）・MCP サーバー・注文アプリの往復が 1 本ずつ見えます。
+
+```powershell
+node samples\06-wrap-existing-app\run-demo.js
+```
+
+```text
+[AI アプリ → MCP サーバー] tools/call place_order {"itemId":"SW-003","qty":2}（ちょうど頼む）
+      [MCP サーバー → 注文アプリ] GET /api/stock?id=SW-003
+      [注文アプリ → MCP サーバー] 200 {"itemId":"SW-003","name":"紅はるかと米粉のスイートポテトタルト","count":2}
+      [MCP サーバー → 注文アプリ] POST /api/orders {"itemId":"SW-003","qty":2}
+      [注文アプリ → MCP サーバー] 201 {"orderId":1001,"itemId":"SW-003","qty":2,"remaining":0}
+[MCP サーバー → AI アプリ] 注文しました：注文番号 1001（紅はるかと米粉のスイートポテトタルト × 2）。残りの在庫は 0 個です。
+```
+
+> [!TIP]
+> **MCP が要らないとき**もあります。自作アプリから 1 つの API を呼ぶだけなら、普通の関数呼び出し（ツール呼び出し）で十分です。`gh` や `git` のような CLI があるなら CLI を、手順の知識だけならスキルを使います（4 章）。MCP が生きるのは、**いくつもの AI アプリから同じ道具を使い回したいとき**や、**鍵を隠し、作業単位にまとめ、柵を付けたいとき**です。
 
 ---
 
@@ -101,6 +236,40 @@
   1. **AI が迷わない「1つのボタン」にまとめられる**：アプリの生 API は「座標計算 → 生成 API → 色変更 API → 再描画 API」のように細かく分かれています。これを MCP サーバー側で `create_box(size, color)` という1つの道具（Tool）に束ねることで、AI が手順ミスをしなくなります（[samples/03-workflow-facade/](../samples/03-workflow-facade/) がこの見本です）。
   2. **危険な操作を物理的に隠せる**：アプリ側の「全データ初期化」などの危険な API は MCP サーバーに登録せず、数値の範囲チェックを入れることでアプリのクラッシュを防げます。
   3. **どの AI アプリからでも操れるようになる**：一度この変換スクリプトを作れば、Claude Code でも VS Code（Copilot）でも同じように自分のアプリを操作できます。
+
+---
+
+### 2.4 現場での使い方の組み合わせ（AI 側 × MCP 側）
+
+実際に使う場面は、**AI 側が 2 通り**、**MCP 側が 2 通り**の組み合わせで考えると整理できます。
+
+- **AI 側**：① 既製の AI ツール（Claude Code や GitHub Copilot などの CLI・IDE）をそのまま使う ／ ② 自作アプリから LLM の API（Claude API など）を呼ぶ
+- **MCP 側**：① ローカル（自分の PC の中で動く・stdio）／ ② リモート（ネット越しのサーバーにつなぐ・HTTP）
+
+![現場での使い方：AI 側 2 通り × MCP 側 2 通り](assets/mcp-usage-combinations.svg)
+
+| 組み合わせ | 例 | 設定・作り方 | 気をつけること |
+|---|---|---|---|
+| **A. 既製ツール × ローカル**（いちばん手軽） | Claude Code ＋ このガイドの cafe-catalog、Playwright | `.mcp.json` に起動コマンドを書く。AI アプリが PC 内で自動起動する | サーバーは**自分の権限で何でも実行できる**ので、出所を確認する |
+| **B. 既製ツール × リモート**（SaaS・社内サービス） | GitHub・Notion・Sentry などの公式 MCP、社内の MCP サーバー | `"type": "http"` と `url` を書き、OAuth でログインする | **公式か、権限の範囲、データの送り先**を確認する。業務では会社が承認したものだけ |
+| **C. 自作アプリ × ローカル** | 自作アプリが MCP クライアントになり、手元の MCP サーバーを起動して使う | MCP に対応した SDK（例：Claude Agent SDK）を使う。アプリ自身がホスト役になる | 承認画面や権限の確認を、**アプリ側で作る**必要がある |
+| **D. 自作アプリ × リモート**（API 側からつなぐ） | Claude API の MCP コネクター | リクエストにサーバーの URL（と必要ならトークン）を書く。**LLM の提供元のサーバーが MCP サーバーを呼びに行く** | **インターネットに公開されたサーバーだけ**。ローカルの stdio や社内だけのサーバーには届かない。トークンは自分で取得して渡す |
+
+> [!TIP]
+> - **迷ったら A から**始めます。このガイドの実験（cafe-catalog）は A です。
+> - 業務で **B** を使うときは、会社が承認したサーバーだけにします（[03 の 4 章](03_mcp-security-and-rules.md)）。
+> - **C・D は「アプリを作る側」**の選択肢です。自作アプリでは、MCP を使わず普通のツール呼び出し（関数呼び出し）で十分なことも多いので、「ほかの AI アプリからも使い回したいか」で決めます。
+
+---
+
+### 2.5 どこで動き、どこでデータが外に出るか
+
+![どこで動き、どこでデータが外に出るか](assets/mcp-network-zones.svg)
+
+- **① LLM の API へ**：会話、道具の説明、**道具の結果**が送られます。ローカルの MCP サーバーだけを使っていても同じです。「LLM に送ってよい情報」を社内ルールで決めておきます。
+- **② 公開されたリモート MCP へ**：道具に渡した引数と、そのサーバーが扱うデータが社外に出ます。公式・承認済みのサーバーだけにします。
+- **③ ローカル MCP**：PC の中で完結しますが、自分の権限で動くので、作業フォルダや認証情報（`~/.ssh`・トークンなど）に触れられます。出所を確認し、知らないものは隔離した環境で試します。
+- **④ 社内の MCP サーバー**：社外に出さずにチームで共有できます。ただし、認証と権限の絞り込みは必須です。
 
 ---
 
@@ -199,6 +368,32 @@ cd C:\git_home\agent-study\mcp-guide
 node scripts\test-mcp-server.js
 ```
 
+### 6.1 既存のアプリに MCP の口を付ける 5 ステップ
+
+「自分たちのアプリを AI から使えるようにしたい」ときは、アプリそのものを作り変える必要はありません。アプリが元から持っている口（Web API など）を呼ぶ MCP サーバーを、横に 1 つ置きます。[samples/06](../samples/06-wrap-existing-app/) がその見本です。
+
+| # | やること | samples/06 では |
+|---|---|---|
+| 1 | **相手の口を調べる**：Web API・DB・ファイル・SDK・コマンドのどれがあるか。口がなければ作れない | `GET /api/stock`・`POST /api/orders`（API キー必須） |
+| 2 | **AI に任せたい作業を「道具」として決める**：API の数だけ作るのではなく、作業の単位でまとめる | 「在庫を調べる」「在庫を確かめてから注文する」の 2 つ |
+| 3 | **道具の説明と引数の形を書く**：LLM はこの説明を読んで道具を選ぶ | `description` と `inputSchema` |
+| 4 | **呼ばれたときの処理を書く**：相手の口を呼び、結果を文章や JSON で返す。危ない頼みはここで止める | 在庫確認 → 注文の 2 回の呼び出し、1〜10 個の柵 |
+| 5 | **AI アプリに登録して試す**：まずは点検スクリプトとデモで確かめる | `.mcp.json`、`inspect-mcp-tools.js`、`run-demo.js` |
+
+手順 4 の中身（[order-mcp.js](../samples/06-wrap-existing-app/order-mcp.js) の抜粋）です。1 つの道具の中で、注文アプリの API を 2 回呼んでいます。
+
+```javascript
+async function placeOrder({ itemId, qty }) {
+  if (!Number.isInteger(qty) || qty < 1 || qty > 10) {
+    return '注文できるのは 1〜10 個です。注文アプリには送っていません。';   // 柵：頼み間違いをここで止める
+  }
+  const stock = await callApp('GET', '/api/stock?id=' + encodeURIComponent(itemId));   // 1 回目：在庫を確かめる
+  if (stock.data.count < qty) return `在庫が ${stock.data.count} 個しかないため、注文しませんでした。`;
+  const order = await callApp('POST', '/api/orders', { itemId, qty });                // 2 回目：注文する
+  return `注文しました：注文番号 ${order.data.orderId}（${stock.data.name} × ${qty}）。`;
+}
+```
+
 ---
 
 ## 7. 知っておくべき2大注意点（トークン消費とセキュリティ）
@@ -207,6 +402,9 @@ node scripts\test-mcp-server.js
 
 - **入れすぎない**：常時つなぐサーバーは **2〜3個**（10〜15ツール以内）を目安に絞り、残りはサブエージェントに分離します。なお Claude Code では **MCP Tool Search**（ツール定義の遅延読み込み）が**既定でオン**のため、ツール定義が最初から文脈を埋めることはありませんが、ツールが多いほど「探す手間」と「選び間違い」は増えます。VS Code（Copilot）など他のアプリでは全定義を読み込む場合もあるので、やはり厳選が基本です（詳しくは [docs/02](02_mcp-patterns.md)）。
 - **安全の3原則**：①出所の確かなコードだけを使う（**Tool Poisoning** 対策）、②基本は**読み取り専用**（Read-Only）にする、③パスワードや API キーは **`${環境変数}`** で渡してファイルに直書きしない、の3点を徹底してください。
+
+> [!IMPORTANT]
+> **もっと詳しく**：主なリスク 8 つ、入れる前のチェックリストと点検スクリプト（`scripts/inspect-mcp-tools.js`）、4 層の守り、職場での申請と審査の流れは [03. MCP を安全に使うための注意点と対策](03_mcp-security-and-rules.md) にまとめています。
 
 ---
 
@@ -222,3 +420,5 @@ node scripts\test-mcp-server.js
 | 4 | Anthropic「[Code execution with MCP](https://www.anthropic.com/engineering/code-execution-with-mcp)」 | 2025-11 | ツール定義のトークン消費とオンデマンド読込 |
 | 5 | Anthropic「[Equipping agents for the real world with Agent Skills](https://www.anthropic.com/engineering/equipping-agents-for-the-real-world-with-agent-skills)」 | 2025-10 | MCP と Skills・CLI の役割分担 |
 | 6 | Invariant Labs「[MCP Security Notification: Tool Poisoning Attacks](https://invariantlabs.ai/blog/mcp-security-notification-tool-poisoning-attacks)」 | 2025-04 | Tool Poisoning 攻撃とセキュリティ対策 |
+| 7 | Model Context Protocol「[Security Best Practices](https://modelcontextprotocol.io/specification/2025-11-25/basic/security_best_practices)」 | 2026-11 取得 | ローカル MCP の任意のコード実行、どこでデータが外に出るか |
+| 8 | Claude API Docs「[MCP connector](https://platform.claude.com/docs/en/agents-and-tools/mcp-connector)」 | 2026-11 取得 | API 側からリモート MCP を呼ぶ使い方（2.4 節の D） |

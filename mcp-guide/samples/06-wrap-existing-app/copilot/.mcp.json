@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "order-app": {
+      "command": "node",
+      "args": ["../order-mcp.js"],
+      "env": { "ORDER_APP_URL": "http://127.0.0.1:3939" }
+    }
+  }
+}

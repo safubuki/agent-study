@@ -1,0 +1,157 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 680" font-family="Meiryo, 'Yu Gothic UI', 'Noto Sans JP', sans-serif" role="img" aria-label="MCPサーバーの中身：AIアプリからtools/listとtools/callを受け取り、道具の一覧・呼ばれたときの処理・結果の返し方の3つで動き、その先のファイルやWeb APIやDBを読み書きする図">
+  <defs>
+    <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#4b5563"/>
+    </marker>
+    <style>
+      .h{font-size:14px;font-weight:700}
+      .b{font-size:12px;fill:#374151}
+      .s{font-size:11px;fill:#6b7280}
+      .m{font-size:11px;fill:#1f2937;font-family:Consolas, 'Courier New', monospace}
+      .n{font-size:11px;font-weight:700;fill:#4b5563}
+    </style>
+  </defs>
+  <rect x="0.5" y="0.5" width="899" height="679" rx="14" fill="#ffffff" stroke="#e5e7eb"/>
+  <text x="30" y="42" font-size="20" font-weight="700" fill="#111827">MCP サーバーの中身：受け取る → 処理する → 返す（cafe-catalog の場合）</text>
+  <text x="30" y="64" class="s" font-size="12.5">MCP サーバーは小さなプログラム。中身は「道具の一覧」「呼ばれたときの処理」「結果の返し方」の 3 つだけ</text>
+
+  <!-- 左：AI アプリ -->
+  <rect x="24" y="86" width="210" height="336" rx="12" fill="#eff6ff" stroke="#60a5fa" stroke-width="1.5"/>
+  <text x="129" y="110" text-anchor="middle" class="h" fill="#1e3a8a">🤖 AI アプリ</text>
+  <rect x="38" y="122" width="182" height="72" rx="8" fill="#ffffff" stroke="#93c5fd"/>
+  <text x="50" y="142" class="b" font-weight="700" fill="#1d4ed8">① つないだとき</text>
+  <text x="50" y="162" class="m">tools/list</text>
+  <text x="50" y="182" class="s">「どんな道具がある？」</text>
+  <rect x="38" y="208" width="182" height="112" rx="8" fill="#ffffff" stroke="#93c5fd"/>
+  <text x="50" y="228" class="b" font-weight="700" fill="#1d4ed8">② 使うとき</text>
+  <text x="50" y="248" class="m">tools/call</text>
+  <text x="50" y="266" class="m">  check_allergens</text>
+  <text x="50" y="284" class="m">{ "excludeAllergens":</text>
+  <text x="50" y="302" class="m">    ["乳", "卵"] }</text>
+  <rect x="38" y="334" width="182" height="74" rx="8" fill="#ffffff" stroke="#93c5fd"/>
+  <text x="50" y="354" class="b" font-weight="700" fill="#1d4ed8">⑥ 結果を受け取る</text>
+  <text x="50" y="374" class="s">LLM が読んで、日本語の</text>
+  <text x="50" y="392" class="s">答えにまとめる</text>
+
+  <!-- 中央：MCP サーバー -->
+  <rect x="262" y="86" width="350" height="336" rx="12" fill="#ecfdf5" stroke="#10b981" stroke-width="1.8"/>
+  <text x="437" y="110" text-anchor="middle" class="h" fill="#065f46">🔌 MCP サーバー（cafe-catalog-mcp.js）</text>
+
+  <rect x="276" y="122" width="322" height="80" rx="8" fill="#ffffff" stroke="#6ee7b7"/>
+  <text x="288" y="141" class="b" font-weight="700" fill="#047857">Ⓐ 道具の一覧（メニュー表）</text>
+  <text x="288" y="160" class="m">name: "check_allergens"</text>
+  <text x="288" y="176" class="s">説明: 除外したいアレルゲンを指定し、安全なメニューと…</text>
+  <text x="288" y="192" class="s">引数: excludeAllergens（文字の配列・必須）</text>
+
+  <rect x="276" y="212" width="322" height="110" rx="8" fill="#ffffff" stroke="#6ee7b7"/>
+  <text x="288" y="231" class="b" font-weight="700" fill="#047857">Ⓑ 呼ばれたときの処理（普通のプログラム）</text>
+  <text x="288" y="254" class="b">1. menu-catalog.json を読む（16 品）</text>
+  <text x="288" y="276" class="b">2. 1 品ずつ、原材料と製造ラインの混入を照合</text>
+  <text x="288" y="298" class="b">3. 安全な 7 品と、除外 9 品（理由つき）に分ける</text>
+
+  <rect x="276" y="332" width="322" height="76" rx="8" fill="#ffffff" stroke="#6ee7b7"/>
+  <text x="288" y="351" class="b" font-weight="700" fill="#047857">Ⓒ 結果の返し方（決まった形）</text>
+  <text x="288" y="371" class="m">content: [{ type: "text",</text>
+  <text x="288" y="389" class="m">  text: "{ safeCount: 7, … }" }]</text>
+
+  <!-- 右：その先の口 -->
+  <rect x="640" y="86" width="236" height="336" rx="12" fill="#fff7ed" stroke="#fb923c" stroke-width="1.5"/>
+  <text x="758" y="110" text-anchor="middle" class="h" fill="#9a3412">その先の「口」</text>
+  <rect x="654" y="122" width="208" height="80" rx="8" fill="#ffedd5" stroke="#f97316" stroke-width="1.5"/>
+  <text x="666" y="142" class="b" font-weight="700" fill="#9a3412">📄 この例：ファイル</text>
+  <text x="666" y="162" class="m">data/menu-catalog.json</text>
+  <text x="666" y="180" class="s">16 品の材料・混入・価格</text>
+  <text x="666" y="196" class="s">（MCP のことは知らない）</text>
+  <text x="666" y="230" class="b" font-weight="700" fill="#9a3412">ほかのサーバーの例</text>
+  <text x="666" y="256" class="b">🌐 Web API（HTTP）</text>
+  <text x="684" y="274" class="s">GitHub・社内システム</text>
+  <text x="666" y="300" class="b">🗄️ DB（SQL）</text>
+  <text x="684" y="318" class="s">在庫・顧客の DB</text>
+  <text x="666" y="344" class="b">🧩 SDK・コマンド</text>
+  <text x="684" y="362" class="s">Excel・CAD・gh</text>
+  <text x="666" y="388" class="b">🖥️ 画面の操作</text>
+  <text x="684" y="406" class="s">ブラウザ（Playwright）</text>
+
+  <!-- 矢印 -->
+  <line x1="220" y1="158" x2="274" y2="158" stroke="#4b5563" stroke-width="2" marker-end="url(#ah)"/>
+  <line x1="274" y1="186" x2="220" y2="186" stroke="#4b5563" stroke-width="1.6" stroke-dasharray="4 3" marker-end="url(#ah)"/>
+  <text x="247" y="150" text-anchor="middle" class="n">①</text>
+  <line x1="220" y1="262" x2="274" y2="262" stroke="#4b5563" stroke-width="2" marker-end="url(#ah)"/>
+  <text x="247" y="254" text-anchor="middle" class="n">②</text>
+  <line x1="598" y1="246" x2="652" y2="168" stroke="#ea580c" stroke-width="2" marker-end="url(#ah)"/>
+  <text x="634" y="224" text-anchor="middle" class="n" fill="#ea580c">③ 読む</text>
+  <line x1="652" y1="186" x2="598" y2="266" stroke="#ea580c" stroke-width="2" stroke-dasharray="4 3" marker-end="url(#ah)"/>
+  <text x="612" y="290" text-anchor="middle" class="n" fill="#ea580c">④ データ</text>
+  <line x1="274" y1="372" x2="222" y2="372" stroke="#4b5563" stroke-width="2" marker-end="url(#ah)"/>
+  <text x="247" y="364" text-anchor="middle" class="n">⑤</text>
+
+  <!-- 要点 -->
+  <rect x="24" y="438" width="852" height="136" rx="12" fill="#f9fafb" stroke="#e5e7eb"/>
+  <text x="40" y="464" class="b"><tspan font-weight="700" fill="#9a3412">💡 その先は MCP を知らなくてよい</tspan>：MCP サーバーが、相手が元から持っている口（ファイル・Web API・DB・SDK）を</text>
+  <text x="58" y="484" class="b">使って、代わりに読み書きする「通訳」。アプリの側は何も変えなくてよい</text>
+  <text x="40" y="512" class="b"><tspan font-weight="700" fill="#9a3412">💡 できることは、その先の口が許す範囲まで</tspan>：口（API など）がなければ MCP サーバーも作れない</text>
+  <text x="58" y="532" class="b">（画面の操作で代用する方法はある）。返す情報も、その口から取れるものに限られる</text>
+  <text x="40" y="560" class="b"><tspan font-weight="700" fill="#047857">💡 Ⓐ の説明文が LLM への使い方の説明書</tspan>：LLM は説明文を読んで道具と引数を決める。書き方で使いこなしが変わる</text>
+
+  <rect x="24" y="584" width="760" height="30" rx="10" fill="#fff7ed" stroke="#fdba74"/>
+  <text x="404" y="604" text-anchor="middle" class="b" font-weight="700" fill="#9a3412">🧪 動かして確かめる：samples/06 は、MCP を知らない注文アプリ（Web API）を道具に包んだ見本</text>
+
+  <text x="30" y="636" class="s">出典：本リポジトリの servers/cafe-catalog-mcp.js・samples/06、Model Context Protocol 公式仕様（Tools）をもとに筆者作成</text>
+  <!-- 作者サイン：右下から図を見上げる亀（横向き） -->
+  <g transform="translate(794 614) scale(0.78)">
+  <g id="kame-mark" opacity="0.94">
+    <defs>
+      <linearGradient id="kameShell" x1="0.3" y1="0" x2="0.6" y2="1">
+        <stop offset="0" stop-color="#c9f1e0"/>
+        <stop offset="1" stop-color="#86d3b4"/>
+      </linearGradient>
+      <linearGradient id="kameScute" x1="0.3" y1="0" x2="0.6" y2="1">
+        <stop offset="0" stop-color="#ecfbf4"/>
+        <stop offset="1" stop-color="#b3e6d0"/>
+      </linearGradient>
+      <radialGradient id="kameSkin" cx="0.38" cy="0.32" r="0.8">
+        <stop offset="0" stop-color="#e6f7c2"/>
+        <stop offset="1" stop-color="#b3df86"/>
+      </radialGradient>
+      <linearGradient id="kameRim" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#fff1cf"/>
+        <stop offset="1" stop-color="#fbd79b"/>
+      </linearGradient>
+      <filter id="kameSoft" x="-20%" y="-50%" width="140%" height="200%"><feGaussianBlur stdDeviation="2.2"/></filter>
+      <filter id="kameGlow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="1.6"/></filter>
+      <clipPath id="kameDome"><path d="M34 58 C34 31 51 17 71 17 C92 17 108 32 108 58 Z"/></clipPath>
+    </defs>
+    <ellipse cx="68" cy="73" rx="44" ry="3.6" fill="#5b8f7b" opacity="0.22" filter="url(#kameSoft)"/>
+    <ellipse cx="56" cy="66" rx="5.5" ry="6.5" fill="#a4d47a"/>
+    <ellipse cx="84" cy="66" rx="5.5" ry="6.5" fill="#a4d47a"/>
+    <path d="M106 57 C112 57 116 60 116 63 C112 64.5 107 63.5 104 61 Z" fill="url(#kameSkin)" stroke="#a2d27a" stroke-width="1.2" stroke-linejoin="round"/>
+    <path d="M42 60 C36 58 30 54 26 47" fill="none" stroke="url(#kameSkin)" stroke-width="13" stroke-linecap="round"/>
+    <rect x="37" y="57" width="13" height="15" rx="6.5" fill="url(#kameSkin)" stroke="#a2d27a" stroke-width="1.2"/>
+    <rect x="91" y="57" width="13" height="15" rx="6.5" fill="url(#kameSkin)" stroke="#a2d27a" stroke-width="1.2"/>
+    <path d="M34 58 C34 31 51 17 71 17 C92 17 108 32 108 58 Z" fill="url(#kameShell)" stroke="#7fcaa9" stroke-width="1.4"/>
+    <g clip-path="url(#kameDome)" fill="url(#kameScute)" stroke="#a9e0c8" stroke-width="5" stroke-linejoin="round">
+      <path d="M60 27 L82 27 L88 38 L82 48 L60 48 L54 38 Z"/>
+      <path d="M31 60 L38 40 L49 34 L54 38 L60 48 L56 60 Z"/>
+      <path d="M111 60 L104 40 L93 34 L88 38 L82 48 L86 60 Z"/>
+      <path d="M60 48 L82 48 L86 60 L56 60 Z"/>
+    </g>
+    <ellipse cx="54" cy="29" rx="10" ry="4.5" fill="#ffffff" opacity="0.7" transform="rotate(-28 54 29)" filter="url(#kameGlow)"/>
+    <rect x="30" y="54" width="82" height="9.5" rx="4.75" fill="url(#kameRim)" stroke="#f3c57e" stroke-width="1.2"/>
+    <g fill="#f6cf8f" opacity="0.8">
+      <circle cx="45" cy="58.8" r="1.2"/><circle cx="58" cy="58.8" r="1.2"/><circle cx="71" cy="58.8" r="1.2"/>
+      <circle cx="84" cy="58.8" r="1.2"/><circle cx="97" cy="58.8" r="1.2"/>
+    </g>
+    <circle cx="23" cy="40" r="15.5" fill="url(#kameSkin)" stroke="#a2d27a" stroke-width="1.2"/>
+    <ellipse cx="20" cy="31" rx="6" ry="3" fill="#ffffff" opacity="0.6" transform="rotate(-20 20 31)" filter="url(#kameGlow)"/>
+    <ellipse cx="16.2" cy="38.5" rx="2.9" ry="3.6" fill="#3d3a4a"/>
+    <circle cx="15.3" cy="37.2" r="1.25" fill="#ffffff"/>
+    <circle cx="17" cy="40" r="0.55" fill="#ffffff" opacity="0.9"/>
+    <ellipse cx="24" cy="46" rx="4" ry="2.6" fill="#ffb3c1" opacity="0.75" filter="url(#kameGlow)"/>
+    <path d="M9.5 44.5 Q12.5 47.8 16 46" fill="none" stroke="#6f8f56" stroke-width="1.4" stroke-linecap="round"/>
+    <g fill="#ffffff" opacity="0.65">
+      <circle cx="40.5" cy="69.6" r="1.1"/><circle cx="44" cy="70.2" r="1.1"/>
+      <circle cx="94.5" cy="69.6" r="1.1"/><circle cx="98" cy="70.2" r="1.1"/>
+    </g>
+  </g>
+  </g>
+</svg>

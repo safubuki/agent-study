@@ -1,0 +1,164 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 660" font-family="Meiryo, 'Yu Gothic UI', 'Noto Sans JP', sans-serif" role="img" aria-label="MCPの主なリスク8つが、人・AIアプリ・MCPサーバー・その先のデータのどこで起きるかを示した図と、それぞれの対策">
+  <defs>
+    <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#4b5563"/>
+    </marker>
+    <style>
+      .h{font-size:14px;font-weight:700}
+      .b{font-size:12px;fill:#374151}
+      .s{font-size:11px;fill:#6b7280}
+      .bd{font-size:11px;font-weight:700;fill:#ffffff}
+      .rn{font-size:12.5px;font-weight:700;fill:#991b1b}
+      .rc{font-size:11.5px;fill:#065f46}
+    </style>
+  </defs>
+  <rect x="0.5" y="0.5" width="899" height="659" rx="14" fill="#ffffff" stroke="#e5e7eb"/>
+  <text x="30" y="42" font-size="20" font-weight="700" fill="#111827">どこで何が起きるか：MCP の主なリスク 8 つと対策</text>
+  <text x="30" y="64" class="s" font-size="12.5">MCP は「つなぐ規格」にすぎない。安全かどうかは、何をつなぎ、何を許すかで決まる</text>
+
+  <!-- 人 -->
+  <rect x="24" y="104" width="96" height="112" rx="12" fill="#fefce8" stroke="#eab308" stroke-width="1.5"/>
+  <text x="72" y="138" text-anchor="middle" font-size="20">👤</text>
+  <text x="72" y="162" text-anchor="middle" class="h" fill="#854d0e">人</text>
+  <text x="72" y="184" text-anchor="middle" class="s">依頼・承認</text>
+  <line x1="120" y1="160" x2="146" y2="160" stroke="#4b5563" stroke-width="2" marker-end="url(#ah)"/>
+
+  <!-- ホスト -->
+  <rect x="148" y="92" width="200" height="136" rx="12" fill="#eff6ff" stroke="#60a5fa" stroke-width="1.5"/>
+  <text x="248" y="116" text-anchor="middle" class="h" fill="#1e3a8a">AI アプリ（ホスト）</text>
+  <rect x="162" y="128" width="172" height="40" rx="8" fill="#ffffff" stroke="#93c5fd"/>
+  <text x="248" y="153" text-anchor="middle" class="b">📄 設定ファイル（.mcp.json）</text>
+  <rect x="162" y="176" width="172" height="40" rx="8" fill="#ffffff" stroke="#93c5fd"/>
+  <text x="248" y="201" text-anchor="middle" class="b">🛡️ 承認画面・確認</text>
+  <circle cx="330" cy="130" r="11" fill="#dc2626"/><text x="330" y="134" text-anchor="middle" class="bd">6</text>
+
+  <!-- MCP サーバー -->
+  <rect x="404" y="92" width="200" height="136" rx="12" fill="#ecfdf5" stroke="#10b981" stroke-width="1.5"/>
+  <text x="504" y="116" text-anchor="middle" class="h" fill="#065f46">MCP サーバー</text>
+  <rect x="418" y="128" width="172" height="40" rx="8" fill="#ffffff" stroke="#6ee7b7"/>
+  <text x="504" y="153" text-anchor="middle" class="b">ローカル（PC で起動）</text>
+  <rect x="418" y="176" width="172" height="40" rx="8" fill="#ffffff" stroke="#6ee7b7"/>
+  <text x="504" y="201" text-anchor="middle" class="b">リモート（ネット越し）</text>
+  <circle cx="412" cy="96" r="11" fill="#dc2626"/><text x="412" y="100" text-anchor="middle" class="bd">1</text>
+  <circle cx="596" cy="96" r="11" fill="#dc2626"/><text x="596" y="100" text-anchor="middle" class="bd">3</text>
+  <circle cx="586" cy="134" r="11" fill="#dc2626"/><text x="586" y="138" text-anchor="middle" class="bd">7</text>
+
+  <!-- その先 -->
+  <rect x="660" y="92" width="216" height="136" rx="12" fill="#fff7ed" stroke="#fb923c" stroke-width="1.5"/>
+  <text x="768" y="116" text-anchor="middle" class="h" fill="#9a3412">その先のデータ・サービス</text>
+  <rect x="674" y="128" width="188" height="40" rx="8" fill="#ffffff" stroke="#fdba74"/>
+  <text x="768" y="153" text-anchor="middle" class="b">Web ページ・Issue・メール</text>
+  <rect x="674" y="176" width="188" height="40" rx="8" fill="#ffffff" stroke="#fdba74"/>
+  <text x="768" y="201" text-anchor="middle" class="b">DB・ファイル・SaaS</text>
+
+  <!-- 矢印 -->
+  <line x1="348" y1="136" x2="402" y2="136" stroke="#4b5563" stroke-width="2" marker-end="url(#ah)"/>
+  <text x="375" y="128" text-anchor="middle" font-size="10" fill="#4b5563">呼び出し</text>
+  <circle cx="375" cy="152" r="11" fill="#dc2626"/><text x="375" y="156" text-anchor="middle" class="bd">8</text>
+  <line x1="402" y1="196" x2="350" y2="196" stroke="#4b5563" stroke-width="2" marker-end="url(#ah)"/>
+  <text x="375" y="218" text-anchor="middle" font-size="10" fill="#4b5563">説明・結果</text>
+  <circle cx="376" cy="180" r="11" fill="#dc2626"/><text x="376" y="184" text-anchor="middle" class="bd">2</text>
+  <line x1="658" y1="148" x2="606" y2="148" stroke="#4b5563" stroke-width="2" marker-end="url(#ah)"/>
+  <circle cx="632" cy="164" r="11" fill="#dc2626"/><text x="632" y="168" text-anchor="middle" class="bd">4</text>
+  <line x1="606" y1="200" x2="658" y2="200" stroke="#4b5563" stroke-width="2" marker-end="url(#ah)"/>
+  <text x="632" y="220" text-anchor="middle" font-size="10" fill="#4b5563">操作</text>
+  <circle cx="632" cy="184" r="11" fill="#dc2626"/><text x="632" y="188" text-anchor="middle" class="bd">5</text>
+
+  <!-- 凡例 -->
+  <rect x="24" y="244" width="420" height="344" rx="12" fill="#fef2f2" stroke="#fecaca"/>
+  <rect x="456" y="244" width="420" height="344" rx="12" fill="#fef2f2" stroke="#fecaca"/>
+
+  <text x="40" y="272" class="rn">1 野良・なりすましのサーバー</text>
+  <text x="40" y="291" class="s">出所が分からない・名前の似た偽パッケージ</text>
+  <text x="40" y="310" class="rc">→ 公式か社内で承認されたものだけを使う</text>
+
+  <text x="40" y="350" class="rn">2 説明文の隠し命令（ツール汚染）</text>
+  <text x="40" y="369" class="s">説明文に「秘密を読んで送れ」「このサイトへ」</text>
+  <text x="40" y="388" class="rc">→ 説明文の全文を読む・点検スクリプトにかける</text>
+
+  <text x="40" y="428" class="rn">3 あとから中身が変わる（Rug Pull）</text>
+  <text x="40" y="447" class="s">@latest のまま、更新で悪い中身に入れ替わる</text>
+  <text x="40" y="466" class="rc">→ バージョンを固定し、更新のたびに確認する</text>
+
+  <text x="40" y="506" class="rn">4 取ってきた文章の中の命令</text>
+  <text x="40" y="525" class="s">Web ページ・Issue・メールに指示が紛れている</text>
+  <text x="40" y="544" class="rc">→ 外部の文章・秘密・外部送信を 1 か所に同居させない</text>
+
+  <text x="472" y="272" class="rn">5 権限の取りすぎ</text>
+  <text x="472" y="291" class="s">検索だけなのに書き込み・削除・全リポの権限</text>
+  <text x="472" y="310" class="rc">→ 読み取り専用・必要最小限の権限にする</text>
+
+  <text x="472" y="350" class="rn">6 秘密情報の漏えい</text>
+  <text x="472" y="369" class="s">設定ファイルに API キーを直書きして共有</text>
+  <text x="472" y="388" class="rc">→ 環境変数・OAuth・入力欄で渡す</text>
+
+  <text x="472" y="428" class="rn">7 ローカルでの任意のコード実行</text>
+  <text x="472" y="447" class="s">起動コマンドや中身に悪い処理が仕込まれている</text>
+  <text x="472" y="466" class="rc">→ コマンドの全文を確認・隔離した環境で試す</text>
+
+  <text x="472" y="506" class="rn">8 データの持ち出し</text>
+  <text x="472" y="525" class="s">引数や結果に社内データが入り、社外へ出る</text>
+  <text x="472" y="544" class="rc">→ 送ってよい情報を決め、承認済みの送り先だけに</text>
+
+  <text x="40" y="574" class="s">※ 2・4 はプロンプトインジェクション（AI への割り込み命令）の一種</text>
+  <text x="472" y="574" class="s">※ 2・7 は「つなぐ前の点検」でかなり防げる</text>
+
+  <text x="30" y="616" class="s">出典：OWASP MCP Top 10・Invariant Labs（2025）・MCP 公式仕様 Security Best Practices をもとに筆者作成</text>
+  <!-- 作者サイン：右下から図を見上げる亀（横向き） -->
+  <g transform="translate(794 594) scale(0.78)">
+  <g id="kame-mark" opacity="0.94">
+    <defs>
+      <linearGradient id="kameShell" x1="0.3" y1="0" x2="0.6" y2="1">
+        <stop offset="0" stop-color="#c9f1e0"/>
+        <stop offset="1" stop-color="#86d3b4"/>
+      </linearGradient>
+      <linearGradient id="kameScute" x1="0.3" y1="0" x2="0.6" y2="1">
+        <stop offset="0" stop-color="#ecfbf4"/>
+        <stop offset="1" stop-color="#b3e6d0"/>
+      </linearGradient>
+      <radialGradient id="kameSkin" cx="0.38" cy="0.32" r="0.8">
+        <stop offset="0" stop-color="#e6f7c2"/>
+        <stop offset="1" stop-color="#b3df86"/>
+      </radialGradient>
+      <linearGradient id="kameRim" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#fff1cf"/>
+        <stop offset="1" stop-color="#fbd79b"/>
+      </linearGradient>
+      <filter id="kameSoft" x="-20%" y="-50%" width="140%" height="200%"><feGaussianBlur stdDeviation="2.2"/></filter>
+      <filter id="kameGlow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="1.6"/></filter>
+      <clipPath id="kameDome"><path d="M34 58 C34 31 51 17 71 17 C92 17 108 32 108 58 Z"/></clipPath>
+    </defs>
+    <ellipse cx="68" cy="73" rx="44" ry="3.6" fill="#5b8f7b" opacity="0.22" filter="url(#kameSoft)"/>
+    <ellipse cx="56" cy="66" rx="5.5" ry="6.5" fill="#a4d47a"/>
+    <ellipse cx="84" cy="66" rx="5.5" ry="6.5" fill="#a4d47a"/>
+    <path d="M106 57 C112 57 116 60 116 63 C112 64.5 107 63.5 104 61 Z" fill="url(#kameSkin)" stroke="#a2d27a" stroke-width="1.2" stroke-linejoin="round"/>
+    <path d="M42 60 C36 58 30 54 26 47" fill="none" stroke="url(#kameSkin)" stroke-width="13" stroke-linecap="round"/>
+    <rect x="37" y="57" width="13" height="15" rx="6.5" fill="url(#kameSkin)" stroke="#a2d27a" stroke-width="1.2"/>
+    <rect x="91" y="57" width="13" height="15" rx="6.5" fill="url(#kameSkin)" stroke="#a2d27a" stroke-width="1.2"/>
+    <path d="M34 58 C34 31 51 17 71 17 C92 17 108 32 108 58 Z" fill="url(#kameShell)" stroke="#7fcaa9" stroke-width="1.4"/>
+    <g clip-path="url(#kameDome)" fill="url(#kameScute)" stroke="#a9e0c8" stroke-width="5" stroke-linejoin="round">
+      <path d="M60 27 L82 27 L88 38 L82 48 L60 48 L54 38 Z"/>
+      <path d="M31 60 L38 40 L49 34 L54 38 L60 48 L56 60 Z"/>
+      <path d="M111 60 L104 40 L93 34 L88 38 L82 48 L86 60 Z"/>
+      <path d="M60 48 L82 48 L86 60 L56 60 Z"/>
+    </g>
+    <ellipse cx="54" cy="29" rx="10" ry="4.5" fill="#ffffff" opacity="0.7" transform="rotate(-28 54 29)" filter="url(#kameGlow)"/>
+    <rect x="30" y="54" width="82" height="9.5" rx="4.75" fill="url(#kameRim)" stroke="#f3c57e" stroke-width="1.2"/>
+    <g fill="#f6cf8f" opacity="0.8">
+      <circle cx="45" cy="58.8" r="1.2"/><circle cx="58" cy="58.8" r="1.2"/><circle cx="71" cy="58.8" r="1.2"/>
+      <circle cx="84" cy="58.8" r="1.2"/><circle cx="97" cy="58.8" r="1.2"/>
+    </g>
+    <circle cx="23" cy="40" r="15.5" fill="url(#kameSkin)" stroke="#a2d27a" stroke-width="1.2"/>
+    <ellipse cx="20" cy="31" rx="6" ry="3" fill="#ffffff" opacity="0.6" transform="rotate(-20 20 31)" filter="url(#kameGlow)"/>
+    <ellipse cx="16.2" cy="38.5" rx="2.9" ry="3.6" fill="#3d3a4a"/>
+    <circle cx="15.3" cy="37.2" r="1.25" fill="#ffffff"/>
+    <circle cx="17" cy="40" r="0.55" fill="#ffffff" opacity="0.9"/>
+    <ellipse cx="24" cy="46" rx="4" ry="2.6" fill="#ffb3c1" opacity="0.75" filter="url(#kameGlow)"/>
+    <path d="M9.5 44.5 Q12.5 47.8 16 46" fill="none" stroke="#6f8f56" stroke-width="1.4" stroke-linecap="round"/>
+    <g fill="#ffffff" opacity="0.65">
+      <circle cx="40.5" cy="69.6" r="1.1"/><circle cx="44" cy="70.2" r="1.1"/>
+      <circle cx="94.5" cy="69.6" r="1.1"/><circle cx="98" cy="70.2" r="1.1"/>
+    </g>
+  </g>
+  </g>
+</svg>

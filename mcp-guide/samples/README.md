@@ -13,6 +13,7 @@
 | 03 | [業務ワークフロー・ファサード](03-workflow-facade/) | 複数のチェック・集計を1つの高水準ツールに束ねる | 02 の 4章（パターン③） | ○ | ○ |
 | 04 | [サブエージェント×専用 MCP](04-subagent-scoped/) | 特定のサブエージェントにだけ MCP サーバーを許可する | 01 の 5章、02 の 5章（パターン④） | ○ | ○ |
 | 05 | [Resources と Prompts も返すサーバー](05-resources-and-prompts/) | Tools だけでなく参考資料（Resources）と定型文（Prompts）も実装する | 00 の 3.1節 | ○ | ○ |
+| 06 | [既存のアプリに MCP の口を付ける](06-wrap-existing-app/) | MCP を知らない普通の Web API（注文アプリ）を道具に包み、AI アプリ ⇄ MCP サーバー ⇄ アプリの往復を 1 本ずつ見る | 00 の 1.3・1.4節、6.1節 | ○ | ○ |
 
 ![MCP の実践5パターン早見表](../docs/assets/patterns-map.svg)
 
@@ -57,4 +58,7 @@ node scripts\test-mcp-server.js samples\01-minimal-stdio\server.js
 node scripts\test-mcp-server.js samples\02-knowledge-search\glossary-mcp.js
 node scripts\test-mcp-server.js samples\03-workflow-facade\catering-plan-mcp.js
 node scripts\test-mcp-server.js samples\05-resources-and-prompts\full-feature-mcp.js
+
+# 06 は「その先のアプリ（注文アプリ）」も一緒に起動して、往復を 1 本ずつ見るデモです
+node samples\06-wrap-existing-app\run-demo.js
 ```

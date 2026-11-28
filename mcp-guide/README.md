@@ -2,6 +2,11 @@
 
 このフォルダ（`agent-study/mcp-guide`）は、隣の [agent-guide](../agent-guide/) と同じ構成で、**MCP**（Model Context Protocol：AI に専用の道具やデータ窓口をつなぐ共通規格）を基礎から実践・設計パターンまで学ぶための作業場です。
 
+> [!NOTE]
+> **はじめての方は、まず全体像から**：人・AI アプリ・LLM・MCP サーバー・その先のアプリの関係を 1 枚にまとめた図を [docs/00 の 0 章](docs/00_mcp-guide.md) に置いています。
+>
+> ![MCP の全体像](docs/assets/mcp-big-picture.svg)
+
 > [!TIP]
 > **AI の契約や外部パッケージなし・0.1 秒で体験**
 > `mcp-guide` フォルダで `node scripts/test-mcp-server.js` を実行すると、Claude Code や VS Code を起動せずに JSON-RPC 2.0 通信（`initialize` → `tools/list` → `tools/call`）の中身をそのまま確認できます（[手順へ](#2-まずは1秒体験mcp-サーバーと直接会話してみるclaude-不要)）。
@@ -10,13 +15,14 @@
 
 | 順番 | ファイル | 内容 |
 |---|---|---|
-| 動的版 | [interactive-guide.html](interactive-guide.html) | **動かして学ぶ動的ガイド**：JSON-RPC 3ステップ、Kame Cafe 全16商品アレルゲン＆原価率の罠、Tool Poisoning 透視をブラウザで体験 |
-| 1 | [docs/00_mcp-guide.md](docs/00_mcp-guide.md) | **MCP 入門（Claude Code 編）**：Web API との違い、ローカル／クラウドの3使い方、JSON-RPC 3ステップ、CLI・Skills との使い分け |
+| 動的版 | [interactive-guide.html](interactive-guide.html) | **動かして学ぶ動的ガイド**：**全体像と使い方の 4 つの組み合わせ（ボタンで切り替え）**、JSON-RPC 3ステップ、Kame Cafe 全16商品アレルゲン＆原価率の罠、Tool Poisoning 透視、**入れる前のチェックリストと職場のルール**をブラウザで体験 |
+| 1 | [docs/00_mcp-guide.md](docs/00_mcp-guide.md) | **MCP 入門（Claude Code 編）**：**全体像（人・AI アプリ・LLM・MCP サーバー・その先のアプリ）**、Web API との違い、ローカル／クラウドの3使い方、**現場での組み合わせ（既製ツール／自作アプリ × ローカル／リモート）とデータの行き先**、JSON-RPC 3ステップ、CLI・Skills との使い分け |
 | 2 | [docs/01_copilot-mcp-guide.md](docs/01_copilot-mcp-guide.md) | **GitHub Copilot / VS Code 編**：`.mcp.json` と `.vscode/mcp.json` の対比、サブエージェント単位のツール絞り込み、企業環境での注意点 |
 | 3 | [docs/02_mcp-patterns.md](docs/02_mcp-patterns.md) | **定番パターン5選**：知識・DB ゲートウェイ、外部 SaaS、業務ファサード、サブエージェント隔離、Tool Search / Code Mode と鮮度整理 |
+| 4 | [docs/03_mcp-security-and-rules.md](docs/03_mcp-security-and-rules.md) | **安全に使うための注意点と対策**：主なリスク 8 つ、入れる前のチェックリストと点検スクリプト、4 層の守り（組織・AI アプリ・サーバー・人）、職場での申請と審査の流れ、もしものときの手順 |
 | 見本 | [samples/README.md](samples/README.md) | **設定＆サーバー実装サンプル集（01〜05）**：最小約60行のサーバーからファサード型・隔離型・Resources / Prompts 実装まで |
 | 移行 | [copilot-fusion/01_harness-local-vs-copilot.md](../copilot-fusion/01_harness-local-vs-copilot.md) | **Copilot ハーネス移行ガイド**：旧 Local から Copilot ハーネスへ切り替えたときに MCP が見えなくなる原因と環境変数への移行手順 |
-| 出典 | [info/README.md](info/README.md) | **一次情報の出典メモ**：公式仕様・論文・記事 10 件の要約と鮮度ラベル |
+| 出典 | [info/README.md](info/README.md) | **一次情報の出典メモ**：公式仕様・論文・記事 14 件の要約と鮮度ラベル |
 
 ---
 
@@ -50,11 +56,13 @@ mcp-guide/
 │   └─ 02-seasonal-fair.md    … 秋の収穫祭フェア 特設 LP＆店長向け原価レポート
 ├─ scripts/
 │   ├─ test-mcp-server.js     ← Claude なしで MCP サーバーの JSON-RPC 通信を1秒で検証するスクリプト
+│   ├─ inspect-mcp-tools.js   ← ツールの説明文に怪しい書き方（外部 URL・隠し命令・見えない文字など）がないかを点検するスクリプト
+│   ├─ fixtures/              ← 点検スクリプトの動作確認用の偽データ（MCP サーバーではない）
 │   └─ run-experiment.ps1     ← Claude Code で A・B を実行し、時間・トークン・コストを記録するスクリプト
 ├─ output/                    ← ★成果物の置き場（実行するたびにフォルダが増える）
 │   └─ summary.md             … 全実行の一覧表（自動で1行ずつ追記）
-├─ docs/                      ← 読み物3本＋図解 SVG（assets/*.svg）
-├─ info/                      ← docs/02 を書くために集めた一次情報の出典メモ（10件、鮮度つき）
+├─ docs/                      ← 読み物4本＋図解 SVG（assets/*.svg）
+├─ info/                      ← docs を書くために集めた一次情報の出典メモ（14件、鮮度つき）
 └─ samples/                   ← パターン別の MCP サーバー＆設定ファイル見本（01〜05）
 ```
 
@@ -78,6 +86,9 @@ node scripts\test-mcp-server.js
    - 「`FD-001` と `DR-001` をイートインで頼んだときのセット価格と原価率を計算して」→ **セット割引 `-150円` 適用後の税抜 `1,210円`、税込 `1,331円`、原価率 `31.0%`**（目標35%以下で合格）が1ミリも狂わず返る
 
 また、`samples/` にある他のサンプルサーバーも同じスクリプトでテストできます。
+
+> [!TIP]
+> **入れる前の点検も 1 秒で**：`node scripts\inspect-mcp-tools.js <サーバー.js>` で、ツールの説明文に怪しい書き方（外部 URL・「ユーザーに言うな」などの隠し命令・見えない文字）がないかを洗い出せます。使い方と注意点は [docs/03 の 2 章](docs/03_mcp-security-and-rules.md) にあります。
 
 ```powershell
 node scripts\test-mcp-server.js samples\01-minimal-stdio\server.js

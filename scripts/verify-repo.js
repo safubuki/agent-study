@@ -98,9 +98,17 @@ function verifyMcpServers() {
     }
   }
 
+  // samples/06 は「その先のアプリ」も一緒に起動するデモで、往復の結果まで確かめる
+  const demo = 'mcp-guide/samples/06-wrap-existing-app/run-demo.js';
+  const demoRes = spawnSync(process.execPath, [path.join(repoRoot, demo)], { cwd: repoRoot, encoding: 'utf8', timeout: 20000 });
+  if (demoRes.status !== 0) {
+    errors.push(`${demo}: exit=${demoRes.status}` + '\n' + (demoRes.stderr || demoRes.stdout || '').trim());
+  }
+  const total = targets.length + 1;
+
   return {
     ok: errors.length === 0,
-    summary: `MCP サーバー ${targets.length - errors.length} / ${targets.length} 種合格`,
+    summary: `MCP サーバー ${total - errors.length} / ${total} 種合格`,
     errors
   };
 }
@@ -752,7 +760,7 @@ function main() {
 
   const checks = [
     { label: '1. Hook ローカルテスト (test-hooks-locally.js)', run: () => verifyHooks() },
-    { label: '2. MCP サーバー通信テスト (本体 + samples/01,02,03,05)', run: () => verifyMcpServers() },
+    { label: '2. MCP サーバー通信テスト (本体 + samples/01,02,03,05,06)', run: () => verifyMcpServers() },
     { label: '3. Markdown リンク・画像・アンカー整合チェック', run: () => verifyMarkdownFiles(allFiles) },
     { label: '4. JSON / JSONC 構文チェック', run: () => verifyJsonFiles(allFiles) },
     { label: '5. SVG XML 整形式・viewBox チェック', run: () => verifySvgFiles(allFiles) },

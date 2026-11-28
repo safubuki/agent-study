@@ -1,0 +1,116 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 600" font-family="Meiryo, 'Yu Gothic UI', 'Noto Sans JP', sans-serif" role="img" aria-label="MCPを安全に使うための4層の守り：組織、AIアプリ（ホスト）、MCPサーバー、使う人">
+  <defs>
+    <style>
+      .h{font-size:15px;font-weight:700;fill:#ffffff}
+      .hs{font-size:11px;fill:#ffffff}
+      .b{font-size:12px;fill:#374151}
+      .s{font-size:11px;fill:#6b7280}
+      .k{font-size:11px;font-weight:700}
+    </style>
+  </defs>
+  <rect x="0.5" y="0.5" width="899" height="599" rx="14" fill="#ffffff" stroke="#e5e7eb"/>
+  <text x="30" y="42" font-size="20" font-weight="700" fill="#111827">守りは 4 層で重ねる（1 つに頼らない）</text>
+  <text x="30" y="64" class="s" font-size="12.5">どれか 1 つが破られても、次の層で止まるように重ねる</text>
+
+  <!-- 層 1：組織 -->
+  <rect x="24" y="84" width="852" height="100" rx="12" fill="#eef2ff" stroke="#6366f1" stroke-width="1.5"/>
+  <rect x="24" y="84" width="176" height="100" rx="12" fill="#4f46e5"/>
+  <text x="112" y="124" text-anchor="middle" class="h">層 1　組織</text>
+  <text x="112" y="146" text-anchor="middle" class="hs">会社のルールと管理設定</text>
+  <text x="216" y="110" class="b" font-weight="700" fill="#312e81">使ってよいサーバーを決めて配る・それ以外は止める・使われ方を記録する</text>
+  <text x="216" y="134" class="b">・Claude Code：managed-mcp.json（固定のセット）／ allowedMcpServers・deniedMcpServers（許可・拒否）</text>
+  <text x="216" y="154" class="b">・GitHub Copilot：組織ポリシー「MCP servers in Copilot」・許可リスト・社内レジストリ</text>
+  <text x="216" y="174" class="s">・申請と審査の窓口・社内カタログ・利用ログ（例：Claude Code の OpenTelemetry で MCP の利用を記録）</text>
+
+  <!-- 層 2：ホスト -->
+  <rect x="24" y="196" width="852" height="100" rx="12" fill="#eff6ff" stroke="#3b82f6" stroke-width="1.5"/>
+  <rect x="24" y="196" width="176" height="100" rx="12" fill="#2563eb"/>
+  <text x="112" y="236" text-anchor="middle" class="h">層 2　AI アプリ</text>
+  <text x="112" y="258" text-anchor="middle" class="hs">ホストの設定と確認画面</text>
+  <text x="216" y="222" class="b" font-weight="700" fill="#1e3a8a">つなぐ前に承認し、実行の前に確認する・使う道具を絞る</text>
+  <text x="216" y="246" class="b">・初回の承認（プロジェクトの .mcp.json）・ワークスペースの信頼（VS Code）</text>
+  <text x="216" y="266" class="b">・削除・送信・決済などは自動許可にしない・自動許可のルールは狭く</text>
+  <text x="216" y="286" class="s">・強い権限の MCP はサブエージェントに分けて、外部の文章を読む MCP と同居させない</text>
+
+  <!-- 層 3：サーバー -->
+  <rect x="24" y="308" width="852" height="100" rx="12" fill="#ecfdf5" stroke="#10b981" stroke-width="1.5"/>
+  <rect x="24" y="308" width="176" height="100" rx="12" fill="#059669"/>
+  <text x="112" y="348" text-anchor="middle" class="h">層 3　MCP サーバー</text>
+  <text x="112" y="370" text-anchor="middle" class="hs">選び方と作り方</text>
+  <text x="216" y="334" class="b" font-weight="700" fill="#065f46">できることを最初から小さくしておく</text>
+  <text x="216" y="358" class="b">・読み取り専用・最小の権限（DB の接続アカウント自体を読み取り専用に）</text>
+  <text x="216" y="378" class="b">・入力のチェック（SQL をそのまま受け取らない）・バージョン固定・ログを残す</text>
+  <text x="216" y="398" class="s">・リモートなら HTTPS と認証は必須・自分宛てでないトークンは受け取らない（トークンの流用禁止）</text>
+
+  <!-- 層 4：人 -->
+  <rect x="24" y="420" width="852" height="100" rx="12" fill="#fffbeb" stroke="#f59e0b" stroke-width="1.5"/>
+  <rect x="24" y="420" width="176" height="100" rx="12" fill="#d97706"/>
+  <text x="112" y="460" text-anchor="middle" class="h">層 4　使う人</text>
+  <text x="112" y="482" text-anchor="middle" class="hs">毎回の習慣</text>
+  <text x="216" y="446" class="b" font-weight="700" fill="#92400e">入れる前に点検し、実行の前に中身を見て、怪しければ止める</text>
+  <text x="216" y="470" class="b">・出所・説明文の全文・必要な権限を確かめる（点検スクリプト inspect-mcp-tools.js）</text>
+  <text x="216" y="490" class="b">・承認画面では、説明ではなく実際の引数（送り先・中身）を見る</text>
+  <text x="216" y="510" class="s">・おかしな動きを見たら、サーバーを止めてトークンを無効にし、窓口に報告する</text>
+
+  <rect x="24" y="532" width="760" height="30" rx="10" fill="#f9fafb" stroke="#e5e7eb"/>
+  <text x="404" y="552" text-anchor="middle" class="b" font-weight="700" fill="#111827">💡 例：組織の許可リスト ＋ ホストの確認画面 ＋ 読み取り専用 ＋ 人の点検 を重ねる</text>
+
+  <text x="30" y="584" class="s">出典：Claude Code「Control MCP server access」・GitHub Docs「MCP management」・OWASP MCP Top 10 をもとに筆者作成</text>
+  <!-- 作者サイン：右下から図を見上げる亀（横向き） -->
+  <g transform="translate(794 534) scale(0.78)">
+  <g id="kame-mark" opacity="0.94">
+    <defs>
+      <linearGradient id="kameShell" x1="0.3" y1="0" x2="0.6" y2="1">
+        <stop offset="0" stop-color="#c9f1e0"/>
+        <stop offset="1" stop-color="#86d3b4"/>
+      </linearGradient>
+      <linearGradient id="kameScute" x1="0.3" y1="0" x2="0.6" y2="1">
+        <stop offset="0" stop-color="#ecfbf4"/>
+        <stop offset="1" stop-color="#b3e6d0"/>
+      </linearGradient>
+      <radialGradient id="kameSkin" cx="0.38" cy="0.32" r="0.8">
+        <stop offset="0" stop-color="#e6f7c2"/>
+        <stop offset="1" stop-color="#b3df86"/>
+      </radialGradient>
+      <linearGradient id="kameRim" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#fff1cf"/>
+        <stop offset="1" stop-color="#fbd79b"/>
+      </linearGradient>
+      <filter id="kameSoft" x="-20%" y="-50%" width="140%" height="200%"><feGaussianBlur stdDeviation="2.2"/></filter>
+      <filter id="kameGlow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="1.6"/></filter>
+      <clipPath id="kameDome"><path d="M34 58 C34 31 51 17 71 17 C92 17 108 32 108 58 Z"/></clipPath>
+    </defs>
+    <ellipse cx="68" cy="73" rx="44" ry="3.6" fill="#5b8f7b" opacity="0.22" filter="url(#kameSoft)"/>
+    <ellipse cx="56" cy="66" rx="5.5" ry="6.5" fill="#a4d47a"/>
+    <ellipse cx="84" cy="66" rx="5.5" ry="6.5" fill="#a4d47a"/>
+    <path d="M106 57 C112 57 116 60 116 63 C112 64.5 107 63.5 104 61 Z" fill="url(#kameSkin)" stroke="#a2d27a" stroke-width="1.2" stroke-linejoin="round"/>
+    <path d="M42 60 C36 58 30 54 26 47" fill="none" stroke="url(#kameSkin)" stroke-width="13" stroke-linecap="round"/>
+    <rect x="37" y="57" width="13" height="15" rx="6.5" fill="url(#kameSkin)" stroke="#a2d27a" stroke-width="1.2"/>
+    <rect x="91" y="57" width="13" height="15" rx="6.5" fill="url(#kameSkin)" stroke="#a2d27a" stroke-width="1.2"/>
+    <path d="M34 58 C34 31 51 17 71 17 C92 17 108 32 108 58 Z" fill="url(#kameShell)" stroke="#7fcaa9" stroke-width="1.4"/>
+    <g clip-path="url(#kameDome)" fill="url(#kameScute)" stroke="#a9e0c8" stroke-width="5" stroke-linejoin="round">
+      <path d="M60 27 L82 27 L88 38 L82 48 L60 48 L54 38 Z"/>
+      <path d="M31 60 L38 40 L49 34 L54 38 L60 48 L56 60 Z"/>
+      <path d="M111 60 L104 40 L93 34 L88 38 L82 48 L86 60 Z"/>
+      <path d="M60 48 L82 48 L86 60 L56 60 Z"/>
+    </g>
+    <ellipse cx="54" cy="29" rx="10" ry="4.5" fill="#ffffff" opacity="0.7" transform="rotate(-28 54 29)" filter="url(#kameGlow)"/>
+    <rect x="30" y="54" width="82" height="9.5" rx="4.75" fill="url(#kameRim)" stroke="#f3c57e" stroke-width="1.2"/>
+    <g fill="#f6cf8f" opacity="0.8">
+      <circle cx="45" cy="58.8" r="1.2"/><circle cx="58" cy="58.8" r="1.2"/><circle cx="71" cy="58.8" r="1.2"/>
+      <circle cx="84" cy="58.8" r="1.2"/><circle cx="97" cy="58.8" r="1.2"/>
+    </g>
+    <circle cx="23" cy="40" r="15.5" fill="url(#kameSkin)" stroke="#a2d27a" stroke-width="1.2"/>
+    <ellipse cx="20" cy="31" rx="6" ry="3" fill="#ffffff" opacity="0.6" transform="rotate(-20 20 31)" filter="url(#kameGlow)"/>
+    <ellipse cx="16.2" cy="38.5" rx="2.9" ry="3.6" fill="#3d3a4a"/>
+    <circle cx="15.3" cy="37.2" r="1.25" fill="#ffffff"/>
+    <circle cx="17" cy="40" r="0.55" fill="#ffffff" opacity="0.9"/>
+    <ellipse cx="24" cy="46" rx="4" ry="2.6" fill="#ffb3c1" opacity="0.75" filter="url(#kameGlow)"/>
+    <path d="M9.5 44.5 Q12.5 47.8 16 46" fill="none" stroke="#6f8f56" stroke-width="1.4" stroke-linecap="round"/>
+    <g fill="#ffffff" opacity="0.65">
+      <circle cx="40.5" cy="69.6" r="1.1"/><circle cx="44" cy="70.2" r="1.1"/>
+      <circle cx="94.5" cy="69.6" r="1.1"/><circle cx="98" cy="70.2" r="1.1"/>
+    </g>
+  </g>
+  </g>
+</svg>

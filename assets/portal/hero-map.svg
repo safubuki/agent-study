@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 218" role="img" aria-label="agent-study 学習マップ全体図：AIの仕組みから安全な運用、UI設計・超高速試作まで8つのテーマをつなぐ">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 218" role="img" aria-label="agent-study 学習マップ全体図：AIの仕組みから安全な運用、UI設計・超高速試作・ナレッジ共有まで9つのテーマをつなぐ">
   <defs>
     <linearGradient id="heroBg" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0%" stop-color="#f8fafc"/>
@@ -11,7 +11,7 @@
   </defs>
   <rect width="760" height="218" rx="20" fill="url(#heroBg)" stroke="#cbd5e1" stroke-width="1.5"/>
 
-  <text x="380" y="30" text-anchor="middle" font-size="13.5" font-weight="700" fill="#0f172a" font-family="BIZ UDPGothic, sans-serif">🗺️ 8つの学びのつながり（どこから読んでも OK！気になるカードをクリック）</text>
+  <text x="380" y="30" text-anchor="middle" font-size="13.5" font-weight="700" fill="#0f172a" font-family="BIZ UDPGothic, sans-serif">🗺️ 9つの学びのつながり（どこから読んでも OK！気になるカードをクリック）</text>
 
   <!-- グループ1：AI を動かす -->
   <rect x="20" y="48" width="224" height="150" rx="14" fill="#ffffff" stroke="#93c5fd" stroke-width="2"/>
@@ -33,14 +33,17 @@
   <rect x="282" y="56" width="154" height="22" rx="11" fill="#d1fae5"/>
   <text x="359" y="71" text-anchor="middle" font-size="10.5" font-weight="700" fill="#047857" font-family="BIZ UDPGothic, sans-serif">② 守る・つなぐ・育てる</text>
 
-  <rect x="282" y="88" width="204" height="30" rx="8" fill="#ecfdf5" stroke="#059669" stroke-width="1.5"/>
-  <text x="292" y="107" font-size="10" font-weight="700" fill="#065f46" font-family="BIZ UDPGothic, sans-serif">3. フック：危険操作を自動ブロック</text>
+  <rect x="282" y="85" width="204" height="24" rx="8" fill="#ecfdf5" stroke="#059669" stroke-width="1.5"/>
+  <text x="292" y="101" font-size="10" font-weight="700" fill="#065f46" font-family="BIZ UDPGothic, sans-serif">3. フック：危険操作を自動ブロック</text>
 
-  <rect x="282" y="124" width="204" height="30" rx="8" fill="#f0f9ff" stroke="#0284c7" stroke-width="1.5"/>
-  <text x="292" y="143" font-size="10" font-weight="700" fill="#0c4a6e" font-family="BIZ UDPGothic, sans-serif">4. MCP：本物のDB・計算と接続</text>
+  <rect x="282" y="113" width="204" height="24" rx="8" fill="#f0f9ff" stroke="#0284c7" stroke-width="1.5"/>
+  <text x="292" y="129" font-size="10" font-weight="700" fill="#0c4a6e" font-family="BIZ UDPGothic, sans-serif">4. MCP：本物のDB・計算と接続</text>
 
-  <rect x="282" y="160" width="204" height="30" rx="8" fill="#f5f3ff" stroke="#7c3aed" stroke-width="1.5"/>
-  <text x="292" y="179" font-size="10" font-weight="700" fill="#5b21b6" font-family="BIZ UDPGothic, sans-serif">6. スキル：ルール階層と道具箱</text>
+  <rect x="282" y="141" width="204" height="24" rx="8" fill="#f5f3ff" stroke="#7c3aed" stroke-width="1.5"/>
+  <text x="292" y="157" font-size="10" font-weight="700" fill="#5b21b6" font-family="BIZ UDPGothic, sans-serif">6. スキル：ルール階層と道具箱</text>
+
+  <rect x="282" y="169" width="204" height="24" rx="8" fill="#fdf2f8" stroke="#9d174d" stroke-width="1.5"/>
+  <text x="292" y="185" font-size="10" font-weight="700" fill="#831843" font-family="BIZ UDPGothic, sans-serif">9. ナレッジシェア：記録を貯めて育てる</text>
 
   <path d="M 500 122 L 518 122" fill="none" stroke="#475569" stroke-width="2.2" marker-end="url(#hArr)"/>
 

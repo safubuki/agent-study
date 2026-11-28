@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 205" role="img" aria-label="ナレッジシェアのイラスト：AIの実行記録を共有ボタンでGitHubに溜め、どこで失敗したかを数えてスキルを育てるループ">
+  <defs>
+    <linearGradient id="bg9" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#fdf2f8"/>
+      <stop offset="100%" stop-color="#fce7f3"/>
+    </linearGradient>
+    <marker id="arr9" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#9d174d"/>
+    </marker>
+  </defs>
+  <rect width="360" height="205" rx="18" fill="url(#bg9)"/>
+
+  <!-- 左：実行して記録 -->
+  <rect x="14" y="18" width="100" height="122" rx="12" fill="#ffffff" stroke="#2563eb" stroke-width="2"/>
+  <rect x="14" y="18" width="100" height="22" rx="12" fill="#2563eb"/>
+  <rect x="14" y="30" width="100" height="10" fill="#2563eb"/>
+  <text x="64" y="33" text-anchor="middle" font-size="8.5" font-weight="700" fill="#ffffff" font-family="BIZ UDPGothic, sans-serif">💻 実行して記録</text>
+  <rect x="24" y="48" width="80" height="18" rx="5" fill="#eff6ff" stroke="#93c5fd"/>
+  <text x="64" y="60" text-anchor="middle" font-size="7.5" fill="#1e3a8a" font-family="Consolas, monospace">run.json</text>
+  <rect x="24" y="70" width="80" height="18" rx="5" fill="#eff6ff" stroke="#93c5fd"/>
+  <text x="64" y="82" text-anchor="middle" font-size="7.5" fill="#1e3a8a" font-family="Consolas, monospace">steps.jsonl</text>
+  <rect x="24" y="100" width="80" height="26" rx="13" fill="#9d174d"/>
+  <text x="64" y="117" text-anchor="middle" font-size="8.5" font-weight="700" fill="#ffffff" font-family="BIZ UDPGothic, sans-serif">📤 共有</text>
+
+  <line x1="114" y1="79" x2="128" y2="79" stroke="#9d174d" stroke-width="2.2" marker-end="url(#arr9)"/>
+
+  <!-- 中央：GitHub に溜まる -->
+  <rect x="130" y="18" width="100" height="122" rx="12" fill="#ffffff" stroke="#9d174d" stroke-width="2"/>
+  <rect x="130" y="18" width="100" height="22" rx="12" fill="#9d174d"/>
+  <rect x="130" y="30" width="100" height="10" fill="#9d174d"/>
+  <text x="180" y="33" text-anchor="middle" font-size="8.5" font-weight="700" fill="#ffffff" font-family="BIZ UDPGothic, sans-serif">📚 GitHub に溜まる</text>
+  <text x="138" y="58" font-size="7.5" font-weight="700" fill="#0f172a" font-family="Consolas, monospace">runs/2026-11/</text>
+  <text x="140" y="74" font-size="7.5" fill="#334155" font-family="Consolas, monospace">├ …091522/</text>
+  <text x="140" y="89" font-size="7.5" fill="#334155" font-family="Consolas, monospace">├ …104010/</text>
+  <text x="140" y="104" font-size="7.5" fill="#334155" font-family="Consolas, monospace">└ …142033/</text>
+  <text x="180" y="128" text-anchor="middle" font-size="7.5" font-weight="700" fill="#9d174d" font-family="BIZ UDPGothic, sans-serif">clone 不要・API で直接</text>
+
+  <line x1="230" y1="79" x2="244" y2="79" stroke="#9d174d" stroke-width="2.2" marker-end="url(#arr9)"/>
+
+  <!-- 右：数えて直す -->
+  <rect x="246" y="18" width="100" height="122" rx="12" fill="#ffffff" stroke="#059669" stroke-width="2"/>
+  <rect x="246" y="18" width="100" height="22" rx="12" fill="#059669"/>
+  <rect x="246" y="30" width="100" height="10" fill="#059669"/>
+  <text x="296" y="33" text-anchor="middle" font-size="8.5" font-weight="700" fill="#ffffff" font-family="BIZ UDPGothic, sans-serif">📊 数えて直す</text>
+  <rect x="258" y="52" width="62" height="10" rx="3" fill="#f43f5e"/>
+  <text x="324" y="60" font-size="7" fill="#334155" font-family="BIZ UDPGothic, sans-serif">6</text>
+  <rect x="258" y="66" width="34" height="10" rx="3" fill="#fb7185"/>
+  <text x="296" y="74" font-size="7" fill="#334155" font-family="BIZ UDPGothic, sans-serif">3</text>
+  <rect x="258" y="80" width="18" height="10" rx="3" fill="#fda4af"/>
+  <text x="280" y="88" font-size="7" fill="#334155" font-family="BIZ UDPGothic, sans-serif">1</text>
+  <text x="296" y="106" text-anchor="middle" font-size="7.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif">どこで・何回・なぜ</text>
+  <rect x="258" y="114" width="76" height="18" rx="9" fill="#d1fae5"/>
+  <text x="296" y="126" text-anchor="middle" font-size="7.5" font-weight="700" fill="#065f46" font-family="BIZ UDPGothic, sans-serif">Gotchas ＋1</text>
+
+  <!-- 改善ループ -->
+  <path d="M 296 140 L 296 154 L 64 154 L 64 143" fill="none" stroke="#9d174d" stroke-width="1.8" stroke-dasharray="4 3" marker-end="url(#arr9)"/>
+  <text x="180" y="168" text-anchor="middle" font-size="8" font-weight="700" fill="#831843" font-family="BIZ UDPGothic, sans-serif">🔁 直したスキルで、次の実行へ</text>
+
+  <text x="180" y="190" text-anchor="middle" font-size="9" font-weight="700" fill="#831843" font-family="BIZ UDPGothic, sans-serif">ボタン 1 つで溜めて、失敗を数えて AI を育てる</text>
+</svg>

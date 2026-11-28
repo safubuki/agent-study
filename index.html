@@ -265,13 +265,14 @@
         <a href="agent-skill/interactive-guide.html">6. スキル</a>
         <a href="ui-guide/interactive-guide.html">7. AI・UI設計</a>
         <a href="real-lite-mock/interactive-guide.html">8. リアルライトモック</a>
+        <a href="knowledge-share/interactive-guide.html">9. ナレッジシェア</a>
       </nav>
     </div>
   </header>
 
   <main id="top">
     <section class="hero">
-      <span class="hero-badge">ブラウザで開くだけ・外部通信ゼロで学べる 8 つの体験ガイド</span>
+      <span class="hero-badge">ブラウザで開くだけ・外部通信ゼロで学べる 9 つの体験ガイド</span>
       <h1>絵と動きでわかる、AI エージェント＆UI 設計の学び場</h1>
       <p class="lead">
         難しい専門用語やプログラムをいきなり読む必要はありません。
@@ -279,23 +280,23 @@
       </p>
 
       <div class="hero-map-wrap">
-        <img src="assets/portal/hero-map.svg" alt="8つの学びのつながり：AIを賢く動かす、守る・つなぐ・育てる、人に伝わる設計・試作へ" />
+        <img src="assets/portal/hero-map.svg" alt="9つの学びのつながり：AIを賢く動かす、守る・つなぐ・育てる、人に伝わる設計・試作へ" />
       </div>
 
       <div class="filter-box">
         <span class="filter-label">🔎 いま知りたいテーマで絞り込む（どの順番から読んでも大丈夫です）</span>
         <div class="filter-row" id="filterRow">
-          <button type="button" class="filter-btn active" data-cat="all">🌈 すべて見る（8つ）</button>
+          <button type="button" class="filter-btn active" data-cat="all">🌈 すべて見る（9つ）</button>
           <button type="button" class="filter-btn" data-cat="run">🤖 ① AI を賢く動かす（2つ）</button>
-          <button type="button" class="filter-btn" data-cat="ops">🛡️ ② 守る・つなぐ・育てる（3つ）</button>
+          <button type="button" class="filter-btn" data-cat="ops">🛡️ ② 守る・つなぐ・育てる（4つ）</button>
           <button type="button" class="filter-btn" data-cat="design">🎨 ③ 人に伝わる設計・試作（3つ）</button>
         </div>
       </div>
     </section>
 
     <div class="section-head">
-      <h2>📚 8 つのインタラクティブ学習ガイド</h2>
-      <span class="section-count" id="shownCount">全 8 ガイドを表示中</span>
+      <h2>📚 9 つのインタラクティブ学習ガイド</h2>
+      <span class="section-count" id="shownCount">全 9 ガイドを表示中</span>
     </div>
 
     <section class="card-grid" id="cardGrid" aria-label="学習ガイド一覧">
@@ -498,6 +499,30 @@
           </div>
         </div>
       </article>
+      <article class="guide-card" data-cat="ops" style="--card-color:#9d174d;">
+        <a class="card-illus" href="knowledge-share/interactive-guide.html">
+          <img src="assets/portal/09-knowledge-share.svg" alt="AIの実行記録を共有ボタンでGitHubに溜め、どこで失敗したかを数えてスキルを育てるループの図" />
+        </a>
+        <div class="card-body">
+          <div class="card-top">
+            <span class="card-no">ガイド 9</span>
+            <span class="card-cat">守る・つなぐ・育てる</span>
+          </div>
+          <h3 class="card-title">ナレッジシェア（実行記録を貯めて AI を育てる）</h3>
+          <p class="card-desc">
+            ローカル AI の<strong>結果と途中ログを、共有ボタン 1 つで GitHub に溜め</strong>、<strong>どこで・何回・なぜ失敗したかを数えて</strong>スキルを 1 項目ずつ直す仕組みを学びます。
+          </p>
+          <ul class="learn-list">
+            <li>1 実行 1 フォルダの記録の形と、clone 不要で API から直接書き込む方法</li>
+            <li>1 リポ／2 リポの構成と流れ、だれにどの権限を渡すか</li>
+            <li>GitHub → 集計用 DB → 社内 DB → クラウドへの育て方（段階を切り替えて見る）</li>
+          </ul>
+          <div class="card-actions">
+            <a class="btn-primary" href="knowledge-share/interactive-guide.html">▶ 動かして学ぶ</a>
+            <a class="btn-secondary" href="knowledge-share/README.md">📖 Markdown 資料</a>
+          </div>
+        </div>
+      </article>
     </section>
 
     <div class="section-head" style="margin-top:52px;">
@@ -526,9 +551,11 @@
           <a class="course-pill" href="hook-guide/interactive-guide.html">3. フック</a>
           <span class="course-arrow">→</span>
           <a class="course-pill" href="copilot-fusion/interactive-guide.html">2. Fusion</a>
+          <span class="course-arrow">→</span>
+          <a class="course-pill" href="knowledge-share/interactive-guide.html">9. ナレッジシェア</a>
         </div>
         <p style="margin:0;font-size:0.88rem;color:var(--ink-sub);">
-          全社・部署・案件のルール階層化と、チームで壊れない運用を学びたい方に最適です。
+          全社・部署・案件のルール階層化と、チームで壊れない運用、さらに実行記録を貯めてスキルを育てる仕組みまで学びたい方に最適です。
         </p>
       </div>
 
@@ -577,7 +604,7 @@
             if (match) count++;
           });
           shownCount.textContent = cat === "all"
-            ? "全 8 ガイドを表示中"
+            ? "全 9 ガイドを表示中"
             : count + " 件のおすすめガイドを表示中";
         });
       });

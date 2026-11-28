@@ -1,0 +1,102 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 470" role="img" aria-label="GitHubからDB・クラウドへ4段階で育てるロードマップ：記録の形は変えず、受け口と置き場だけを変える">
+  <defs>
+    <marker id="ks10Arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#475569"/>
+    </marker>
+  </defs>
+
+  <rect width="960" height="470" rx="18" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+
+  <text x="480" y="36" text-anchor="middle" font-size="18" font-weight="800" fill="#0f172a" font-family="BIZ UDPGothic, Yu Gothic UI, sans-serif">この先の発展：GitHub から DB・クラウドへ 4 段階で育てる</text>
+  <text x="480" y="58" text-anchor="middle" font-size="12" fill="#475569" font-family="BIZ UDPGothic, Yu Gothic UI, sans-serif">記録の形（run.json・steps.jsonl）は変えない。変えるのは「受け口」と「置き場」だけ。困りごとが出たら 1 段ずつ進む</text>
+
+  <!-- 段階 1 -->
+  <rect x="24" y="80" width="204" height="214" rx="12" fill="#ffffff" stroke="#2563eb" stroke-width="2.2"/>
+  <rect x="24" y="80" width="204" height="44" rx="12" fill="#2563eb"/>
+  <rect x="24" y="110" width="204" height="14" fill="#2563eb"/>
+  <text x="126" y="100" text-anchor="middle" font-size="12" font-weight="800" fill="#ffffff" font-family="BIZ UDPGothic, sans-serif">段階 1：GitHub だけ</text>
+  <text x="126" y="117" text-anchor="middle" font-size="9.5" fill="#dbeafe" font-family="BIZ UDPGothic, sans-serif">いまの形（ここから始める）</text>
+  <text x="38" y="146" font-size="9.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif"><tspan font-weight="800" fill="#1e3a8a">受け口</tspan>：GitHub API</text>
+  <text x="38" y="168" font-size="9.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif"><tspan font-weight="800" fill="#1e3a8a">置き場</tspan>：ナレッジ専用リポ</text>
+  <text x="38" y="190" font-size="9.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif"><tspan font-weight="800" fill="#1e3a8a">見える化</tspan>：集計スクリプト</text>
+  <text x="38" y="212" font-size="9.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif"><tspan font-weight="800" fill="#1e3a8a">認証</tspan>：各自のトークン</text>
+  <text x="38" y="234" font-size="9.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif"><tspan font-weight="800" fill="#1e3a8a">CAD 実体</tspan>：Box</text>
+  <rect x="36" y="250" width="180" height="32" rx="8" fill="#eff6ff"/>
+  <text x="126" y="270" text-anchor="middle" font-size="9.5" font-weight="700" fill="#1d4ed8" font-family="BIZ UDPGothic, sans-serif">費用：ほぼゼロ（図：ks-08）</text>
+
+  <line x1="228" y1="187" x2="256" y2="187" stroke="#475569" stroke-width="2.4" marker-end="url(#ks10Arr)"/>
+
+  <!-- 段階 2 -->
+  <rect x="260" y="80" width="204" height="214" rx="12" fill="#ffffff" stroke="#9d174d" stroke-width="2.2"/>
+  <rect x="260" y="80" width="204" height="44" rx="12" fill="#9d174d"/>
+  <rect x="260" y="110" width="204" height="14" fill="#9d174d"/>
+  <text x="362" y="100" text-anchor="middle" font-size="12" font-weight="800" fill="#ffffff" font-family="BIZ UDPGothic, sans-serif">段階 2：＋ 集計用 DB</text>
+  <text x="362" y="117" text-anchor="middle" font-size="9.5" fill="#fce7f3" font-family="BIZ UDPGothic, sans-serif">アプリは変えない</text>
+  <text x="274" y="146" font-size="9.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif"><tspan font-weight="800" fill="#831843">受け口</tspan>：GitHub API（同じ）</text>
+  <text x="274" y="168" font-size="9.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif"><tspan font-weight="800" fill="#831843">置き場</tspan>：runs/ ＋ DB に写す</text>
+  <text x="274" y="190" font-size="9.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif"><tspan font-weight="800" fill="#831843">見える化</tspan>：SQL・ダッシュボード</text>
+  <text x="274" y="212" font-size="9.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif"><tspan font-weight="800" fill="#831843">認証</tspan>：同じ</text>
+  <text x="274" y="234" font-size="9.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif"><tspan font-weight="800" fill="#831843">CAD 実体</tspan>：Box</text>
+  <rect x="272" y="250" width="180" height="32" rx="8" fill="#fdf2f8"/>
+  <text x="362" y="270" text-anchor="middle" font-size="9.5" font-weight="700" fill="#9d174d" font-family="BIZ UDPGothic, sans-serif">費用：小（手元なら無料）</text>
+
+  <line x1="464" y1="187" x2="492" y2="187" stroke="#475569" stroke-width="2.4" marker-end="url(#ks10Arr)"/>
+
+  <!-- 段階 3 -->
+  <rect x="496" y="80" width="204" height="214" rx="12" fill="#ffffff" stroke="#d97706" stroke-width="2.2"/>
+  <rect x="496" y="80" width="204" height="44" rx="12" fill="#d97706"/>
+  <rect x="496" y="110" width="204" height="14" fill="#d97706"/>
+  <text x="598" y="100" text-anchor="middle" font-size="12" font-weight="800" fill="#ffffff" font-family="BIZ UDPGothic, sans-serif">段階 3：DB に置き換え</text>
+  <text x="598" y="117" text-anchor="middle" font-size="9.5" fill="#fef3c7" font-family="BIZ UDPGothic, sans-serif">社内 API ＋ DB</text>
+  <text x="510" y="146" font-size="9.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif"><tspan font-weight="800" fill="#92400e">受け口</tspan>：社内の API</text>
+  <text x="510" y="168" font-size="9.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif"><tspan font-weight="800" fill="#92400e">置き場</tspan>：DB（runs・steps 表）</text>
+  <text x="510" y="190" font-size="9.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif"><tspan font-weight="800" fill="#92400e">見える化</tspan>：SQL・ダッシュボード</text>
+  <text x="510" y="212" font-size="9.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif"><tspan font-weight="800" fill="#92400e">認証</tspan>：社内アカウント</text>
+  <text x="510" y="234" font-size="9.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif"><tspan font-weight="800" fill="#92400e">CAD 実体</tspan>：Box・社内 NAS</text>
+  <rect x="508" y="250" width="180" height="32" rx="8" fill="#fffbeb"/>
+  <text x="598" y="270" text-anchor="middle" font-size="9.5" font-weight="700" fill="#b45309" font-family="BIZ UDPGothic, sans-serif">費用：サーバーと保守</text>
+
+  <line x1="700" y1="187" x2="728" y2="187" stroke="#475569" stroke-width="2.4" marker-end="url(#ks10Arr)"/>
+
+  <!-- 段階 4 -->
+  <rect x="732" y="80" width="204" height="214" rx="12" fill="#ffffff" stroke="#059669" stroke-width="2.2"/>
+  <rect x="732" y="80" width="204" height="44" rx="12" fill="#059669"/>
+  <rect x="732" y="110" width="204" height="14" fill="#059669"/>
+  <text x="834" y="100" text-anchor="middle" font-size="12" font-weight="800" fill="#ffffff" font-family="BIZ UDPGothic, sans-serif">段階 4：クラウドへ</text>
+  <text x="834" y="117" text-anchor="middle" font-size="9.5" fill="#d1fae5" font-family="BIZ UDPGothic, sans-serif">マネージドサービスで運用</text>
+  <text x="746" y="146" font-size="9.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif"><tspan font-weight="800" fill="#065f46">受け口</tspan>：クラウドの API</text>
+  <text x="746" y="168" font-size="9.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif"><tspan font-weight="800" fill="#065f46">置き場</tspan>：マネージド DB</text>
+  <text x="746" y="190" font-size="9.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif"><tspan font-weight="800" fill="#065f46">見える化</tspan>：BI・LLM 観測ツール</text>
+  <text x="746" y="212" font-size="9.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif"><tspan font-weight="800" fill="#065f46">認証</tspan>：会社の SSO</text>
+  <text x="746" y="234" font-size="9.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif"><tspan font-weight="800" fill="#065f46">CAD 実体</tspan>：クラウドのストレージ</text>
+  <rect x="744" y="250" width="180" height="32" rx="8" fill="#ecfdf5"/>
+  <text x="834" y="270" text-anchor="middle" font-size="9.5" font-weight="700" fill="#047857" font-family="BIZ UDPGothic, sans-serif">費用：使った分（従量）</text>
+
+  <!-- 次へ進む合図 -->
+  <rect x="24" y="306" width="204" height="74" rx="10" fill="#ffffff" stroke="#93c5fd" stroke-dasharray="5 3"/>
+  <text x="36" y="326" font-size="10" font-weight="800" fill="#1d4ed8" font-family="BIZ UDPGothic, sans-serif">▶ 段階 2 へ進む合図</text>
+  <text x="36" y="346" font-size="9.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif">記録が数百件を超え、集計が遅い</text>
+  <text x="36" y="364" font-size="9.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif">条件を変えて何度も絞り込みたい</text>
+
+  <rect x="260" y="306" width="204" height="74" rx="10" fill="#ffffff" stroke="#f9a8d4" stroke-dasharray="5 3"/>
+  <text x="272" y="326" font-size="10" font-weight="800" fill="#9d174d" font-family="BIZ UDPGothic, sans-serif">▶ 段階 3 へ進む合図</text>
+  <text x="272" y="346" font-size="9.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif">送る人が増え、トークン管理が負担</text>
+  <text x="272" y="364" font-size="9.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif">「送るだけ」の権限にしたい</text>
+
+  <rect x="496" y="306" width="204" height="74" rx="10" fill="#ffffff" stroke="#fcd34d" stroke-dasharray="5 3"/>
+  <text x="508" y="326" font-size="10" font-weight="800" fill="#b45309" font-family="BIZ UDPGothic, sans-serif">▶ 段階 4 へ進む合図</text>
+  <text x="508" y="346" font-size="9.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif">拠点・部署をまたいで使う</text>
+  <text x="508" y="364" font-size="9.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif">SSO・監査・バックアップが必要</text>
+
+  <rect x="732" y="306" width="204" height="74" rx="10" fill="#ffffff" stroke="#6ee7b7" stroke-dasharray="5 3"/>
+  <text x="744" y="326" font-size="10" font-weight="800" fill="#047857" font-family="BIZ UDPGothic, sans-serif">段階を飛ばしてもよい</text>
+  <text x="744" y="346" font-size="9.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif">会社に DB やクラウドの基盤が</text>
+  <text x="744" y="364" font-size="9.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif">あれば、段階 3・4 から始めても可</text>
+
+  <!-- 変わらないもの -->
+  <rect x="24" y="394" width="912" height="30" rx="10" fill="#fffbeb" stroke="#d97706" stroke-width="1.5"/>
+  <text x="480" y="414" text-anchor="middle" font-size="11" font-weight="800" fill="#92400e" font-family="BIZ UDPGothic, sans-serif">🔒 どの段階でも変わらない：記録の形 ／ アプリとスキルは GitHub で PR レビュー ／ 人が 1 項目ずつ直すループ</text>
+
+  <rect x="24" y="432" width="912" height="28" rx="10" fill="#0f172a"/>
+  <text x="480" y="450" text-anchor="middle" font-size="11" font-weight="700" fill="#ffffff" font-family="BIZ UDPGothic, sans-serif">💡 1 実行 1 フォルダの JSON で貯めてあるので、どの段階に進んでも過去の記録はそのまま取り込める</text>
+</svg>

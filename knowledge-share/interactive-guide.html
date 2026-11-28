@@ -495,7 +495,7 @@
         <a class="toc-item" href="#step3"><span class="toc-no">3</span>1リポ vs 2リポ かんたん診断</a>
         <a class="toc-item" href="#step4"><span class="toc-no">4</span>数えて直す 4 ステップ＆安全策</a>
         <a class="toc-item" href="#step5"><span class="toc-no">5</span>すぐ使える雛形 6 種</a>
-        <a class="toc-item" href="sources.md"><span class="toc-no">🔎</span>出典一覧を見る</a>
+        <a class="toc-item" href="#step6"><span class="toc-no">6</span>この先の発展：DB・クラウドへ</a>
       </div>
     </section>
 
@@ -804,6 +804,58 @@
           </div>
         </div>
 
+        <div class="takeaway">
+          <span class="takeaway-head">▶ 次は STEP 6</span>
+          ここまでの仕組みで回り始めたら、記録が増えたときに DB やクラウドへどう育てるかを STEP 6 で見てみましょう。
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================
+         STEP 6：この先の発展（GitHub → DB → クラウド）をボタンで切り替える
+    ================================================================ -->
+    <section class="lesson" id="step6">
+      <span class="lesson-kicker">STEP 6 — この先の発展</span>
+      <h2>GitHub から DB・クラウドへ：段階を切り替えて見る</h2>
+      <div class="story-box">
+        <strong>記録の形は変えず、「受け口」と「置き場」だけを変える：</strong>
+        いまの GitHub の形（段階 1）から、集計用 DB（段階 2）、社内 API ＋ DB（段階 3）、クラウド（段階 4）へ。図はどれも「左＝利用者／中央＝保存先／右＝分析する人」の同じ配置なので、切り替えると<strong>オレンジの「変更」</strong>が付いたところだけが変わっているのがわかります。
+      </div>
+
+      <div class="exp-card">
+        <div class="step-bar">
+          <span class="step-label">👇 段階を選ぶと、図と説明が切り替わります</span>
+          <div class="select-grid four" id="stageTabs">
+            <button type="button" class="sel-btn active" data-stage="0">
+              <span class="sel-title">段階 1：GitHub だけ</span>
+              <span class="sel-sub">いまの形（ここから）</span>
+            </button>
+            <button type="button" class="sel-btn" data-stage="1">
+              <span class="sel-title">段階 2：＋ 集計用 DB</span>
+              <span class="sel-sub">アプリは変えない</span>
+            </button>
+            <button type="button" class="sel-btn" data-stage="2">
+              <span class="sel-title">段階 3：DB に置き換え</span>
+              <span class="sel-sub">社内 API ＋ DB</span>
+            </button>
+            <button type="button" class="sel-btn" data-stage="3">
+              <span class="sel-title">段階 4：クラウドへ</span>
+              <span class="sel-sub">マネージドサービス</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="stage">
+          <div class="figure-frame" style="margin-bottom:16px;">
+            <img id="stageImg" src="assets/ks-08-two-repo-flow.svg" alt="段階1：GitHubだけの構成と流れ" />
+          </div>
+          <div class="opt-card" id="stageDetail"></div>
+        </div>
+
+        <div class="takeaway">
+          <span class="takeaway-head">🗺️ 4 段階のロードマップ</span>
+          4 段階を 1 枚で見比べるなら <a href="assets/ks-10-evolution-roadmap.svg" style="color:var(--accent);font-weight:800;">ks-10（ロードマップ）</a>、DB の表の例や送り先の差し替え方は <a href="04_evolution-db-cloud.md" style="color:var(--accent);font-weight:800;">04. この先の発展</a> にまとめています。段階は飛ばしてもかまいません。困りごとが出たら 1 段ずつ進むのがおすすめです。
+        </div>
         <div class="takeaway">
           <span class="takeaway-head">🎉 おつかれさまでした！</span>
           詳しい解説は <a href="README.md" style="color:var(--accent);font-weight:800;">knowledge-share/README.md</a>、出典は <a href="sources.md" style="color:var(--accent);font-weight:800;">sources.md</a> にまとめています。スキルの評価ループや大容量 CAD の目録管理は <a href="../agent-skill/interactive-guide.html" style="color:var(--accent);font-weight:800;">6. スキルガイド</a> もあわせてご活用ください。
@@ -1506,6 +1558,96 @@ jobs:
         }
       });
       renderTpl(0);
+
+      /* STEP 6：発展の段階を切り替える */
+      const STAGES = [
+        {
+          img: "assets/ks-08-two-repo-flow.svg",
+          alt: "段階1：GitHubだけの構成と流れ。利用者は記録をAPIでナレッジ専用リポに直接書き込み、分析する人だけが取得して集計する",
+          title: "段階 1：GitHub だけ（いまの形）",
+          badge: "費用：ほぼゼロ",
+          summary: "利用者はアプリ用リポを取得して動かし、記録は GitHub API でナレッジ専用リポに直接書き込みます。分析する人だけがナレッジ専用リポを取得し、集計スクリプトで「どこで・何回・なぜ」を数えます。",
+          metrics: [
+            { l: "記録の受け口", v: "GitHub API" },
+            { l: "記録の置き場", v: "ナレッジ専用リポ（runs/）" },
+            { l: "見える化", v: "集計スクリプト" }
+          ],
+          point: "・ここが出発点。追加のサーバーも費用もほぼ要らない<br>・認証は各自のトークン（ナレッジ専用リポの Write）<br>・CAD の実体ファイルは Box へ",
+          nextLabel: "▶ 段階 2 へ進む合図",
+          next: "・記録が数百件を超え、集計が遅い<br>・条件を変えて何度も絞り込みたい<br>・グラフで見たい"
+        },
+        {
+          img: "assets/ks-11-stage2-analysis-db.svg",
+          alt: "段階2：記録の受け口はGitHubのまま、分析する人がruns/を集計用DBに取り込み、SQLとダッシュボードで見る",
+          title: "段階 2：GitHub ＋ 集計用 DB",
+          badge: "アプリは変えない",
+          summary: "利用者のアプリと送り方はそのまま。分析する人が runs/ を DB に取り込み、SQL とダッシュボードで見ます。手元で動く DuckDB なら、サーバーなしで今日から試せます。",
+          metrics: [
+            { l: "記録の受け口", v: "GitHub API（同じ）" },
+            { l: "記録の置き場", v: "runs/ ＋ DB に写す" },
+            { l: "見える化", v: "SQL・ダッシュボード" }
+          ],
+          point: "・集計がスクリプト → SQL・ダッシュボードに<br>・DB は「写し」なので、壊れても GitHub の記録から作り直せる<br>・チームで見るなら、定期実行で共有 DB に写す",
+          nextLabel: "▶ 段階 3 へ進む合図",
+          next: "・送る人が増え、トークンや権限の管理が負担<br>・「送るだけで、他の人の記録は読めない」権限にしたい<br>・GitHub の書き込み上限（1 時間 500 回ほど）に近い"
+        },
+        {
+          img: "assets/ks-12-stage3-own-db.svg",
+          alt: "段階3：アプリの送り先を社内のAPIに変え、APIが記録をDBに保存する。GitHubはアプリのコードとスキルだけを置く",
+          title: "段階 3：DB に置き換える（社内 API ＋ DB）",
+          badge: "送り先を差し替える",
+          summary: "アプリの送り先を社内の API に変え、API が中身を確かめてから DB に書き込みます。GitHub は、アプリのコードとスキルだけを置く場所になります。",
+          metrics: [
+            { l: "記録の受け口", v: "社内の API" },
+            { l: "記録の置き場", v: "DB（runs・steps 表）" },
+            { l: "見える化", v: "SQL・ダッシュボード" }
+          ],
+          point: "・各 PC に DB のパスワードを置かずに済む<br>・送る人は「書くだけ」、分析する人だけが「読む」権限にできる<br>・過去の runs/ はスクリプトで一括で取り込める",
+          nextLabel: "▶ 段階 4 へ進む合図",
+          next: "・拠点や部署をまたいで使う<br>・SSO・監査ログ・バックアップを会社の基準で求められる<br>・サーバーの保守を減らしたい"
+        },
+        {
+          img: "assets/ks-13-stage4-cloud.svg",
+          alt: "段階4：API・DB・ストレージ・ログインをクラウドのマネージドサービスにし、BIとLLM観測ツールで改善を回す",
+          title: "段階 4：クラウドへ",
+          badge: "費用：使った分（従量）",
+          summary: "API・DB・ストレージ・ログインを、クラウドのマネージドサービスに置き換えます。拠点をまたいでも同じ画面で改善を回せて、AI の呼び出し単位まで追えます。",
+          metrics: [
+            { l: "記録の受け口", v: "クラウドの API" },
+            { l: "記録の置き場", v: "マネージド DB" },
+            { l: "見える化", v: "BI・LLM 観測ツール" }
+          ],
+          point: "・例（Azure）：Functions・Database for PostgreSQL・Blob Storage・Entra ID（AWS・Google Cloud にも同じ役割のサービスがある）<br>・スキルの PR では CI で評価ケースを自動で回す",
+          nextLabel: "⚠ クラウドで気をつけること",
+          next: "・費用（常に動き続けるものを減らす）<br>・記録の保存期間と削除のルール<br>・読む人と送る人の権限を分ける<br>・社内のクラウド利用ルール"
+        }
+      ];
+
+      const stageImg = document.getElementById("stageImg");
+      const stageDetail = document.getElementById("stageDetail");
+      function renderStage(idx) {
+        const st = STAGES[idx];
+        stageImg.src = st.img;
+        stageImg.alt = st.alt;
+        stageDetail.innerHTML =
+          '<div class="opt-top"><h4 style="margin:0;font-size:1.05rem;">' + st.title + '</h4><span class="opt-badge">' + st.badge + '</span></div>' +
+          '<p style="margin:0;font-size:0.88rem;color:var(--ink-sub);">' + st.summary + '</p>' +
+          '<div class="metric-row">' +
+            st.metrics.map(m => '<div class="metric-box"><span class="ml">' + m.l + '</span><span class="mv">' + m.v + '</span></div>').join("") +
+          '</div>' +
+          '<div class="opt-cols">' +
+            '<div class="opt-col"><strong>🔄 この段階のポイント</strong>' + st.point + '</div>' +
+            '<div class="opt-col"><strong>' + st.nextLabel + '</strong>' + st.next + '</div>' +
+          '</div>';
+      }
+      document.querySelectorAll("#stageTabs .sel-btn").forEach(btn => {
+        btn.addEventListener("click", () => {
+          document.querySelectorAll("#stageTabs .sel-btn").forEach(b => b.classList.remove("active"));
+          btn.classList.add("active");
+          renderStage(Number(btn.dataset.stage));
+        });
+      });
+      renderStage(0);
     })();
   </script>
 </body>

@@ -1,6 +1,6 @@
 # sources.md — 出典一覧（knowledge-share）
 
-`knowledge-share/` のガイド（`README.md`、`00`〜`03` 章、`interactive-guide.html`、SVG 図 9 枚）で根拠にした資料の一覧です。
+`knowledge-share/` のガイド（`README.md`、`00`〜`04` 章、`interactive-guide.html`、SVG 図 13 枚）で根拠にした資料の一覧です。
 
 - **確認日**：2026-11-28
 - **方針**：公式ドキュメント・本人の記事・公式 README は、URL の本文で該当箇所を確かめてから使っています。
@@ -25,6 +25,7 @@
 | **G11** | **GitHub Docs：GitHub Actions billing**<br/>https://docs.github.com/en/billing/concepts/product-billing/github-actions | ・無料枠は分数ではなく金額（`included compute usage`）。GitHub Free / Free for organizations は月 $12 USD・Artifact 保存 500 MB、GitHub Team は月 $18 USD・2 GB。標準 Linux ランナーは $0.006/分。<br/>・パブリックリポジトリの標準ランナーは無料。 | 00 |
 | **G12** | **GitHub CLI 公式マニュアル：`gh issue list`**<br/>https://cli.github.com/manual/gh_issue_list | ・`--json` で Issue の一覧を JSON で取り出せる（`--label` で絞り込み可）。 | 01 |
 | **G13** | **GitHub Docs：Repository roles for an organization**<br/>https://docs.github.com/en/organizations/managing-user-access-to-your-organizations-repositories/managing-repository-roles/repository-roles-for-an-organization | ・ロールは Read／Triage／Moderate／Write／Maintain／Admin。どのロールでも読む（pull）ことができ、push できるのは Write 以上。書き込みだけのロールはない。 | 02, ks-08, ks-09 |
+| **G14** | **GitHub Docs：Rate limits for the REST API**<br/>https://docs.github.com/en/rest/using-the-rest-api/rate-limits-for-the-rest-api | ・認証したユーザーの通常の上限は 1 時間 5,000 リクエスト。<br/>・別枠の上限として、書き込み系（content-generating）のリクエストは、おおむね 1 分 80 回・1 時間 500 回まで。 | 04, ks-10 |
 
 ---
 
@@ -38,7 +39,16 @@
 
 ---
 
-## 3. 実行記録の分析・評価・スキル改善に関する資料
+## 3. DB に関する資料
+
+| # | 資料名・URL | 確認した内容 | 主な使用箇所 |
+|---|---|---|---|
+| **D1** | **DuckDB：JSON の読み込み（Loading JSON）**<br/>https://duckdb.org/docs/stable/data/json/loading_json | ・`read_json`（別名 `read_json_auto`）で JSON ファイルを直接 SQL で読める。ファイル名にはワイルドカード（`*`・`**`）も使える。<br/>・入れ子の項目を `failed_step.tool` のように指定して集計できることは、本ガイドのサンプルデータで実際に動かして確認した。 | 04, ks-11 |
+| **D2** | **PostgreSQL：JSON 型（JSON Types）**<br/>https://www.postgresql.org/docs/current/datatype-json.html | ・JSON を保存する型として `json` と `jsonb` がある。`jsonb` は分解した形で保存され、インデックス（GIN など）で中のキーや値を効率よく検索できる。 | 04, ks-12 |
+
+---
+
+## 4. 実行記録の分析・評価・スキル改善に関する資料
 
 | # | 資料名・URL | 確認した内容 | 主な使用箇所 |
 |---|---|---|---|
@@ -48,7 +58,7 @@
 
 ---
 
-## 4. 本ガイドの「目安・設計提案」
+## 5. 本ガイドの「目安・設計提案」
 
 次の項目は外部の統計や研究の結論ではなく、本ガイドが小規模チーム向けに提案する**運用の目安と設計**です。
 
@@ -59,3 +69,4 @@
 - 20〜50 件で傾向が見え始める、週 1 回 30 分、という目安
 - テキストだけなら 1 件あたり数十 KB 程度、という容量の見積もり
 - 立ち上げ初期の規模感（2〜3 人〜少数の試用メンバー）と、成長ステップ（Step A → B → C）
+- GitHub → 集計用 DB → 社内 DB → クラウドの 4 段階と、それぞれの「進む合図」、DB の表の例、クラウドのサービスの対応表（例として挙げたサービス名は、役割の目安）

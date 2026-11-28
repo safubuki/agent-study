@@ -449,4 +449,4 @@ jobs:
 
 ---
 
-◀ 前の章：[02. GitHub で作る実践構成](02_github-architecture.md) ／ 📖 [出典一覧（sources.md）](sources.md) ／ 🏠 [トップ（README）へ戻る](README.md)
+◀ 前の章：[02. GitHub で作る実践構成](02_github-architecture.md) ／ ▶ 次の章：[04. この先の発展（DB・クラウドへ）](04_evolution-db-cloud.md) ／ 🏠 [トップ（README）へ戻る](README.md)

@@ -1,0 +1,127 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 680" role="img" aria-label="段階4：API・DB・ストレージ・ログインをクラウドのマネージドサービスにし、BIとLLM観測ツールで改善を回す構成と流れ">
+  <defs>
+    <marker id="ks13Blue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#1d4ed8"/>
+    </marker>
+    <marker id="ks13Green" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#047857"/>
+    </marker>
+    <marker id="ks13Gray" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#64748b"/>
+    </marker>
+  </defs>
+
+  <rect width="960" height="680" rx="18" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+
+  <text x="480" y="36" text-anchor="middle" font-size="18" font-weight="800" fill="#0f172a" font-family="BIZ UDPGothic, Yu Gothic UI, sans-serif">段階 4：クラウドに載せる（マネージドサービスで運用）</text>
+  <text x="480" y="58" text-anchor="middle" font-size="12" fill="#475569" font-family="BIZ UDPGothic, Yu Gothic UI, sans-serif">API・DB・ストレージ・ログインをクラウドのサービスに。拠点をまたいで、同じ画面で改善を回す</text>
+
+  <!-- ===== 左：利用者の PC ===== -->
+  <rect x="24" y="80" width="256" height="370" rx="14" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
+  <text x="152" y="103" text-anchor="middle" font-size="12.5" font-weight="800" fill="#1e3a8a" font-family="BIZ UDPGothic, sans-serif">💻 利用者の PC（各拠点）</text>
+
+  <rect x="40" y="118" width="224" height="62" rx="9" fill="#ffffff" stroke="#93c5fd"/>
+  <text x="52" y="138" font-size="10.5" font-weight="800" fill="#1d4ed8" font-family="BIZ UDPGothic, sans-serif">① アプリ（my-cad-ai-app）を取得</text>
+  <text x="52" y="156" font-size="9.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif">clone、または配布されたアプリ</text>
+  <text x="52" y="172" font-size="9.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif">→ 会社の SSO でログイン</text>
+  <line x1="152" y1="180" x2="152" y2="194" stroke="#64748b" stroke-width="2" marker-end="url(#ks13Gray)"/>
+  <rect x="40" y="196" width="224" height="52" rx="9" fill="#ffffff" stroke="#93c5fd"/>
+  <text x="52" y="216" font-size="10.5" font-weight="800" fill="#1d4ed8" font-family="BIZ UDPGothic, sans-serif">② アプリを実行</text>
+  <text x="52" y="236" font-size="9.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif">AI が CAD を操作し、手順ごとに記録</text>
+  <line x1="152" y1="248" x2="152" y2="262" stroke="#64748b" stroke-width="2" marker-end="url(#ks13Gray)"/>
+  <rect x="40" y="264" width="224" height="96" rx="9" fill="#ffffff" stroke="#93c5fd"/>
+  <text x="52" y="284" font-size="10.5" font-weight="800" fill="#1d4ed8" font-family="BIZ UDPGothic, sans-serif">③ 出力（手元にできる）</text>
+  <text x="52" y="302" font-size="9.5" fill="#334155" font-family="Consolas, monospace">runs-local/20261128-…/</text>
+  <text x="52" y="318" font-size="9.5" fill="#334155" font-family="Consolas, BIZ UDPGothic, monospace">├ run.json（要約）</text>
+  <text x="52" y="334" font-size="9.5" fill="#334155" font-family="Consolas, BIZ UDPGothic, monospace">└ steps.jsonl（途中ログ）</text>
+  <text x="52" y="351" font-size="9.5" font-weight="700" fill="#047857" font-family="BIZ UDPGothic, sans-serif">bracket.step → クラウドのストレージへ</text>
+  <line x1="152" y1="360" x2="152" y2="376" stroke="#64748b" stroke-width="2" marker-end="url(#ks13Gray)"/>
+  <rect x="40" y="378" width="224" height="58" rx="9" fill="#fffbeb" stroke="#f59e0b" stroke-width="2"/>
+  <rect x="208" y="384" width="48" height="18" rx="9" fill="#f59e0b"/>
+  <text x="232" y="397" text-anchor="middle" font-size="9" font-weight="800" fill="#ffffff" font-family="BIZ UDPGothic, sans-serif">変更</text>
+  <text x="52" y="400" font-size="10.5" font-weight="800" fill="#92400e" font-family="BIZ UDPGothic, sans-serif">📤 ④ 共有ボタン</text>
+  <text x="52" y="420" font-size="9.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif">伏せ字 → クラウドの API に送る</text>
+
+  <!-- ===== 中央：GitHub ＋ クラウド ===== -->
+  <rect x="344" y="80" width="272" height="372" rx="14" fill="#f1f5f9" stroke="#64748b" stroke-width="1.8" stroke-dasharray="6 4"/>
+  <text x="480" y="102" text-anchor="middle" font-size="12.5" font-weight="800" fill="#334155" font-family="BIZ UDPGothic, sans-serif">保存先（GitHub ＋ クラウド）</text>
+
+  <rect x="356" y="114" width="248" height="88" rx="10" fill="#ffffff" stroke="#1d4ed8" stroke-width="2"/>
+  <rect x="356" y="114" width="248" height="28" rx="10" fill="#1d4ed8"/>
+  <rect x="356" y="130" width="248" height="12" fill="#1d4ed8"/>
+  <text x="480" y="133" text-anchor="middle" font-size="11.5" font-weight="800" fill="#ffffff" font-family="BIZ UDPGothic, sans-serif">📦 GitHub：① アプリ用リポ</text>
+  <text x="368" y="162" font-size="9.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif">コード・スキルの PR レビューは同じ</text>
+  <text x="368" y="180" font-size="9.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif">＋ CI で評価（evals）を自動で回す</text>
+
+  <rect x="356" y="214" width="248" height="230" rx="10" fill="#ecfdf5" stroke="#059669" stroke-width="2"/>
+  <rect x="356" y="214" width="248" height="28" rx="10" fill="#059669"/>
+  <rect x="356" y="230" width="248" height="12" fill="#059669"/>
+  <text x="480" y="233" text-anchor="middle" font-size="11.5" font-weight="800" fill="#ffffff" font-family="BIZ UDPGothic, sans-serif">☁️ クラウドのサービス（新しく使う）</text>
+
+  <rect x="366" y="250" width="228" height="32" rx="7" fill="#ffffff" stroke="#6ee7b7"/>
+  <text x="378" y="271" font-size="10" fill="#334155" font-family="BIZ UDPGothic, sans-serif"><tspan font-weight="800" fill="#047857">📈 見える化</tspan>：BI・LLM 観測ツール</text>
+  <rect x="366" y="288" width="228" height="32" rx="7" fill="#ffffff" stroke="#6ee7b7"/>
+  <text x="378" y="309" font-size="10" fill="#334155" font-family="BIZ UDPGothic, sans-serif"><tspan font-weight="800" fill="#047857">🗄️ マネージド DB</tspan>：runs・steps</text>
+  <rect x="366" y="326" width="228" height="32" rx="7" fill="#ffffff" stroke="#6ee7b7"/>
+  <text x="378" y="347" font-size="10" fill="#334155" font-family="BIZ UDPGothic, sans-serif"><tspan font-weight="800" fill="#047857">📦 ストレージ</tspan>：CAD 実体（Box の代わり）</text>
+  <rect x="366" y="364" width="228" height="32" rx="7" fill="#ffffff" stroke="#6ee7b7"/>
+  <text x="378" y="385" font-size="10" fill="#334155" font-family="BIZ UDPGothic, sans-serif"><tspan font-weight="800" fill="#047857">🔐 ログイン</tspan>：会社の SSO</text>
+  <rect x="366" y="402" width="228" height="34" rx="7" fill="#fffbeb" stroke="#f59e0b" stroke-width="1.6"/>
+  <text x="378" y="424" font-size="10" fill="#334155" font-family="BIZ UDPGothic, sans-serif"><tspan font-weight="800" fill="#92400e">🔌 API</tspan>：関数・コンテナ（受け口）</text>
+
+  <!-- ===== 右：分析する人 ===== -->
+  <rect x="680" y="80" width="256" height="370" rx="14" fill="#ecfdf5" stroke="#059669" stroke-width="2"/>
+  <text x="808" y="103" text-anchor="middle" font-size="12.5" font-weight="800" fill="#065f46" font-family="BIZ UDPGothic, sans-serif">🔍 分析する人（どこからでも）</text>
+
+  <rect x="696" y="118" width="224" height="82" rx="9" fill="#ffffff" stroke="#6ee7b7"/>
+  <text x="708" y="138" font-size="10.5" font-weight="800" fill="#047857" font-family="BIZ UDPGothic, sans-serif">⑥ スキルを直す</text>
+  <text x="708" y="156" font-size="9.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif">Gotchas に 1 項目足す／scripts 化</text>
+  <text x="708" y="172" font-size="9.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif">→ ① に PR → CI で評価 → マージ</text>
+  <text x="708" y="190" font-size="9.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif">（skill の版が上がる）</text>
+  <line x1="808" y1="218" x2="808" y2="202" stroke="#64748b" stroke-width="2" marker-end="url(#ks13Gray)"/>
+
+  <rect x="696" y="218" width="224" height="92" rx="9" fill="#fffbeb" stroke="#f59e0b" stroke-width="2"/>
+  <rect x="864" y="224" width="48" height="18" rx="9" fill="#f59e0b"/>
+  <text x="888" y="237" text-anchor="middle" font-size="9" font-weight="800" fill="#ffffff" font-family="BIZ UDPGothic, sans-serif">変更</text>
+  <text x="708" y="238" font-size="10.5" font-weight="800" fill="#92400e" font-family="BIZ UDPGothic, sans-serif">⑤ 画面で見て、改善案</text>
+  <text x="708" y="258" font-size="9.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif">BI で「どこで・何回・なぜ」</text>
+  <text x="708" y="276" font-size="9.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif">LLM の呼び出し単位まで追える</text>
+  <text x="708" y="294" font-size="9.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif">→ AI に改善案を出させる</text>
+
+  <rect x="696" y="324" width="224" height="114" rx="9" fill="#ffffff" stroke="#94a3b8" stroke-dasharray="5 3"/>
+  <text x="708" y="346" font-size="10" font-weight="800" fill="#475569" font-family="BIZ UDPGothic, sans-serif">⚠ クラウドで気をつけること</text>
+  <text x="708" y="368" font-size="9.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif">・費用（常時動くものを減らす）</text>
+  <text x="708" y="388" font-size="9.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif">・記録の保存期間と削除のルール</text>
+  <text x="708" y="408" font-size="9.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif">・読む人と送る人の権限を分ける</text>
+  <text x="708" y="428" font-size="9.5" fill="#334155" font-family="BIZ UDPGothic, sans-serif">・社内のクラウド利用ルール</text>
+
+  <!-- ===== 列をまたぐ矢印 ===== -->
+  <line x1="354" y1="150" x2="268" y2="150" stroke="#1d4ed8" stroke-width="2.4" marker-end="url(#ks13Blue)"/>
+  <text x="310" y="142" text-anchor="middle" font-size="10" font-weight="800" fill="#1d4ed8" font-family="BIZ UDPGothic, sans-serif">① 取得</text>
+  <text x="310" y="168" text-anchor="middle" font-size="10" font-weight="800" fill="#1d4ed8" font-family="BIZ UDPGothic, sans-serif">⑦ 更新</text>
+  <line x1="264" y1="419" x2="362" y2="419" stroke="#b45309" stroke-width="2.4" marker-end="url(#ks13Green)"/>
+  <text x="310" y="411" text-anchor="middle" font-size="10" font-weight="800" fill="#b45309" font-family="BIZ UDPGothic, sans-serif">④ API へ</text>
+  <text x="310" y="437" text-anchor="middle" font-size="10" font-weight="800" fill="#b45309" font-family="BIZ UDPGothic, sans-serif">送る</text>
+  <line x1="598" y1="266" x2="692" y2="266" stroke="#047857" stroke-width="2.4" marker-end="url(#ks13Green)"/>
+  <text x="648" y="258" text-anchor="middle" font-size="10" font-weight="800" fill="#047857" font-family="BIZ UDPGothic, sans-serif">⑤ 画面</text>
+  <line x1="696" y1="160" x2="608" y2="160" stroke="#1d4ed8" stroke-width="2.4" marker-end="url(#ks13Blue)"/>
+  <text x="652" y="152" text-anchor="middle" font-size="10" font-weight="800" fill="#1d4ed8" font-family="BIZ UDPGothic, sans-serif">⑥ PR</text>
+
+  <!-- ===== 一連の流れ ===== -->
+  <rect x="24" y="464" width="912" height="118" rx="12" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5"/>
+  <text x="40" y="486" font-size="11.5" font-weight="800" fill="#0f172a" font-family="BIZ UDPGothic, sans-serif">🔢 一連の流れ（変わるのは ④ と ⑤。ループそのものは同じ）</text>
+  <text x="40" y="508" font-size="10" fill="#334155" font-family="BIZ UDPGothic, sans-serif">① 利用者：アプリを取得し、会社の SSO でログイン</text>
+  <text x="40" y="527" font-size="10" fill="#334155" font-family="BIZ UDPGothic, sans-serif">② アプリを動かす：AI が CAD を操作し、手順ごとに自動で記録</text>
+  <text x="40" y="546" font-size="10" fill="#334155" font-family="BIZ UDPGothic, sans-serif">③ 出力：run.json・steps.jsonl（CAD 実体はクラウドのストレージへ）</text>
+  <text x="40" y="565" font-size="10" font-weight="700" fill="#92400e" font-family="BIZ UDPGothic, sans-serif">④ 共有ボタン：伏せ字 → クラウドの API に送る（DB に保存）</text>
+  <text x="490" y="508" font-size="10" font-weight="700" fill="#92400e" font-family="BIZ UDPGothic, sans-serif">⑤ 分析する人：BI と LLM のトレースで、どこからでも見る</text>
+  <text x="490" y="527" font-size="10" fill="#334155" font-family="BIZ UDPGothic, sans-serif">⑥ AI に改善案を出させ、人が SKILL.md を直して PR → CI で評価</text>
+  <text x="490" y="546" font-size="10" fill="#334155" font-family="BIZ UDPGothic, sans-serif">⑦ 利用者：新しいスキルが入ったアプリで動かす</text>
+  <text x="490" y="565" font-size="10" fill="#334155" font-family="BIZ UDPGothic, sans-serif">→ 例：Azure・AWS・Google Cloud に同じ役割のサービスがある</text>
+
+  <rect x="24" y="594" width="912" height="32" rx="10" fill="#fffbeb" stroke="#d97706" stroke-width="1.5"/>
+  <text x="480" y="615" text-anchor="middle" font-size="11" font-weight="800" fill="#92400e" font-family="BIZ UDPGothic, sans-serif">🔄 変わるところ：API・DB・ストレージ・ログインをクラウドのサービスに。サーバーの保守が減り、拠点をまたいで使える</text>
+
+  <rect x="24" y="636" width="912" height="30" rx="10" fill="#0f172a"/>
+  <text x="480" y="655" text-anchor="middle" font-size="11" font-weight="700" fill="#ffffff" font-family="BIZ UDPGothic, sans-serif">💡 どの段階でも、改善のループ（数える → 生ログを読む → 人が 1 項目ずつ直す）は同じ</text>
+</svg>
